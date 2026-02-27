@@ -1,0 +1,27 @@
+import Container from "../components/layout/Container";
+import Button from "../components/common/Button";
+import { Link } from "react-router-dom";
+
+export default function NotFound() {
+  return (
+    <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-950 py-16 px-4">
+      <Container className="text-center">
+        <h1 className="text-8xl md:text-9xl font-bold text-primary mb-6">
+          404
+        </h1>
+
+        <h2 className="text-3xl md:text-4xl font-semibold mb-4 text-gray-900 dark:text-white">
+          Page Not Found
+        </h2>
+
+        <p className="text-lg md:text-xl text-gray-600 dark:text-gray-400 mb-10 max-w-md mx-auto">
+          Oops! The page you're looking for doesn't exist or has been moved.
+        </p>
+
+        <Link to="/">
+          <Button size="lg">Return to Home</Button>
+        </Link>
+      </Container>
+    </div>
+  );
+}
