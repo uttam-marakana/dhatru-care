@@ -1,35 +1,31 @@
-// src/api/appointmentsApi.js
-import axiosInstance from "./axiosInstance";
+import {
+  collection,
+  getDocs,
+  addDoc,
+  updateDoc,
+  doc,
+  serverTimestamp,
+} from "firebase/firestore";
+import { db } from "../firebase";
 
-// Create new appointment
-export const createAppointment = async (appointmentData) => {
-  try {
-    const response = await axiosInstance.post("/appointments", appointmentData);
-    return response.data;
-  } catch (error) {
-    console.error("Error creating appointment:", error);
-    throw error.response?.data?.message || "Failed to book appointment";
-  }
+const ref = collection(db, "appointments");
+
+// CREATE BOOKING
+export const createAppointment = async (data) => {
+  return await addDoc(ref, {
+    ...data,
+    status: "pending",
+    createdAt: serverTimestamp(),
+  });
 };
 
-// Get user's appointments (authenticated)
-export const getMyAppointments = async () => {
-  try {
-    const response = await axiosInstance.get("/appointments/me");
-    return response.data;
-  } catch (error) {
-    throw error.response?.data?.message || "Failed to fetch appointments";
-  }
+// GET ALL (admin / dashboard use)
+export const getAppointments = async () => {
+  const snap = await getDocs(ref);
+  return snap.docs.map((d) => ({ id: d.id, ...d.data() }));
 };
 
-// Cancel appointment
-export const cancelAppointment = async (appointmentId) => {
-  try {
-    const response = await axiosInstance.delete(
-      `/appointments/${appointmentId}`,
-    );
-    return response.data;
-  } catch (error) {
-    throw error.response?.data?.message || "Failed to cancel appointment";
-  }
+// UPDATE STATUS
+export const updateAppointmentStatus = async (id, status) => {
+  return await updateDoc(doc(db, "appointments", id), { status });
 };

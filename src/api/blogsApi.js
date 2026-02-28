@@ -5,33 +5,31 @@ import {
   updateDoc,
   deleteDoc,
   doc,
-  serverTimestamp,
   query,
   where,
+  serverTimestamp,
 } from "firebase/firestore";
 import { db } from "../firebase";
 
-const ref = collection(db, "departments");
+const ref = collection(db, "blog_posts");
 
 // GET ALL
-export const getAllDepartments = async () => {
+export const getBlogPosts = async () => {
   const snap = await getDocs(ref);
   return snap.docs.map((d) => ({ id: d.id, ...d.data() }));
 };
 
 // GET BY SLUG
-export const getDepartmentBySlug = async (slug) => {
+export const getBlogBySlug = async (slug) => {
   const q = query(ref, where("slug", "==", slug));
   const snap = await getDocs(q);
-
   if (snap.empty) return null;
-
   const d = snap.docs[0];
   return { id: d.id, ...d.data() };
 };
 
 // CREATE
-export const createDepartment = async (data) => {
+export const createBlogPost = async (data) => {
   return await addDoc(ref, {
     ...data,
     createdAt: serverTimestamp(),
@@ -39,11 +37,11 @@ export const createDepartment = async (data) => {
 };
 
 // UPDATE
-export const updateDepartment = async (id, data) => {
-  return await updateDoc(doc(db, "departments", id), data);
+export const updateBlogPost = async (id, data) => {
+  return await updateDoc(doc(db, "blog_posts", id), data);
 };
 
 // DELETE
-export const deleteDepartment = async (id) => {
-  return await deleteDoc(doc(db, "departments", id));
+export const deleteBlogPost = async (id) => {
+  return await deleteDoc(doc(db, "blog_posts", id));
 };

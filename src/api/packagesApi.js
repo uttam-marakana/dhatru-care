@@ -1,22 +1,36 @@
-// src/api/packagesApi.js
-import axiosInstance from "./axiosInstance";
+import {
+  collection,
+  getDocs,
+  addDoc,
+  updateDoc,
+  deleteDoc,
+  doc,
+  serverTimestamp,
+} from "firebase/firestore";
+import { db } from "../firebase";
 
-// Get all health packages
-export const getAllPackages = async () => {
-  try {
-    const response = await axiosInstance.get("/packages");
-    return response.data;
-  } catch (error) {
-    throw error.response?.data?.message || "Failed to fetch packages";
-  }
+const ref = collection(db, "packages");
+
+// GET ALL
+export const getPackages = async () => {
+  const snap = await getDocs(ref);
+  return snap.docs.map((d) => ({ id: d.id, ...d.data() }));
 };
 
-// Get single package by ID or slug
-export const getPackageById = async (id) => {
-  try {
-    const response = await axiosInstance.get(`/packages/${id}`);
-    return response.data;
-  } catch (error) {
-    throw error.response?.data?.message || "Package not found";
-  }
+// CREATE
+export const createPackage = async (data) => {
+  return await addDoc(ref, {
+    ...data,
+    createdAt: serverTimestamp(),
+  });
+};
+
+// UPDATE
+export const updatePackage = async (id, data) => {
+  return await updateDoc(doc(db, "packages", id), data);
+};
+
+// DELETE
+export const deletePackage = async (id) => {
+  return await deleteDoc(doc(db, "packages", id));
 };
