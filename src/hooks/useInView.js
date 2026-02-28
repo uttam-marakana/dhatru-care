@@ -9,7 +9,6 @@ export function useInView(options = {}) {
       ([entry]) => {
         if (entry.isIntersecting) {
           setIsInView(true);
-          // observer.disconnect(); // uncomment if you want one-time animation
         }
       },
       {
