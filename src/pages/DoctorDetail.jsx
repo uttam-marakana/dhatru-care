@@ -1,7 +1,9 @@
 import { useParams } from "react-router-dom";
+import { useState, useEffect } from "react";
 import Container from "../components/layout/Container";
 import Button from "../components/common/Button";
 import Card from "../components/common/Card";
+import AppointmentCTA from "../sections/shared/AppointmentCTA";
 import {
   FaCalendarCheck,
   FaPhoneAlt,
@@ -9,32 +11,12 @@ import {
   FaAward,
   FaMapMarkerAlt,
   FaStethoscope,
+  FaStar,
 } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import { getDoctorById } from "../api/doctorsApi"; // ← your Firebase API
 
-// Demo doctor data (in real app → fetch by :id from Redux/API/Firebase)
-const demoDoctor = {
-  id: "1",
-  name: "Dr. Rajesh Patel",
-  specialty: "Cardiologist",
-  qualification: "MBBS, MD (Medicine), DM (Cardiology)",
-  experience: "18+ years",
-  rating: 4.9,
-  reviews: 142,
-  languages: ["English", "Hindi", "Gujarati"],
-  availability: "Mon–Sat: 9:00 AM – 5:00 PM (by appointment)",
-  location: "Dhatru Care Multispeciality Hospital, Gondal, Gujarat",
-  bio: "Dr. Rajesh Patel is a senior interventional cardiologist with over 18 years of experience. He specializes in complex coronary interventions, heart failure management, and preventive cardiology. He has performed more than 5,000 procedures and is actively involved in cardiac research, teaching, and community health programs.",
-  achievements: [
-    "Gold Medalist in DM Cardiology",
-    "Published 25+ research papers in national & international journals",
-    "Fellow of the Cardiological Society of India (FCSI)",
-    "Ex-Consultant at Apollo Hospitals, Ahmedabad",
-  ],
-  imagePlaceholder: "❤️",
-};
-
-const relatedDoctors = [
+const relatedDoctorsDemo = [
   { id: "2", name: "Dr. Priya Sharma", specialty: "Neurologist", rating: 4.8 },
   {
     id: "3",
@@ -47,23 +29,78 @@ const relatedDoctors = [
 
 export default function DoctorDetail() {
   const { id } = useParams();
+  const [doctor, setDoctor] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  // In real app: useSelector or useQuery to fetch doctor by id
-  // For now we use static demo data
-  const doctor = demoDoctor; // ← replace with real fetch later
+  useEffect(() => {
+    const fetchDoctor = async () => {
+      setLoading(true);
+      setError(null);
+
+      try {
+        const data = await getDoctorById(id);
+        if (data) {
+          setDoctor(data);
+        } else {
+          setError("Doctor not found");
+        }
+      } catch (err) {
+        setError("Failed to load doctor details");
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchDoctor();
+  }, [id]);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gray-50 dark:bg-gray-950 animate-pulse">
+        <div className="bg-linear-to-br from-primary/10 to-secondary/10 h-96" />
+        <Container className="py-12">
+          <div className="max-w-6xl mx-auto grid md:grid-cols-3 gap-12">
+            <div className="md:col-span-1">
+              <div className="h-96 bg-gray-200 dark:bg-gray-800 rounded-xl" />
+            </div>
+            <div className="md:col-span-2 space-y-8">
+              <div className="h-12 w-3/4 bg-gray-300 dark:bg-gray-700 rounded" />
+              <div className="h-6 w-1/2 bg-gray-300 dark:bg-gray-700 rounded" />
+              <div className="space-y-4">
+                <div className="h-6 w-full bg-gray-300 dark:bg-gray-700 rounded" />
+                <div className="h-6 w-full bg-gray-300 dark:bg-gray-700 rounded" />
+              </div>
+            </div>
+          </div>
+        </Container>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="min-h-screen flex items-center justify-center text-red-600 text-xl">
+        {error}
+      </div>
+    );
+  }
+
+  if (!doctor) return null;
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-950">
       {/* Top Hero / Profile Summary */}
-      <div className="bg-gradient-to-br from-primary/10 to-secondary/10 dark:from-gray-900 dark:to-gray-950 py-12 md:py-20">
+      <div className="bg-linear-to-br from-primary/10 to-secondary/10 dark:from-gray-900 dark:to-gray-950 py-12 md:py-20">
         <Container>
           <div className="max-w-6xl mx-auto">
             <div className="grid md:grid-cols-3 gap-10 lg:gap-12 items-start">
               {/* Left: Photo + Quick Actions */}
               <div className="md:col-span-1">
                 <Card className="overflow-hidden shadow-xl border border-gray-200 dark:border-gray-800">
-                  <div className="aspect-[4/5] bg-gray-200 dark:bg-gray-800 flex items-center justify-center text-9xl md:text-[12rem]">
-                    {doctor.imagePlaceholder}
+                  <div className="aspect-4/5 bg-gray-200 dark:bg-gray-800 flex items-center justify-center text-9xl md:text-[12rem]">
+                    {doctor.imagePlaceholder || "🩺"}
                   </div>
 
                   <div className="p-6 md:p-8 text-center">
@@ -82,7 +119,8 @@ export default function DoctorDetail() {
                       <div className="flex items-center gap-2">
                         <FaStar className="text-yellow-500" />
                         <span>
-                          {doctor.rating} ({doctor.reviews} reviews)
+                          {doctor.rating || 4.9} ({doctor.reviews || 142}{" "}
+                          reviews)
                         </span>
                       </div>
                     </div>
@@ -106,10 +144,11 @@ export default function DoctorDetail() {
               <div className="md:col-span-2 space-y-10 md:space-y-12">
                 <div>
                   <h2 className="text-2xl md:text-3xl font-bold mb-5 text-gray-900 dark:text-white">
-                    About Dr. {doctor.name.split(" ")[1]}
+                    About Dr. {doctor.name?.split(" ")[1] || ""}
                   </h2>
                   <p className="text-lg leading-relaxed text-gray-700 dark:text-gray-300">
-                    {doctor.bio}
+                    {doctor.bio ||
+                      "Specialist with extensive experience in providing compassionate care."}
                   </p>
                 </div>
 
@@ -119,7 +158,7 @@ export default function DoctorDetail() {
                     Qualifications
                   </h3>
                   <p className="text-lg text-gray-700 dark:text-gray-300">
-                    {doctor.qualification}
+                    {doctor.qualification || "MBBS, MD, Specialization"}
                   </p>
                 </div>
 
@@ -129,7 +168,12 @@ export default function DoctorDetail() {
                     Key Achievements
                   </h3>
                   <ul className="space-y-3 text-gray-700 dark:text-gray-300">
-                    {doctor.achievements.map((ach, idx) => (
+                    {(
+                      doctor.achievements || [
+                        "Experienced clinician",
+                        "Published researcher",
+                      ]
+                    ).map((ach, idx) => (
                       <li key={idx} className="flex items-start gap-3">
                         <span className="text-green-500 mt-1">✔</span>
                         <span>{ach}</span>
@@ -145,7 +189,7 @@ export default function DoctorDetail() {
                       Availability
                     </h3>
                     <p className="text-gray-700 dark:text-gray-300 text-lg">
-                      {doctor.availability}
+                      {doctor.availability || "Mon–Sat: 9:00 AM – 5:00 PM"}
                     </p>
                   </div>
 
@@ -155,7 +199,7 @@ export default function DoctorDetail() {
                       Location
                     </h3>
                     <p className="text-gray-700 dark:text-gray-300 text-lg">
-                      {doctor.location}
+                      {doctor.location || "Dhatru Care Hospital, Gondal"}
                     </p>
                   </div>
                 </div>
@@ -165,7 +209,7 @@ export default function DoctorDetail() {
                     Languages Spoken
                   </h3>
                   <div className="flex flex-wrap gap-3">
-                    {doctor.languages.map((lang) => (
+                    {(doctor.languages || ["English", "Hindi"]).map((lang) => (
                       <span
                         key={lang}
                         className="px-4 py-2 bg-gray-100 dark:bg-gray-800 rounded-full text-gray-700 dark:text-gray-300"
@@ -189,7 +233,7 @@ export default function DoctorDetail() {
           </h2>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8">
-            {relatedDoctors.map((doc) => (
+            {relatedDoctorsDemo.map((doc) => (
               <Link
                 key={doc.id}
                 to={`/doctors/${doc.id}`}

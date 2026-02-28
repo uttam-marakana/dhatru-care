@@ -1,16 +1,16 @@
-// src/pages/Blog.jsx
 import { useState, useEffect } from "react";
 import PageHero from "../sections/shared/PageHero";
 import BlogFilters from "../sections/blog/BlogFilters";
-import LatestBlog from "../sections/home/LatestBlog"; // reuse or create new
+import LatestBlog from "../sections/home/LatestBlog"; // assume this component uses blogApi
 import AppointmentCTA from "../sections/shared/AppointmentCTA";
 
 export default function Blog() {
   const [filters, setFilters] = useState({});
-  const [isLoading, setIsLoading] = useState(true);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const timer = setTimeout(() => setIsLoading(false), 1000);
+    // If LatestBlog fetches data internally, we can simulate delay here
+    const timer = setTimeout(() => setLoading(false), 1000);
     return () => clearTimeout(timer);
   }, []);
 
@@ -24,7 +24,7 @@ export default function Blog() {
       <BlogFilters onFilterChange={setFilters} />
 
       <div className="py-12 md:py-20 lg:py-24 bg-gray-50 dark:bg-gray-950/50">
-        {isLoading ? (
+        {loading ? (
           <div className="container mx-auto px-4">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
               {Array.from({ length: 6 }).map((_, i) => (

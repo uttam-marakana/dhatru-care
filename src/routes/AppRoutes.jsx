@@ -1,6 +1,6 @@
 import { Routes, Route } from "react-router-dom";
 
-// Pages
+// Public pages
 import Home from "../pages/Home";
 import Search from "../pages/Search";
 import Departments from "../pages/Departments";
@@ -12,32 +12,55 @@ import Blog from "../pages/Blog";
 import BlogDetail from "../pages/BlogDetail";
 import Contact from "../pages/Contact";
 import Services from "../pages/Services";
-
-// Optional: 404 page or redirect
 import NotFound from "../pages/NotFound";
+
+// Auth
+import Login from "../auth/Login";
+import Signup from "../auth/Signup";
+
+// Admin
+import UploadData from "../admin/pages/DataUpload";
+import AdminRoute from "../admin/AdminRoute";
+import AdminLayout from "../admin/layout/AdminLayout";
 
 export default function AppRoutes() {
   return (
     <Routes>
-      {/* Search page */}
-      <Route path="/search" element={<Search />} />
-      {/* Main pages */}
+      {/* PUBLIC ROUTES */}
       <Route path="/" element={<Home />} />
-      {/* Departments */}
+      <Route path="/search" element={<Search />} />
+
       <Route path="/departments" element={<Departments />} />
       <Route path="/departments/:slug" element={<DepartmentDetail />} />
-      {/* Doctors */}
+
       <Route path="/doctors" element={<Doctors />} />
       <Route path="/doctors/:id" element={<DoctorDetail />} />
-      {/* Packages & Services */}
+
       <Route path="/packages" element={<Packages />} />
       <Route path="/services" element={<Services />} />
-      {/* Blog */}
+
       <Route path="/blog" element={<Blog />} />
-      <Route path="/blog/:id" element={<BlogDetail />} />
-      {/* Contact & others */}
+      <Route path="/blog/:slug" element={<BlogDetail />} />
+
       <Route path="/contact" element={<Contact />} />
-      {/* Catch-all / 404 */}
+
+      {/* AUTH */}
+      <Route path="/login" element={<Login />} />
+      <Route path="/signup" element={<Signup />} />
+
+      {/* ADMIN (PROTECTED) */}
+      <Route
+        path="/admin"
+        element={
+          <AdminRoute>
+            <AdminLayout />
+          </AdminRoute>
+        }
+      >
+        <Route path="upload" element={<UploadData />} />
+      </Route>
+
+      {/* 404 */}
       <Route path="*" element={<NotFound />} />
     </Routes>
   );

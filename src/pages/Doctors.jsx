@@ -3,6 +3,7 @@ import PageHero from "../sections/shared/PageHero";
 import DoctorFilters from "../sections/doctors/DoctorFilters";
 import DoctorsList from "../sections/doctors/DoctorsList";
 import AppointmentCTA from "../sections/shared/AppointmentCTA";
+import { getDoctors } from "../api/doctorsApi"; // ← your Firebase API
 
 export default function Doctors() {
   const [filters, setFilters] = useState({
@@ -11,16 +12,28 @@ export default function Doctors() {
     experience: "",
   });
 
-  const [isLoading, setIsLoading] = useState(true);
+  const [doctors, setDoctors] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  // Simulate initial data load (replace with real fetch later)
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsLoading(false);
-    }, 1200); // realistic fake delay
+    const fetchDoctors = async () => {
+      setLoading(true);
+      setError(null);
 
-    return () => clearTimeout(timer);
-  }, []);
+      try {
+        const data = await getDoctors(filters); // pass filters if your API supports it
+        setDoctors(data);
+      } catch (err) {
+        setError("Failed to load doctors. Please try again later.");
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchDoctors();
+  }, [filters]); // re-fetch when filters change
 
   return (
     <>
@@ -32,7 +45,12 @@ export default function Doctors() {
 
       <DoctorFilters onFilterChange={setFilters} />
 
-      <DoctorsList filters={filters} isLoading={isLoading} />
+      <DoctorsList
+        doctors={doctors}
+        loading={loading}
+        error={error}
+        filters={filters}
+      />
 
       <AppointmentCTA variant="large" className="my-12 md:my-16 lg:my-20" />
     </>

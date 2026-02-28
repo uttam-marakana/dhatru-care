@@ -1,64 +1,15 @@
-// src/pages/DepartmentDetail.jsx
 import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import Container from "../components/layout/Container";
 import Button from "../components/common/Button";
 import Card from "../components/common/Card";
 import AppointmentCTA from "../sections/shared/AppointmentCTA";
-import { FaStethoscope, FaChartLine, FaArrowRight } from "react-icons/fa";
-import { Link } from "react-router-dom";
-
-// Demo data – in real app fetch by slug from Redux / Firebase / API
-const departmentsData = {
-  cardiology: {
-    name: "Cardiology",
-    icon: "❤️",
-    description:
-      "Our Cardiology department provides comprehensive heart and vascular care, from preventive screenings to complex interventions and rehabilitation.",
-    services: [
-      "ECG, Echocardiography, Stress Test",
-      "Coronary Angiography & Angioplasty",
-      "Heart Failure Management",
-      "Electrophysiology & Pacemaker Implantation",
-      "Cardiac Rehabilitation Program",
-    ],
-    doctorsCount: 8,
-    highlights: [
-      "State-of-the-art Cath Lab with 24×7 emergency PCI",
-      "Dedicated Heart Failure Clinic",
-      "Advanced Non-Invasive Imaging",
-    ],
-    bgGradient:
-      "from-red-50 to-rose-50 dark:from-red-950/30 dark:to-rose-950/30",
-  },
-  neurology: {
-    name: "Neurology",
-    icon: "🧠",
-    description:
-      "Specialized care for brain, spine, and nervous system disorders with advanced diagnostics and neuro-rehabilitation support.",
-    services: [
-      "EEG, EMG, Nerve Conduction Studies",
-      "Stroke Unit & Thrombolysis",
-      "Epilepsy Monitoring & Surgery",
-      "Movement Disorders & Botox Therapy",
-      "Neuro-Rehabilitation",
-    ],
-    doctorsCount: 6,
-    highlights: [
-      "Dedicated Stroke ICU",
-      "Advanced Neuro-Imaging (MRI, CT)",
-      "Comprehensive Epilepsy Center",
-    ],
-    bgGradient:
-      "from-indigo-50 to-blue-50 dark:from-indigo-950/30 dark:to-blue-950/30",
-  },
-  // Add more as needed...
-};
+import { FaStethoscope, FaChartLine } from "react-icons/fa";
+import { getDepartmentBySlug } from "../api/departmentsApi"; // ← your Firebase API
 
 function DepartmentDetailSkeleton() {
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-950 animate-pulse">
-      {/* Hero banner skeleton */}
       <div className="bg-gray-200 dark:bg-gray-800 h-64 md:h-96 py-20 md:py-32">
         <Container>
           <div className="text-center max-w-5xl mx-auto">
@@ -69,7 +20,6 @@ function DepartmentDetailSkeleton() {
         </Container>
       </div>
 
-      {/* Content skeleton */}
       <section className="py-12 md:py-20">
         <Container>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -115,41 +65,59 @@ function DepartmentDetailSkeleton() {
 
 export default function DepartmentDetail() {
   const { slug } = useParams();
-  const [isLoading, setIsLoading] = useState(true);
+  const [department, setDepartment] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  // Simulate loading (replace with real fetch later)
   useEffect(() => {
-    const timer = setTimeout(() => setIsLoading(false), 1000);
-    return () => clearTimeout(timer);
+    const fetchDepartment = async () => {
+      setLoading(true);
+      setError(null);
+
+      try {
+        const data = await getDepartmentBySlug(slug);
+        if (data) {
+          setDepartment(data);
+        } else {
+          setError("Department not found");
+        }
+      } catch (err) {
+        setError("Failed to load department details");
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchDepartment();
   }, [slug]);
 
-  if (isLoading) {
-    return <DepartmentDetailSkeleton />;
-  }
-
-  const department = departmentsData[slug] || {
-    name: "Department Not Found",
-    description: "The requested department could not be found.",
-    services: [],
-    highlights: [],
-    doctorsCount: 0,
-    bgGradient: "from-gray-100 to-gray-200 dark:from-gray-800 dark:to-gray-900",
-  };
+  if (loading) return <DepartmentDetailSkeleton />;
+  if (error)
+    return (
+      <div className="min-h-screen flex items-center justify-center text-red-600">
+        {error}
+      </div>
+    );
+  if (!department) return null;
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-950">
       {/* Top Banner / Hero */}
       <div
-        className={`bg-gradient-to-br ${department.bgGradient} py-12 md:py-20 lg:py-24`}
+        className={`bg-linear-to-br ${department.bgGradient || "from-gray-100 to-gray-200 dark:from-gray-800 dark:to-gray-900"} py-12 md:py-20 lg:py-24`}
       >
         <Container>
           <div className="max-w-5xl mx-auto text-center">
-            <div className="text-8xl md:text-9xl mb-6">{department.icon}</div>
+            <div className="text-8xl md:text-9xl mb-6">
+              {department.icon || "🏥"}
+            </div>
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 text-gray-900 dark:text-white">
               {department.name}
             </h1>
             <p className="text-lg md:text-xl lg:text-2xl text-gray-700 dark:text-gray-300 max-w-4xl mx-auto">
-              {department.description}
+              {department.description ||
+                "Specialized care with advanced facilities."}
             </p>
           </div>
         </Container>
@@ -166,7 +134,7 @@ export default function DepartmentDetail() {
                 Our Services
               </h2>
               <ul className="space-y-4 text-gray-700 dark:text-gray-300">
-                {department.services.length > 0 ? (
+                {department.services?.length > 0 ? (
                   department.services.map((service, idx) => (
                     <li key={idx} className="flex items-start gap-3 text-lg">
                       <span className="text-green-500 mt-1 text-xl">✔</span>
@@ -188,7 +156,7 @@ export default function DepartmentDetail() {
                 Key Highlights
               </h2>
               <ul className="space-y-4 text-gray-700 dark:text-gray-300">
-                {department.highlights.length > 0 ? (
+                {department.highlights?.length > 0 ? (
                   department.highlights.map((highlight, idx) => (
                     <li key={idx} className="flex items-start gap-3 text-lg">
                       <span className="text-primary mt-1 text-xl">★</span>
@@ -203,7 +171,7 @@ export default function DepartmentDetail() {
               </ul>
 
               <p className="mt-8 text-lg font-medium text-primary">
-                {department.doctorsCount} Expert Specialists Available
+                {department.doctorsCount || 0} Expert Specialists Available
               </p>
             </Card>
 
@@ -229,7 +197,6 @@ export default function DepartmentDetail() {
         </Container>
       </section>
 
-      {/* CTA Banner */}
       <AppointmentCTA
         variant="large"
         className="my-12 md:my-16 lg:my-20 mx-4 md:mx-8 lg:mx-auto max-w-6xl rounded-3xl"

@@ -1,12 +1,12 @@
-// src/pages/BlogDetail.jsx
 import { useParams } from "react-router-dom";
 import Container from "../components/layout/Container";
-import Button from "../components/common/Button";
 import { FaArrowLeft, FaCalendarAlt, FaUser } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
+import { getBlogBySlug } from "../api/blogsApi"; // ← Firebase API
+import AppointmentCTA from "../sections/shared/AppointmentCTA";
 
-// Demo data – in real app fetch by id/slug
+// Fallback demo data
 const demoPost = {
   id: "1",
   title: "How to Prevent Heart Disease in Your 40s",
@@ -18,15 +18,35 @@ const demoPost = {
 };
 
 export default function BlogDetail() {
-  const { id } = useParams();
-  const [isLoading, setIsLoading] = useState(true);
+  const { slug } = useParams(); // or id if you use id
+  const [post, setPost] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    const timer = setTimeout(() => setIsLoading(false), 800);
-    return () => clearTimeout(timer);
+    const fetchPost = async () => {
+      setLoading(true);
+      setError(null);
+
+      try {
+        const data = await getBlogBySlug(slug); // Fetch from Firebase using slug
+        if (data) {
+          setPost(data);
+        } else {
+          setError("Post not found");
+        }
+      } catch (err) {
+        setError("Failed to load blog post");
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchPost();
   }, [id]);
 
-  if (isLoading) {
+  if (loading) {
     return (
       <div className="min-h-screen bg-gray-50 dark:bg-gray-950 animate-pulse">
         <div className="bg-gray-200 dark:bg-gray-800 h-64 md:h-96" />
@@ -48,12 +68,29 @@ export default function BlogDetail() {
     );
   }
 
+  if (error)
+    return (
+      <div className="min-h-screen flex items-center justify-center text-red-600">
+        {error}
+      </div>
+    );
+  if (!post)
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        Post not found
+      </div>
+    );
+
   return (
     <article className="min-h-screen bg-gray-50 dark:bg-gray-950">
       <div className="bg-gray-900 h-64 md:h-96 relative">
         <img
-          src={demoPost.imagePlaceholder}
-          alt={demoPost.title}
+          src={
+            post.image ||
+            post.imagePlaceholder ||
+            "https://via.placeholder.com/1200x600"
+          }
+          alt={post.title}
           className="w-full h-full object-cover opacity-80"
         />
       </div>
@@ -67,24 +104,24 @@ export default function BlogDetail() {
         </Link>
 
         <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6 text-gray-900 dark:text-white">
-          {demoPost.title}
+          {post.title}
         </h1>
 
         <div className="flex flex-wrap items-center gap-6 text-gray-600 dark:text-gray-400 mb-10">
           <div className="flex items-center gap-2">
             <FaCalendarAlt />
-            <time>{demoPost.date}</time>
+            <time>{post.date}</time>
           </div>
           <div className="flex items-center gap-2">
             <FaUser />
-            <span>{demoPost.author}</span>
+            <span>{post.author}</span>
           </div>
-          <span>{demoPost.readTime} read</span>
+          <span>{post.readTime} read</span>
         </div>
 
         <div className="prose dark:prose-invert prose-lg max-w-none">
-          <p>{demoPost.content}</p>
-          {/* Add full rich content here */}
+          <p>{post.content || "Full blog content goes here..."}</p>
+          {/* Render rich text if you store HTML/Markdown in Firebase */}
         </div>
       </Container>
 
