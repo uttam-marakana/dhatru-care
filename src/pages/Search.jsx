@@ -2,10 +2,11 @@ import { useSearchParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Container from "../components/layout/Container";
 import { FaSearch } from "react-icons/fa";
+import { getDoctors } from "../api/doctorsApi"; // example – add more APIs as needed
 
 export default function Search() {
   const [searchParams] = useSearchParams();
-  const query = searchParams.get("q") || "";
+  const query = searchParams.get("q")?.toLowerCase() || "";
 
   const [results, setResults] = useState({
     doctors: [],
@@ -14,32 +15,37 @@ export default function Search() {
     blogs: [],
   });
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  // Simulate search (replace with real API call later)
   useEffect(() => {
-    if (!query) {
+    if (!query.trim()) {
       setLoading(false);
       return;
     }
 
-    setLoading(true);
+    const fetchResults = async () => {
+      setLoading(true);
+      setError(null);
 
-    // Demo results – replace with axios/fetch to your backend
-    setTimeout(() => {
-      setResults({
-        doctors: [
-          { id: 1, name: "Dr. Rajesh Patel", specialty: "Cardiology" },
-          { id: 2, name: "Dr. Priya Sharma", specialty: "Neurology" },
-        ],
-        departments: [
-          { slug: "cardiology", name: "Cardiology" },
-          { slug: "neurology", name: "Neurology" },
-        ],
-        packages: [{ id: 1, name: "Heart Health Package" }],
-        blogs: [{ id: 1, title: "How to Prevent Heart Disease" }],
-      });
-      setLoading(false);
-    }, 800);
+      try {
+        // Fetch doctors (add similar for departments, packages, blogs)
+        const doctorsData = await getDoctors(); // you can add .filter() client-side
+        const filteredDoctors = doctorsData.filter(
+          (doc) =>
+            doc.name?.toLowerCase().includes(query) ||
+            doc.specialty?.toLowerCase().includes(query),
+        );
+
+        setResults({ doctors: filteredDoctors });
+      } catch (err) {
+        setError("Failed to search. Please try again.");
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchResults();
   }, [query]);
 
   return (
@@ -84,7 +90,6 @@ export default function Search() {
           </p>
         ) : (
           <div className="space-y-12">
-            {/* Doctors */}
             {results.doctors.length > 0 && (
               <section>
                 <h2 className="text-2xl font-semibold mb-6">Doctors</h2>
@@ -103,26 +108,12 @@ export default function Search() {
               </section>
             )}
 
-            {/* Departments */}
-            {results.departments.length > 0 && (
-              <section>
-                <h2 className="text-2xl font-semibold mb-6">Departments</h2>
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {results.departments.map((dept) => (
-                    <Link
-                      key={dept.slug}
-                      to={`/departments/${dept.slug}`}
-                      className="p-6 bg-white dark:bg-gray-900 rounded-xl shadow hover:shadow-md transition"
-                    >
-                      <h3 className="font-bold text-lg">{dept.name}</h3>
-                    </Link>
-                  ))}
-                </div>
-              </section>
+            {/* Add similar sections for departments, packages, blogs */}
+            {results.doctors.length === 0 && (
+              <p className="text-center text-gray-600 dark:text-gray-400 text-lg">
+                No results found for "{query}".
+              </p>
             )}
-
-            {/* Packages & Blogs – similar structure */}
-            {/* Add more sections as needed */}
           </div>
         )}
       </div>

@@ -1,7 +1,7 @@
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import axiosInstance from "../../api/axiosInstance";
 import { useState } from "react";
+import { subscribeNewsletter } from "../../api/newsletterApi";
 import Input from "../common/Input";
 import Button from "../common/Button";
 
@@ -18,21 +18,16 @@ export default function NewsletterForm() {
 
   const handleSubmit = async (values, { setSubmitting, resetForm }) => {
     setStatus({ loading: true, success: false, error: "" });
-    setSubmitting(true);
 
     try {
-      await axiosInstance.post("/newsletter/subscribe", {
-        email: values.email,
-        source: "website-footer",
-      });
-
+      await subscribeNewsletter(values.email, "website-footer");
       setStatus({ loading: false, success: true, error: "" });
       resetForm();
-    } catch (err) {
+    } catch {
       setStatus({
         loading: false,
         success: false,
-        error: err.response?.data?.message || "Subscription failed. Try again.",
+        error: "Subscription failed. Try again.",
       });
     } finally {
       setSubmitting(false);
@@ -47,26 +42,10 @@ export default function NewsletterForm() {
         onSubmit={handleSubmit}
       >
         {({ isSubmitting }) => (
-          <Form className="flex flex-col sm:flex-row gap-3">
-            <div className="flex-1">
-              <Field
-                name="email"
-                as={Input}
-                placeholder="Your email address"
-                type="email"
-                className="w-full"
-              />
-              <ErrorMessage
-                name="email"
-                component="p"
-                className="text-rose-600 dark:text-rose-400 text-sm mt-1.5"
-              />
-            </div>
-
+          <Form className="flex gap-3">
+            <Field name="email" as={Input} placeholder="Your email address" />
             <Button
               type="submit"
-              variant="primary"
-              size="md"
               disabled={isSubmitting || status.loading}
               loading={isSubmitting || status.loading}
             >
@@ -76,16 +55,8 @@ export default function NewsletterForm() {
         )}
       </Formik>
 
-      {status.success && (
-        <p className="mt-3 text-sm text-emerald-600 dark:text-emerald-400 text-center">
-          Thank you! You've been subscribed.
-        </p>
-      )}
-      {status.error && (
-        <p className="mt-3 text-sm text-rose-600 dark:text-rose-400 text-center">
-          {status.error}
-        </p>
-      )}
+      {status.success && <p className="mt-3 text-emerald-600">Subscribed!</p>}
+      {status.error && <p className="mt-3 text-rose-600">{status.error}</p>}
     </div>
   );
 }

@@ -130,7 +130,7 @@ export default function Header() {
             {/* Logo */}
             <Link
               to="/"
-              className="flex items-center focus:outline-none focus:ring-2 focus:ring-primary rounded-lg"
+              className="flex items-center justify-start py-1 sm:py-2 focus:outline-none rounded-lg"
               aria-label="Go to homepage"
             >
               {!logoError ? (
@@ -139,11 +139,10 @@ export default function Header() {
                   alt="Dhatru Care Logo"
                   onError={() => setLogoError(true)}
                   className="
-                    w-auto 
-                    h-10 sm:h-12 md:h-14 lg:h-16 xl:h-18
-                    max-w-none
-                    min-w-[140px] sm:min-w-[180px] md:min-w-[220px] lg:min-w-[260px] xl:min-w-[300px]
-                    object-contain transition-all duration-300
+                    h-10 sm:h-12 md:h-14
+                    w-auto
+                    object-contain
+                    transition-all duration-300
                   "
                 />
               ) : (
@@ -275,7 +274,7 @@ export default function Header() {
 
       {/* Spacer */}
       <div
-        className={`h-16 sm:h-20 ${isOpen || isSearchOpen ? "hidden" : "block"}`}
+        className={`h-16 sm:h-20 bg-gray-50 dark:bg-gray-950 ${isOpen || isSearchOpen ? "hidden" : "block"}`}
       />
 
       {/* Mobile Drawer */}
