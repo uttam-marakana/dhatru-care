@@ -1,6 +1,5 @@
-// src/App.jsx
 import { Suspense } from "react";
-import { Outlet } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 import TopBar from "./components/layout/TopBar";
 import Header from "./components/layout/Header";
@@ -9,15 +8,21 @@ import Loader from "./components/common/Loader";
 import AppRoutes from "./routes/AppRoutes";
 
 function App() {
+  const location = useLocation();
+
+  // detect admin routes
+  const isAdmin = location.pathname.startsWith("/admin");
+
   return (
     <div className="flex min-h-screen flex-col bg-white dark:bg-gray-950">
-      <TopBar />
-      <Header />
+      {/* PUBLIC LAYOUT ONLY */}
+      {!isAdmin && <TopBar />}
+      {!isAdmin && <Header />}
 
       <main className="grow">
         <Suspense
           fallback={
-            <div className="fixed inset-0 z-50 flex items-center justify-center bg-white/80">
+            <div className="fixed inset-0 z-50 flex items-center justify-center bg-white/80 dark:bg-gray-950/80">
               <Loader size="lg" />
             </div>
           }
@@ -26,7 +31,7 @@ function App() {
         </Suspense>
       </main>
 
-      <Footer />
+      {!isAdmin && <Footer />}
     </div>
   );
 }
