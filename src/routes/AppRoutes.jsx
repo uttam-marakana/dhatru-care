@@ -18,6 +18,11 @@ import NotFound from "../pages/NotFound";
 import Login from "../auth/Login";
 import Signup from "../auth/Signup";
 
+// Protected user pages
+import ProtectedRoute from "./ProtectedRoute";
+import Profile from "../pages/Profile";
+import Settings from "../pages/Settings";
+
 // Admin
 import AdminLayout from "../admin/layout/AdminLayout";
 import UploadData from "../admin/pages/DataUpload";
@@ -64,6 +69,25 @@ export default function AppRoutes() {
         <Route path="upload" element={<UploadData />} />
         <Route path="bulk-upload" element={<BulkUpload />} />
       </Route>
+
+      {/* PROTECTED USER ROUTES */}
+      <Route
+        path="/profile"
+        element={
+          <ProtectedRoute>
+            <Profile />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/settings"
+        element={
+          <ProtectedRoute>
+            <Settings />
+          </ProtectedRoute>
+        }
+      />
 
       {/* 404 */}
       <Route path="*" element={<NotFound />} />
