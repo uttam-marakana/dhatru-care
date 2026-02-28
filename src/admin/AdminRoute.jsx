@@ -15,6 +15,7 @@ export default function AdminRoute({ children }) {
     return () => unsub();
   }, []);
 
+  // loading state
   if (user === undefined) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-950">
@@ -23,7 +24,10 @@ export default function AdminRoute({ children }) {
     );
   }
 
+  // not logged in
   if (!user) return <Navigate to="/login" replace />;
+
+  // not admin
   if (user.email !== ADMIN_EMAIL) return <Navigate to="/" replace />;
 
   return children;

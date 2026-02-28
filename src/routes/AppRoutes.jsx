@@ -1,4 +1,4 @@
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 
 // Public pages
 import Home from "../pages/Home";
@@ -19,9 +19,10 @@ import Login from "../auth/Login";
 import Signup from "../auth/Signup";
 
 // Admin
-import UploadData from "../admin/pages/DataUpload";
-import AdminRoute from "../admin/AdminRoute";
 import AdminLayout from "../admin/layout/AdminLayout";
+import UploadData from "../admin/pages/DataUpload";
+import BulkUpload from "../admin/pages/BulkUpload";
+import AdminRoute from "../admin/AdminRoute";
 
 export default function AppRoutes() {
   return (
@@ -57,7 +58,11 @@ export default function AppRoutes() {
           </AdminRoute>
         }
       >
+        {/* default admin route */}
+        <Route index element={<Navigate to="upload" replace />} />
+
         <Route path="upload" element={<UploadData />} />
+        <Route path="bulk-upload" element={<BulkUpload />} />
       </Route>
 
       {/* 404 */}
