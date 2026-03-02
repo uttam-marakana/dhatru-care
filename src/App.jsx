@@ -1,8 +1,10 @@
-import { Suspense } from "react";
+import { Suspense,lazy } from "react";
 import { Analytics } from "@vercel/analytics/react";
 
-import Loader from "./components/common/Loader";
-import AppRoutes from "./routes/AppRoutes";
+
+// Dynamic imports for code splitting
+const Loader = lazy(() => import("./components/common/Loader"));
+const AppRoutes = lazy(() => import("./routes/AppRoutes"));
 
 function App() {
   return (
