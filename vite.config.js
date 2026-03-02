@@ -6,10 +6,9 @@ import tailwindcss from "@tailwindcss/vite";
 export default defineConfig({
   plugins: [
     react(),
-    tailwindcss(), // ← Tailwind v4 plugin (no tailwind.config.js needed)
+    tailwindcss(), // Tailwind v4 plugin
   ],
 
-  // Good defaults for a larger application
   server: {
     port: 5173,
     open: true,
@@ -19,16 +18,31 @@ export default defineConfig({
     sourcemap: true,
     rollupOptions: {
       output: {
-        manualChunks: {
-          vendor: ["react", "react-dom", "react-router-dom"],
-          firebase: ["firebase/app", "firebase/auth", "firebase/firestore"],
-          redux: ["@reduxjs/toolkit", "react-redux"],
+        manualChunks(id) {
+          if (id.includes("node_modules")) {
+            // Firebase bundle
+            if (id.includes("firebase")) {
+              return "firebase";
+            }
+
+            // Redux bundle
+            if (id.includes("@reduxjs/toolkit") || id.includes("react-redux")) {
+              return "redux";
+            }
+
+            // React + router bundle
+            if (id.includes("react") || id.includes("react-router-dom")) {
+              return "vendor";
+            }
+
+            // fallback vendor chunk
+            return "vendor";
+          }
         },
       },
     },
   },
 
-  // Helps when you have many aliases later
   resolve: {
     alias: {
       "@": "/src",
