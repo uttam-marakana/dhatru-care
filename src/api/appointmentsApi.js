@@ -10,22 +10,27 @@ import { db } from "../firebase";
 
 const ref = collection(db, "appointments");
 
-// CREATE BOOKING
 export const createAppointment = async (data) => {
-  return await addDoc(ref, {
-    ...data,
-    status: "pending",
-    createdAt: serverTimestamp(),
-  });
+  try {
+    return await addDoc(ref, {
+      ...data,
+      status: "pending",
+      createdAt: serverTimestamp(),
+    });
+  } catch (err) {
+    console.error("Appointment API Error:", err);
+    throw err;
+  }
 };
 
-// GET ALL (admin / dashboard use)
 export const getAppointments = async () => {
   const snap = await getDocs(ref);
   return snap.docs.map((d) => ({ id: d.id, ...d.data() }));
 };
 
-// UPDATE STATUS
 export const updateAppointmentStatus = async (id, status) => {
-  return await updateDoc(doc(db, "appointments", id), { status });
+  return await updateDoc(doc(db, "appointments", id), {
+    status,
+    updatedAt: serverTimestamp(),
+  });
 };

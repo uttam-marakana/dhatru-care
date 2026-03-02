@@ -2,7 +2,6 @@ import { useState } from "react";
 import { createAppointment } from "../../api/appointmentsApi";
 
 const initialState = {
-  userId: "",
   patientName: "",
   phone: "",
   email: "",
@@ -25,7 +24,12 @@ export default function AppointmentForm() {
     setLoading(true);
 
     try {
-      await createAppointment(form);
+      const cleaned = Object.fromEntries(
+        Object.entries(form).map(([k, v]) => [k, v.trim()]),
+      );
+
+      await createAppointment(cleaned);
+
       alert("Appointment booked!");
       setForm(initialState);
     } catch (err) {
@@ -38,43 +42,26 @@ export default function AppointmentForm() {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-3 max-w-xl">
-      <input
-        name="patientName"
-        placeholder="Patient Name"
-        onChange={handleChange}
-        required
-      />
-      <input
-        name="phone"
-        placeholder="Phone"
-        onChange={handleChange}
-        required
-      />
-      <input
-        name="email"
-        placeholder="Email"
-        onChange={handleChange}
-        required
-      />
-      <input
-        name="doctorId"
-        placeholder="Doctor ID"
-        onChange={handleChange}
-        required
-      />
-      <input
-        name="department"
-        placeholder="Department"
-        onChange={handleChange}
-      />
-      <input type="date" name="date" onChange={handleChange} required />
-      <input
-        name="time"
-        placeholder="10:30 AM"
-        onChange={handleChange}
-        required
-      />
-      <textarea name="message" placeholder="Message" onChange={handleChange} />
+      {Object.keys(initialState).map((field) =>
+        field === "message" ? (
+          <textarea
+            key={field}
+            name={field}
+            placeholder={field}
+            value={form[field]}
+            onChange={handleChange}
+          />
+        ) : (
+          <input
+            key={field}
+            name={field}
+            placeholder={field}
+            value={form[field]}
+            onChange={handleChange}
+            required={field !== "department" && field !== "message"}
+          />
+        ),
+      )}
 
       <button disabled={loading}>
         {loading ? "Booking..." : "Book Appointment"}
