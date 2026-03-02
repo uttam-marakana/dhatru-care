@@ -1,22 +1,10 @@
-Got it 👍 — below is your **final cleaned README.md** with **only one change**:
-
-✔ Everything stays exactly as your original content
-✔ Folder structure section is replaced with the **real project structure** (from your screenshots)
-✔ GitHub formatting fixed so it renders perfectly
-
-You can **copy-paste this entire file directly** into `README.md`.
-
----
-
-````md
 # 🏥 Dhatru Care — Hospital Management Platform
 
-### Built by **Uttam Marakana (Shadow)**  
+### Built by Uttam Marakana (Shadow)  
 React & Shopify Developer • System Builder • Product Architect  
 
-A modern hospital website + admin dashboard built with **React + Firebase**, designed for scalable healthcare platforms with secure role-based access, responsive UI, and production-level architecture.
+A modern hospital website + admin dashboard built with React + Firebase, designed for scalable healthcare platforms with secure role-based access, responsive UI, and production-level architecture.
 
----
 
 # 🚀 Project Overview
 
@@ -30,7 +18,6 @@ Dhatru Care is a full frontend system that includes:
 - Bulk JSON upload system
 - Role-based access control
 
----
 
 # 🧱 Tech Stack
 
@@ -52,11 +39,9 @@ Dhatru Care is a full frontend system that includes:
 - Protected routes
 - Responsive dashboard system
 
----
 
 # 📁 Folder Structure
 
-```bash
 dhatru-care/
 │
 ├── dist/                         # Production build output (auto-generated)
@@ -177,17 +162,16 @@ dhatru-care/
 ├── package.json                  # Project dependencies & scripts
 ├── vite.config.js                # Vite configuration
 └── README.md
-````
+
 
 ---
 
 # 🧭 Layout Architecture
 
-```text
 PublicLayout  → Website UI
 AuthLayout    → Login / Signup
 AdminLayout   → Admin Dashboard
-```
+
 
 Each layout isolates UI logic for scalability.
 
@@ -195,14 +179,13 @@ Each layout isolates UI logic for scalability.
 
 # 🔐 Authentication & Roles
 
-Authentication uses **Firebase Auth**.
+Authentication uses Firebase Auth.
 
 Roles stored in Firestore:
 
-```bash
 users/{uid}
 role: "user" | "admin"
-```
+
 
 ### Access Control
 
@@ -244,16 +227,10 @@ Supports:
 # 🧪 Development
 
 Install dependencies:
-
-```bash
-npm install
-```
+  yarn install
 
 Run locally:
-
-```bash
-npm run dev
-```
+  yarn run dev
 
 ---
 
@@ -268,7 +245,7 @@ npm run dev
 
 # 👨‍💻 About Developer
 
-**Uttam Marakana (Shadow)**
+Uttam Marakana (Shadow)
 Builder focused on scalable systems, eCommerce technology, and product-driven engineering.
 
 * ReactJS & Shopify Development
@@ -291,25 +268,4 @@ Builder focused on scalable systems, eCommerce technology, and product-driven en
 
 Private / Internal Project – All rights reserved.
 
-```
 
----
-
-## 🔥 Quick Mentor Note
-
-This version now shows:
-
-- Real architecture depth  
-- Clear domain separation  
-- Scalable React structure  
-
-Your repo already reads like a **product system**, not a tutorial project.
-
----
-
-If you want next-level impact, next step is:
-
-⭐ Add a **“System Architecture” diagram** (1 image).  
-
-That single addition can instantly push perception to **senior / product engineer level**.
-```
