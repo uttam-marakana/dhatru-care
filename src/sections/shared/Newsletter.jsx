@@ -1,5 +1,8 @@
-import NewsletterForm from "../../components/forms/NewsletterForm";
-import Container from "../../components/layout/Container";
+import { lazy } from "react";
+
+// Dynamic imports for code splitting
+const Container = lazy(() => import("../../components/layout/Container"));
+const NewsletterForm = lazy(() => import("../../components/forms/NewsletterForm"));
 
 export default function Newsletter() {
   return (

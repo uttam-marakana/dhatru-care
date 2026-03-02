@@ -1,5 +1,8 @@
+import { lazy } from "react";
 import PropTypes from "prop-types";
-import Container from "../../components/layout/Container";
+
+// Dynamic imports for code splitting
+const Container = lazy(() => import("../../components/layout/Container"));
 
 export default function PageHero({
   title,

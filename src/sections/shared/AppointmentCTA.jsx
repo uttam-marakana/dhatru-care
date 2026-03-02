@@ -1,6 +1,9 @@
-import Container from "../../components/layout/Container";
-import Button from "../../components/common/Button";
+import { lazy } from "react";
 import { FaCalendarCheck, FaPhoneAlt } from "react-icons/fa";
+
+// Dynamic imports for code splitting
+const Container = lazy(() => import("../../components/layout/Container"));
+const Button = lazy(() => import("../../components/common/Button"));
 
 export default function AppointmentCTA({
   variant = "default", // 'default' | 'large' | 'compact'
@@ -12,7 +15,7 @@ export default function AppointmentCTA({
   return (
     <section
       className={`
-        bg-gradient-to-r from-primary to-primary-dark text-white
+        bg-linear-to-r from-primary to-primary-dark text-white
         py-12 md:py-16 lg:py-20
         ${isLarge ? "my-12 md:my-20 rounded-3xl shadow-2xl mx-4 md:mx-8 lg:mx-auto max-w-6xl" : ""}
         ${className}
@@ -39,7 +42,7 @@ export default function AppointmentCTA({
             <Button
               size={isLarge ? "lg" : "md"}
               leftIcon={<FaCalendarCheck />}
-              className="bg-white text-primary hover:bg-gray-100 shadow-lg min-w-[220px]"
+              className="bg-white text-primary hover:bg-gray-100 shadow-lg min-w-55"
             >
               Book Appointment
             </Button>
@@ -48,7 +51,7 @@ export default function AppointmentCTA({
               variant="outline"
               size={isLarge ? "lg" : "md"}
               leftIcon={<FaPhoneAlt />}
-              className="border-white text-white hover:bg-white/10 min-w-[220px]"
+              className="border-white text-white hover:bg-white/10 min-w-55"
             >
               Call Now: +91 98765 43210
             </Button>
