@@ -29,11 +29,11 @@ export default function Footer() {
             <Link to="/">
               <img
                 src={light_logo}
-                className="block dark:hidden h-14 object-contain"
+                className="block dark:hidden h-16 object-contain"
               />
               <img
                 src={dark_logo}
-                className="hidden dark:block h-14 object-contain"
+                className="hidden dark:block h-16 object-contain"
               />
             </Link>
 

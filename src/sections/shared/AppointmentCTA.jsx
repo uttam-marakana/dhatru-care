@@ -42,7 +42,7 @@ export default function AppointmentCTA({
             <Button
               size={isLarge ? "lg" : "md"}
               leftIcon={<FaCalendarCheck />}
-              className="bg-white text-primary hover:bg-gray-100 shadow-lg min-w-55"
+              className="text-primary hover:bg-gray-100 shadow-lg min-w-55"
             >
               Book Appointment
             </Button>
