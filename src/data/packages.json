@@ -1,0 +1,122 @@
+[
+  {
+    "name": "Heart Health Package",
+    "description": "Comprehensive heart screening package designed for early detection and prevention of cardiac risks.",
+    "price": 4999,
+    "duration": "1 Year",
+    "includes": [
+      "Cardiologist Consultation",
+      "ECG",
+      "2D Echo",
+      "Lipid Profile",
+      "Blood Pressure Monitoring"
+    ],
+    "imageUrl": "https://example.com/package1.jpg",
+    "isFeatured": true
+  },
+  {
+    "name": "Diabetes Care Package",
+    "description": "Routine monitoring and preventive care plan for diabetes management and lifestyle control.",
+    "price": 3499,
+    "duration": "6 Months",
+    "includes": [
+      "Physician Consultation",
+      "HbA1c Test",
+      "Blood Sugar Profile",
+      "Diet Consultation",
+      "Kidney Function Test"
+    ],
+    "imageUrl": "https://example.com/package2.jpg",
+    "isFeatured": true
+  },
+  {
+    "name": "Full Body Checkup",
+    "description": "Complete preventive health check covering major organ systems and baseline diagnostics.",
+    "price": 5999,
+    "duration": "1 Day",
+    "includes": [
+      "General Physician Consultation",
+      "Complete Blood Count",
+      "Liver Function Test",
+      "Kidney Function Test",
+      "Chest X-Ray"
+    ],
+    "imageUrl": "https://example.com/package3.jpg",
+    "isFeatured": true
+  },
+  {
+    "name": "Women Wellness Package",
+    "description": "Preventive health package focused on women’s hormonal, reproductive, and general wellness.",
+    "price": 4599,
+    "duration": "6 Months",
+    "includes": [
+      "Gynecology Consultation",
+      "Thyroid Profile",
+      "Hormone Tests",
+      "Pap Smear",
+      "Pelvic Ultrasound"
+    ],
+    "imageUrl": "https://example.com/package4.jpg",
+    "isFeatured": false
+  },
+  {
+    "name": "Senior Citizen Health Package",
+    "description": "Specialized health assessment plan designed for age-related risk monitoring and preventive care.",
+    "price": 6499,
+    "duration": "1 Year",
+    "includes": [
+      "Physician Consultation",
+      "Cardiac Screening",
+      "Bone Density Test",
+      "Diabetes Screening",
+      "Vision Check"
+    ],
+    "imageUrl": "https://example.com/package5.jpg",
+    "isFeatured": true
+  },
+  {
+    "name": "Kidney Care Package",
+    "description": "Focused diagnostic package for early detection of kidney and urinary system issues.",
+    "price": 3999,
+    "duration": "3 Months",
+    "includes": [
+      "Urologist Consultation",
+      "Kidney Function Test",
+      "Urine Analysis",
+      "Ultrasound KUB",
+      "Blood Pressure Check"
+    ],
+    "imageUrl": "https://example.com/package6.jpg",
+    "isFeatured": false
+  },
+  {
+    "name": "Eye Care Package",
+    "description": "Preventive eye examination package for vision health and early retinal issue detection.",
+    "price": 2999,
+    "duration": "6 Months",
+    "includes": [
+      "Ophthalmologist Consultation",
+      "Vision Test",
+      "Retina Screening",
+      "Glaucoma Check",
+      "Eye Pressure Test"
+    ],
+    "imageUrl": "https://example.com/package7.jpg",
+    "isFeatured": false
+  },
+  {
+    "name": "Executive Health Package",
+    "description": "Premium health package for professionals requiring advanced annual preventive screening.",
+    "price": 8999,
+    "duration": "1 Year",
+    "includes": [
+      "Priority Consultation",
+      "Advanced Blood Tests",
+      "Cardiac Screening",
+      "Stress Test",
+      "Diet & Lifestyle Review"
+    ],
+    "imageUrl": "https://example.com/package8.jpg",
+    "isFeatured": true
+  }
+]
