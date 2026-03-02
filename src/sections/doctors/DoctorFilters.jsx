@@ -1,9 +1,11 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, lazy } from "react";
 import { useDebounce } from "../../hooks/useDebounce";
-import Input from "../../components/common/Input";
-import Select from "../../components/common/Select";
-import Container from "../../components/layout/Container";
 import { FaSearch } from "react-icons/fa";
+
+// Dynamic imports for code splitting
+const Input = lazy(() => import("../../components/common/Input"));
+const Select = lazy(() => import("../../components/common/Select"));
+const Container = lazy(() => import("../../components/layout/Container"));
 
 const specialties = [
   { value: "", label: "All Specialties" },

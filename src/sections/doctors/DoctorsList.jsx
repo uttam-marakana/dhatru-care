@@ -1,9 +1,11 @@
-import { useEffect, useState } from "react";
+import { lazy, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import Container from "../../components/layout/Container";
-import Card from "../../components/common/Card";
-import Button from "../../components/common/Button";
 import { FaStethoscope, FaStar } from "react-icons/fa";
+
+// Dynamic imports for code splitting
+const Container = lazy(() => import("../../components/layout/Container"));
+const Card = lazy(() => import("../../components/common/Card"));
+const Button = lazy(() => import("../../components/common/Button"));
 
 // Static demo data (later replace with real API/Redux/Firestore)
 const demoDoctors = [
@@ -150,7 +152,7 @@ export default function DoctorsList({ filters = {}, isLoading = false }) {
                 {doctor.imagePlaceholder}
               </div>
 
-              <div className="p-5 md:p-6 flex flex-col flex-grow">
+              <div className="p-5 md:p-6 flex flex-col grow">
                 <h3 className="text-xl font-bold mb-1 group-hover:text-primary transition-colors line-clamp-1">
                   {doctor.name}
                 </h3>
@@ -167,7 +169,7 @@ export default function DoctorsList({ filters = {}, isLoading = false }) {
                   </span>
                 </div>
 
-                <p className="text-gray-600 dark:text-gray-400 text-sm mb-6 line-clamp-2 flex-grow">
+                <p className="text-gray-600 dark:text-gray-400 text-sm mb-6 line-clamp-2 grow">
                   {doctor.shortBio}
                 </p>
 
