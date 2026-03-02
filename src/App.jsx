@@ -1,5 +1,6 @@
 import { Suspense } from "react";
 import { useLocation } from "react-router-dom";
+import { Analytics } from "@vercel/analytics/react";
 
 import TopBar from "./components/layout/TopBar";
 import Header from "./components/layout/Header";
@@ -20,6 +21,7 @@ function App() {
       {!isAdmin && <Header />}
 
       <main className="grow">
+        <Analytics />
         <Suspense
           fallback={
             <div className="fixed inset-0 z-50 flex items-center justify-center bg-white/80 dark:bg-gray-950/80">
