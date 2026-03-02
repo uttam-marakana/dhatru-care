@@ -1,6 +1,9 @@
-import Container from "../../components/layout/Container";
-import Card from "../../components/common/Card";
-import Button from "../../components/common/Button";
+import { lazy } from "react";
+
+// Dynamic imports for code splitting
+const Container = lazy(() => import("../../components/layout/Container"));
+const Card = lazy(() => import("../../components/common/Card"));
+const Button = lazy(() => import("../../components/common/Button"));
 
 const packages = [
   {
@@ -33,7 +36,7 @@ const packages = [
 
 export default function HealthPackages({ fullWidth = false }) {
   return (
-    <section className="py-16 md:py-24 bg-gradient-to-b from-white to-gray-50 dark:from-gray-950 dark:to-gray-900">
+    <section className="py-16 md:py-24 bg-linear-to-b from-white to-gray-50 dark:from-gray-950 dark:to-gray-900">
       <Container>
         <div className="text-center mb-12 md:mb-16">
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 text-gray-900 dark:text-white">

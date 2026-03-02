@@ -1,4 +1,7 @@
-import Container from "../../components/layout/Container";
+import { lazy } from "react";
+
+// Dynamic imports for code splitting
+const Container = lazy(() => import("../../components/layout/Container"));
 
 export default function AboutHospital() {
   return (
@@ -25,7 +28,7 @@ export default function AboutHospital() {
 
         <div className="relative rounded-2xl overflow-hidden shadow-2xl border-8 border-white dark:border-gray-800">
           {/* Replace with real hospital / team photo */}
-          <div className="aspect-[4/3] bg-gradient-to-br from-primary/30 to-secondary/30 flex items-center justify-center text-6xl text-white/40">
+          <div className="aspect-4/3 bg-linear-to-br from-primary/30 to-secondary/30 flex items-center justify-center text-6xl text-white/40">
             Hospital Image
           </div>
         </div>

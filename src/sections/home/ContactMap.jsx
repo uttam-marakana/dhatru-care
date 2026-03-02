@@ -1,4 +1,7 @@
-import Container from "../../components/layout/Container";
+import { lazy } from "react";
+
+// Dynamic imports for code splitting
+const Container = lazy(() => import("../../components/layout/Container"));
 
 export default function ContactMap() {
   return (
@@ -15,7 +18,7 @@ export default function ContactMap() {
         </div>
 
         <div className="grid lg:grid-cols-2 gap-10 items-center">
-          <div className="rounded-2xl overflow-hidden shadow-2xl border-8 border-white dark:border-gray-900 h-[400px] md:h-[500px]">
+          <div className="rounded-2xl overflow-hidden shadow-2xl border-8 border-white dark:border-gray-900 h-100 md:h-125">
             {/* Replace with real Google Maps embed */}
             <iframe
               src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3719.123456789!2d70.7890123456789!3d21.960123456789!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x395e9b123456789%3A0xabcdef123456789!2sGondal%2C%20Gujarat!5e0!3m2!1sen!2sin!4v1698765432100!5m2!1sen!2sin"

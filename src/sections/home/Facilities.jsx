@@ -1,5 +1,8 @@
-import Container from "../../components/layout/Container";
-import Card from "../../components/common/Card";
+import { lazy } from "react";
+
+// Dynamic imports for code splitting
+const Container = lazy(() => import("../../components/layout/Container"));
+const Card = lazy(() => import("../../components/common/Card"));
 
 const facilities = [
   {

@@ -1,7 +1,11 @@
-import Container from "../../components/layout/Container";
-import Card from "../../components/common/Card";
-import Button from "../../components/common/Button";
+import { lazy } from "react";
 import { FaStethoscope } from "react-icons/fa";
+
+
+// Dynamic imports for code splitting
+const Container = lazy(() => import("../../components/layout/Container"));
+const Card = lazy(() => import("../../components/common/Card"));
+const Button = lazy(() => import("../../components/common/Button"));
 
 const featuredDoctors = [
   {

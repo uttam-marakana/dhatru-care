@@ -1,6 +1,10 @@
-import Container from "../../components/layout/Container";
-import Button from "../../components/common/Button";
+import { lazy } from "react";
 import { FaArrowRight } from "react-icons/fa";
+
+
+// Dynamic imports for code splitting
+const Container = lazy(() => import("../../components/layout/Container"));
+const Button = lazy(() => import("../../components/common/Button"));
 
 export default function Hero() {
   return (
