@@ -1,9 +1,11 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, lazy } from "react";
 import { useDebounce } from "../../hooks/useDebounce";
-import Input from "../../components/common/Input";
-import Select from "../../components/common/Select";
-import Container from "../../components/layout/Container";
 import { FaSearch, FaCalendarAlt } from "react-icons/fa";
+
+// Dynamic imports for code splitting
+const Input = lazy(() => import("../../components/common/Input"));
+const Select = lazy(() => import("../../components/common/Select"));
+const Container = lazy(() => import("../../components/layout/Container"));
 
 // Demo filter options — in real app these can come from API / constants
 const categories = [

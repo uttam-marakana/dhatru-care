@@ -16,7 +16,7 @@ const Textarea = forwardRef(
           placeholder:text-gray-500 dark:placeholder:text-gray-500
           focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary
           transition-all duration-200
-          resize-y min-h-[100px]
+          resize-y min-h-25
           disabled:opacity-60 disabled:cursor-not-allowed
           ${error ? "border-rose-500 focus:ring-rose-500/50" : ""}
           ${className}

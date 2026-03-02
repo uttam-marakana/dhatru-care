@@ -1,8 +1,12 @@
-import Container from "../../components/layout/Container";
-import Card from "../../components/common/Card";
-import Button from "../../components/common/Button";
 import { Link } from "react-router-dom";
 import { FaArrowRight } from "react-icons/fa";
+import { lazy } from "react";
+
+// Dynamic imports for code splitting
+const Container = lazy(() => import("../../components/layout/Container"));
+const Card = lazy(() => import("../../components/common/Card"));
+const Button = lazy(() => import("../../components/common/Button"));
+
 
 // Static demo data — in real app this would come from Redux / Firebase / API
 const departmentsData = [
@@ -96,8 +100,8 @@ export default function DepartmentsGrid({ limit = 0, showAllLink = true }) {
               hover
               className={`
                 h-full flex flex-col overflow-hidden
-                bg-gradient-to-br ${dept.bgColor}
-                dark:bg-gradient-to-br dark:${dept.bgColor}
+                bg-linear-to-br ${dept.bgColor}
+                dark:bg-linear-to-br dark:${dept.bgColor}
                 border border-transparent group-hover:border-primary/30
                 transition-all duration-300
               `}
