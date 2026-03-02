@@ -7,107 +7,52 @@ const Button = lazy(() => import("../../components/common/Button"));
 
 export default function HealthPackages({
   packages = [],
-  loading = false,
-  error = null,
-  fullWidth = false,
+  loading,
+  error,
+  fullWidth,
 }) {
-  /* ===============================
-     LOADING STATE
-  ================================= */
-  if (loading) {
-    return (
-      <Container>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {Array.from({ length: 4 }).map((_, i) => (
-            <div
-              key={i}
-              className="animate-pulse bg-white dark:bg-gray-900 rounded-xl h-96"
-            />
-          ))}
-        </div>
-      </Container>
-    );
-  }
+  if (loading)
+    return <div className="text-center py-20">Loading packages...</div>;
 
-  /* ===============================
-     ERROR STATE
-  ================================= */
-  if (error) {
-    return (
-      <Container>
-        <div className="text-center text-red-600 py-16">{error}</div>
-      </Container>
-    );
-  }
+  if (error)
+    return <div className="text-center py-20 text-red-600">{error}</div>;
 
-  /* ===============================
-     EMPTY STATE
-  ================================= */
-  if (!packages.length) {
-    return (
-      <Container>
-        <div className="text-center py-20 text-gray-500">
-          No packages available.
-        </div>
-      </Container>
-    );
-  }
+  if (!packages.length)
+    return <div className="text-center py-20">No packages available.</div>;
 
   return (
-    <section className="bg-linear-to-b from-white to-gray-50 dark:from-gray-950 dark:to-gray-900">
+    <section className="py-12 md:py-16 lg:py-20 bg-gray-50 dark:bg-gray-900">
       <Container>
-        <div className="text-center mb-12 md:mb-16">
-          <h2 className="text-3xl md:text-5xl font-bold mb-4">
-            Preventive Health Packages
-          </h2>
-          <p className="text-lg text-gray-600 dark:text-gray-400 max-w-3xl mx-auto">
-            Early detection is the best protection — choose the right package
-            for you and your family.
-          </p>
-        </div>
-
         <div
           className={`grid grid-cols-1 ${
             fullWidth
               ? "md:grid-cols-2 lg:grid-cols-4"
               : "sm:grid-cols-2 lg:grid-cols-4"
-          } gap-6 md:gap-8`}
+          } gap-6`}
         >
           {packages.map((pkg) => (
-            <Card
-              key={pkg.id}
-              hover
-              className="text-center group border-2 border-transparent hover:border-primary/30 transition-all"
-            >
-              <div className="bg-primary/10 py-6 px-4 rounded-t-xl">
-                <h3 className="text-xl font-bold text-primary mb-2">
-                  {pkg.name}
-                </h3>
-
+            <Card key={pkg.id} hover className="flex flex-col h-full">
+              <div className="bg-primary/10 p-5 text-center">
+                <h3 className="font-bold text-primary">{pkg.name}</h3>
                 <p className="text-3xl font-extrabold">{pkg.price}</p>
               </div>
 
-              <div className="p-6">
-                <ul className="space-y-3 text-left mb-6">
+              <div className="p-5 flex flex-col flex-1">
+                <ul className="space-y-2 mb-5 text-sm">
                   {(pkg.includes || []).map((item, i) => (
-                    <li key={i} className="flex gap-2">
-                      <span className="text-green-500">✔</span>
-                      {item}
-                    </li>
+                    <li key={i}>✔ {item}</li>
                   ))}
                 </ul>
 
-                <Button className="w-full">Book Now</Button>
+                <Button className="mt-auto w-full">Book Now</Button>
               </div>
             </Card>
           ))}
         </div>
 
-        <div className="text-center mt-12">
+        <div className="text-center mt-10">
           <Link to="/packages/compare">
-            <Button variant="outline" size="lg">
-              Compare All Packages →
-            </Button>
+            <Button variant="outline">Compare All Packages →</Button>
           </Link>
         </div>
       </Container>

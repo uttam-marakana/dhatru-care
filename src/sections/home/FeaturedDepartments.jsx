@@ -1,44 +1,33 @@
 import { lazy } from "react";
+import { Link } from "react-router-dom";
 
-// Dynamic imports for code splitting
 const Container = lazy(() => import("../../components/layout/Container"));
 const Card = lazy(() => import("../../components/common/Card"));
 const Button = lazy(() => import("../../components/common/Button"));
 
-const departments = [
-  { name: "Cardiology", desc: "Heart & vascular care", icon: "❤️" },
-  { name: "Neurology", desc: "Brain & nervous system", icon: "🧠" },
-  { name: "Orthopedics", desc: "Bones & joints", icon: "🦴" },
-  { name: "Pediatrics", desc: "Child & newborn care", icon: "👶" },
-];
+export default function FeaturedDepartments({
+  departments = [],
+  loading = false,
+}) {
+  if (loading) return <div className="text-center py-20">Loading...</div>;
 
-export default function FeaturedDepartments() {
   return (
-    <section className="py-16 md:py-24">
+    <section className="py-12 md:py-16 lg:py-20">
       <Container>
-        <div className="text-center mb-12 md:mb-16">
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 text-gray-900 dark:text-white">
-            Centres of Excellence
-          </h2>
-          <p className="text-lg md:text-xl text-gray-600 dark:text-gray-400 max-w-3xl mx-auto">
-            Specialized departments with advanced technology and expert teams
-          </p>
-        </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
-          {departments.map((dept, i) => (
-            <Card key={i} hover className="text-center group">
-              <div className="text-5xl md:text-6xl mb-5">{dept.icon}</div>
-              <h3 className="text-xl font-bold mb-3 group-hover:text-primary transition-colors">
-                {dept.name}
-              </h3>
-              <p className="text-gray-600 dark:text-gray-400 mb-6">
-                {dept.desc}
-              </p>
-              <Button variant="ghost" size="sm">
-                Explore →
-              </Button>
-            </Card>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          {departments.slice(0, 4).map((dept) => (
+            <Link key={dept.id} to={`/departments/${dept.slug}`}>
+              <Card hover className="text-center">
+                <div className="text-5xl mb-4">{dept.icon || "🏥"}</div>
+                <h3 className="text-xl font-bold mb-2">{dept.name}</h3>
+                <p className="text-gray-600 dark:text-gray-400">
+                  {dept.shortDesc}
+                </p>
+                <Button variant="ghost" size="sm" className="mt-4">
+                  Explore →
+                </Button>
+              </Card>
+            </Link>
           ))}
         </div>
       </Container>

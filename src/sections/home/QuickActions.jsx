@@ -43,7 +43,7 @@ export default function QuickActions() {
   return (
     <section className="py-12 md:py-16 bg-white dark:bg-gray-950 border-b border-gray-200 dark:border-gray-800">
       <Container>
-        <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-5 md:gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 md:gap-6">
           {actions.map((action, i) => (
             <Card key={i} hover padding="p-6" className="text-center group">
               <div className={`text-4xl md:text-5xl mb-4 ${action.color}`}>

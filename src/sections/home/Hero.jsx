@@ -1,5 +1,6 @@
 import { lazy } from "react";
 import { FaArrowRight } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 
 // Dynamic imports for code splitting
@@ -28,13 +29,17 @@ export default function Hero() {
           </p>
 
           <div className="flex flex-col sm:flex-row gap-5">
-            <Button size="lg" leftIcon={<FaArrowRight />}>
-              Book Appointment Now
-            </Button>
+            <Link to="/appointments">
+              <Button variant="primary" size="lg" className="flex items-center gap-2">
+                Book an Appointment <FaArrowRight />
+              </Button>
+            </Link>
 
-            <Button variant="secondary" size="lg">
-              View Health Packages
-            </Button>
+            <Link to="packages">
+              <Button variant="outline" size="lg" className="flex items-center gap-2">
+                Explore Health Packages <FaArrowRight />
+              </Button>
+            </Link>
           </div>
 
           {/* Trust badges */}

@@ -26,9 +26,11 @@ const testimonials = [
   },
 ];
 
-export default function Testimonials() {
+export default function Testimonials({ testimonials = [] }) {
+  if (!testimonials.length) return null;
+
   return (
-    <section className="py-16 md:py-24">
+    <section className="py-12 md:py-16 lg:py-20">
       <Container>
         <div className="text-center mb-12 md:mb-16">
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 text-gray-900 dark:text-white">
@@ -39,37 +41,23 @@ export default function Testimonials() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
-          {testimonials.map((t, index) => (
-            <Card key={index} className="relative">
-              <div className="text-5xl text-primary/20 absolute top-4 left-4">
-                “
-              </div>
-              <p className="text-gray-700 dark:text-gray-300 mb-6 italic leading-relaxed">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {testimonials.map((t, i) => (
+            <Card key={i} className="h-full flex flex-col">
+              <p className="text-gray-700 dark:text-gray-300 italic flex-1">
                 {t.text}
               </p>
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="font-semibold text-gray-900 dark:text-white">
-                    {t.name}
-                  </p>
-                  <p className="text-sm text-gray-500 dark:text-gray-400">
-                    {t.location}
-                  </p>
-                </div>
-                <div className="flex text-yellow-500">
-                  {"★".repeat(t.rating)}
-                  {"☆".repeat(5 - t.rating)}
-                </div>
+
+              <div className="mt-6">
+                <p className="font-semibold">{t.name}</p>
+                <p className="text-sm text-gray-500">{t.location}</p>
               </div>
             </Card>
           ))}
         </div>
 
-        <div className="text-center mt-12">
-          <Button variant="outline" size="lg">
-            Read More Reviews →
-          </Button>
+        <div className="text-center mt-10">
+          <Button variant="outline">Read More Reviews →</Button>
         </div>
       </Container>
     </section>
