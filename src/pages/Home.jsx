@@ -1,13 +1,17 @@
-import { lazy } from "react";
+import { lazy, useEffect, useState } from "react";
 import LazyWrapper from "../components/common/LazyWrapper";
 import { useInView } from "../hooks/useInView";
 
-// Eagerly loaded
+/* ===============================
+   EAGER SECTIONS
+================================= */
 import Hero from "../sections/home/Hero";
 import QuickActions from "../sections/home/QuickActions";
 import AboutHospital from "../sections/home/AboutHospital";
 
-// Lazy loaded
+/* ===============================
+   LAZY SECTIONS
+================================= */
 const Facilities = lazy(() => import("../sections/home/Facilities"));
 const FeaturedDepartments = lazy(
   () => import("../sections/home/FeaturedDepartments"),
@@ -18,65 +22,95 @@ const Testimonials = lazy(() => import("../sections/home/Testimonials"));
 const LatestBlog = lazy(() => import("../sections/home/LatestBlog"));
 const ContactMap = lazy(() => import("../sections/home/ContactMap"));
 
-// Shared
+/* ===============================
+   SHARED
+================================= */
 const AppointmentCTA = lazy(() => import("../sections/shared/AppointmentCTA"));
 const Newsletter = lazy(() => import("../sections/shared/Newsletter"));
 
+/* ===============================
+   SECTION WRAPPER
+================================= */
 function SectionWrapper({ children }) {
   const [ref, isInView] = useInView({ threshold: 0.15 });
 
   return (
     <section
       ref={ref}
-      className={`animate-section ${isInView ? "visible" : ""}`}
+      className={`
+        animate-section
+        transition-opacity duration-700
+        will-change-transform
+        ${isInView ? "visible" : ""}
+      `}
     >
       {children}
     </section>
   );
 }
 
+/* ===============================
+   HOME PAGE
+================================= */
 export default function Home() {
+  const [showTop, setShowTop] = useState(false);
+
+  /* BACK TO TOP VISIBILITY */
+  useEffect(() => {
+    const handleScroll = () => {
+      setShowTop(window.scrollY > 600);
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    handleScroll();
+
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   return (
-    <div className="bg-white dark:bg-gray-950 min-h-screen">
-      {/* Hero – always visible first */}
+    <main className="bg-white dark:bg-gray-950 min-h-screen overflow-x-hidden">
+      {/* HERO */}
       <Hero />
 
-      {/* Quick actions – high priority */}
+      {/* QUICK ACTIONS */}
       <SectionWrapper>
         <QuickActions />
       </SectionWrapper>
 
-      {/* About – trust builder */}
+      {/* ABOUT */}
       <SectionWrapper>
-        <div className="py-12 md:py-20 lg:py-24">
+        <div className="py-12 md:py-16 lg:py-20">
           <AboutHospital />
         </div>
       </SectionWrapper>
 
-      {/* Lazy + animated sections below fold */}
+      {/* BELOW FOLD */}
       <LazyWrapper>
         <SectionWrapper>
-          <Facilities />
+          <div className="py-12 md:py-16 lg:py-20">
+            <Facilities />
+          </div>
         </SectionWrapper>
 
         <SectionWrapper>
-          <div className="py-12 md:py-20 lg:py-24 bg-gray-50 dark:bg-gray-900/50">
+          <div className="py-12 md:py-16 lg:py-20 bg-gray-50 dark:bg-gray-900/50">
             <FeaturedDepartments />
           </div>
         </SectionWrapper>
 
         <SectionWrapper>
-          <FeaturedDoctors />
-        </SectionWrapper>
-
-        <SectionWrapper>
-          <div className="py-12 md:py-20 lg:py-24">
-            <HealthPackages />
+          <div className="py-12 md:py-16 lg:py-20">
+            <FeaturedDoctors />
           </div>
         </SectionWrapper>
 
+        {/* NO EXTRA PADDING INSIDE COMPONENT */}
         <SectionWrapper>
-          <div className="py-12 md:py-20 lg:py-24 bg-linear-to-b from-gray-50 to-white dark:from-gray-900 dark:to-gray-950">
+          <HealthPackages />
+        </SectionWrapper>
+
+        <SectionWrapper>
+          <div className="py-12 md:py-16 lg:py-20 bg-linear-to-b from-gray-50 to-white dark:from-gray-900 dark:to-gray-950">
             <Testimonials />
           </div>
         </SectionWrapper>
@@ -88,7 +122,7 @@ export default function Home() {
         <SectionWrapper>
           <AppointmentCTA
             variant="large"
-            className="my-12 md:my-16 lg:my-20 mx-4 md:mx-8 lg:mx-auto max-w-6xl rounded-3xl"
+            className="my-12 md:my-16 lg:my-20 mx-4 sm:mx-6 lg:mx-auto max-w-6xl rounded-3xl"
           />
         </SectionWrapper>
 
@@ -101,15 +135,20 @@ export default function Home() {
         </SectionWrapper>
       </LazyWrapper>
 
-      {/* Optional: Back to top button */}
+      {/* BACK TO TOP BUTTON */}
       <button
         onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-        className="fixed bottom-6 right-6 z-50 bg-primary text-white p-4 rounded-full shadow-lg hover:bg-primary-dark transition-all opacity-0 invisible data-[visible=true]:opacity-100 data-[visible=true]:visible"
-        data-visible={window.scrollY > 600 ? "true" : "false"}
+        className={`
+          fixed bottom-5 right-5 sm:bottom-6 sm:right-6
+          z-50 bg-primary text-white
+          p-3 sm:p-4 rounded-full shadow-lg
+          hover:bg-primary-dark transition-all duration-300
+          ${showTop ? "opacity-100 visible" : "opacity-0 invisible"}
+        `}
         aria-label="Back to top"
       >
         ↑
       </button>
-    </div>
+    </main>
   );
 }
