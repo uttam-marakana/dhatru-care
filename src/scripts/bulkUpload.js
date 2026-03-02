@@ -1,15 +1,13 @@
 import { db } from "../firebase";
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 
-// import JSON files
 import doctors from "../data/doctors.json";
 import departments from "../data/departments.json";
 import packages from "../data/packages.json";
 import blogs from "../data/blog_posts.json";
 
-// generic uploader
 const uploadCollection = async (name, data) => {
-  console.log(`Uploading ${name}...`);
+  console.log("Uploading:", name);
 
   for (const item of data) {
     await addDoc(collection(db, name), {
@@ -18,7 +16,7 @@ const uploadCollection = async (name, data) => {
     });
   }
 
-  console.log(`${name} uploaded successfully`);
+  console.log(name, "done");
 };
 
 export const runBulkUpload = async () => {
@@ -28,8 +26,9 @@ export const runBulkUpload = async () => {
     await uploadCollection("packages", packages);
     await uploadCollection("blog_posts", blogs);
 
-    console.log("ALL DATA UPLOADED 🚀");
+    alert("ALL DATA UPLOADED SUCCESSFULLY 🚀");
   } catch (err) {
-    console.error("Upload failed:", err);
+    console.error(err);
+    alert("Upload failed");
   }
 };

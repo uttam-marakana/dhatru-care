@@ -1,13 +1,9 @@
-// vite.config.js
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import tailwindcss from "@tailwindcss/vite";
 
 export default defineConfig({
-  plugins: [
-    react(),
-    tailwindcss(), // Tailwind v4 plugin
-  ],
+  plugins: [react(), tailwindcss()],
 
   server: {
     port: 5173,
@@ -15,7 +11,10 @@ export default defineConfig({
   },
 
   build: {
-    sourcemap: true,
+    sourcemap: false, // enable only when debugging production
+    target: "esnext",
+    cssCodeSplit: true,
+    chunkSizeWarningLimit: 1000,
   },
 
   resolve: {
