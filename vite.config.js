@@ -16,31 +16,6 @@ export default defineConfig({
 
   build: {
     sourcemap: true,
-    rollupOptions: {
-      output: {
-        manualChunks(id) {
-          if (id.includes("node_modules")) {
-            // Firebase bundle
-            if (id.includes("firebase")) {
-              return "firebase";
-            }
-
-            // Redux bundle
-            if (id.includes("@reduxjs/toolkit") || id.includes("react-redux")) {
-              return "redux";
-            }
-
-            // React + router bundle
-            if (id.includes("react") || id.includes("react-router-dom")) {
-              return "vendor";
-            }
-
-            // fallback vendor chunk
-            return "vendor";
-          }
-        },
-      },
-    },
   },
 
   resolve: {
