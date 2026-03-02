@@ -276,5 +276,3 @@ Builder focused on scalable systems, eCommerce technology, and product-driven en
 ## 📄 License
 
 Private / Internal Project – All rights reserved.
-
-```
