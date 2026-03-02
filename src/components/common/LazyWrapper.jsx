@@ -1,5 +1,7 @@
-import { Suspense } from "react";
-import Loader from "./Loader";
+import { lazy, Suspense } from "react";
+
+// Dynamic imports for code splitting
+const Loader = lazy(() => import("./Loader"));
 
 export default function LazyWrapper({ children }) {
   return (

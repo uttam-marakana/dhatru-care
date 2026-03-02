@@ -1,10 +1,12 @@
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
-import { useState } from "react";
+import { useState, lazy } from "react";
 import { createContactMessage } from "../../api/contactApi";
-import Input from "../common/Input";
-import Textarea from "../common/Textarea";
-import Button from "../common/Button";
+
+// Dynamic imports for code splitting
+const Input = lazy(() => import("../common/Input"));
+const Textarea = lazy(() => import("../common/Textarea"));
+const Button = lazy(() => import("../common/Button"));
 
 const validationSchema = Yup.object({
   name: Yup.string().required("Name is required"),

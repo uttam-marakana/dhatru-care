@@ -1,4 +1,3 @@
-// src/components/common/Button.jsx
 import PropTypes from "prop-types";
 
 const variants = {

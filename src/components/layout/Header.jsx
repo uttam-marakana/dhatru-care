@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, lazy } from "react";
 import { Link, NavLink, useNavigate, useLocation } from "react-router-dom";
 import {
   FaBars,
@@ -14,10 +14,11 @@ import {
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import { auth } from "../../firebase";
 
-import Container from "./Container";
-import ThemeToggle from "../common/ThemeToggle";
-import light_logo from "../../assets/images/light_logo.png";
-import dark_logo from "../../assets/images/dark_logo.png";
+// Dynamic imports for code splitting
+const Container = lazy(() => import("./Container"));
+const ThemeToggle = lazy(() => import("../common/ThemeToggle"));
+const light_logo = lazy(() => import("../../assets/images/light_logo.png"));
+const dark_logo = lazy(() => import("../../assets/images/dark_logo.png"));
 
 const navItems = [
   { to: "/departments", label: "Departments" },
