@@ -15,12 +15,16 @@ export default function Login() {
     try {
       const res = await login(email, password);
 
-      if (res.user.email === ADMIN_EMAIL) {
-        nav("/admin/upload");
-      } else {
-        nav("/");
+      console.log("Current user:", res.user.email);
+
+      if (res.user.email?.toLowerCase() === ADMIN_EMAIL.toLowerCase()) {
+        nav("/admin/bulk-upload");
       }
-    } catch {
+        else {
+        nav("/login");
+      }
+    } catch (err) {
+      console.error(err);
       alert("Login failed");
     }
   };

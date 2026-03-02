@@ -17,7 +17,7 @@ export default function AdminNavbar() {
   };
 
   return (
-    <div className="border-b bg-white dark:bg-gray-900 px-6 py-4 flex justify-between">
+    <div className="border-b bg-white dark:bg-gray-900 px-6 py-4 items-center flex justify-between">
       <h1 className="font-bold">Admin Panel</h1>
 
       <div className="flex gap-3">

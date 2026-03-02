@@ -61,6 +61,19 @@ body {
   }
 }
 
+/* Base styles for interactive elements */
+@layer base {
+  /* All native buttons */
+  button {
+    @apply cursor-pointer;
+  }
+
+  /* Inputs that act like buttons */
+  [role="button"] {
+    @apply cursor-pointer;
+  }
+}
+
 /* =============================================
    3. Common animation helpers
    ============================================= */

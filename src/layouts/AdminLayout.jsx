@@ -25,22 +25,22 @@ export default function AdminLayout() {
       {/* SIDEBAR */}
       <aside
         className={`
-          fixed lg:static z-40 top-0 left-0 h-full w-64
+          fixed lg:sticky top-0 left-0 h-screen w-64 z-40
           bg-white dark:bg-gray-900
           border-r border-gray-200 dark:border-gray-800
           transform transition-transform duration-300
           ${open ? "translate-x-0" : "-translate-x-full lg:translate-x-0"}
         `}
       >
-        {/* mobile header */}
-        <div className="p-4 flex justify-between items-center lg:hidden">
+        {/* MOBILE HEADER */}
+        <div className="p-4 flex justify-between items-center lg:hidden border-b dark:border-gray-800">
           <h2 className="font-bold text-gray-900 dark:text-white">Admin</h2>
           <button onClick={() => setOpen(false)}>
             <FaTimes />
           </button>
         </div>
 
-        {/* nav */}
+        {/* NAV */}
         <nav className="p-4 space-y-2">
           <NavLink to="/admin/upload" className={linkStyle}>
             Data Upload
@@ -53,8 +53,8 @@ export default function AdminLayout() {
       </aside>
 
       {/* CONTENT */}
-      <main className="flex-1 p-4 sm:p-6 lg:p-8 overflow-x-hidden">
-        {/* mobile menu button */}
+      <main className="flex-1 lg:ml-0 p-4 sm:p-6 lg:p-8 overflow-x-hidden">
+        {/* MOBILE MENU BUTTON */}
         <button
           onClick={() => setOpen(true)}
           className="lg:hidden mb-4 p-2 rounded bg-primary text-white"

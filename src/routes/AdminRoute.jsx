@@ -1,3 +1,4 @@
+// src/routes/AdminRoute.jsx
 import { Navigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { onAuthStateChanged } from "firebase/auth";
@@ -8,18 +9,42 @@ export default function AdminRoute({ children }) {
   const [status, setStatus] = useState("loading");
 
   useEffect(() => {
-    const unsub = onAuthStateChanged(auth, async (user) => {
-      if (!user) return setStatus("denied");
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
+      try {
+        if (!user) {
+          setStatus("denied");
+          return;
+        }
 
-      const snap = await getDoc(doc(db, "users", user.uid));
-      setStatus(
-        snap.exists() && snap.data().role === "admin" ? "allowed" : "denied",
-      );
+        const snap = await getDoc(doc(db, "users", user.uid));
+
+        console.log("ADMIN CHECK:", snap.data());
+
+        if (snap.exists() && snap.data()?.role === "admin") {
+          setStatus("allowed");
+        } else {
+          setStatus("denied");
+        }
+      } catch (err) {
+        console.error("Admin check error:", err);
+        setStatus("denied");
+      }
     });
-    return () => unsub();
+
+    return () => unsubscribe();
   }, []);
 
-  if (status === "loading") return <div>Checking access...</div>;
-  if (status === "denied") return <Navigate to="/" replace />;
+  if (status === "loading") {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-950 text-gray-400">
+        Checking admin access...
+      </div>
+    );
+  }
+
+  if (status === "denied") {
+    return <Navigate to="/" replace />;
+  }
+
   return children;
 }

@@ -14,7 +14,7 @@ export default function ThemeToggle() {
     <button
       onClick={cycleTheme}
       className={`
-        p-2 rounded-2xl
+        // rounded-2xl
         bg-gray-100 dark:bg-gray-800
         hover:bg-gray-200 dark:hover:bg-gray-700
         transition-all duration-300
