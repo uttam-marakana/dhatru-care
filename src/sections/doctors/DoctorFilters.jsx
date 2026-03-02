@@ -2,10 +2,8 @@ import { useState, useEffect, lazy } from "react";
 import { useDebounce } from "../../hooks/useDebounce";
 import { FaSearch } from "react-icons/fa";
 
-// Dynamic imports for code splitting
 const Input = lazy(() => import("../../components/common/Input"));
-const Select = lazy(() => import("../../components/common/Select"));
-const Container = lazy(() => import("../../components/layout/Container"));
+const CustomSelect = lazy(() => import("../../components/common/CustomSelect"));
 
 const specialties = [
   { value: "", label: "All Specialties" },
@@ -30,69 +28,54 @@ export default function DoctorFilters({ onFilterChange }) {
 
   const debouncedSearch = useDebounce(search, 500);
 
+  /* STABLE EFFECT */
   useEffect(() => {
-    onFilterChange?.({
+    if (!onFilterChange) return;
+
+    onFilterChange({
       search: debouncedSearch,
       specialty,
       experience,
     });
-  }, [debouncedSearch, specialty, experience, onFilterChange]);
+  }, [debouncedSearch, specialty, experience]);
 
   return (
-    <div className="bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800 sticky top-0 z-40 shadow-sm">
-      <Container className="py-5">
-        <div className="flex flex-col md:flex-row gap-4 md:items-end">
-          {/* Search */}
-          <div className="flex-1">
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">
-              Search by Name or Keyword
-            </label>
-            <div className="relative">
-              <Input
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-                placeholder="Dr. Name, specialty, condition..."
-                className="pl-10"
-              />
-              <FaSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
-            </div>
-          </div>
+    <div className="w-full space-y-4">
+      <div>
+        <label className="block text-sm font-medium mb-1.5">
+          Search Doctor
+        </label>
 
-          {/* Specialty */}
-          <div className="md:w-64">
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">
-              Specialty
-            </label>
-            <Select
-              value={specialty}
-              onChange={(e) => setSpecialty(e.target.value)}
-            >
-              {specialties.map((opt) => (
-                <option key={opt.value} value={opt.value}>
-                  {opt.label}
-                </option>
-              ))}
-            </Select>
-          </div>
-
-          {/* Experience */}
-          <div className="md:w-48">
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">
-              Experience
-            </label>
-            <Select
-              value={experience}
-              onChange={(e) => setExperience(e.target.value)}
-            >
-              {experienceLevels.map((opt) => (
-                <option key={opt.value} value={opt.value}>
-                  {opt.label}
-                </option>
-              ))}
-            </Select>
-          </div>
+        <div className="relative">
+          <Input
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            placeholder="Dr. name, specialty, keyword..."
+            className="pl-10 w-full"
+          />
+          <FaSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
         </div>
-      </Container>
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+        <div>
+          <label className="block text-sm font-medium mb-1.5">Specialty</label>
+          <CustomSelect
+            value={specialty}
+            options={specialties}
+            onChange={setSpecialty}
+          />
+        </div>
+
+        <div>
+          <label className="block text-sm font-medium mb-1.5">Experience</label>
+          <CustomSelect
+            value={experience}
+            options={experienceLevels}
+            onChange={setExperience}
+          />
+        </div>
+      </div>
     </div>
   );
 }
