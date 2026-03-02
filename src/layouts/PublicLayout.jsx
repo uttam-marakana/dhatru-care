@@ -1,7 +1,10 @@
+import { lazy } from "react";
 import { Outlet } from "react-router-dom";
-import TopBar from "../components/layout/TopBar";
-import Header from "../components/layout/Header";
-import Footer from "../components/layout/Footer";
+
+// Dynamic imports for code splitting
+const TopBar = lazy(() => import("../components/layout/TopBar"));
+const Header = lazy(() => import("../components/layout/Header"));
+const Footer = lazy(() => import("../components/layout/Footer"));
 
 export default function PublicLayout() {
   return (

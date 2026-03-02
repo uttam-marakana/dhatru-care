@@ -1,4 +1,3 @@
-// src/routes/AdminRoute.jsx
 import { Navigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { onAuthStateChanged } from "firebase/auth";
