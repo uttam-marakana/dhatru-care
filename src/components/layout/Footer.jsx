@@ -12,8 +12,9 @@ import { Link } from "react-router-dom";
 
 // Dynamic imports for code splitting
 const Container = lazy(() => import("./Container"));
-const light_logo = lazy(() => import("../../assets/images/light_logo.png"));
-const dark_logo = lazy(() => import("../../assets/images/dark_logo.png"));
+
+import light_logo from "../../assets/images/light_logo.png";
+import dark_logo from "../../assets/images/dark_logo.png";
 
 export default function Footer() {
   return (
