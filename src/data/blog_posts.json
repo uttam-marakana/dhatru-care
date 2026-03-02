@@ -1,0 +1,122 @@
+[
+  {
+    "slug": "how-to-prevent-heart-disease",
+    "title": "How to Prevent Heart Disease Naturally",
+    "content": "## Heart Disease Prevention\nHeart disease can often be prevented with lifestyle changes. Focus on regular exercise, balanced nutrition, stress management, and routine health screenings.\n\n### Key Habits\n- Maintain healthy weight\n- Avoid smoking\n- Monitor blood pressure\n- Exercise 30 minutes daily",
+    "excerpt": "Learn practical lifestyle habits and medical strategies to reduce heart disease risk and improve long-term cardiovascular health.",
+    "author": "Dr. Rajesh Patel",
+    "date": "February 15, 2025",
+    "readTime": "8 min",
+    "imageUrl": "https://example.com/blog1.jpg",
+    "category": "Heart Health",
+    "tags": ["heart", "prevention", "cardiology"]
+  },
+  {
+    "slug": "early-signs-of-stroke-you-should-never-ignore",
+    "title": "Early Signs of Stroke You Should Never Ignore",
+    "content": "## Stroke Awareness\nRecognizing symptoms early can save lives. FAST: Face drooping, Arm weakness, Speech difficulty, Time to act.\n\nImmediate medical attention is critical.",
+    "excerpt": "Understand the early warning signs of stroke and why immediate action can significantly improve recovery outcomes.",
+    "author": "Dr. Kunal Singh",
+    "date": "March 2, 2025",
+    "readTime": "6 min",
+    "imageUrl": "https://example.com/blog2.jpg",
+    "category": "Neurology",
+    "tags": ["stroke", "brain", "emergency"]
+  },
+  {
+    "slug": "daily-skin-care-routine-for-healthy-skin",
+    "title": "Daily Skin Care Routine for Healthy Skin",
+    "content": "## Skin Care Basics\nCleanse, moisturize, and protect your skin daily. Sunscreen is essential even on cloudy days.\n\nChoose products according to skin type.",
+    "excerpt": "A dermatologist-approved daily skincare routine to maintain healthy, glowing skin and prevent common skin issues.",
+    "author": "Dr. Meera Shah",
+    "date": "April 10, 2025",
+    "readTime": "5 min",
+    "imageUrl": "https://example.com/blog3.jpg",
+    "category": "Dermatology",
+    "tags": ["skin", "routine", "dermatology"]
+  },
+  {
+    "slug": "joint-pain-causes-and-treatment-options",
+    "title": "Joint Pain: Causes and Treatment Options",
+    "content": "## Understanding Joint Pain\nJoint pain may result from arthritis, injury, or overuse. Early diagnosis helps prevent long-term damage.\n\nTreatment includes therapy, medication, and lifestyle changes.",
+    "excerpt": "Explore common causes of joint pain and modern treatment options to restore mobility and reduce discomfort.",
+    "author": "Dr. Vikram Joshi",
+    "date": "May 5, 2025",
+    "readTime": "7 min",
+    "imageUrl": "https://example.com/blog4.jpg",
+    "category": "Orthopedics",
+    "tags": ["joints", "arthritis", "orthopedics"]
+  },
+  {
+    "slug": "child-immunity-boosting-tips-for-parents",
+    "title": "Child Immunity Boosting Tips for Parents",
+    "content": "## Building Immunity in Children\nBalanced nutrition, adequate sleep, and vaccinations are key pillars of strong immunity.\n\nEncourage outdoor play and hydration.",
+    "excerpt": "Simple, science-backed tips parents can follow to strengthen their child’s immunity and overall health.",
+    "author": "Dr. Ananya Rao",
+    "date": "June 1, 2025",
+    "readTime": "6 min",
+    "imageUrl": "https://example.com/blog5.jpg",
+    "category": "Pediatrics",
+    "tags": ["children", "immunity", "parenting"]
+  },
+  {
+    "slug": "mental-health-and-stress-management-techniques",
+    "title": "Mental Health and Stress Management Techniques",
+    "content": "## Managing Stress\nChronic stress affects both mind and body. Practice mindfulness, regular exercise, and structured routines.\n\nSeek professional support when needed.",
+    "excerpt": "Learn effective stress management strategies that improve emotional resilience and mental well-being.",
+    "author": "Dr. Sneha Kulkarni",
+    "date": "July 12, 2025",
+    "readTime": "9 min",
+    "imageUrl": "https://example.com/blog6.jpg",
+    "category": "Mental Wellness",
+    "tags": ["mental-health", "stress", "wellness"]
+  },
+  {
+    "slug": "kidney-stone-prevention-guide",
+    "title": "Kidney Stone Prevention Guide",
+    "content": "## Preventing Kidney Stones\nHydration is the most effective prevention strategy. Reduce salt intake and follow a balanced diet.\n\nRegular checkups help early detection.",
+    "excerpt": "A practical guide to preventing kidney stones through hydration, diet, and early medical screening.",
+    "author": "Dr. Rohit Verma",
+    "date": "August 4, 2025",
+    "readTime": "5 min",
+    "imageUrl": "https://example.com/blog7.jpg",
+    "category": "Urology",
+    "tags": ["kidney", "urology", "prevention"]
+  },
+  {
+    "slug": "eye-care-tips-for-digital-screen-users",
+    "title": "Eye Care Tips for Digital Screen Users",
+    "content": "## Digital Eye Strain\nFollow the 20-20-20 rule: every 20 minutes, look at something 20 feet away for 20 seconds.\n\nAdjust screen brightness and maintain posture.",
+    "excerpt": "Reduce digital eye strain with practical daily habits designed for professionals and frequent screen users.",
+    "author": "Dr. Nisha Kapoor",
+    "date": "September 9, 2025",
+    "readTime": "4 min",
+    "imageUrl": "https://example.com/blog8.jpg",
+    "category": "Eye Care",
+    "tags": ["eyes", "digital", "vision"]
+  },
+  {
+    "slug": "womens-health-checkups-you-should-not-skip",
+    "title": "Women’s Health Checkups You Should Not Skip",
+    "content": "## Preventive Care for Women\nRegular screenings help detect issues early. Important checks include breast exams, thyroid tests, and cervical screening.",
+    "excerpt": "Essential preventive health screenings every woman should consider for long-term wellness and early detection.",
+    "author": "Dr. Priya Nair",
+    "date": "October 3, 2025",
+    "readTime": "7 min",
+    "imageUrl": "https://example.com/blog9.jpg",
+    "category": "Women Health",
+    "tags": ["women", "health", "screening"]
+  },
+  {
+    "slug": "benefits-of-annual-health-checkups",
+    "title": "Benefits of Annual Health Checkups",
+    "content": "## Why Annual Checkups Matter\nPreventive health exams help identify hidden risks before symptoms appear.\n\nEarly intervention leads to better outcomes and lower treatment costs.",
+    "excerpt": "Discover why yearly health checkups are critical for prevention, early diagnosis, and long-term health management.",
+    "author": "Dr. Michael Carter",
+    "date": "November 20, 2025",
+    "readTime": "6 min",
+    "imageUrl": "https://example.com/blog10.jpg",
+    "category": "Wellness",
+    "tags": ["health-checkup", "prevention", "wellness"]
+  }
+]

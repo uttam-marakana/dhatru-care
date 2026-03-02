@@ -1,0 +1,162 @@
+[
+  {
+    "slug": "cardiology",
+    "name": "Cardiology",
+    "icon": "❤️",
+    "description":
+      "Diagnosis and treatment of heart and vascular diseases with preventive and interventional care.",
+    "services": [
+      "ECG",
+      "Echocardiography",
+      "Angioplasty",
+      "Stress Test",
+      "Heart Failure Management"
+    ],
+    "highlights": [
+      "24×7 Cath Lab",
+      "Advanced Cardiac Monitoring",
+      "Emergency Heart Care"
+    ],
+    "doctorsCount": 8,
+    "bgGradient": "from-red-50 to-rose-50 dark:from-red-950/30"
+  },
+  {
+    "slug": "neurology",
+    "name": "Neurology",
+    "icon": "🧠",
+    "description":
+      "Comprehensive care for brain, spine, and nervous system disorders including stroke and epilepsy.",
+    "services": [
+      "EEG",
+      "Stroke Management",
+      "Migraine Clinic",
+      "Neuro Rehabilitation",
+      "EMG"
+    ],
+    "highlights": ["Stroke ICU", "Neuro Imaging Support", "Epilepsy Program"],
+    "doctorsCount": 6,
+    "bgGradient": "from-indigo-50 to-violet-50 dark:from-indigo-950/30"
+  },
+  {
+    "slug": "orthopedics",
+    "name": "Orthopedics",
+    "icon": "🦴",
+    "description":
+      "Bone, joint, and musculoskeletal care including trauma and sports injury management.",
+    "services": [
+      "Joint Replacement",
+      "Arthroscopy",
+      "Fracture Care",
+      "Spine Surgery",
+      "Sports Injury Rehab"
+    ],
+    "highlights": [
+      "Robotic Joint Surgery",
+      "Sports Medicine Unit",
+      "Fast Recovery Programs"
+    ],
+    "doctorsCount": 7,
+    "bgGradient": "from-amber-50 to-yellow-50 dark:from-amber-950/30"
+  },
+  {
+    "slug": "dermatology",
+    "name": "Dermatology",
+    "icon": "✨",
+    "description":
+      "Medical and cosmetic skin care treatments for chronic and acute dermatological conditions.",
+    "services": [
+      "Acne Treatment",
+      "Laser Therapy",
+      "Skin Allergy Care",
+      "Hair Loss Treatment",
+      "Dermatosurgery"
+    ],
+    "highlights": [
+      "Advanced Laser Unit",
+      "Cosmetic Dermatology",
+      "Skin Cancer Screening"
+    ],
+    "doctorsCount": 5,
+    "bgGradient": "from-pink-50 to-rose-50 dark:from-pink-950/30"
+  },
+  {
+    "slug": "pediatrics",
+    "name": "Pediatrics",
+    "icon": "🧒",
+    "description":
+      "Healthcare services dedicated to infants, children, and adolescents with preventive focus.",
+    "services": [
+      "Child Vaccination",
+      "Growth Monitoring",
+      "Neonatal Care",
+      "Pediatric Emergency",
+      "Nutrition Guidance"
+    ],
+    "highlights": [
+      "Child-Friendly ICU",
+      "Vaccination Center",
+      "Developmental Screening"
+    ],
+    "doctorsCount": 6,
+    "bgGradient": "from-sky-50 to-cyan-50 dark:from-sky-950/30"
+  },
+  {
+    "slug": "gynecology",
+    "name": "Gynecology",
+    "icon": "🌸",
+    "description":
+      "Comprehensive women’s health services including reproductive care and maternity support.",
+    "services": [
+      "Pregnancy Care",
+      "Fertility Consultation",
+      "Laparoscopic Surgery",
+      "Menstrual Disorder Treatment",
+      "Menopause Care"
+    ],
+    "highlights": [
+      "High-Risk Pregnancy Unit",
+      "Painless Delivery",
+      "Women Wellness Programs"
+    ],
+    "doctorsCount": 7,
+    "bgGradient": "from-fuchsia-50 to-pink-50 dark:from-fuchsia-950/30"
+  },
+  {
+    "slug": "urology",
+    "name": "Urology",
+    "icon": "💧",
+    "description":
+      "Diagnosis and treatment of urinary tract and male reproductive system disorders.",
+    "services": [
+      "Kidney Stone Treatment",
+      "Prostate Care",
+      "Endourology",
+      "Urinary Infection Management",
+      "Robotic Urology"
+    ],
+    "highlights": [
+      "Minimally Invasive Surgery",
+      "Laser Stone Removal",
+      "Advanced Diagnostics"
+    ],
+    "doctorsCount": 4,
+    "bgGradient": "from-blue-50 to-cyan-50 dark:from-blue-950/30"
+  },
+  {
+    "slug": "ophthalmology",
+    "name": "Ophthalmology",
+    "icon": "👁️",
+    "description":
+      "Eye care services including vision correction, cataract surgery, and retinal treatment.",
+    "services": [
+      "Cataract Surgery",
+      "Retina Care",
+      "Glaucoma Management",
+      "LASIK Evaluation",
+      "Vision Testing"
+    ],
+    "highlights": ["Modern Eye OT", "Retina Imaging", "Day-Care Eye Surgery"],
+    "doctorsCount": 5,
+    "bgGradient": "from-emerald-50 to-green-50 dark:from-emerald-950/30"
+  }
+]
