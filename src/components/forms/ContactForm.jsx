@@ -3,7 +3,6 @@ import * as Yup from "yup";
 import { useState, lazy } from "react";
 import { createContactMessage } from "../../api/contactApi";
 
-// Dynamic imports for code splitting
 const Input = lazy(() => import("../common/Input"));
 const Textarea = lazy(() => import("../common/Textarea"));
 const Button = lazy(() => import("../common/Button"));
@@ -13,9 +12,9 @@ const validationSchema = Yup.object({
   email: Yup.string().email("Invalid email").required("Email is required"),
   subject: Yup.string().required("Subject is required"),
   message: Yup.string()
-    .min(10, "Message is too short")
-    .max(1000, "Message is too long")
-    .required("Message is required"),
+    .min(10, "Message too short")
+    .max(1000, "Message too long")
+    .required("Message required"),
 });
 
 export default function ContactForm() {
@@ -29,14 +28,18 @@ export default function ContactForm() {
     setStatus({ loading: true, success: false, error: "" });
 
     try {
+      const cleaned = Object.fromEntries(
+        Object.entries(values).map(([k, v]) => [k, v.trim()]),
+      );
+
       await createContactMessage({
-        ...values,
-        source: "website",
+        ...cleaned,
+        source: "contact-page",
       });
 
       setStatus({ loading: false, success: true, error: "" });
       resetForm();
-    } catch {
+    } catch (err) {
       setStatus({
         loading: false,
         success: false,
@@ -64,20 +67,30 @@ export default function ContactForm() {
             <Field
               name="message"
               as={Textarea}
-              placeholder="Message"
               rows={6}
+              placeholder="Message"
             />
 
             <Button
               type="submit"
               disabled={isSubmitting || status.loading}
-              loading={isSubmitting || status.loading}
+              loading={status.loading}
             >
               {status.loading ? "Sending..." : "Send Message"}
             </Button>
           </Form>
         )}
       </Formik>
+
+      {status.success && (
+        <p className="mt-4 text-green-600 text-center">
+          Message sent successfully!
+        </p>
+      )}
+
+      {status.error && (
+        <p className="mt-4 text-red-600 text-center">{status.error}</p>
+      )}
     </div>
   );
 }
