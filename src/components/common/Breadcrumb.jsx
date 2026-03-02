@@ -5,22 +5,19 @@ export default function Breadcrumb({ items = [] }) {
   if (!items.length) return null;
 
   return (
-    <nav
-      aria-label="Breadcrumb"
-      className="w-full border-b border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900"
-    >
+    <nav className="border-b bg-white dark:bg-gray-900 border-gray-200 dark:border-gray-800">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <ol className="flex items-center flex-wrap gap-2 py-3 text-sm">
-          {items.map((item, index) => {
-            const isLast = index === items.length - 1;
+        <ol className="flex flex-wrap items-center gap-2 py-3 text-sm">
+          {items.map((item, i) => {
+            const last = i === items.length - 1;
 
             return (
-              <li key={index} className="flex items-center gap-2">
-                {!isLast ? (
+              <li key={i} className="flex items-center gap-2">
+                {!last ? (
                   <>
                     <Link
                       to={item.path}
-                      className="text-gray-600 dark:text-gray-400 hover:text-primary transition-colors"
+                      className="text-gray-600 hover:text-primary"
                     >
                       {item.label}
                     </Link>

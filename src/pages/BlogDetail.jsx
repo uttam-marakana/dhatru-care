@@ -1,71 +1,41 @@
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import { FaArrowLeft, FaCalendarAlt, FaUser } from "react-icons/fa";
-import { Link } from "react-router-dom";
 import { useState, useEffect, lazy } from "react";
-import { getBlogBySlug } from "../api/blogsApi"; 
+import { getBlogBySlug } from "../api/blogsApi";
 
-// Dynamic imports for code splitting
 const Container = lazy(() => import("../components/layout/Container"));
 const AppointmentCTA = lazy(() => import("../sections/shared/AppointmentCTA"));
-
+const Breadcrumb = lazy(() => import("../components/common/Breadcrumb"));
 
 export default function BlogDetail() {
-  const { slug } = useParams(); // or id if you use id
+  const { slug } = useParams();
+
   const [post, setPost] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
 
   useEffect(() => {
-    const fetchPost = async () => {
-      setLoading(true);
-      setError(null);
+    let mounted = true;
 
-      try {
-        const data = await getBlogBySlug(slug); // Fetch from Firebase using slug
-        if (data) {
-          setPost(data);
-        } else {
-          setError("Post not found");
-        }
-      } catch (err) {
-        setError("Failed to load blog post");
-        console.error(err);
-      } finally {
+    const fetchPost = async () => {
+      const data = await getBlogBySlug(slug);
+      if (mounted) {
+        setPost(data);
         setLoading(false);
       }
     };
 
     fetchPost();
-  }, [id]);
 
-  if (loading) {
+    return () => (mounted = false);
+  }, [slug]);
+
+  if (loading)
     return (
-      <div className="min-h-screen bg-gray-50 dark:bg-gray-950 animate-pulse">
-        <div className="bg-gray-200 dark:bg-gray-800 h-64 md:h-96" />
-        <Container className="py-12 md:py-20">
-          <div className="max-w-4xl mx-auto space-y-8">
-            <div className="h-12 w-3/4 bg-gray-300 dark:bg-gray-700 rounded" />
-            <div className="flex gap-6">
-              <div className="h-6 w-32 bg-gray-300 dark:bg-gray-700 rounded" />
-              <div className="h-6 w-40 bg-gray-300 dark:bg-gray-700 rounded" />
-            </div>
-            <div className="space-y-4">
-              <div className="h-6 w-full bg-gray-300 dark:bg-gray-700 rounded" />
-              <div className="h-6 w-full bg-gray-300 dark:bg-gray-700 rounded" />
-              <div className="h-6 w-5/6 bg-gray-300 dark:bg-gray-700 rounded" />
-            </div>
-          </div>
-        </Container>
+      <div className="min-h-screen flex items-center justify-center">
+        Loading...
       </div>
     );
-  }
 
-  if (error)
-    return (
-      <div className="min-h-screen flex items-center justify-center text-red-600">
-        {error}
-      </div>
-    );
   if (!post)
     return (
       <div className="min-h-screen flex items-center justify-center">
@@ -75,13 +45,17 @@ export default function BlogDetail() {
 
   return (
     <article className="min-h-screen bg-gray-50 dark:bg-gray-950">
-      <div className="bg-gray-900 h-64 md:h-96 relative">
+      <Breadcrumb
+        items={[
+          { label: "Home", path: "/" },
+          { label: "Blog", path: "/blog" },
+          { label: post.title },
+        ]}
+      />
+
+      <div className="bg-gray-900 h-64 md:h-96">
         <img
-          src={
-            post.image ||
-            post.imagePlaceholder ||
-            "https://via.placeholder.com/1200x600"
-          }
+          src={post.image || "https://via.placeholder.com/1200x600"}
           alt={post.title}
           className="w-full h-full object-cover opacity-80"
         />
@@ -90,34 +64,26 @@ export default function BlogDetail() {
       <Container className="py-12 md:py-20 max-w-4xl mx-auto">
         <Link
           to="/blog"
-          className="inline-flex items-center gap-2 text-primary hover:underline mb-8"
+          className="inline-flex items-center gap-2 text-primary mb-8"
         >
           <FaArrowLeft /> Back to Blog
         </Link>
 
-        <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6 text-gray-900 dark:text-white">
-          {post.title}
-        </h1>
+        <h1 className="text-4xl font-bold mb-6">{post.title}</h1>
 
-        <div className="flex flex-wrap items-center gap-6 text-gray-600 dark:text-gray-400 mb-10">
-          <div className="flex items-center gap-2">
-            <FaCalendarAlt />
-            <time>{post.date}</time>
-          </div>
-          <div className="flex items-center gap-2">
-            <FaUser />
-            <span>{post.author}</span>
-          </div>
-          <span>{post.readTime} read</span>
+        <div className="flex gap-6 mb-10 text-gray-600 dark:text-gray-400">
+          <span className="flex items-center gap-2">
+            <FaCalendarAlt /> {post.date}
+          </span>
+          <span className="flex items-center gap-2">
+            <FaUser /> {post.author}
+          </span>
         </div>
 
-        <div className="prose dark:prose-invert prose-lg max-w-none">
-          <p>{post.content || "Full blog content goes here..."}</p>
-          {/* Render rich text if you store HTML/Markdown in Firebase */}
-        </div>
+        <div className="prose dark:prose-invert max-w-none">{post.content}</div>
       </Container>
 
-      <AppointmentCTA variant="large" className="my-12 md:my-16 lg:my-20" />
+      <AppointmentCTA variant="large" className="my-16" />
     </article>
   );
 }
