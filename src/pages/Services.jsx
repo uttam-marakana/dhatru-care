@@ -1,5 +1,8 @@
-import PageHero from "../sections/shared/PageHero";
-import AppointmentCTA from "../sections/shared/AppointmentCTA";
+import { lazy } from "react";
+
+// Dynamic imports for code splitting
+const PageHero = lazy(() => import("../sections/shared/PageHero"));
+const AppointmentCTA = lazy(() => import("../sections/shared/AppointmentCTA"));
 
 export default function Services() {
   return (

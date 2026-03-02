@@ -1,8 +1,11 @@
 import { useSearchParams } from "react-router-dom";
-import { useEffect, useState } from "react";
-import Container from "../components/layout/Container";
+import { lazy, useEffect, useState } from "react";
 import { FaSearch } from "react-icons/fa";
-import { getDoctors } from "../api/doctorsApi"; // example – add more APIs as needed
+import { getDoctors } from "../api/doctorsApi"; // add more APIs as needed
+
+// Dynamic imports for code splitting
+const Container = lazy(() => import("../components/layout/Container"));
+// import Container from "../components/layout/Container";
 
 export default function Search() {
   const [searchParams] = useSearchParams();

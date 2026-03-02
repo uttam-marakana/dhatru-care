@@ -1,5 +1,6 @@
 import { lazy } from "react";
 
+// Dynamic imports for code splitting
 const ContactForm = lazy(() => import("../components/forms/ContactForm"));
 const GoogleMapEmbed = lazy(() => import("../sections/shared/GoogleMapEmbed"));
 const PageHero = lazy(() => import("../sections/shared/PageHero"));

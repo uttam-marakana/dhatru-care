@@ -1,5 +1,8 @@
-import ThemeToggle from "../components/common/ThemeToggle";
+import { lazy } from "react";
 import { FaCog } from "react-icons/fa";
+
+// Dynamic imports for code splitting
+const ThemeToggle = lazy(() => import("../components/common/ThemeToggle"));
 
 export default function Settings() {
   return (

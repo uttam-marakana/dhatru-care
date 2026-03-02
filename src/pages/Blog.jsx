@@ -1,5 +1,6 @@
 import { useState, useEffect, lazy } from "react";
 
+// Dynamic imports for code splitting
 const PageHero = lazy(() => import("../sections/shared/PageHero"));
 const BlogFilters = lazy(() => import("../sections/blog/BlogFilters"));
 const LatestBlog = lazy(() => import("../sections/home/LatestBlog"));

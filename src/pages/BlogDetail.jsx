@@ -3,6 +3,8 @@ import { FaArrowLeft, FaCalendarAlt, FaUser } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { useState, useEffect, lazy } from "react";
 import { getBlogBySlug } from "../api/blogsApi"; 
+
+// Dynamic imports for code splitting
 const Container = lazy(() => import("../components/layout/Container"));
 const AppointmentCTA = lazy(() => import("../sections/shared/AppointmentCTA"));
 
