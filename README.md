@@ -1,9 +1,9 @@
 # 🏥 Dhatru Care — Hospital Management Platform
 
-### Built by Uttam Marakana (Shadow)  
+### Built by **Uttam Marakana (Shadow)**  
 React & Shopify Developer • System Builder • Product Architect  
 
-A modern hospital website + admin dashboard built with React + Firebase, designed for scalable healthcare platforms with secure role-based access, responsive UI, and production-level architecture.
+A modern hospital website + admin dashboard built with **React + Firebase**, designed for scalable healthcare platforms with secure role-based access, responsive UI, and production-level architecture.
 
 
 # 🚀 Project Overview
@@ -42,6 +42,7 @@ Dhatru Care is a full frontend system that includes:
 
 # 📁 Folder Structure
 
+```bash
 dhatru-care/
 │
 ├── dist/                         # Production build output (auto-generated)
@@ -162,16 +163,17 @@ dhatru-care/
 ├── package.json                  # Project dependencies & scripts
 ├── vite.config.js                # Vite configuration
 └── README.md
-
+````
 
 ---
 
 # 🧭 Layout Architecture
 
+```text
 PublicLayout  → Website UI
 AuthLayout    → Login / Signup
 AdminLayout   → Admin Dashboard
-
+```
 
 Each layout isolates UI logic for scalability.
 
@@ -179,13 +181,14 @@ Each layout isolates UI logic for scalability.
 
 # 🔐 Authentication & Roles
 
-Authentication uses Firebase Auth.
+Authentication uses **Firebase Auth**.
 
 Roles stored in Firestore:
 
+```bash
 users/{uid}
 role: "user" | "admin"
-
+```
 
 ### Access Control
 
@@ -227,10 +230,16 @@ Supports:
 # 🧪 Development
 
 Install dependencies:
-  yarn install
+
+```bash
+yarn install
+```
 
 Run locally:
-  yarn run dev
+
+```bash
+yarn run dev
+```
 
 ---
 
@@ -245,7 +254,7 @@ Run locally:
 
 # 👨‍💻 About Developer
 
-Uttam Marakana (Shadow)
+**Uttam Marakana (Shadow)**
 Builder focused on scalable systems, eCommerce technology, and product-driven engineering.
 
 * ReactJS & Shopify Development
@@ -268,4 +277,4 @@ Builder focused on scalable systems, eCommerce technology, and product-driven en
 
 Private / Internal Project – All rights reserved.
 
-
+```
