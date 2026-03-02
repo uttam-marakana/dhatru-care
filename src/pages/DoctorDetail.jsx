@@ -15,6 +15,8 @@ const Container = lazy(() => import("../components/layout/Container"));
 const Button = lazy(() => import("../components/common/Button"));
 const Card = lazy(() => import("../components/common/Card"));
 const AppointmentCTA = lazy(() => import("../sections/shared/AppointmentCTA"));
+const Breadcrumb = lazy(() => import("../components/common/Breadcrumb"));
+
 
 export default function DoctorDetail() {
   const { id } = useParams();
@@ -79,6 +81,13 @@ export default function DoctorDetail() {
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-950">
+      <Breadcrumb
+        items={[
+          { label: "Home", path: "/" },
+          { label: "Doctors", path: "/doctors" },
+          { label: doctor?.name || "Profile" },
+        ]}
+      />
       <div className="py-12 md:py-20 bg-linear-to-br from-primary/10 to-secondary/10">
         <Container>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-10">
