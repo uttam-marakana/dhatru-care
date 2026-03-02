@@ -1,6 +1,9 @@
-import HealthPackages from "../sections/home/HealthPackages"; // reuse or make new full version
-import PageHero from "../sections/shared/PageHero";
-import AppointmentCTA from "../sections/shared/AppointmentCTA";
+import { lazy } from "react";
+import LazyWrapper from "../components/common/LazyWrapper";
+
+const HealthPackages = lazy(() => import("../sections/home/HealthPackages"));
+const PageHero = lazy(() => import("../sections/shared/PageHero"));
+const AppointmentCTA = lazy(() => import("../sections/shared/AppointmentCTA"));
 
 export default function Packages() {
   return (
@@ -11,7 +14,9 @@ export default function Packages() {
       />
 
       <div className="py-16 md:py-24">
-        <HealthPackages fullWidth={true} />
+        <LazyWrapper>
+          <HealthPackages fullWidth={true} />
+        </LazyWrapper>
       </div>
 
       <AppointmentCTA />

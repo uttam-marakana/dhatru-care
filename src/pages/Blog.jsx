@@ -1,8 +1,9 @@
-import { useState, useEffect } from "react";
-import PageHero from "../sections/shared/PageHero";
-import BlogFilters from "../sections/blog/BlogFilters";
-import LatestBlog from "../sections/home/LatestBlog"; // assume this component uses blogApi
-import AppointmentCTA from "../sections/shared/AppointmentCTA";
+import { useState, useEffect, lazy } from "react";
+
+const PageHero = lazy(() => import("../sections/shared/PageHero"));
+const BlogFilters = lazy(() => import("../sections/blog/BlogFilters"));
+const LatestBlog = lazy(() => import("../sections/home/LatestBlog"));
+const AppointmentCTA = lazy(() => import("../sections/shared/AppointmentCTA"));
 
 export default function Blog() {
   const [filters, setFilters] = useState({});

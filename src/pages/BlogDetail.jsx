@@ -1,21 +1,11 @@
 import { useParams } from "react-router-dom";
-import Container from "../components/layout/Container";
 import { FaArrowLeft, FaCalendarAlt, FaUser } from "react-icons/fa";
 import { Link } from "react-router-dom";
-import { useState, useEffect } from "react";
-import { getBlogBySlug } from "../api/blogsApi"; // ← Firebase API
-import AppointmentCTA from "../sections/shared/AppointmentCTA";
+import { useState, useEffect, lazy } from "react";
+import { getBlogBySlug } from "../api/blogsApi"; 
+const Container = lazy(() => import("../components/layout/Container"));
+const AppointmentCTA = lazy(() => import("../sections/shared/AppointmentCTA"));
 
-// Fallback demo data
-const demoPost = {
-  id: "1",
-  title: "How to Prevent Heart Disease in Your 40s",
-  date: "February 15, 2025",
-  author: "Dr. Rajesh Patel",
-  readTime: "8 min",
-  content: "Detailed blog post content here...",
-  imagePlaceholder: "https://via.placeholder.com/1200x600?text=Heart+Health",
-};
 
 export default function BlogDetail() {
   const { slug } = useParams(); // or id if you use id

@@ -1,7 +1,8 @@
-import { Suspense, lazy } from "react";
+import { lazy } from "react";
+import LazyWrapper from "../components/common/LazyWrapper";
 import { useInView } from "../hooks/useInView";
 
-// Eagerly loaded 
+// Eagerly loaded
 import Hero from "../sections/home/Hero";
 import QuickActions from "../sections/home/QuickActions";
 import AboutHospital from "../sections/home/AboutHospital";
@@ -18,8 +19,8 @@ const LatestBlog = lazy(() => import("../sections/home/LatestBlog"));
 const ContactMap = lazy(() => import("../sections/home/ContactMap"));
 
 // Shared
-import AppointmentCTA from "../sections/shared/AppointmentCTA";
-import Newsletter from "../sections/shared/Newsletter";
+const AppointmentCTA = lazy(() => import("../sections/shared/AppointmentCTA"));
+const Newsletter = lazy(() => import("../sections/shared/Newsletter"));
 
 function SectionWrapper({ children }) {
   const [ref, isInView] = useInView({ threshold: 0.15 });
@@ -53,13 +54,7 @@ export default function Home() {
       </SectionWrapper>
 
       {/* Lazy + animated sections below fold */}
-      <Suspense
-        fallback={
-          <div className="h-96 flex items-center justify-center text-gray-500">
-            Loading...
-          </div>
-        }
-      >
+      <LazyWrapper>
         <SectionWrapper>
           <Facilities />
         </SectionWrapper>
@@ -104,7 +99,7 @@ export default function Home() {
         <SectionWrapper>
           <Newsletter />
         </SectionWrapper>
-      </Suspense>
+      </LazyWrapper>
 
       {/* Optional: Back to top button */}
       <button

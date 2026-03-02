@@ -1,6 +1,8 @@
-import ContactForm from "../components/forms/ContactForm";
-import GoogleMapEmbed from "../sections/shared/GoogleMapEmbed";
-import PageHero from "../sections/shared/PageHero";
+import { lazy } from "react";
+
+const ContactForm = lazy(() => import("../components/forms/ContactForm"));
+const GoogleMapEmbed = lazy(() => import("../sections/shared/GoogleMapEmbed"));
+const PageHero = lazy(() => import("../sections/shared/PageHero"));
 
 export default function Contact() {
   return (
