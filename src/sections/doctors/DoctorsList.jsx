@@ -1,109 +1,52 @@
-import { lazy, useEffect, useState } from "react";
+import { lazy, useState, useMemo } from "react";
 import { Link } from "react-router-dom";
-import { FaStethoscope, FaStar } from "react-icons/fa";
+import { FaStar } from "react-icons/fa";
 
-// Dynamic imports for code splitting
 const Container = lazy(() => import("../../components/layout/Container"));
 const Card = lazy(() => import("../../components/common/Card"));
 const Button = lazy(() => import("../../components/common/Button"));
 
-// Static demo data (later replace with real API/Redux/Firestore)
-const demoDoctors = [
-  {
-    id: 1,
-    name: "Dr. Rajesh Patel",
-    specialty: "Cardiologist",
-    experience: "18 years",
-    rating: 4.9,
-    reviews: 124,
-    imagePlaceholder: "❤️",
-    shortBio: "Expert in interventional cardiology & heart failure management",
-  },
-  // ... (add more entries or load from API)
-  // For demo we repeat a few
-  ...Array(12)
-    .fill(0)
-    .map((_, i) => ({
-      id: i + 5,
-      name: `Dr. Example ${i + 1}`,
-      specialty: "General Medicine",
-      experience: "10 years",
-      rating: 4.7,
-      reviews: 85,
-      imagePlaceholder: "🩺",
-      shortBio: "Experienced in preventive care and chronic disease management",
-    })),
-];
-
 const ITEMS_PER_PAGE = 12;
 
-export default function DoctorsList({ filters = {}, isLoading = false }) {
-  const [filteredDoctors, setFilteredDoctors] = useState(demoDoctors);
+export default function DoctorsList({
+  doctors = [],
+  loading = false,
+  error = null,
+}) {
   const [currentPage, setCurrentPage] = useState(1);
 
-  // Client-side filtering
-  useEffect(() => {
-    let result = [...demoDoctors];
+  /* ===============================
+     PAGINATION
+  ================================= */
+  const totalPages = Math.ceil(doctors.length / ITEMS_PER_PAGE);
 
-    // Search
-    if (filters.search?.trim()) {
-      const term = filters.search.toLowerCase().trim();
-      result = result.filter(
-        (d) =>
-          d.name.toLowerCase().includes(term) ||
-          d.specialty.toLowerCase().includes(term) ||
-          d.shortBio.toLowerCase().includes(term),
-      );
-    }
+  const paginatedDoctors = useMemo(() => {
+    const start = (currentPage - 1) * ITEMS_PER_PAGE;
+    return doctors.slice(start, start + ITEMS_PER_PAGE);
+  }, [doctors, currentPage]);
 
-    // Specialty
-    if (filters.specialty) {
-      result = result.filter(
-        (d) => d.specialty.toLowerCase() === filters.specialty.toLowerCase(),
-      );
-    }
+  /* Reset page if doctors change */
+  useMemo(() => {
+    setCurrentPage(1);
+  }, [doctors]);
 
-    // Experience
-    if (filters.experience) {
-      const minYears = parseInt(filters.experience, 10);
-      if (!isNaN(minYears)) {
-        result = result.filter((d) => {
-          const years = parseInt(d.experience, 10);
-          return !isNaN(years) && years >= minYears;
-        });
-      }
-    }
-
-    setFilteredDoctors(result);
-    setCurrentPage(1); // Reset to first page on filter change
-  }, [filters]);
-
-  const totalPages = Math.ceil(filteredDoctors.length / ITEMS_PER_PAGE);
-  const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
-  const paginatedDoctors = filteredDoctors.slice(
-    startIndex,
-    startIndex + ITEMS_PER_PAGE,
-  );
-
-  // Loading state
-  if (isLoading) {
+  /* ===============================
+     LOADING STATE
+  ================================= */
+  if (loading) {
     return (
-      <Container className="py-12 md:py-20">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8">
+      <Container className="py-12">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {Array.from({ length: 8 }).map((_, i) => (
             <div
               key={i}
-              className="animate-pulse bg-white dark:bg-gray-900 rounded-xl overflow-hidden border border-gray-200 dark:border-gray-800 shadow-sm"
+              className="animate-pulse bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-800 overflow-hidden"
             >
               <div className="aspect-square bg-gray-200 dark:bg-gray-800" />
-              <div className="p-6 space-y-4">
-                <div className="h-7 w-3/4 bg-gray-200 dark:bg-gray-700 rounded" />
-                <div className="h-5 w-1/2 bg-gray-200 dark:bg-gray-700 rounded" />
-                <div className="flex gap-4">
-                  <div className="h-5 w-16 bg-gray-200 dark:bg-gray-700 rounded" />
-                  <div className="h-5 w-20 bg-gray-200 dark:bg-gray-700 rounded" />
-                </div>
-                <div className="h-10 w-full bg-gray-200 dark:bg-gray-700 rounded" />
+              <div className="p-5 space-y-3">
+                <div className="h-5 bg-gray-200 dark:bg-gray-700 rounded" />
+                <div className="h-4 w-2/3 bg-gray-200 dark:bg-gray-700 rounded" />
+                <div className="h-4 w-1/2 bg-gray-200 dark:bg-gray-700 rounded" />
               </div>
             </div>
           ))}
@@ -112,71 +55,83 @@ export default function DoctorsList({ filters = {}, isLoading = false }) {
     );
   }
 
-  // No results state
-  if (filteredDoctors.length === 0) {
+  /* ===============================
+     ERROR STATE
+  ================================= */
+  if (error) {
     return (
-      <Container className="py-20 md:py-32">
-        <div className="text-center max-w-lg mx-auto">
-          <h3 className="text-2xl md:text-3xl font-semibold mb-4 text-gray-900 dark:text-white">
-            No Doctors Found
-          </h3>
-          <p className="text-gray-600 dark:text-gray-400 mb-8 text-lg">
-            We couldn't find any doctors matching your current filters. Try
-            adjusting your search criteria or clear all filters.
-          </p>
-          <Button
-            variant="primary"
-            size="lg"
-            onClick={() => window.location.reload()} // simple reset for demo
-          >
-            Reset Filters
-          </Button>
-        </div>
+      <Container className="py-20 text-center">
+        <p className="text-red-600 text-lg">{error}</p>
       </Container>
     );
   }
 
-  // Normal results + pagination
+  /* ===============================
+     EMPTY STATE
+  ================================= */
+  if (doctors.length === 0) {
+    return (
+      <Container className="py-20 text-center">
+        <h3 className="text-2xl font-semibold mb-3">No Doctors Found</h3>
+        <p className="text-gray-600 dark:text-gray-400">
+          Try adjusting your filters.
+        </p>
+      </Container>
+    );
+  }
+
+  /* ===============================
+     MAIN UI
+  ================================= */
   return (
-    <Container className="py-12 md:py-20">
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8">
+    <Container className="py-12">
+      {/* GRID */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
         {paginatedDoctors.map((doctor) => (
           <Link
             key={doctor.id}
             to={`/doctors/${doctor.id}`}
-            className="block group h-full focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 rounded-xl"
-            aria-label={`View profile of ${doctor.name}`}
+            className="block group h-full"
           >
-            <Card hover className="h-full overflow-hidden flex flex-col">
-              <div className="aspect-square bg-gray-200 dark:bg-gray-800 flex items-center justify-center text-8xl md:text-9xl">
-                {doctor.imagePlaceholder}
+            <Card hover className="h-full flex flex-col overflow-hidden">
+              {/* IMAGE */}
+              <div className="aspect-square bg-gray-100 dark:bg-gray-800 flex items-center justify-center">
+                {doctor.imageUrl ? (
+                  <img
+                    src={doctor.imageUrl}
+                    alt={doctor.name}
+                    className="w-full h-full object-cover"
+                  />
+                ) : (
+                  <span className="text-7xl">🩺</span>
+                )}
               </div>
 
-              <div className="p-5 md:p-6 flex flex-col grow">
-                <h3 className="text-xl font-bold mb-1 group-hover:text-primary transition-colors line-clamp-1">
+              {/* CONTENT */}
+              <div className="p-5 flex flex-col grow">
+                <h3 className="text-lg font-bold line-clamp-2 group-hover:text-primary transition">
                   {doctor.name}
                 </h3>
-                <p className="text-primary font-medium mb-2">
+
+                <p className="text-primary font-medium mt-1">
                   {doctor.specialty}
                 </p>
 
-                <div className="flex items-center gap-4 text-sm text-gray-600 dark:text-gray-400 mb-4">
+                <div className="flex items-center gap-3 text-sm text-gray-600 dark:text-gray-400 mt-2">
                   <span>{doctor.experience}</span>
-                  <span className="hidden sm:inline">•</span>
                   <span className="flex items-center gap-1">
                     <FaStar className="text-yellow-500" />
-                    {doctor.rating} ({doctor.reviews})
+                    {doctor.rating || 4.8}
                   </span>
                 </div>
 
-                <p className="text-gray-600 dark:text-gray-400 text-sm mb-6 line-clamp-2 grow">
-                  {doctor.shortBio}
+                <p className="text-sm text-gray-600 dark:text-gray-400 mt-3 line-clamp-2 grow">
+                  {doctor.bio || "Experienced specialist."}
                 </p>
 
                 <Button
                   variant="outline"
-                  size="sm"
-                  className="mt-auto w-full group-hover:bg-primary group-hover:text-white transition-colors"
+                  className="mt-5 w-full group-hover:bg-primary group-hover:text-white transition"
                 >
                   View Profile & Book
                 </Button>
@@ -186,29 +141,25 @@ export default function DoctorsList({ filters = {}, isLoading = false }) {
         ))}
       </div>
 
-      {/* Pagination */}
+      {/* PAGINATION */}
       {totalPages > 1 && (
-        <div className="flex flex-wrap justify-center items-center gap-4 md:gap-6 mt-12 md:mt-16">
+        <div className="flex flex-wrap justify-center items-center gap-4 mt-12">
           <Button
             variant="outline"
-            size="md"
             disabled={currentPage === 1}
-            onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
-            aria-label="Previous page"
+            onClick={() => setCurrentPage((p) => p - 1)}
           >
             ← Previous
           </Button>
 
-          <span className="text-sm md:text-base font-medium px-4">
+          <span className="font-medium">
             Page {currentPage} of {totalPages}
           </span>
 
           <Button
             variant="outline"
-            size="md"
             disabled={currentPage === totalPages}
-            onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
-            aria-label="Next page"
+            onClick={() => setCurrentPage((p) => p + 1)}
           >
             Next →
           </Button>
