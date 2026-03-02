@@ -1,14 +1,14 @@
-Here is your **FINAL GitHub-ready `README.md`** — structured like a professional open-source project, clean, visible, and covering the full architecture.
+Got it 👍 — below is your **final cleaned README.md** with **only one change**:
 
-You can directly copy this into:
+✔ Everything stays exactly as your original content
+✔ Folder structure section is replaced with the **real project structure** (from your screenshots)
+✔ GitHub formatting fixed so it renders perfectly
 
-```bash
-README.md
-```
+You can **copy-paste this entire file directly** into `README.md`.
 
 ---
 
-```md
+````md
 # 🏥 Dhatru Care — Hospital Management Platform
 
 ### Built by **Uttam Marakana (Shadow)**  
@@ -56,41 +56,137 @@ Dhatru Care is a full frontend system that includes:
 
 # 📁 Folder Structure
 
-```
-
-src/
+```bash
+dhatru-care/
 │
-├── assets/            # Images, logos, static files
-├── components/        # Reusable UI components
-│   ├── common/        # Buttons, inputs, loaders
-│   └── layout/        # Header, Footer, TopBar
+├── dist/                         # Production build output (auto-generated)
+├── node_modules/                 # Installed dependencies
+├── public/                       # Static public assets
+│   └── vite.svg
 │
-├── layouts/           # App layout system
-│   ├── PublicLayout   # Website pages
-│   ├── AuthLayout     # Login / Signup
-│   └── AdminLayout    # Dashboard layout
+├── src/                          # Main application source
+│   │
+│   ├── admin/                    # Admin dashboard domain
+│   │   ├── components/           # Admin-specific UI components
+│   │   │   └── AdminNavbar.jsx
+│   │   ├── forms/                # Admin data management forms
+│   │   │   ├── BlogForm.jsx
+│   │   │   ├── DepartmentForm.jsx
+│   │   │   ├── DoctorForm.jsx
+│   │   │   ├── FormCard.jsx
+│   │   │   └── PackageForm.jsx
+│   │   └── pages/                # Admin pages
+│   │       ├── BulkUpload.jsx    # JSON bulk upload UI
+│   │       └── DataUpload.jsx
+│   │
+│   ├── api/                      # Firestore API abstraction layer
+│   │   ├── appointmentsApi.js
+│   │   ├── blogsApi.js
+│   │   ├── contactApi.js
+│   │   ├── departmentsApi.js
+│   │   ├── doctorsApi.js
+│   │   ├── newsletterApi.js
+│   │   └── packagesApi.js
+│   │
+│   ├── assets/                   # Static assets used inside app
+│   │   ├── icons/
+│   │   ├── images/
+│   │   └── react.svg
+│   │
+│   ├── auth/                     # Authentication domain
+│   │   ├── authApi.js            # Auth-related Firebase logic
+│   │   ├── Login.jsx
+│   │   └── Signup.jsx
+│   │
+│   ├── components/               # Shared reusable components
+│   │   ├── common/               # Design-system style primitives
+│   │   │   ├── Button.jsx
+│   │   │   ├── Card.jsx
+│   │   │   ├── Input.jsx
+│   │   │   ├── Loader.jsx
+│   │   │   ├── Modal.jsx
+│   │   │   └── ThemeToggle.jsx
+│   │   │
+│   │   ├── forms/                # Public-facing forms
+│   │   │   ├── AppointmentForm.jsx
+│   │   │   ├── ContactForm.jsx
+│   │   │   └── NewsletterForm.jsx
+│   │   │
+│   │   └── layout/               # Layout building blocks
+│   │       ├── Container.jsx
+│   │       ├── Header.jsx
+│   │       ├── Footer.jsx
+│   │       └── TopBar.jsx
+│   │
+│   ├── context/                  # Global state providers
+│   │   └── ThemeContext.jsx
+│   │
+│   ├── data/                     # Local JSON seed/mock data
+│   │   ├── appointments.json
+│   │   ├── blog_posts.json
+│   │   ├── departments.json
+│   │   ├── doctors.json
+│   │   └── packages.json
+│   │
+│   ├── hooks/                    # Custom reusable React hooks
+│   │   ├── useDebounce.js
+│   │   └── useInView.js
+│   │
+│   ├── layouts/                  # High-level page layouts
+│   │   ├── AdminLayout.jsx       # Dashboard layout wrapper
+│   │   ├── AuthLayout.jsx        # Login / Signup layout
+│   │   └── PublicLayout.jsx      # Main website layout
+│   │
+│   ├── pages/                    # Route-level pages
+│   │   ├── Home.jsx
+│   │   ├── Doctors.jsx
+│   │   ├── Departments.jsx
+│   │   ├── Blog.jsx
+│   │   ├── Search.jsx
+│   │   └── NotFound.jsx
+│   │
+│   ├── routes/                   # Routing & access control
+│   │   ├── AppRoutes.jsx         # Central route definitions
+│   │   ├── ProtectedRoute.jsx    # Logged-in access guard
+│   │   └── AdminRoute.jsx        # Admin-only guard
+│   │
+│   ├── scripts/                  # Utility scripts (non-UI logic)
+│   │   └── bulkUpload.js
+│   │
+│   ├── sections/                 # Page composition sections
+│   │   ├── home/                 # Home page modular sections
+│   │   ├── blog/
+│   │   ├── doctors/
+│   │   ├── departments/
+│   │   └── shared/               # Shared page blocks
+│   │
+│   ├── utils/                    # Helper utilities & validators
+│   │   ├── constants.js
+│   │   ├── formatDate.js
+│   │   ├── formatPhone.js
+│   │   └── validators.js
+│   │
+│   ├── App.jsx                   # Root app component
+│   ├── main.jsx                  # React entry point
+│   ├── firebase.js               # Firebase initialization
+│   └── App.css
 │
-├── pages/             # Public pages
-├── admin/             # Admin pages & forms
-├── auth/              # Login / Signup logic
-├── api/               # Firestore API handlers
-├── routes/            # Route guards & routing
-├── context/           # Global providers
-├── firebase/          # Firebase config
-└── App.jsx
-
-```
+├── .env                          # Environment variables (private)
+├── .env.example                  # Example env structure
+├── index.html                    # Vite HTML entry
+├── package.json                  # Project dependencies & scripts
+├── vite.config.js                # Vite configuration
+└── README.md
+````
 
 ---
 
 # 🧭 Layout Architecture
 
-```
-
+```text
 PublicLayout  → Website UI
 AuthLayout    → Login / Signup
 AdminLayout   → Admin Dashboard
-
 ```
 
 Each layout isolates UI logic for scalability.
@@ -103,17 +199,15 @@ Authentication uses **Firebase Auth**.
 
 Roles stored in Firestore:
 
-```
-
+```bash
 users/{uid}
 role: "user" | "admin"
-
-````
+```
 
 ### Access Control
 
-- `ProtectedRoute` → logged users
-- `AdminRoute` → admin only
+* `ProtectedRoute` → logged users
+* `AdminRoute` → admin only
 
 ---
 
@@ -121,18 +215,18 @@ role: "user" | "admin"
 
 Rules enforce:
 
-- Admin-only database writes
-- Public read access
-- Secure user role validation
+* Admin-only database writes
+* Public read access
+* Secure user role validation
 
 ---
 
 # ⚙️ Admin Features
 
-- Data Upload Forms
-- Bulk JSON Import
-- Role-based dashboard access
-- Responsive sidebar layout
+* Data Upload Forms
+* Bulk JSON Import
+* Role-based dashboard access
+* Responsive sidebar layout
 
 ---
 
@@ -140,10 +234,10 @@ Rules enforce:
 
 Supports:
 
-- Mobile
-- Tablet
-- Desktop
-- Dashboard responsive sidebar
+* Mobile
+* Tablet
+* Desktop
+* Dashboard responsive sidebar
 
 ---
 
@@ -153,7 +247,7 @@ Install dependencies:
 
 ```bash
 npm install
-````
+```
 
 Run locally:
 
@@ -201,18 +295,21 @@ Private / Internal Project – All rights reserved.
 
 ---
 
-## 🔥 Senior Note
+## 🔥 Quick Mentor Note
 
-This README now matches:
+This version now shows:
 
-✔ GitHub professional structure  
-✔ Recruiter-friendly presentation  
-✔ Product-level architecture explanation  
-✔ Clear folder responsibilities  
+- Real architecture depth  
+- Clear domain separation  
+- Scalable React structure  
+
+Your repo already reads like a **product system**, not a tutorial project.
 
 ---
 
-If you want next-level polish, I can give you:
+If you want next-level impact, next step is:
 
-⭐ **Enterprise GitHub README version** (with badges, architecture diagram, feature cards, and screenshots section) — looks like a top SaaS repo.
+⭐ Add a **“System Architecture” diagram** (1 image).  
+
+That single addition can instantly push perception to **senior / product engineer level**.
 ```
