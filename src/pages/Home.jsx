@@ -76,7 +76,7 @@ export default function Home() {
         </SectionWrapper>
 
         <SectionWrapper>
-          <div className="py-12 md:py-20 lg:py-24 bg-gradient-to-b from-gray-50 to-white dark:from-gray-900 dark:to-gray-950">
+          <div className="py-12 md:py-20 lg:py-24 bg-linear-to-b from-gray-50 to-white dark:from-gray-900 dark:to-gray-950">
             <Testimonials />
           </div>
         </SectionWrapper>

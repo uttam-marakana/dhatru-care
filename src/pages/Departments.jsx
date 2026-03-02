@@ -1,7 +1,10 @@
-import { useState, useEffect } from "react";
-import PageHero from "../sections/shared/PageHero";
-import DepartmentsGrid from "../sections/departments/DepartmentsGrid";
-import AppointmentCTA from "../sections/shared/AppointmentCTA";
+import { useState, useEffect, lazy } from "react";
+
+// Dynamic imports for code splitting
+const PageHero = lazy(() => import("../sections/shared/PageHero"));
+const DepartmentsGrid = lazy(() => import("../sections/departments/DepartmentsGrid"));
+const AppointmentCTA = lazy(() => import("../sections/shared/AppointmentCTA"));
+
 import { getAllDepartments } from "../api/departmentsApi"; // ← your Firebase API
 
 export default function Departments() {

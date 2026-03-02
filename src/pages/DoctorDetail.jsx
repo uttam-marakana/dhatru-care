@@ -1,16 +1,18 @@
 import { useParams } from "react-router-dom";
-import { useState, useEffect } from "react";
-import Container from "../components/layout/Container";
-import Button from "../components/common/Button";
-import Card from "../components/common/Card";
-import AppointmentCTA from "../sections/shared/AppointmentCTA";
+import { useState, useEffect, lazy } from "react";
+
+// dynamic imports for code splitting
+const Container = lazy(() => import("../components/layout/Container"));
+const Button = lazy(() => import("../components/common/Button"));
+const Card = lazy(() => import("../components/common/Card"));
+const AppointmentCTA = lazy(() => import("../sections/shared/AppointmentCTA"));
+
 import {
   FaCalendarCheck,
   FaPhoneAlt,
   FaGraduationCap,
   FaAward,
   FaMapMarkerAlt,
-  FaStethoscope,
   FaStar,
 } from "react-icons/fa";
 import { Link } from "react-router-dom";

@@ -1,8 +1,9 @@
 import { useParams } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState, useEffect, lazy } from "react";
 import { FaStethoscope, FaChartLine } from "react-icons/fa";
 import { getDepartmentBySlug } from "../api/departmentsApi"; // ← your Firebase API
 
+// Dynamic imports for code splitting
 const Container = lazy(() => import("../components/layout/Container"));
 const Button = lazy(() => import("../components/common/Button"));
 const Card = lazy(() => import("../components/common/Card"));
