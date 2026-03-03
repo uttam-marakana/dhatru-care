@@ -9,9 +9,7 @@ export default function PackagesCompareTable({
   error,
   recommendedPackage = null,
 }) {
-  /* ===============================
-     STATES
-  ================================= */
+  /* ------------ STATES ---------------------------------------------- */
   if (loading) {
     return (
       <Container className="py-16">
@@ -34,14 +32,10 @@ export default function PackagesCompareTable({
     );
   }
 
-  /* ===============================
-     HELPERS
-  ================================= */
+  /* ------------ HELPERS ---------------------------------------------- */
   const parsePrice = (price = "") => Number(price.replace(/[^\d]/g, "")) || 0;
 
-  /* ===============================
-     BEST VALUE (MOST TESTS)
-  ================================= */
+  /* ------------ BEST VALUE (MOST TESTS) ---------------------------------------------- */
   const bestValueId = useMemo(() => {
     let best = null;
     let max = -1;
@@ -57,9 +51,7 @@ export default function PackagesCompareTable({
     return best;
   }, [packages]);
 
-  /* ===============================
-     AUTO RECOMMENDED (fallback)
-  ================================= */
+  /* ------------ AUTO RECOMMENDED (fallback) ---------------------------------------------- */
   const autoRecommendedId = useMemo(() => {
     if (!packages.length) return null;
 
@@ -98,9 +90,7 @@ export default function PackagesCompareTable({
 
   const isBestValue = (pkg) => pkg.id === bestValueId;
 
-  /* ===============================
-     UI
-  ================================= */
+  /* ------------ UI ---------------------------------------------- */
   return (
     <section className="py-12 md:py-20">
       <Container>

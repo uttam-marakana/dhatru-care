@@ -16,14 +16,10 @@ export default function PackageRecommendationQuiz({
     budget: "",
   });
 
-  /* ===============================
-     HELPERS
-  ================================= */
+  /* ------------ HELPERS ---------------------------------------------- */
   const parsePrice = (price = "") => Number(price.replace(/[^\d]/g, "")) || 0;
 
-  /* ===============================
-     RECOMMENDATION ENGINE
-  ================================= */
+  /* ------------ RECOMMENDATION ENGINE ---------------------------------------------- */
   const recommendedPackage = useMemo(() => {
     if (!packages.length) return null;
 
@@ -62,9 +58,7 @@ export default function PackageRecommendationQuiz({
     return best;
   }, [answers, packages]);
 
-  /* ===============================
-     FINISH QUIZ
-  ================================= */
+  /* ------------ FINISH QUIZ ---------------------------------------------- */
   const handleFinish = () => {
     if (recommendedPackage && onRecommendation) {
       onRecommendation(recommendedPackage);

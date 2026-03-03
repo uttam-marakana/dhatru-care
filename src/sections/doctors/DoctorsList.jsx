@@ -15,9 +15,7 @@ export default function DoctorsList({
 }) {
   const [currentPage, setCurrentPage] = useState(1);
 
-  /* ===============================
-     PAGINATION
-  ================================= */
+  /* ------------ PAGINATION ---------------------------------------------- */
   const totalPages = Math.ceil(doctors.length / ITEMS_PER_PAGE);
 
   const paginatedDoctors = useMemo(() => {
@@ -30,9 +28,7 @@ export default function DoctorsList({
     setCurrentPage(1);
   }, [doctors]);
 
-  /* ===============================
-     LOADING STATE
-  ================================= */
+  /* ------------ LOADING STATE ---------------------------------------------- */
   if (loading) {
     return (
       <Container className="py-12">
@@ -55,9 +51,7 @@ export default function DoctorsList({
     );
   }
 
-  /* ===============================
-     ERROR STATE
-  ================================= */
+  /* ------------ ERROR STATE ---------------------------------------------- */
   if (error) {
     return (
       <Container className="py-20 text-center">
@@ -66,9 +60,7 @@ export default function DoctorsList({
     );
   }
 
-  /* ===============================
-     EMPTY STATE
-  ================================= */
+  /* ------------ EMPTY STATE ---------------------------------------------- */
   if (doctors.length === 0) {
     return (
       <Container className="py-20 text-center">
@@ -80,9 +72,7 @@ export default function DoctorsList({
     );
   }
 
-  /* ===============================
-     MAIN UI
-  ================================= */
+  /* ------------ MAIN UI ---------------------------------------------- */
   return (
     <Container className="py-12">
       {/* GRID */}
