@@ -23,7 +23,7 @@ export default function AppointmentCTA({
     >
       <Container className={isLarge ? "text-center" : ""}>
         <div
-          className={`flex flex-col md:flex-row items-center justify-between gap-8 ${isCompact ? "text-center" : ""}`}
+          className={`flex flex-col sm:w-auto md:flex-row items-center justify-between gap-4 w-full ${isCompact ? "text-center" : ""}`}
         >
           <div className={`${isCompact ? "mb-6" : ""}`}>
             <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-3">

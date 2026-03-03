@@ -12,8 +12,11 @@ export default function LatestBlog({ posts = [], loading }) {
 
   return (
     <section className="py-12 md:py-16 lg:py-20">
+      {!loading && posts.length === 0 && (
+        <p className="col-span-full text-center">Blog articles coming soon.</p>
+      )}
       <Container>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {posts.slice(0, 3).map((post) => (
             <Link key={post.id} to={`/blog/${post.slug}`}>
               <Card hover className="overflow-hidden h-full">

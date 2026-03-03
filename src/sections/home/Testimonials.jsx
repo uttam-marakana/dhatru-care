@@ -26,8 +26,9 @@ const testimonials = [
   },
 ];
 
-export default function Testimonials({ testimonials = [] }) {
-  if (!testimonials.length) return null;
+export default function Testimonials({ testimonials: apiTestimonials, loading, error }) {
+  const data =
+    apiTestimonials && apiTestimonials.length ? apiTestimonials : testimonials;
 
   return (
     <section className="py-12 md:py-16 lg:py-20">
@@ -41,7 +42,7 @@ export default function Testimonials({ testimonials = [] }) {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {testimonials.map((t, i) => (
             <Card key={i} className="h-full flex flex-col">
               <p className="text-gray-700 dark:text-gray-300 italic flex-1">
