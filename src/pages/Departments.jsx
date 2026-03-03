@@ -19,10 +19,9 @@ export default function Departments() {
       try {
         setLoading(true);
         const data = await getAllDepartments();
-
         if (!mounted) return;
         setDepartments(data);
-      } catch (err) {
+      } catch {
         if (mounted) setError("Failed to load departments");
       } finally {
         if (mounted) setLoading(false);
@@ -30,28 +29,33 @@ export default function Departments() {
     };
 
     fetchData();
-
     return () => (mounted = false);
   }, []);
 
   return (
-    <main className="min-h-screen bg-gray-50 dark:bg-gray-950">
+    <main className="min-h-screen bg-gradient-to-b from-gray-950 via-gray-900 to-gray-950 text-white">
       <PageHero
         title="Our Specialities"
         subtitle="Comprehensive multispeciality care with expert teams."
       />
 
-      <section className="py-12 md:py-20 lg:py-24">
-        {loading ? (
-          <p className="text-center py-20">Loading departments...</p>
-        ) : error ? (
-          <p className="text-center text-red-600 py-20">{error}</p>
-        ) : (
-          <DepartmentsGrid departments={departments} />
-        )}
+      <section className="py-20 relative">
+        <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[700px] h-[700px] bg-blue-500/20 blur-[160px] rounded-full"></div>
+
+        <div className="relative z-10">
+          {loading ? (
+            <p className="text-center py-20 text-gray-400">
+              Loading departments...
+            </p>
+          ) : error ? (
+            <p className="text-center text-red-400 py-20">{error}</p>
+          ) : (
+            <DepartmentsGrid departments={departments} />
+          )}
+        </div>
       </section>
 
-      <AppointmentCTA variant="large" className="my-16" />
+      <AppointmentCTA className="my-16 mx-auto max-w-6xl" />
     </main>
   );
 }

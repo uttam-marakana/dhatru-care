@@ -10,44 +10,40 @@ export default function DepartmentsGrid({ departments = [] }) {
   if (!departments.length) {
     return (
       <Container>
-        <p className="text-center py-20 text-gray-500">No departments found.</p>
+        <p className="text-center py-20 text-gray-400">No departments found.</p>
       </Container>
     );
   }
 
   return (
     <Container>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
         {departments.map((dept) => (
           <Link
             key={dept.id}
             to={`/departments/${dept.slug}`}
             className="block group h-full"
           >
-            <Card
-              hover
-              className="h-full flex flex-col bg-linear-to-br from-primary/5 to-secondary/5"
-            >
-              <div className="p-6 md:p-8 text-center flex flex-col h-full">
-                <div className="text-6xl mb-5">{dept.icon || "🏥"}</div>
+            <Card className="h-full flex flex-col bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl p-8 text-center transition-all duration-500 hover:-translate-y-2 hover:border-blue-400/40 hover:shadow-[0_0_40px_rgba(59,130,246,0.25)]">
+              <div className="text-6xl mb-6">{dept.icon || "🏥"}</div>
 
-                <h3 className="text-xl font-bold mb-3 group-hover:text-primary">
-                  {dept.name}
-                </h3>
+              <h3 className="text-xl font-semibold mb-3 group-hover:text-blue-400 transition-colors">
+                {dept.name}
+              </h3>
 
-                <p className="text-gray-600 dark:text-gray-400 mb-6 text-sm">
-                  {dept.shortDesc}
-                </p>
+              <p className="text-gray-400 mb-6 text-sm leading-relaxed">
+                {dept.shortDesc}
+              </p>
 
-                <div className="mt-auto">
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    rightIcon={<FaArrowRight />}
-                  >
-                    Explore Department
-                  </Button>
-                </div>
+              <div className="mt-auto">
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="text-blue-400 hover:text-blue-300"
+                  rightIcon={<FaArrowRight />}
+                >
+                  Explore Department
+                </Button>
               </div>
             </Card>
           </Link>

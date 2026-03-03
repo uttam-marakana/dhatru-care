@@ -1,44 +1,53 @@
 @import "tailwindcss";
 
-/* =============================================
-   1. Custom variants & theme tokens
-   ============================================= */
+/* -------- 1. Custom Variant ------------------------------------------- */
 @custom-variant dark (&:where(.dark, .dark *));
 
+/* -------- 2. Theme Tokens (Semantic + Scalable) ------------------------------------------- */
 @theme {
-  --color-primary:   #0ea5e9;        /* sky-500 */
-  --color-primary-dark: #0284c7;
+  /* Brand Core */
+  --color-primary: #0ea5e9;
+  --color-primary-hover: #0284c7;
+  --color-accent: #f43f5e;
 
-  --color-accent:    #f43f5e;        /* rose-500 */
+  /* Surfaces (Light) */
+  --bg-primary: #ffffff;
+  --bg-surface: #f8fafc;
+  --text-primary: #111827;
+  --text-muted: #6b7280;
+  --border-color: #e5e7eb;
 
-  --color-bg:        #ffffff;
-  --color-text:      #111827;
-  --color-muted:     #6b7280;
-  --color-border:    #e5e7eb;
+  /* Surfaces (Dark – Medical Style) */
+  --bg-primary-dark: #0f172a;
+  --bg-surface-dark: #13273d;
+  --text-primary-dark: #f1f5f9;
+  --text-muted-dark: #94a3b8;
+  --border-color-dark: #334155;
 
-  --color-bg-dark:   #0f172a;        /* slate-950 */
-  --color-text-dark: #f1f5f9;
-  --color-muted-dark:#94a3b8;
-  --color-border-dark:#334155;
+  /* Special Effects */
+  --glow-soft: rgba(59, 130, 246, 0.25);
+  --heading-gradient-from: #60a5fa;
+  --heading-gradient-to: #22d3ee;
 }
 
-/* =============================================
-   2. Global variables & base styles
-   ============================================= */
+/* -------- 3. Global Variable Mapping ------------------------------------------- */
 :root {
-  --bg: var(--color-bg);
-  --text: var(--color-text);
-  --muted: var(--color-muted);
-  --border: var(--color-border);
+  --bg: var(--bg-primary);
+  --surface: var(--bg-surface);
+  --text: var(--text-primary);
+  --muted: var(--text-muted);
+  --border: var(--border-color);
 }
 
 .dark {
-  --bg: var(--color-bg-dark);
-  --text: var(--color-text-dark);
-  --muted: var(--color-muted-dark);
-  --border: var(--color-border-dark);
+  --bg: var(--bg-primary-dark);
+  --surface: var(--bg-surface-dark);
+  --text: var(--text-primary-dark);
+  --muted: var(--text-muted-dark);
+  --border: var(--border-color-dark);
 }
 
+/* -------- 4. Base Styles ------------------------------------------- */
 html {
   scroll-behavior: smooth;
 }
@@ -46,12 +55,20 @@ html {
 body {
   background-color: var(--bg);
   color: var(--text);
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  transition: background-color 0.3s ease, color 0.3s ease;
+  font-family:
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    sans-serif;
   line-height: 1.6;
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
 }
 
-/* Respect reduced motion preference */
+/* Respect Reduced Motion */
 @media (prefers-reduced-motion: reduce) {
   * {
     animation-duration: 0.01ms !important;
@@ -61,75 +78,68 @@ body {
   }
 }
 
-/* Base styles for interactive elements */
+/* -------- 5. Interactive Elements ------------------------------------------- */
 @layer base {
-  /* All native buttons */
-  button {
-    @apply cursor-pointer;
-  }
-
-  /* Inputs that act like buttons */
+  button,
   [role="button"] {
     @apply cursor-pointer;
   }
 }
 
-/* =============================================
-   3. Common animation helpers
-   ============================================= */
-@keyframes fadeInUp {
-  from { opacity: 0; transform: translateY(32px); }
-  to   { opacity: 1; transform: translateY(0);   }
+/* Limit transitions to interactive elements only */
+a,
+button,
+input,
+textarea,
+select {
+  transition:
+    background-color 0.3s ease,
+    border-color 0.3s ease,
+    color 0.3s ease;
 }
 
-.animate-fade-in-up {
-  animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
-
-/* Staggered entrance for children (cards, list items, etc.) */
-.stagger-fade-in > * {
-  opacity: 0;
-  transform: translateY(20px);
-  transition: all 0.7s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.stagger-fade-in.visible > *:nth-child(1) { transition-delay: 0.1s; opacity: 1; transform: translateY(0); }
-.stagger-fade-in.visible > *:nth-child(2) { transition-delay: 0.2s; opacity: 1; transform: translateY(0); }
-.stagger-fade-in.visible > *:nth-child(3) { transition-delay: 0.3s; opacity: 1; transform: translateY(0); }
-.stagger-fade-in.visible > *:nth-child(4) { transition-delay: 0.4s; opacity: 1; transform: translateY(0); }
-/* add more nth-child() if needed for longer grids */
-
-/* Card hover lift – very common in healthcare UIs */
-.hover-lift {
-  transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
-}
-
-.hover-lift:hover,
-.hover-lift:focus-visible {
-  transform: translateY(-10px);
-  box-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.18);
-}
-
-/* Focus states for accessibility */
+/* Accessible Focus Ring */
 :focus-visible {
   outline: none;
   box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.4);
   outline-offset: 2px;
 }
 
-/* Smooth transitions for common elements */
-* {
-  transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+/* -------- 6. Animations (Lightweight + Professional) ------------------------------------------- */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-/* =============================================
-   4. Typography & helper classes
-   ============================================= */
+.animate-fade-in-up {
+  animation: fadeInUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Smooth card lift (clean, not bouncy) */
+.hover-lift {
+  transition:
+    transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 0.35s ease;
+}
+
+.hover-lift:hover,
+.hover-lift:focus-visible {
+  transform: translateY(-8px);
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.18);
+}
+
+/* -------- 7. Typography Helpers ------------------------------------------- */
 .prose {
   max-width: none;
 }
 
-.prose :where(h1, h2, h3) {
+.prose :where(h1, h2, h3, h4) {
   color: var(--text);
 }
 
