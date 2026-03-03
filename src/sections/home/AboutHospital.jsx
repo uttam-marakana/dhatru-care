@@ -1,6 +1,7 @@
 import { lazy } from "react";
 
 const Container = lazy(() => import("../../components/layout/Container"));
+import Hospital_Img from "../../assets/images/hospital_img.png";
 
 export default function AboutHospital() {
   return (
@@ -25,7 +26,11 @@ export default function AboutHospital() {
           </div>
 
           <div className="rounded-2xl overflow-hidden shadow-xl border bg-gray-100 dark:bg-gray-800 h-65 sm:h-80 md:h-95 flex items-center justify-center">
-            Hospital Image
+            <img
+              src={Hospital_Img}
+              alt="Dhatru Care Hospital"
+              className="w-full h-full object-cover"
+            />
           </div>
         </div>
       </Container>
