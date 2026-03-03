@@ -9,12 +9,18 @@ export default function FeaturedDepartments({
   departments = [],
   loading = false,
 }) {
-  if (loading) return <div className="text-center py-20">Loading...</div>;
+  if (loading)
+    return (
+      <section className="py-20 text-center">Loading departments...</section>
+    );
 
   return (
     <section className="py-12 md:py-16 lg:py-20">
+      {!loading && departments.length === 0 && (
+        <p className="col-span-full text-center">Departments coming soon.</p>
+      )}
       <Container>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {departments.slice(0, 4).map((dept) => (
             <Link key={dept.id} to={`/departments/${dept.slug}`}>
               <Card hover className="text-center">

@@ -25,7 +25,7 @@ export default function AboutHospital() {
             </p>
           </div>
 
-          <div className="rounded-2xl overflow-hidden shadow-xl border bg-gray-100 dark:bg-gray-800 h-65 sm:h-80 md:h-95 flex items-center justify-center">
+          <div className="rounded-2xl overflow-hidden shadow-xl border bg-gray-100 dark:bg-gray-800 h-[280px] sm:h-[350px] md:h-[420px] flex items-center justify-center">
             <img
               src={Hospital_Img}
               alt="Dhatru Care Hospital"

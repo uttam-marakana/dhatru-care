@@ -16,9 +16,9 @@ export default function ContactMap() {
           </p>
         </div>
 
-        <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-start">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-10 lg:gap-12 items-start">
           {/* MAP */}
-          <div className="rounded-2xl overflow-hidden shadow-xl border bg-gray-100 dark:bg-gray-900 h-[280px] sm:h-[350px] md:h-[420px]">
+          <div className="rounded-2xl overflow-hidden shadow-xl border bg-gray-100 dark:bg-gray-900 h-[300px] sm:h-[350px] md:h-[420px]">
             <iframe
               title="Hospital Location"
               src="https://www.google.com/maps/embed?..."
