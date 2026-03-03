@@ -1,5 +1,6 @@
 import { Suspense,lazy } from "react";
 import { Analytics } from "@vercel/analytics/react";
+import { HomeDataProvider } from "./context/HomeDataContext";
 
 
 // Dynamic imports for code splitting
@@ -18,7 +19,9 @@ function App() {
           </div>
         }
       >
-        <AppRoutes />
+        <HomeDataProvider>
+          <AppRoutes />
+        </HomeDataProvider>
       </Suspense>
     </div>
   );

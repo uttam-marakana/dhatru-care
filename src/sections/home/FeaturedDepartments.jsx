@@ -20,6 +20,11 @@ export default function FeaturedDepartments({
         <p className="col-span-full text-center">Departments coming soon.</p>
       )}
       <Container>
+        <div className="text-center mb-10 md:mb-14">
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold">
+            Our Featured Departments
+          </h2>
+        </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {departments.slice(0, 4).map((dept) => (
             <Link key={dept.id} to={`/departments/${dept.slug}`}>
