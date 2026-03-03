@@ -9,7 +9,7 @@ const AppRoutes = lazy(() => import("./routes/AppRoutes"));
 
 function App() {
   return (
-    <div className="min-h-screen bg-white dark:bg-gray-950">
+    <div className="min-h-screen bg-gradient-to-b from-gray-950 via-gray-900 to-gray-950 text-white">
       <Analytics />
 
       <Suspense
