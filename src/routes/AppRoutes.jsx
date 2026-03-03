@@ -36,6 +36,7 @@ import UserAppointments from "../pages/UserAppointments";
 /* admin pages */
 import UploadData from "../admin/pages/DataUpload";
 import BulkUpload from "../admin/pages/BulkUpload";
+import ManageAppointments from "../admin/pages/ManageAppointment";
 
 import NotFound from "../pages/NotFound";
 
@@ -97,6 +98,7 @@ export default function AppRoutes() {
         <Route index element={<Navigate to="upload" />} />
         <Route path="upload" element={<UploadData />} />
         <Route path="bulk-upload" element={<BulkUpload />} />
+        <Route  path="appointment" element={<ManageAppointments />} />
       </Route>
 
       {/* ------ 404 -------------------------- */}
