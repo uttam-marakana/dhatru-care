@@ -12,9 +12,7 @@ const AppointmentCTA = lazy(() => import("../sections/shared/AppointmentCTA"));
 export default function Doctors() {
   const [searchParams, setSearchParams] = useSearchParams();
 
-  /* ===============================
-     FILTER STATE
-  ================================= */
+  /* ------------ FILTER STATE ---------------------------------------------- */
   const [filters, setFilters] = useState({
     search: searchParams.get("search") || "",
     specialty: searchParams.get("specialty") || "",
@@ -27,9 +25,7 @@ export default function Doctors() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  /* ===============================
-     FETCH DOCTORS
-  ================================= */
+  /* ------------ FETCH DOCTORS ---------------------------------------------- */
   useEffect(() => {
     let mounted = true;
 
@@ -59,9 +55,7 @@ export default function Doctors() {
     };
   }, []);
 
-  /* ===============================
-     URL SYNC
-  ================================= */
+  /* ------------ URL SYNC ---------------------------------------------- */
   useEffect(() => {
     const params = {};
 
@@ -72,9 +66,7 @@ export default function Doctors() {
     setSearchParams(params);
   }, [filters, setSearchParams]);
 
-  /* ===============================
-     LOCAL FILTERING
-  ================================= */
+  /* ------------ LOCAL FILTERING ---------------------------------------------- */
   useEffect(() => {
     let data = [...allDoctors];
 

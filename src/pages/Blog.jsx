@@ -13,9 +13,7 @@ const Breadcrumb = lazy(() => import("../components/common/Breadcrumb"));
 export default function Blog() {
   const [searchParams, setSearchParams] = useSearchParams();
 
-  /* ===============================
-     FILTER STATE
-  ================================= */
+  /* ------------ FILTER STATE ---------------------------------------------- */
   const [filters, setFilters] = useState({
     search: searchParams.get("search") || "",
     category: searchParams.get("category") || "",
@@ -28,9 +26,7 @@ export default function Blog() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  /* ===============================
-     FETCH BLOG POSTS
-  ================================= */
+  /* ------------ FETCH BLOG POSTS ---------------------------------------------- */
   useEffect(() => {
     let mounted = true;
 
@@ -60,9 +56,7 @@ export default function Blog() {
     };
   }, []);
 
-  /* ===============================
-     URL SYNC
-  ================================= */
+  /* ------------ URL SYNC ---------------------------------------------- */
   useEffect(() => {
     const params = {};
 
@@ -73,9 +67,7 @@ export default function Blog() {
     setSearchParams(params);
   }, [filters, setSearchParams]);
 
-  /* ===============================
-     LOCAL FILTERING
-  ================================= */
+  /* ------------ LOCAL FILTERING ---------------------------------------------- */
   useEffect(() => {
     let data = [...allPosts];
 

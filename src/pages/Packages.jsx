@@ -12,9 +12,7 @@ export default function Packages() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  /* ===============================
-     FETCH PACKAGES
-  ================================= */
+  /* ------------ FETCH PACKAGES ---------------------------------------------- */
   useEffect(() => {
     let mounted = true;
 

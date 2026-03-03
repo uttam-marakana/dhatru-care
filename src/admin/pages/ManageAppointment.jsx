@@ -12,19 +12,19 @@ export default function ManageAppointments() {
   const [page, setPage] = useState(1);
   const perPage = 10;
 
-  /* ================= REALTIME SUBSCRIBE ================= */
+  /* ------------  REALTIME SUBSCRIBE ---------------------------------------------- */
   useEffect(() => {
     const unsub = subscribeAppointments(setAppointments);
     return () => unsub();
   }, []);
 
-  /* ================= ANALYTICS ================= */
+  /* ------------  ANALYTICS ---------------------------------------------- */
   const total = appointments.length;
   const approved = appointments.filter((a) => a.status === "approved").length;
   const pending = appointments.filter((a) => a.status === "pending").length;
   const rejected = appointments.filter((a) => a.status === "rejected").length;
 
-  /* ================= FILTER ================= */
+  /* ------------  FILTER ---------------------------------------------- */
   const filtered = useMemo(() => {
     let data = appointments;
 
@@ -41,12 +41,12 @@ export default function ManageAppointments() {
     return data;
   }, [appointments, search, statusFilter]);
 
-  /* ================= PAGINATION ================= */
+  /* ------------  PAGINATION ---------------------------------------------- */
   const paginated = filtered.slice((page - 1) * perPage, page * perPage);
 
   const totalPages = Math.ceil(filtered.length / perPage);
 
-  /* ================= CALENDAR ================= */
+  /* ------------  CALENDAR ---------------------------------------------- */
   const generateMonthDays = () => {
     const today = new Date();
     const year = today.getFullYear();
@@ -63,7 +63,7 @@ export default function ManageAppointments() {
 
   return (
     <div className="p-6 space-y-8">
-      {/* ================= HEADER ================= */}
+      {/* ------------  HEADER ---------------------------------------------- */}
       <div className="flex flex-col md:flex-row md:justify-between gap-4">
         <h1 className="text-3xl font-bold">Manage Appointments</h1>
 
@@ -83,7 +83,7 @@ export default function ManageAppointments() {
         </div>
       </div>
 
-      {/* ================= ANALYTICS ================= */}
+      {/* ------------  ANALYTICS ---------------------------------------------- */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <div className="p-4 bg-blue-100 rounded">Total: {total}</div>
         <div className="p-4 bg-green-100 rounded">Approved: {approved}</div>
@@ -91,7 +91,7 @@ export default function ManageAppointments() {
         <div className="p-4 bg-red-100 rounded">Rejected: {rejected}</div>
       </div>
 
-      {/* ================= FILTER BAR ================= */}
+      {/* ------------  FILTER BAR ---------------------------------------------- */}
       {view === "list" && (
         <div className="flex flex-col md:flex-row gap-4">
           <input
@@ -114,7 +114,7 @@ export default function ManageAppointments() {
         </div>
       )}
 
-      {/* ================= LIST VIEW ================= */}
+      {/* ------------  LIST VIEW ---------------------------------------------- */}
       {view === "list" && (
         <>
           <div className="space-y-4">
@@ -174,7 +174,7 @@ export default function ManageAppointments() {
         </>
       )}
 
-      {/* ================= CALENDAR VIEW ================= */}
+      {/* ------------  CALENDAR VIEW ---------------------------------------------- */}
       {view === "calendar" && (
         <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-4">
           {calendarDays.map((date) => {
