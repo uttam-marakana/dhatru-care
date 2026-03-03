@@ -23,13 +23,7 @@ export default function HealthPackages({
   return (
     <section className="py-12 md:py-16 lg:py-20 bg-gray-50 dark:bg-gray-900">
       <Container>
-        <div
-          className={`grid grid-cols-1 ${
-            fullWidth
-              ? "md:grid-cols-2 lg:grid-cols-4"
-              : "sm:grid-cols-2 lg:grid-cols-4"
-          } gap-6`}
-        >
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {packages.map((pkg) => (
             <Card key={pkg.id} hover className="flex flex-col h-full">
               <div className="bg-primary/10 p-5 text-center">

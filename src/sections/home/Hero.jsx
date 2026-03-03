@@ -1,58 +1,52 @@
-import { lazy } from "react";
 import { FaArrowRight } from "react-icons/fa";
 import { Link } from "react-router-dom";
-
-
-// Dynamic imports for code splitting
-const Container = lazy(() => import("../../components/layout/Container"));
-const Button = lazy(() => import("../../components/common/Button"));
+import Container from "../../components/layout/Container";
+import Button from "../../components/common/Button";
 
 export default function Hero() {
   return (
-    <section className="relative min-h-[80vh] md:min-h-[90vh] flex items-center bg-linear-to-br from-primary/10 via-white to-secondary/10 dark:from-gray-950 dark:via-gray-900 dark:to-gray-950 overflow-hidden">
-      {/* Optional subtle background pattern or image */}
-      <div className="absolute inset-0 opacity-10 dark:opacity-5 pointer-events-none">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,var(--color-primary),transparent_50%)]/15" />
-      </div>
-
+    <section className="relative min-h-[85vh] md:min-h-[95vh] flex items-center bg-linear-to-br from-primary/10 via-white to-secondary/10 dark:from-gray-950 dark:via-gray-900 dark:to-gray-950 overflow-hidden">
       <Container className="relative z-10 py-16 md:py-24">
         <div className="max-w-4xl">
-          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold leading-tight tracking-tight text-gray-900 dark:text-white mb-6 animate-fade-in-up">
+          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold leading-tight mb-6">
             Your Health,
             <br className="hidden sm:block" />
             <span className="text-primary">Our Priority</span>
           </h1>
 
-          <p className="text-xl md:text-2xl text-gray-700 dark:text-gray-300 mb-10 max-w-3xl leading-relaxed">
+          <p className="text-lg md:text-xl lg:text-2xl text-gray-700 dark:text-gray-300 mb-10 max-w-3xl">
             Premium multispeciality hospital in Gondal offering compassionate
-            care, advanced treatments and 24×7 emergency services.
+            care, advanced treatments, and 24×7 emergency services.
           </p>
 
           <div className="flex flex-col sm:flex-row gap-5">
             <Link to="/appointments">
-              <Button variant="primary" size="lg" className="flex items-center gap-2">
+              <Button size="lg" className="flex items-center gap-2">
                 Book an Appointment <FaArrowRight />
               </Button>
             </Link>
 
-            <Link to="packages">
-              <Button variant="outline" size="lg" className="flex items-center gap-2">
+            <Link to="/packages">
+              <Button
+                variant="outline"
+                size="lg"
+                className="flex items-center gap-2"
+              >
                 Explore Health Packages <FaArrowRight />
               </Button>
             </Link>
           </div>
 
-          {/* Trust badges */}
-          <div className="mt-12 flex flex-wrap gap-8 text-sm md:text-base text-gray-600 dark:text-gray-400">
-            <div className="flex items-center gap-2">
-              <span className="text-2xl">🏥</span> <span>50,000+ Patients</span>
+          {/* Trust Badges */}
+          <div className="mt-12 grid grid-cols-1 sm:grid-cols-3 gap-6 text-gray-600 dark:text-gray-400">
+            <div className="flex items-center gap-3">
+              <span className="text-3xl">🏥</span> 50,000+ Patients
             </div>
-            <div className="flex items-center gap-2">
-              <span className="text-2xl">👨‍⚕️</span> <span>200+ Specialists</span>
+            <div className="flex items-center gap-3">
+              <span className="text-3xl">👨‍⚕️</span> 200+ Specialists
             </div>
-            <div className="flex items-center gap-2">
-              <span className="text-2xl">⭐</span>{" "}
-              <span>4.9 Patient Rating</span>
+            <div className="flex items-center gap-3">
+              <span className="text-3xl">⭐</span> 4.9 Patient Rating
             </div>
           </div>
         </div>
