@@ -47,7 +47,7 @@ export const updateAppointmentStatus = async (id, status) => {
 };
 
 /* --- Realtime Listener ----------------- */
-export const subscribeAppointment = (callback) => {
+export const subscribeAppointments = (callback) => {
   return onSnapshot(ref, (snap) => {
     const data = snap.docs.map((d) => ({
       id: d.id,

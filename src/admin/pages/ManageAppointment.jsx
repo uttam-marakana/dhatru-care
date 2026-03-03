@@ -12,7 +12,7 @@ export default function ManageAppointments() {
     return () => unsub();
   }, []);
 
-  /* ================= CALENDAR GROUPING (STEP 5) ================= */
+  /* --------- CALENDAR GROUPING (STEP 5) ------------------------- */
   const groupedByDate = appointments.reduce((acc, appointment) => {
     const date = appointment.date || "No Date";
 
@@ -22,7 +22,7 @@ export default function ManageAppointments() {
     return acc;
   }, {});
 
-  /* ================= RENDER ================= */
+  /* --------- RENDER ------------------------- */
   return (
     <div className="p-6 space-y-8">
       <h1 className="text-3xl font-bold mb-6">Manage Appointments</h1>
