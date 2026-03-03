@@ -12,16 +12,13 @@ import {
 } from "firebase/firestore";
 import { db } from "../firebase";
 
-/* ===============================
-   COLLECTION REF
-================================= */
+/* ------------ COLLECTION REF ---------------------------------------------- */
 const doctorsRef = collection(db, "doctors");
 
-/* ===============================
-   GET ALL DOCTORS (WITH FILTERS)
-   - Safe for old & new docs
-   - No orderBy (avoids index errors)
-================================= */
+/* ------------ GET ALL DOCTORS (WITH FILTERS)   
+  - Safe for old & new docs
+  - No orderBy (avoids index errors)
+---------------------------------------------- */
 export const getDoctors = async (filters = {}) => {
   try {
     const constraints = [];
@@ -41,9 +38,7 @@ export const getDoctors = async (filters = {}) => {
       ...d.data(),
     }));
 
-    /* ===============================
-       CLIENT-SIDE FILTERS
-    ================================= */
+    /* ------------ CLIENT-SIDE FILTERS ---------------------------------------------- */
 
     // Search by name
     if (filters.search?.trim()) {
@@ -65,9 +60,7 @@ export const getDoctors = async (filters = {}) => {
   }
 };
 
-/* ===============================
-   GET SINGLE DOCTOR BY FIRESTORE ID
-================================= */
+/* ------------ GET SINGLE DOCTOR BY FIRESTORE ID ---------------------------------------------- */
 export const getDoctorById = async (id) => {
   try {
     if (!id) return null;
@@ -87,9 +80,7 @@ export const getDoctorById = async (id) => {
   }
 };
 
-/* ===============================
-   CREATE DOCTOR
-================================= */
+/* ------------ CREATE DOCTOR ---------------------------------------------- */
 export const createDoctor = async (doctor) => {
   try {
     return await addDoc(doctorsRef, {
@@ -103,9 +94,7 @@ export const createDoctor = async (doctor) => {
   }
 };
 
-/* ===============================
-   UPDATE DOCTOR
-================================= */
+/* ------------ UPDATE DOCTOR ---------------------------------------------- */
 export const updateDoctor = async (id, data) => {
   try {
     return await updateDoc(doc(db, "doctors", id), {
@@ -118,9 +107,7 @@ export const updateDoctor = async (id, data) => {
   }
 };
 
-/* ===============================
-   DELETE DOCTOR
-================================= */
+/* ------------ DELETE DOCTOR ---------------------------------------------- */
 export const deleteDoctor = async (id) => {
   try {
     return await deleteDoc(doc(db, "doctors", id));

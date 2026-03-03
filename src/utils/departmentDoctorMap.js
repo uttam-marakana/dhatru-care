@@ -1,6 +1,4 @@
-/* =====================================
-   DEPARTMENT → DOCTOR SPECIALTY MAP
-===================================== */
+/* ------------ DEPARTMENT → DOCTOR SPECIALTY MAP ---------------------------------------------- */
 
 export const departmentDoctorMap = {
   cardiology: ["Cardiology", "cardiology"],
@@ -18,9 +16,7 @@ export const departmentDoctorMap = {
   ent: ["ENT", "Otorhinolaryngology", "ent"],
 };
 
-/* =====================================
-   GET SPECIALTIES FROM DEPARTMENT
-===================================== */
+/* ------------ GET SPECIALTIES FROM DEPARTMENT ---------------------------------------------- */
 export const getDoctorSpecialtiesFromDepartment = (slug) => {
   return departmentDoctorMap[slug] || [];
 };

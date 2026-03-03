@@ -13,9 +13,7 @@ import { db } from "../firebase";
 
 const ref = collection(db, "packages");
 
-/* ===============================
-   GET ALL PACKAGES
-================================= */
+/* ------------ GET ALL PACKAGES ---------------------------------------------- */
 export const getPackages = async () => {
   try {
     const q = query(ref, orderBy("createdAt", "desc"));
@@ -31,9 +29,7 @@ export const getPackages = async () => {
   }
 };
 
-/* ===============================
-   CREATE
-================================= */
+/* ------------ CREATE ---------------------------------------------- */
 export const createPackage = async (data) => {
   return await addDoc(ref, {
     ...data,
@@ -42,9 +38,7 @@ export const createPackage = async (data) => {
   });
 };
 
-/* ===============================
-   UPDATE
-================================= */
+/* ------------ UPDATE ---------------------------------------------- */
 export const updatePackage = async (id, data) => {
   return await updateDoc(doc(db, "packages", id), {
     ...data,
@@ -52,9 +46,7 @@ export const updatePackage = async (id, data) => {
   });
 };
 
-/* ===============================
-   DELETE
-================================= */
+/* ------------ DELETE ---------------------------------------------- */
 export const deletePackage = async (id) => {
   return await deleteDoc(doc(db, "packages", id));
 };

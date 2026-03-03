@@ -13,9 +13,7 @@ import { db } from "../firebase";
 
 const departmentsRef = collection(db, "departments");
 
-/* ===============================
-   GET ALL DEPARTMENTS
-================================= */
+/* ------------ GET ALL DEPARTMENTS ---------------------------------------------- */
 export const getAllDepartments = async (filters = {}) => {
   try {
     const constraints = [];
@@ -54,9 +52,7 @@ export const getAllDepartments = async (filters = {}) => {
   }
 };
 
-/* ===============================
-   GET BY SLUG
-================================= */
+/* ------------ GET BY SLUG ---------------------------------------------- */
 export const getDepartmentBySlug = async (slug) => {
   try {
     const q = query(departmentsRef, where("slug", "==", slug));
@@ -72,9 +68,7 @@ export const getDepartmentBySlug = async (slug) => {
   }
 };
 
-/* ===============================
-   CREATE
-================================= */
+/* ------------ CREATE ---------------------------------------------- */
 export const createDepartment = async (data) => {
   return await addDoc(departmentsRef, {
     ...data,
@@ -83,9 +77,7 @@ export const createDepartment = async (data) => {
   });
 };
 
-/* ===============================
-   UPDATE
-================================= */
+/* ------------ UPDATE ---------------------------------------------- */
 export const updateDepartment = async (id, data) => {
   return await updateDoc(doc(db, "departments", id), {
     ...data,
@@ -93,9 +85,7 @@ export const updateDepartment = async (id, data) => {
   });
 };
 
-/* ===============================
-   DELETE
-================================= */
+/* ------------ DELETE ---------------------------------------------- */
 export const deleteDepartment = async (id) => {
   return await deleteDoc(doc(db, "departments", id));
 };

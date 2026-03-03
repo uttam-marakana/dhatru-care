@@ -13,9 +13,7 @@ import { db } from "../firebase";
 
 const ref = collection(db, "blog_posts");
 
-/* ===============================
-   GET BLOG POSTS (FILTERED)
-================================= */
+/* ------------ GET BLOG POSTS (FILTERED) ---------------------------------------------- */
 export const getBlogPosts = async (filters = {}) => {
   try {
     const constraints = [];
@@ -52,9 +50,7 @@ export const getBlogPosts = async (filters = {}) => {
   }
 };
 
-/* ===============================
-   GET BY SLUG
-================================= */
+/* ------------ GET BY SLUG ---------------------------------------------- */
 export const getBlogBySlug = async (slug) => {
   const q = query(ref, where("slug", "==", slug));
   const snap = await getDocs(q);
@@ -65,9 +61,7 @@ export const getBlogBySlug = async (slug) => {
   return { id: d.id, ...d.data() };
 };
 
-/* ===============================
-   RELATED BLOGS
-================================= */
+/* ------------ RELATED BLOGS ---------------------------------------------- */
 export const getRelatedBlogs = async ({ category, tags = [], limit = 3 }) => {
   try {
     const constraints = [];
@@ -100,9 +94,7 @@ export const getRelatedBlogs = async ({ category, tags = [], limit = 3 }) => {
   }
 };
 
-/* ===============================
-   CRUD
-================================= */
+/* ------------ CRUD ---------------------------------------------- */
 export const createBlogPost = async (data) => {
   return await addDoc(ref, {
     ...data,
