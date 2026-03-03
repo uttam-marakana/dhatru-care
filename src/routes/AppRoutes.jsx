@@ -21,6 +21,8 @@ import Blog from "../pages/Blog";
 import BlogDetail from "../pages/BlogDetail";
 import Contact from "../pages/Contact";
 import Services from "../pages/Services";
+import Appointments from "../pages/Appointments";
+
 
 /* auth pages */
 import Login from "../auth/Login";
@@ -29,6 +31,7 @@ import Signup from "../auth/Signup";
 /* protected pages */
 import Profile from "../pages/Profile";
 import Settings from "../pages/Settings";
+import UserAppointments from "../pages/UserAppointments";
 
 /* admin pages */
 import UploadData from "../admin/pages/DataUpload";
@@ -57,6 +60,8 @@ export default function AppRoutes() {
         <Route path="/blog/:slug" element={<BlogDetail />} />
 
         <Route path="/contact" element={<Contact />} />
+
+        <Route path="/appointment" element={<Appointments />} />
       </Route>
 
       {/* ------ AUTH -------------------------- */}
@@ -75,6 +80,9 @@ export default function AppRoutes() {
       >
         <Route path="/profile" element={<Profile />} />
         <Route path="/settings" element={<Settings />} />
+
+        {/* User Appointment Dashboard */}
+        <Route path="profile/appointments" element={<UserAppointments />} />
       </Route>
 
       {/* ------ ADMIN -------------------------- */}

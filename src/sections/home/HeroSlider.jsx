@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import Container from "../../components/layout/Container";
 import Button from "../../components/common/Button";
+import { Link } from "react-router-dom";
 
 const slides = [
   {
@@ -66,7 +67,9 @@ export default function HeroSlider() {
             {slides[index].title}
           </h1>
           <p className="text-lg md:text-xl mb-8">{slides[index].subtitle}</p>
-          <Button size="lg">Book Appointment</Button>
+          <Link to="/appointments">
+            <Button size="lg">Book Appointment</Button>
+          </Link>
         </motion.div>
       </Container>
 

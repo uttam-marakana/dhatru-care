@@ -17,7 +17,6 @@ const Card = lazy(() => import("../components/common/Card"));
 const AppointmentCTA = lazy(() => import("../sections/shared/AppointmentCTA"));
 const Breadcrumb = lazy(() => import("../components/common/Breadcrumb"));
 
-
 export default function DoctorDetail() {
   const { id } = useParams();
 
@@ -116,10 +115,15 @@ export default function DoctorDetail() {
               </div>
 
               <div className="space-y-3 mt-6">
-                <Button className="w-full">
-                  <FaCalendarCheck className="mr-2" />
-                  Book Appointment
-                </Button>
+                <Link to="/appointments">
+                  <Button
+                    size="lg"
+                    leftIcon={<FaCalendarCheck />}
+                    className="min-w-48"
+                  >
+                    Book Appointment
+                  </Button>
+                </Link>
                 <Button variant="outline" className="w-full">
                   <FaPhoneAlt className="mr-2" />
                   Call Now
