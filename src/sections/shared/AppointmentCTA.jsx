@@ -1,61 +1,52 @@
 import { lazy } from "react";
+import { Link } from "react-router-dom";
 import { FaCalendarCheck, FaPhoneAlt } from "react-icons/fa";
 
-// Dynamic imports for code splitting
 const Container = lazy(() => import("../../components/layout/Container"));
 const Button = lazy(() => import("../../components/common/Button"));
 
 export default function AppointmentCTA({
-  variant = "default", // 'default' | 'large' | 'compact'
+  variant = "default",
   className = "",
 }) {
   const isLarge = variant === "large";
-  const isCompact = variant === "compact";
 
   return (
     <section
-      className={`
-        bg-linear-to-r from-primary to-primary-dark text-white
-        py-12 md:py-16 lg:py-20
-        ${isLarge ? "my-12 md:my-20 rounded-3xl shadow-2xl mx-4 md:mx-8 lg:mx-auto max-w-6xl" : ""}
-        ${className}
-      `}
+      className={`bg-linear-to-r from-primary to-primary-dark text-white py-12 md:py-16 lg:py-20
+      ${isLarge ? "my-12 md:my-20 rounded-3xl shadow-2xl mx-4 md:mx-8 lg:mx-auto max-w-6xl" : ""}
+      ${className}`}
     >
-      <Container className={isLarge ? "text-center" : ""}>
-        <div
-          className={`flex flex-col sm:w-auto md:flex-row items-center justify-between gap-4 w-full ${isCompact ? "text-center" : ""}`}
-        >
-          <div className={`${isCompact ? "mb-6" : ""}`}>
-            <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-3">
-              Ready to Book Your Appointment?
-            </h2>
-            <p className="text-base md:text-lg opacity-90 max-w-2xl">
-              {isCompact
-                ? "Get in touch with our team today"
-                : "Schedule your consultation with one of our expert specialists – same-day slots available in many cases"}
-            </p>
-          </div>
+      <Container className="text-center">
+        <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-4">
+          Ready to Book Your Appointment?
+        </h2>
 
-          <div
-            className={`flex flex-col sm:flex-row gap-4 ${isCompact ? "justify-center" : ""}`}
-          >
+        <p className="mb-8 opacity-90">
+          Schedule your consultation with our expert specialists.
+        </p>
+
+        <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          <Link to="/appointments">
             <Button
-              size={isLarge ? "lg" : "md"}
+              size="lg"
               leftIcon={<FaCalendarCheck />}
-              className="text-primary hover:bg-gray-100 shadow-lg min-w-55"
+              className="min-w-48"
             >
               Book Appointment
             </Button>
+          </Link>
 
+          <a href="tel:+919876543210">
             <Button
               variant="outline"
-              size={isLarge ? "lg" : "md"}
+              size="lg"
               leftIcon={<FaPhoneAlt />}
-              className="border-white text-white hover:bg-white/10 min-w-55"
+              className="border-white text-white min-w-48"
             >
-              Call Now: +91 98765 43210
+              Call Now
             </Button>
-          </div>
+          </a>
         </div>
       </Container>
     </section>
