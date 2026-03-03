@@ -11,6 +11,11 @@ export default function FeaturedDoctors({ doctors = [], loading }) {
   return (
     <section className="py-12 md:py-16 lg:py-20 min-h-[350px]">
       <Container>
+        <div className="text-center mb-10 md:mb-14">
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold">
+            Meet Our Featured Doctors
+          </h2>
+        </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {doctors.slice(0, 4).map((doctor) => (
             <Link key={doctor.id} to={`/doctors/${doctor.id}`}>

@@ -16,6 +16,11 @@ export default function LatestBlog({ posts = [], loading }) {
         <p className="col-span-full text-center">Blog articles coming soon.</p>
       )}
       <Container>
+        <div className="text-center mb-10 md:mb-14">
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold">
+            Latest from Our Blog
+          </h2>
+        </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {posts.slice(0, 3).map((post) => (
             <Link key={post.id} to={`/blog/${post.slug}`}>

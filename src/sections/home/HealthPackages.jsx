@@ -9,8 +9,7 @@ export default function HealthPackages({
   packages = [],
   loading,
   error,
-  fullWidth,
-}) {
+  }) {
   if (loading)
     return <div className="text-center py-20">Loading packages...</div>;
 
@@ -23,6 +22,11 @@ export default function HealthPackages({
   return (
     <section className="py-12 md:py-16 lg:py-20 bg-gray-50 dark:bg-gray-900">
       <Container>
+        <div className="text-center mb-10 md:mb-14">
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold">
+            Comprehensive Health Packages
+          </h2>
+        </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {packages.map((pkg) => (
             <Card key={pkg.id} hover className="flex flex-col h-full">
