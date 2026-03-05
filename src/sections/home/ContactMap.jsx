@@ -81,7 +81,7 @@ export default function ContactMap() {
                 </h4>
               </div>
 
-              <p className="text-3xl font-bold tracking-wide text-white">
+              <p className="text-xl font-bold tracking-wide text-white">
                 +91 98765 43210
               </p>
             </div>

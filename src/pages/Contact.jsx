@@ -44,7 +44,7 @@ export default function Contact() {
                     Emergency
                   </h4>
 
-                  <p className="text-2xl font-bold text-white">
+                  <p className="text-xl font-bold text-white">
                     +91 98765 43210
                   </p>
 
