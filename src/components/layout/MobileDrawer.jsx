@@ -51,7 +51,7 @@ export default function MobileDrawer({
     <AnimatePresence>
       {isOpen && (
         <motion.div
-          className="fixed inset-0 z-50 bg-gradient-to-b from-gray-950 via-gray-900 to-gray-950 text-white"
+          className="fixed inset-0 z-50 bg-[var(--bg)] text-[var(--text)]"
           role="dialog"
           aria-modal="true"
           initial={{ y: "-100%" }}
@@ -59,12 +59,12 @@ export default function MobileDrawer({
           exit={{ y: "-100%" }}
           transition={{ duration: 0.35, ease: "easeInOut" }}
         >
-          {/* Blue Glow Aura */}
-          <div className="absolute -top-40 left-1/2 -translate-x-1/2 w-[700px] h-[700px] bg-blue-600/20 blur-[140px] rounded-full"></div>
+          {/* Glow */}
+          <div className="absolute -top-40 left-1/2 -translate-x-1/2 w-[700px] h-[700px] bg-[var(--glow-bg)] blur-[140px] rounded-full"></div>
 
           <div
             ref={drawerRef}
-            className="relative z-10 flex flex-col h-full px-6 py-6"
+            className="relative z-10 flex flex-col h-full px-6 py-6 backdrop-blur-xl"
           >
             {/* TOP BAR */}
             <div className="flex justify-between items-center mb-10">
@@ -79,16 +79,30 @@ export default function MobileDrawer({
               <button
                 onClick={onClose}
                 aria-label="Close menu"
-                className="p-2 rounded-full border border-white/10 hover:border-blue-400/40 hover:shadow-[0_0_20px_rgba(59,130,246,0.25)] transition"
+                className="
+                p-2 rounded-full
+                border border-[var(--border)]
+                hover:border-[var(--color-primary)]/40
+                hover:shadow-[0_0_20px_var(--glow-soft)]
+                transition
+                "
               >
                 <FaTimes size={20} />
               </button>
             </div>
 
-            {/* EMERGENCY BLOCK */}
+            {/* EMERGENCY */}
             <a
               href="tel:+919876543210"
-              className="flex items-center justify-center gap-3 bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-xl mb-8 font-semibold shadow-lg shadow-blue-500/30 transition"
+              className="
+              flex items-center justify-center gap-3
+              bg-[var(--color-primary)]
+              hover:bg-[var(--color-primary-hover)]
+              text-white
+              py-3 rounded-xl mb-8 font-semibold
+              shadow-[0_0_25px_var(--glow-soft)]
+              transition
+              "
             >
               <FaPhoneAlt />
               24×7 Emergency Call
@@ -102,12 +116,24 @@ export default function MobileDrawer({
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Search doctors, departments..."
                 aria-label="Search"
-                className="w-full bg-white/5 border border-white/10 rounded-xl py-3 px-4 text-white placeholder-gray-500 focus:outline-none focus:border-blue-400 focus:shadow-[0_0_20px_rgba(59,130,246,0.25)] transition"
+                className="
+                w-full
+                bg-[var(--card)]/70
+                border border-[var(--border)]
+                rounded-xl
+                py-3 px-4
+                text-[var(--text)]
+                placeholder-[var(--muted)]
+                focus:outline-none
+                focus:border-[var(--color-primary)]
+                focus:shadow-[0_0_20px_var(--glow-soft)]
+                transition
+                "
               />
             </form>
 
-            {/* NAVIGATION */}
-            <nav className="flex flex-col gap-6 text-lg font-medium text-gray-300">
+            {/* NAV */}
+            <nav className="flex flex-col gap-6 text-lg font-medium">
               {navItems.map((item) => (
                 <NavLink
                   key={item.to}
@@ -116,8 +142,8 @@ export default function MobileDrawer({
                   className={({ isActive }) =>
                     `transition ${
                       isActive
-                        ? "text-blue-400 font-semibold"
-                        : "hover:text-blue-400"
+                        ? "text-[var(--color-primary)] font-semibold"
+                        : "text-[var(--text-secondary)] hover:text-[var(--color-primary)]"
                     }`
                   }
                 >
@@ -128,30 +154,32 @@ export default function MobileDrawer({
 
             <div className="flex-1" />
 
-            {/* ACCOUNT SECTION */}
-            <div className="border-t border-white/10 pt-6 mb-6 text-gray-300">
+            {/* ACCOUNT */}
+            <div className="border-t border-[var(--border)] pt-6 mb-6 text-[var(--text-secondary)]">
               {user ? (
                 <div className="flex flex-col gap-4">
                   <Link
                     to="/profile"
                     onClick={onClose}
-                    className="hover:text-blue-400"
+                    className="hover:text-[var(--color-primary)]"
                   >
                     Profile
                   </Link>
+
                   <Link
                     to="/appointments"
                     onClick={onClose}
-                    className="hover:text-blue-400"
+                    className="hover:text-[var(--color-primary)]"
                   >
                     My Appointments
                   </Link>
+
                   <button
                     onClick={() => {
                       signOut(auth);
                       onClose();
                     }}
-                    className="text-red-500 text-left"
+                    className="text-[var(--color-error)] text-left"
                   >
                     Logout
                   </button>
@@ -160,7 +188,7 @@ export default function MobileDrawer({
                 <Link
                   to="/login"
                   onClick={onClose}
-                  className="hover:text-blue-400"
+                  className="hover:text-[var(--color-primary)]"
                 >
                   Login
                 </Link>
@@ -174,7 +202,16 @@ export default function MobileDrawer({
               <Link
                 to="/appointments"
                 onClick={onClose}
-                className="flex-1 text-center bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-xl font-semibold shadow-lg shadow-blue-500/30 transition"
+                className="
+                flex-1 text-center
+                bg-[var(--color-primary)]
+                hover:bg-[var(--color-primary-hover)]
+                text-white
+                py-3 rounded-xl
+                font-semibold
+                shadow-[0_0_25px_var(--glow-soft)]
+                transition
+                "
               >
                 Book Appointment
               </Link>

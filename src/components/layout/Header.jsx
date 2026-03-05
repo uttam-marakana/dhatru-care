@@ -39,13 +39,11 @@ export default function Header() {
 
   const searchRef = useRef(null);
 
-  /* AUTH */
   useEffect(() => {
     const unsub = onAuthStateChanged(auth, (u) => setUser(u || null));
     return () => unsub();
   }, []);
 
-  /* DARK MODE WATCH */
   useEffect(() => {
     const observer = new MutationObserver(() => {
       setIsDarkMode(document.documentElement.classList.contains("dark"));
@@ -61,20 +59,17 @@ export default function Header() {
     return () => observer.disconnect();
   }, []);
 
-  /* SCROLL SHADOW */
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 10);
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  /* CLOSE MENU ON ROUTE CHANGE */
   useEffect(() => {
     setIsOpen(false);
     setIsSearchOpen(false);
   }, [location.pathname]);
 
-  /* CLOSE SEARCH OUTSIDE */
   useEffect(() => {
     const handleClickOutside = (e) => {
       if (searchRef.current && !searchRef.current.contains(e.target)) {
@@ -107,11 +102,13 @@ export default function Header() {
   return (
     <>
       <header
-        className={`fixed top-0 left-0 right-0 z-50 backdrop-blur-xl transition-all duration-300
-        bg-gradient-to-b from-[#030712]/95 via-[#111827]/95 to-[#030712]/95
-        border-b border-white/10
-        ${scrolled ? "shadow-[0_0_40px_rgba(59,130,246,0.25)]" : ""}
-      `}
+        className={`fixed top-0 left-0 right-0 z-50
+        backdrop-blur-xl
+        transition-all duration-300
+        bg-[var(--surface)]/80
+        border-b border-[var(--border)]
+        ${scrolled ? "shadow-[0_0_40px_var(--glow-bg)]" : ""}
+        `}
       >
         <Container className="px-4 sm:px-6 lg:px-8">
           <div className="flex h-16 sm:h-20 items-center justify-between">
@@ -125,14 +122,16 @@ export default function Header() {
             </Link>
 
             {/* NAVIGATION */}
-            <nav className="hidden xl:flex gap-8 font-medium text-[#9CA3AF]">
+            <nav className="hidden xl:flex gap-8 font-medium">
               {navItems.map((item) => (
                 <NavLink
                   key={item.to}
                   to={item.to}
                   className={({ isActive }) =>
                     `transition-colors duration-300 ${
-                      isActive ? "text-[#60A5FA]" : "hover:text-[#60A5FA]"
+                      isActive
+                        ? "text-[var(--color-primary)]"
+                        : "text-[var(--text-secondary)] hover:text-[var(--color-primary)]"
                     }`
                   }
                 >
@@ -143,92 +142,28 @@ export default function Header() {
 
             {/* ACTIONS */}
             <div className="hidden xl:flex items-center gap-6">
-              {/* Emergency */}
               <a
                 href="tel:+919876543210"
-                className="flex items-center gap-2 text-sm font-medium text-[#60A5FA]"
+                className="flex items-center gap-2 text-sm font-medium text-[var(--color-primary)]"
               >
                 <FaPhoneAlt />
                 24×7 Emergency
               </a>
 
-              {/* SEARCH */}
-              <div ref={searchRef} className="relative">
-                <button
-                  onClick={() => setIsSearchOpen((prev) => !prev)}
-                  className="text-[#9CA3AF] hover:text-[#60A5FA] transition"
-                >
-                  <FaSearch />
-                </button>
-
-                {isSearchOpen && (
-                  <form
-                    onSubmit={handleSearch}
-                    className="absolute right-0 top-full mt-3 w-64
-                    bg-white/5 backdrop-blur-md
-                    border border-white/10
-                    rounded-xl p-4
-                    shadow-[0_0_30px_rgba(59,130,246,0.25)]
-                    z-50"
-                  >
-                    <div className="flex items-center gap-3">
-                      <input
-                        type="search"
-                        value={searchQuery}
-                        onChange={(e) => setSearchQuery(e.target.value)}
-                        placeholder="Search..."
-                        autoFocus
-                        className="w-full bg-transparent outline-none text-white placeholder-[#9CA3AF]"
-                      />
-
-                      {searchQuery && (
-                        <button
-                          type="button"
-                          onClick={() => setSearchQuery("")}
-                        >
-                          <FaTimesCircle className="text-[#9CA3AF] hover:text-[#60A5FA]" />
-                        </button>
-                      )}
-                    </div>
-                  </form>
-                )}
-              </div>
-
-              {/* USER */}
-              {user ? (
-                <>
-                  <Link
-                    to="/profile"
-                    className="text-[#9CA3AF] hover:text-[#60A5FA]"
-                  >
-                    <FaUser />
-                  </Link>
-
-                  <button onClick={() => signOut(auth)}>
-                    <FaSignOutAlt className="text-[#9CA3AF] hover:text-[#60A5FA]" />
-                  </button>
-                </>
-              ) : (
-                <Link
-                  to="/login"
-                  className="text-[#9CA3AF] hover:text-[#60A5FA]"
-                >
-                  Login
-                </Link>
-              )}
-
               <ThemeToggle />
 
-              {/* BOOK APPOINTMENT */}
               <Link
                 to="/appointments"
-                className="bg-gradient-to-r from-[#60A5FA] to-[#67E8F9]
-                hover:from-[#3B82F6] hover:to-[#60A5FA]
-                text-[#030712]
-                px-6 py-2.5 rounded-full
+                className="
+                bg-[var(--color-primary)]
+                hover:bg-[var(--color-primary-hover)]
+                text-white
+                px-6 py-2.5
+                rounded-full
                 font-semibold
-                shadow-[0_0_25px_rgba(59,130,246,0.35)]
-                transition-all duration-300"
+                shadow-[0_0_25px_var(--glow-soft)]
+                transition-all duration-300
+                "
               >
                 Book Appointment
               </Link>
@@ -237,7 +172,7 @@ export default function Header() {
             {/* MOBILE MENU */}
             <button
               onClick={() => setIsOpen(true)}
-              className="xl:hidden text-[#9CA3AF]"
+              className="xl:hidden text-[var(--text-secondary)]"
               aria-label="Open menu"
             >
               <FaBars size={20} />
