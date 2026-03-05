@@ -59,7 +59,7 @@ export default function HeroSlider() {
       </AnimatePresence>
 
       {/* Premium Gradient Overlay */}
-      <div className="absolute inset-0 bg-gradient-to-r from-gray-950/90 via-gray-950/70 to-gray-900/40 z-10" />
+      <div className="absolute inset-0 bg-linear-to-r from-gray-950/90 via-gray-950/70 to-gray-900/40 z-10" />
 
       {/* Content */}
       <Container className="relative z-20 h-full flex items-center">

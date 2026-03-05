@@ -44,14 +44,14 @@ export default function Testimonials({
   }, [carousel, loading, data.length, index]);
 
   return (
-    <section className="relative py-20 md:py-24 bg-gradient-to-b from-gray-950 via-gray-900 to-gray-950 text-white overflow-hidden">
+    <section className="relative py-20 md:py-24 bg-linear-to-b from-gray-950 via-gray-900 to-gray-950 text-white overflow-hidden">
       {/* Blue Glow Aura */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[650px] h-[650px] bg-blue-600/20 blur-[140px] rounded-full"></div>
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-162.5 h-162.5 bg-blue-600/20 blur-[140px] rounded-full"></div>
 
       <Container>
         {/* Header */}
         <div className="text-center mb-16 relative z-10 px-4">
-          <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-blue-400 to-blue-300 bg-clip-text text-transparent">
+          <h2 className="text-4xl md:text-5xl font-bold bg-linear-to-r from-blue-400 to-blue-300 bg-clip-text text-transparent">
             What Our Patients Say
           </h2>
 
