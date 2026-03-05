@@ -18,7 +18,7 @@ const actions = [
     id: "video",
     icon: FaVideo,
     title: "Video Consultation",
-    desc: "Consult experienced doctors from home.",
+    desc: "Consult experienced doctors from the comfort of home.",
   },
   {
     id: "checkup",
@@ -36,28 +36,76 @@ const actions = [
 
 export default function QuickActions() {
   return (
-    <section className="py-20 md:py-24 bg-(--bg) text-(--text)">
+    <section className="relative py-20 md:py-24 bg-(--bg) text-(--text) overflow-hidden">
+      {/* Glow background */}
+      <div className="absolute -top-40 left-1/2 -translate-x-1/2 w-175 h-175 bg-(--glow-bg) blur-[140px] rounded-full"></div>
+
       <Container>
-        <div className="text-center mb-16">
+        {/* Header */}
+        <div className="text-center mb-16 relative z-10">
           <h2 className="text-4xl md:text-5xl font-bold text-(--color-primary)">
             Comprehensive Care, Simplified
           </h2>
+
+          <p className="mt-5 text-(--text-secondary) max-w-2xl mx-auto">
+            Quick access to essential healthcare services — book, consult,
+            track, and manage your care seamlessly.
+          </p>
         </div>
 
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
+        {/* Actions Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 relative z-10">
           {actions.map(({ id, icon: Icon, title, desc }) => (
             <div
               key={id}
-              className="bg-(--card) border border-(--border)
-              rounded-2xl p-8 text-center hover:shadow-[0_0_40px_var(--glow-soft)]"
+              className="
+              group
+              relative
+              bg-(--card)
+              border border-(--border)
+              rounded-2xl
+              p-8
+              text-center
+              transition-all duration-500
+              hover:-translate-y-2
+              hover:border-(--color-primary)/40
+              hover:shadow-[0_0_40px_var(--glow-soft)]
+              "
             >
-              <Icon className="text-4xl text-(--color-primary) mx-auto mb-4" />
+              {/* Icon */}
+              <div className="flex justify-center mb-6">
+                <div
+                  className="
+                  w-16 h-16
+                  flex items-center justify-center
+                  rounded-xl
+                  bg-(--surface)
+                  text-(--color-primary)
+                  text-3xl
+                  group-hover:scale-110
+                  transition duration-500
+                  "
+                >
+                  <Icon />
+                </div>
+              </div>
 
-              <h3 className="text-xl font-semibold mb-3">{title}</h3>
+              {/* Title */}
+              <h3 className="text-xl font-semibold mb-3 text-(--text)">
+                {title}
+              </h3>
 
-              <p className="text-(--text-secondary) mb-6">{desc}</p>
+              {/* Description */}
+              <p className="text-(--text-secondary) mb-6 text-sm md:text-base leading-relaxed">
+                {desc}
+              </p>
 
-              <Button variant="ghost" size="sm">
+              {/* CTA */}
+              <Button
+                variant="ghost"
+                size="sm"
+                className="text-(--color-primary) hover:text-white"
+              >
                 Get Started →
               </Button>
             </div>
