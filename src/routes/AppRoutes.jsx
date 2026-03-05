@@ -39,6 +39,7 @@ import BulkUpload from "../admin/pages/BulkUpload";
 import ManageAppointments from "../admin/pages/ManageAppointment";
 
 import NotFound from "../pages/NotFound";
+import PackagesCompare from "../pages/PackagesCompare";
 
 export default function AppRoutes() {
   return (
@@ -54,7 +55,11 @@ export default function AppRoutes() {
         <Route path="/doctors" element={<Doctors />} />
         <Route path="/doctors/:id" element={<DoctorDetail />} />
 
-        <Route path="/packages" element={<Packages />} />
+        <Route path="/packages">
+          <Route index element={<Packages />} />
+          <Route path="compare" element={<PackagesCompare />} />
+        </Route>
+
         <Route path="/services" element={<Services />} />
 
         <Route path="/blog" element={<Blog />} />
@@ -98,7 +103,7 @@ export default function AppRoutes() {
         <Route index element={<Navigate to="upload" />} />
         <Route path="upload" element={<UploadData />} />
         <Route path="bulk-upload" element={<BulkUpload />} />
-        <Route  path="appointment" element={<ManageAppointments />} />
+        <Route path="appointment" element={<ManageAppointments />} />
       </Route>
 
       {/* ------ 404 -------------------------- */}

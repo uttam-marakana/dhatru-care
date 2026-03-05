@@ -1,4 +1,4 @@
-import { useEffect, useState, lazy } from "react";
+import { useEffect, useState, lazy, useRef } from "react";
 import { getPackages } from "../api/packagesApi";
 
 const PageHero = lazy(() => import("../sections/shared/PageHero"));
@@ -17,33 +17,35 @@ export default function PackagesCompare() {
   const [packages, setPackages] = useState([]);
   const [recommended, setRecommended] = useState(null);
 
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [tier, setTier] = useState("all");
+
+  const tableRef = useRef(null);
 
   useEffect(() => {
-    let mounted = true;
-
     const fetchPackages = async () => {
-      try {
-        setLoading(true);
-        setError(null);
-
-        const data = await getPackages();
-
-        if (!mounted) return;
-        setPackages(data);
-      } catch (err) {
-        console.error(err);
-        if (mounted) setError("Failed to load packages.");
-      } finally {
-        if (mounted) setLoading(false);
-      }
+      const data = await getPackages();
+      setPackages(data);
     };
 
     fetchPackages();
-
-    return () => (mounted = false);
   }, []);
+
+  const handleRecommendation = (pkg) => {
+    setRecommended(pkg);
+
+    setTimeout(() => {
+      tableRef.current?.scrollIntoView({
+        behavior: "smooth",
+      });
+    }, 200);
+  };
+
+  /* -------- PACKAGE TIER FILTER -------- */
+
+  const filteredPackages =
+    tier === "all"
+      ? packages
+      : packages.filter((p) => p.tier?.toLowerCase() === tier);
 
   return (
     <main className="min-h-screen bg-(--bg)">
@@ -62,17 +64,37 @@ export default function PackagesCompare() {
 
       <PackageRecommendationQuiz
         packages={packages}
-        onRecommendation={setRecommended}
+        onRecommendation={handleRecommendation}
       />
 
-      <PackagesCompareTable
-        packages={packages}
-        loading={loading}
-        error={error}
-        recommendedPackage={recommended}
-      />
+      {/* TIER TOGGLE */}
 
-      <AppointmentCTA variant="large" className="my-12 md:my-16 lg:my-20" />
+      <div className="flex justify-center mt-10">
+        <div className="flex gap-2 bg-(--card) border border-(--border) rounded-xl p-2">
+          {["all", "basic", "advanced", "premium"].map((t) => (
+            <button
+              key={t}
+              onClick={() => setTier(t)}
+              className={`px-4 py-2 rounded-lg capitalize transition ${
+                tier === t
+                  ? "bg-(--color-primary) text-white"
+                  : "hover:bg-(--surface)"
+              }`}
+            >
+              {t}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      <div ref={tableRef}>
+        <PackagesCompareTable
+          packages={filteredPackages}
+          recommendedPackage={recommended}
+        />
+      </div>
+
+      <AppointmentCTA variant="large" className="my-16" />
     </main>
   );
 }
