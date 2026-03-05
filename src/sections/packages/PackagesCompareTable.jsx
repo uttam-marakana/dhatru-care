@@ -9,39 +9,38 @@ export default function PackagesCompareTable({
   error,
   recommendedPackage = null,
 }) {
-  /* ------------ STATES ---------------------------------------------- */
   if (loading) {
     return (
       <Container className="py-16">
-        <div className="animate-pulse h-80 bg-white dark:bg-gray-900 rounded-xl" />
+        {" "}
+        <div className="animate-pulse h-80 bg-(--card) border border-(--border) rounded-xl" />{" "}
       </Container>
     );
   }
 
   if (error) {
     return (
-      <Container className="py-16 text-center text-red-600">{error}</Container>
+      <Container className="py-16 text-center text-red-500">{error} </Container>
     );
   }
 
   if (!packages.length) {
     return (
-      <Container className="py-16 text-center text-gray-500">
-        No packages found.
+      <Container className="py-16 text-center text-(--text-secondary)">
+        No packages found.{" "}
       </Container>
     );
   }
 
-  /* ------------ HELPERS ---------------------------------------------- */
   const parsePrice = (price = "") => Number(price.replace(/[^\d]/g, "")) || 0;
 
-  /* ------------ BEST VALUE (MOST TESTS) ---------------------------------------------- */
   const bestValueId = useMemo(() => {
     let best = null;
     let max = -1;
 
     packages.forEach((p) => {
       const count = p.includes?.length || 0;
+
       if (count > max) {
         max = count;
         best = p.id;
@@ -51,7 +50,6 @@ export default function PackagesCompareTable({
     return best;
   }, [packages]);
 
-  /* ------------ AUTO RECOMMENDED (fallback) ---------------------------------------------- */
   const autoRecommendedId = useMemo(() => {
     if (!packages.length) return null;
 
@@ -90,39 +88,64 @@ export default function PackagesCompareTable({
 
   const isBestValue = (pkg) => pkg.id === bestValueId;
 
-  /* ------------ UI ---------------------------------------------- */
   return (
     <section className="py-12 md:py-20">
+      {" "}
       <Container>
         {/* DESKTOP TABLE */}
-        <div className="hidden lg:block overflow-x-auto rounded-xl border bg-white dark:bg-gray-900">
-          <table className="w-full text-left">
-            <thead className="bg-primary/10">
+        <div
+          className="
+    hidden lg:block
+    overflow-x-auto
+    rounded-xl
+    border border-(--border)
+    bg-(--card)
+    "
+        >
+          <table className="w-full text-left text-(--text)">
+            <thead className="bg-(--color-primary)/10">
               <tr>
                 <th className="p-5 text-lg font-bold">Features</th>
 
                 {packages.map((pkg) => (
                   <th
                     key={pkg.id}
-                    className={`p-5 text-center relative ${
-                      isRecommended(pkg)
-                        ? "bg-primary/15 border-x-2 border-primary"
-                        : ""
-                    }`}
+                    className={`
+                p-5 text-center relative
+                ${
+                  isRecommended(pkg)
+                    ? "bg-(--color-primary)/15 border-x-2 border-(--color-primary)"
+                    : ""
+                }
+                `}
                   >
                     {isRecommended(pkg) && (
-                      <span className="absolute top-2 right-2 bg-primary text-white text-xs px-2 py-1 rounded-full">
+                      <span
+                        className="
+                  absolute top-2 right-2
+                  bg-(--color-primary)
+                  text-white
+                  text-xs px-2 py-1 rounded-full
+                  "
+                      >
                         ⭐ Recommended
                       </span>
                     )}
 
                     {!isRecommended(pkg) && isBestValue(pkg) && (
-                      <span className="absolute top-2 right-2 bg-green-600 text-white text-xs px-2 py-1 rounded-full">
+                      <span
+                        className="
+                  absolute top-2 right-2
+                  bg-green-600
+                  text-white
+                  text-xs px-2 py-1 rounded-full
+                  "
+                      >
                         🔥 Best Value
                       </span>
                     )}
 
-                    <div className="font-bold text-primary text-lg">
+                    <div className="font-bold text-(--color-primary) text-lg">
                       {pkg.name}
                     </div>
 
@@ -135,17 +158,22 @@ export default function PackagesCompareTable({
             </thead>
 
             <tbody>
-              <tr className="border-t">
+              <tr className="border-t border-(--border)">
                 <td className="p-5 font-semibold">Tests Included</td>
 
                 {packages.map((pkg) => (
                   <td
                     key={pkg.id}
-                    className={`p-5 align-top ${
-                      isRecommended(pkg) ? "border-x-2 border-primary/40" : ""
-                    }`}
+                    className={`
+                p-5 align-top
+                ${
+                  isRecommended(pkg)
+                    ? "border-x-2 border-(--color-primary)/40"
+                    : ""
+                }
+                `}
                   >
-                    <ul className="space-y-2">
+                    <ul className="space-y-2 text-(--text-secondary)">
                       {(pkg.includes || []).map((item, i) => (
                         <li key={i} className="flex gap-2">
                           <span className="text-green-500">✔</span>
@@ -157,20 +185,26 @@ export default function PackagesCompareTable({
                 ))}
               </tr>
 
-              <tr className="border-t">
+              <tr className="border-t border-(--border)">
                 <td className="p-5 font-semibold">Action</td>
 
                 {packages.map((pkg) => (
                   <td
                     key={pkg.id}
-                    className={`p-5 text-center ${
-                      isRecommended(pkg) ? "border-x-2 border-primary/40" : ""
-                    }`}
+                    className={`
+                p-5 text-center
+                ${
+                  isRecommended(pkg)
+                    ? "border-x-2 border-(--color-primary)/40"
+                    : ""
+                }
+                `}
                   >
                     <Button
-                      className={`w-full ${
-                        isRecommended(pkg) ? "bg-primary text-white" : ""
-                      }`}
+                      className={`
+                  w-full
+                  ${isRecommended(pkg) ? "bg-(--color-primary) text-white" : ""}
+                  `}
                     >
                       Book Now
                     </Button>
@@ -186,29 +220,54 @@ export default function PackagesCompareTable({
           {packages.map((pkg) => (
             <div
               key={pkg.id}
-              className={`bg-white dark:bg-gray-900 rounded-xl border p-6 relative ${
-                isRecommended(pkg) ? "border-primary shadow-lg" : ""
-              }`}
+              className={`
+          bg-(--card)
+          border border-(--border)
+          rounded-xl
+          p-6
+          relative
+          ${
+            isRecommended(pkg)
+              ? "border-(--color-primary) shadow-[0_0_40px_var(--glow-soft)]"
+              : ""
+          }
+          `}
             >
               {isRecommended(pkg) && (
-                <span className="absolute top-3 right-3 bg-primary text-white text-xs px-2 py-1 rounded-full">
+                <span
+                  className="
+            absolute top-3 right-3
+            bg-(--color-primary)
+            text-white
+            text-xs px-2 py-1 rounded-full
+            "
+                >
                   ⭐ Recommended
                 </span>
               )}
 
               {!isRecommended(pkg) && isBestValue(pkg) && (
-                <span className="absolute top-3 right-3 bg-green-600 text-white text-xs px-2 py-1 rounded-full">
+                <span
+                  className="
+            absolute top-3 right-3
+            bg-green-600
+            text-white
+            text-xs px-2 py-1 rounded-full
+            "
+                >
                   🔥 Best Value
                 </span>
               )}
 
-              <h3 className="text-xl font-bold text-primary mb-2">
+              <h3 className="text-xl font-bold text-(--color-primary) mb-2">
                 {pkg.name}
               </h3>
 
-              <p className="text-2xl font-extrabold mb-4">{pkg.price}</p>
+              <p className="text-2xl font-extrabold mb-4 text-(--text)">
+                {pkg.price}
+              </p>
 
-              <ul className="space-y-2 mb-6">
+              <ul className="space-y-2 mb-6 text-(--text-secondary)">
                 {(pkg.includes || []).map((item, i) => (
                   <li key={i} className="flex gap-2">
                     <span className="text-green-500">✔</span>
@@ -218,9 +277,10 @@ export default function PackagesCompareTable({
               </ul>
 
               <Button
-                className={`w-full ${
-                  isRecommended(pkg) ? "bg-primary text-white" : ""
-                }`}
+                className={`
+            w-full
+            ${isRecommended(pkg) ? "bg-(--color-primary) text-white" : ""}
+            `}
               >
                 Book Now
               </Button>

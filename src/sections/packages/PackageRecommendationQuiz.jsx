@@ -16,10 +16,8 @@ export default function PackageRecommendationQuiz({
     budget: "",
   });
 
-  /* ------------ HELPERS ---------------------------------------------- */
   const parsePrice = (price = "") => Number(price.replace(/[^\d]/g, "")) || 0;
 
-  /* ------------ RECOMMENDATION ENGINE ---------------------------------------------- */
   const recommendedPackage = useMemo(() => {
     if (!packages.length) return null;
 
@@ -32,21 +30,19 @@ export default function PackageRecommendationQuiz({
 
       let score = 0;
 
-      // HEALTH GOAL
       if (answers.goal === "preventive") score += tests;
       if (answers.goal === "advanced") score += tests * 1.5;
+
       if (
         answers.goal === "senior" &&
         pkg.name?.toLowerCase().includes("senior")
       )
         score += 5;
 
-      // BUDGET
       if (answers.budget === "low" && price <= 2000) score += 3;
       if (answers.budget === "medium" && price <= 5000) score += 3;
       if (answers.budget === "high") score += 2;
 
-      // AGE BOOST
       if (answers.age === "50+" && tests > 4) score += 3;
 
       if (score > bestScore) {
@@ -58,25 +54,45 @@ export default function PackageRecommendationQuiz({
     return best;
   }, [answers, packages]);
 
-  /* ------------ FINISH QUIZ ---------------------------------------------- */
   const handleFinish = () => {
     if (recommendedPackage && onRecommendation) {
       onRecommendation(recommendedPackage);
     }
   };
 
+  const optionStyle = (active) => `     w-full
+    border border-(--border)
+    rounded-lg
+    p-3
+    text-(--text)
+    bg-(--surface)
+    hover:border-(--color-primary)
+    transition
+    ${active ? "border-(--color-primary)" : ""}
+  `;
+
   return (
     <section className="py-12 md:py-20">
+      {" "}
       <Container>
-        <Card className="max-w-2xl mx-auto p-6 md:p-8">
-          <h2 className="text-2xl md:text-3xl font-bold mb-6 text-center">
-            Find Your Best Health Package
+        {" "}
+        <Card
+          className="
+       max-w-2xl mx-auto
+       p-6 md:p-8
+       bg-(--card)
+       border border-(--border)
+       shadow-[0_0_40px_var(--glow-soft)]
+     "
+        >
+          {" "}
+          <h2 className="text-2xl md:text-3xl font-bold mb-6 text-center text-(--text)">
+            Find Your Best Health Package{" "}
           </h2>
-
           {/* STEP 1 */}
           {step === 1 && (
             <div className="space-y-4">
-              <h3 className="font-semibold">Select Age Group</h3>
+              <h3 className="font-semibold text-(--text)">Select Age Group</h3>
 
               {["18-30", "30-50", "50+"].map((age) => (
                 <button
@@ -85,18 +101,17 @@ export default function PackageRecommendationQuiz({
                     setAnswers((p) => ({ ...p, age }));
                     setStep(2);
                   }}
-                  className="w-full border rounded-lg p-3 hover:border-primary"
+                  className={optionStyle(answers.age === age)}
                 >
                   {age}
                 </button>
               ))}
             </div>
           )}
-
           {/* STEP 2 */}
           {step === 2 && (
             <div className="space-y-4">
-              <h3 className="font-semibold">Health Goal</h3>
+              <h3 className="font-semibold text-(--text)">Health Goal</h3>
 
               {[
                 { key: "preventive", label: "Preventive Checkup" },
@@ -109,18 +124,17 @@ export default function PackageRecommendationQuiz({
                     setAnswers((p) => ({ ...p, goal: g.key }));
                     setStep(3);
                   }}
-                  className="w-full border rounded-lg p-3 hover:border-primary"
+                  className={optionStyle(answers.goal === g.key)}
                 >
                   {g.label}
                 </button>
               ))}
             </div>
           )}
-
           {/* STEP 3 */}
           {step === 3 && (
             <div className="space-y-4">
-              <h3 className="font-semibold">Budget Range</h3>
+              <h3 className="font-semibold text-(--text)">Budget Range</h3>
 
               {[
                 { key: "low", label: "Under ₹2000" },
@@ -130,28 +144,37 @@ export default function PackageRecommendationQuiz({
                 <button
                   key={b.key}
                   onClick={() => setAnswers((p) => ({ ...p, budget: b.key }))}
-                  className={`w-full border rounded-lg p-3 ${
-                    answers.budget === b.key ? "border-primary" : ""
-                  }`}
+                  className={optionStyle(answers.budget === b.key)}
                 >
                   {b.label}
                 </button>
               ))}
 
-              <Button className="w-full mt-4" onClick={handleFinish}>
-                Get Recommendation
-              </Button>
+              <Button className="w-full mt-4">Get Recommendation</Button>
             </div>
           )}
-
           {/* RESULT */}
           {recommendedPackage && step === 3 && (
-            <div className="mt-8 p-4 rounded-lg bg-primary/10 border border-primary">
-              <h4 className="font-bold text-primary mb-2">
+            <div
+              className="
+          mt-8
+          p-4
+          rounded-lg
+          bg-(--color-primary)/10
+          border border-(--color-primary)
+        "
+            >
+              <h4 className="font-bold text-(--color-primary) mb-2">
                 ⭐ Recommended For You
               </h4>
-              <p className="font-semibold">{recommendedPackage.name}</p>
-              <p className="text-sm mt-1">Price: {recommendedPackage.price}</p>
+
+              <p className="font-semibold text-(--text)">
+                {recommendedPackage.name}
+              </p>
+
+              <p className="text-sm mt-1 text-(--text-secondary)">
+                Price: {recommendedPackage.price}
+              </p>
             </div>
           )}
         </Card>
