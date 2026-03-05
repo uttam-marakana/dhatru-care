@@ -3,51 +3,85 @@
 /* -------- 1. Custom Variant ------------------------------------------- */
 @custom-variant dark (&:where(.dark, .dark *));
 
-/* -------- 2. Theme Tokens (Semantic + Scalable) ------------------------------------------- */
+/* -------- 2. Theme Tokens ------------------------------------------- */
 @theme {
-  /* Brand Core */
-  --color-primary: #0ea5e9;
-  --color-primary-hover: #0284c7;
-  --color-accent: #f43f5e;
+  /* ---------------- Brand ---------------- */
 
-  /* Surfaces (Light) */
-  --bg-primary: #ffffff;
-  --bg-surface: #f8fafc;
-  --text-primary: #111827;
-  --text-muted: #6b7280;
-  --border-color: #e5e7eb;
+  --color-primary: #38bdf8;
+  --color-primary-hover: #0ea5e9;
+  --color-accent: #22d3ee;
 
-  /* Surfaces (Dark – Medical Style) */
-  --bg-primary-dark: #0f172a;
-  --bg-surface-dark: #13273d;
+  /* ---------------- LIGHT THEME ---------------- */
+
+  --bg-primary-light: #f8fafc;
+  --bg-surface-light: #ffffff;
+  --bg-card-light: #f1f5f9;
+
+  --text-primary-light: #020617;
+  --text-secondary-light: #334155;
+  --text-muted-light: #64748b;
+
+  --border-light: #e2e8f0;
+
+  /* ---------------- DARK THEME ---------------- */
+
+  --bg-primary-dark: #020617;
+  --bg-surface-dark: #071a2f;
+  --bg-card-dark: #0f243d;
+
   --text-primary-dark: #f1f5f9;
+  --text-secondary-dark: #cbd5e1;
   --text-muted-dark: #94a3b8;
-  --border-color-dark: #334155;
 
-  /* Special Effects */
-  --glow-soft: rgba(59, 130, 246, 0.25);
+  --border-dark: #243b53;
+
+  /* ---------------- EFFECTS ---------------- */
+
+  --glow-soft: rgba(56, 189, 248, 0.35);
+  --glow-bg: rgba(59, 130, 246, 0.25);
+
+  /* ---------------- GRADIENT ---------------- */
+
   --heading-gradient-from: #60a5fa;
   --heading-gradient-to: #22d3ee;
+
+  /* ---------------- STATUS ---------------- */
+
+  --color-success: #22c55e;
+  --color-warning: #f59e0b;
+  --color-error: #ef4444;
 }
 
-/* -------- 3. Global Variable Mapping ------------------------------------------- */
+/* -------- 3. Default Theme (LIGHT) ------------------------------------------- */
+
 :root {
-  --bg: var(--bg-primary);
-  --surface: var(--bg-surface);
-  --text: var(--text-primary);
-  --muted: var(--text-muted);
-  --border: var(--border-color);
+  --bg: var(--bg-primary-light);
+  --surface: var(--bg-surface-light);
+  --card: var(--bg-card-light);
+
+  --text: var(--text-primary-light);
+  --text-secondary: var(--text-secondary-light);
+  --muted: var(--text-muted-light);
+
+  --border: var(--border-light);
 }
+
+/* -------- 4. Dark Theme Override ------------------------------------------- */
 
 .dark {
   --bg: var(--bg-primary-dark);
   --surface: var(--bg-surface-dark);
+  --card: var(--bg-card-dark);
+
   --text: var(--text-primary-dark);
+  --text-secondary: var(--text-secondary-dark);
   --muted: var(--text-muted-dark);
-  --border: var(--border-color-dark);
+
+  --border: var(--border-dark);
 }
 
-/* -------- 4. Base Styles ------------------------------------------- */
+/* -------- 5. Base Styles ------------------------------------------- */
+
 html {
   scroll-behavior: smooth;
 }
@@ -55,6 +89,7 @@ html {
 body {
   background-color: var(--bg);
   color: var(--text);
+
   font-family:
     system-ui,
     -apple-system,
@@ -62,13 +97,16 @@ body {
     "Segoe UI",
     Roboto,
     sans-serif;
+
   line-height: 1.6;
+
   transition:
     background-color 0.3s ease,
     color 0.3s ease;
 }
 
-/* Respect Reduced Motion */
+/* -------- Accessibility: Reduced Motion -------- */
+
 @media (prefers-reduced-motion: reduce) {
   * {
     animation-duration: 0.01ms !important;
@@ -78,7 +116,8 @@ body {
   }
 }
 
-/* -------- 5. Interactive Elements ------------------------------------------- */
+/* -------- 6. Interactive Elements ------------------------------------------- */
+
 @layer base {
   button,
   [role="button"] {
@@ -86,7 +125,6 @@ body {
   }
 }
 
-/* Limit transitions to interactive elements only */
 a,
 button,
 input,
@@ -98,14 +136,16 @@ select {
     color 0.3s ease;
 }
 
-/* Accessible Focus Ring */
+/* Focus ring */
+
 :focus-visible {
   outline: none;
-  box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.4);
+  box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.45);
   outline-offset: 2px;
 }
 
-/* -------- 6. Animations (Lightweight + Professional) ------------------------------------------- */
+/* -------- 7. Animations ------------------------------------------- */
+
 @keyframes fadeInUp {
   from {
     opacity: 0;
@@ -121,7 +161,8 @@ select {
   animation: fadeInUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-/* Smooth card lift (clean, not bouncy) */
+/* Card hover lift */
+
 .hover-lift {
   transition:
     transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
@@ -131,10 +172,11 @@ select {
 .hover-lift:hover,
 .hover-lift:focus-visible {
   transform: translateY(-8px);
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.18);
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.45);
 }
 
-/* -------- 7. Typography Helpers ------------------------------------------- */
+/* -------- 8. Typography ------------------------------------------- */
+
 .prose {
   max-width: none;
 }
