@@ -33,22 +33,57 @@ export default function RelatedBlogs({
   if (!blogs.length) return null;
 
   return (
-    <section className="py-12 md:py-16">
+    <section className="py-12 md:py-16 bg-(--surface)">
+      {" "}
       <Container>
-        <h2 className="text-3xl font-bold text-center mb-10">{title}</h2>
+        <h2 className="text-2xl md:text-3xl font-bold text-center mb-10 text-(--text)">
+          {title}
+        </h2>
 
-        <div className="grid md:grid-cols-3 gap-6">
+        <div
+          className="
+    grid
+    grid-cols-1
+    sm:grid-cols-2
+    lg:grid-cols-3
+    gap-6
+    "
+        >
           {blogs.map((post) => (
             <Link key={post.id} to={`/blog/${post.slug}`}>
-              <Card hover className="h-full overflow-hidden">
-                <div className="aspect-video bg-gray-200 dark:bg-gray-800" />
+              <Card
+                hover
+                className="
+            h-full overflow-hidden
+            bg-(--card)
+            border border-(--border)
+            transition-all duration-300
+            hover:border-(--color-primary)/40
+            hover:shadow-[0_0_40px_var(--glow-soft)]
+            "
+              >
+                <div className="aspect-video bg-(--surface)" />
 
                 <div className="p-5">
-                  <h3 className="font-bold text-lg mb-2 line-clamp-2">
+                  <h3
+                    className="
+              font-semibold
+              text-lg
+              mb-2
+              line-clamp-2
+              text-(--text)
+              "
+                  >
                     {post.title}
                   </h3>
 
-                  <p className="text-sm text-gray-600 dark:text-gray-400 line-clamp-3">
+                  <p
+                    className="
+              text-sm
+              text-(--text-secondary)
+              line-clamp-3
+              "
+                  >
                     {post.excerpt}
                   </p>
                 </div>
