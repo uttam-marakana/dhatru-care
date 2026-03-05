@@ -63,9 +63,7 @@ export default function Header() {
 
   /* SCROLL SHADOW */
   useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 10);
-    };
+    const handleScroll = () => setScrolled(window.scrollY > 10);
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
@@ -76,7 +74,7 @@ export default function Header() {
     setIsSearchOpen(false);
   }, [location.pathname]);
 
-  /* CLOSE SEARCH ON OUTSIDE CLICK */
+  /* CLOSE SEARCH OUTSIDE */
   useEffect(() => {
     const handleClickOutside = (e) => {
       if (searchRef.current && !searchRef.current.contains(e.target)) {
@@ -85,9 +83,7 @@ export default function Header() {
     };
 
     const handleEsc = (e) => {
-      if (e.key === "Escape") {
-        setIsSearchOpen(false);
-      }
+      if (e.key === "Escape") setIsSearchOpen(false);
     };
 
     document.addEventListener("mousedown", handleClickOutside);
@@ -112,9 +108,9 @@ export default function Header() {
     <>
       <header
         className={`fixed top-0 left-0 right-0 z-50 backdrop-blur-xl transition-all duration-300
-        bg-gradient-to-b from-[#0b1220]/95 via-[#0f1c2f]/95 to-[#0b1220]/95
-        border-b border-white/5
-        ${scrolled ? "shadow-[0_0_40px_rgba(59,130,246,0.15)]" : ""}
+        bg-gradient-to-b from-[#030712]/95 via-[#111827]/95 to-[#030712]/95
+        border-b border-white/10
+        ${scrolled ? "shadow-[0_0_40px_rgba(59,130,246,0.25)]" : ""}
       `}
       >
         <Container className="px-4 sm:px-6 lg:px-8">
@@ -128,15 +124,15 @@ export default function Header() {
               />
             </Link>
 
-            {/* DESKTOP NAV */}
-            <nav className="hidden xl:flex gap-8 font-medium text-gray-400">
+            {/* NAVIGATION */}
+            <nav className="hidden xl:flex gap-8 font-medium text-[#9CA3AF]">
               {navItems.map((item) => (
                 <NavLink
                   key={item.to}
                   to={item.to}
                   className={({ isActive }) =>
-                    `transition-colors ${
-                      isActive ? "text-blue-400" : "hover:text-blue-400"
+                    `transition-colors duration-300 ${
+                      isActive ? "text-[#60A5FA]" : "hover:text-[#60A5FA]"
                     }`
                   }
                 >
@@ -150,17 +146,17 @@ export default function Header() {
               {/* Emergency */}
               <a
                 href="tel:+919876543210"
-                className="flex items-center gap-2 text-sm font-medium text-blue-400"
+                className="flex items-center gap-2 text-sm font-medium text-[#60A5FA]"
               >
                 <FaPhoneAlt />
                 24×7 Emergency
               </a>
 
-              {/* Search */}
+              {/* SEARCH */}
               <div ref={searchRef} className="relative">
                 <button
                   onClick={() => setIsSearchOpen((prev) => !prev)}
-                  className="text-gray-300 hover:text-blue-400 transition"
+                  className="text-[#9CA3AF] hover:text-[#60A5FA] transition"
                 >
                   <FaSearch />
                 </button>
@@ -168,11 +164,11 @@ export default function Header() {
                 {isSearchOpen && (
                   <form
                     onSubmit={handleSearch}
-                    className="absolute right-0 top-full mt-3 w-64 
-                    bg-white/5 backdrop-blur-md 
-                    border border-white/10 
-                    rounded-xl p-4 
-                    shadow-[0_0_30px_rgba(59,130,246,0.2)]
+                    className="absolute right-0 top-full mt-3 w-64
+                    bg-white/5 backdrop-blur-md
+                    border border-white/10
+                    rounded-xl p-4
+                    shadow-[0_0_30px_rgba(59,130,246,0.25)]
                     z-50"
                   >
                     <div className="flex items-center gap-3">
@@ -182,14 +178,15 @@ export default function Header() {
                         onChange={(e) => setSearchQuery(e.target.value)}
                         placeholder="Search..."
                         autoFocus
-                        className="w-full bg-transparent outline-none text-white placeholder-gray-500"
+                        className="w-full bg-transparent outline-none text-white placeholder-[#9CA3AF]"
                       />
+
                       {searchQuery && (
                         <button
                           type="button"
                           onClick={() => setSearchQuery("")}
                         >
-                          <FaTimesCircle className="text-gray-400 hover:text-blue-400" />
+                          <FaTimesCircle className="text-[#9CA3AF] hover:text-[#60A5FA]" />
                         </button>
                       )}
                     </div>
@@ -202,26 +199,36 @@ export default function Header() {
                 <>
                   <Link
                     to="/profile"
-                    className="text-gray-300 hover:text-blue-400"
+                    className="text-[#9CA3AF] hover:text-[#60A5FA]"
                   >
                     <FaUser />
                   </Link>
+
                   <button onClick={() => signOut(auth)}>
-                    <FaSignOutAlt className="text-gray-300 hover:text-blue-400" />
+                    <FaSignOutAlt className="text-[#9CA3AF] hover:text-[#60A5FA]" />
                   </button>
                 </>
               ) : (
-                <Link to="/login" className="text-gray-300 hover:text-blue-400">
+                <Link
+                  to="/login"
+                  className="text-[#9CA3AF] hover:text-[#60A5FA]"
+                >
                   Login
                 </Link>
               )}
 
               <ThemeToggle />
 
-              {/* BOOK NOW */}
+              {/* BOOK APPOINTMENT */}
               <Link
                 to="/appointments"
-                className="bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 text-white px-6 py-2.5 rounded-full font-semibold shadow-[0_0_25px_rgba(59,130,246,0.35)] transition"
+                className="bg-gradient-to-r from-[#60A5FA] to-[#67E8F9]
+                hover:from-[#3B82F6] hover:to-[#60A5FA]
+                text-[#030712]
+                px-6 py-2.5 rounded-full
+                font-semibold
+                shadow-[0_0_25px_rgba(59,130,246,0.35)]
+                transition-all duration-300"
               >
                 Book Appointment
               </Link>
@@ -230,7 +237,7 @@ export default function Header() {
             {/* MOBILE MENU */}
             <button
               onClick={() => setIsOpen(true)}
-              className="xl:hidden text-gray-300"
+              className="xl:hidden text-[#9CA3AF]"
               aria-label="Open menu"
             >
               <FaBars size={20} />
@@ -253,7 +260,7 @@ export default function Header() {
         ThemeToggle={ThemeToggle}
       />
 
-      {/* Spacer for fixed header */}
+      {/* Spacer */}
       <div className="h-16 sm:h-20" />
     </>
   );
