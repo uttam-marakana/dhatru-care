@@ -7,8 +7,8 @@ export default function UniversalFilterLayout({
   onChange,
   FiltersComponent,
 }) {
-  const [isOpen, setIsOpen] = useState(false); // mobile drawer
-  const [desktopOpen, setDesktopOpen] = useState(false); // desktop collapsed by default
+  const [isOpen, setIsOpen] = useState(false);
+  const [desktopOpen, setDesktopOpen] = useState(false);
 
   useEffect(() => {
     document.body.style.overflow = isOpen ? "hidden" : "auto";
@@ -20,34 +20,57 @@ export default function UniversalFilterLayout({
   );
 
   const handleChange = (data) => {
-    onChange(data); // keep filtering logic intact
+    onChange(data);
   };
 
   return (
     <>
       {/* DESKTOP */}
-      <section className="hidden lg:block sticky top-0 z-30 bg-gray-900/60 backdrop-blur border-b border-white/10">
+      <section
+        className="
+        hidden lg:block sticky top-0 z-30
+        bg-[var(--surface)]/80 backdrop-blur-xl
+        border-b border-[var(--border)]
+        "
+      >
         <div className="max-w-7xl mx-auto px-4 py-4">
-          {/* Desktop Header */}
           <div className="flex justify-between items-center">
-            <h3 className="text-white font-semibold">Filters</h3>
+            <h3 className="font-semibold text-[var(--text)]">Filters</h3>
 
             <button
               onClick={() => setDesktopOpen((prev) => !prev)}
-              className="relative flex items-center gap-2 bg-blue-500/20 border border-blue-400/30 text-blue-400 px-4 py-2 rounded-lg hover:bg-blue-500/30 transition"
+              className="
+              relative flex items-center gap-2
+              bg-[var(--color-primary)]/10
+              border border-[var(--color-primary)]/30
+              text-[var(--color-primary)]
+              px-4 py-2 rounded-lg
+              hover:bg-[var(--color-primary)]/20
+              transition
+              "
             >
               <FaFilter />
               <span>Filter</span>
 
               {activeFiltersCount > 0 && (
-                <span className="ml-1 bg-red-500 text-xs w-5 h-5 rounded-full flex items-center justify-center text-white">
+                <span
+                  className="
+                  ml-1
+                  bg-[var(--color-error)]
+                  text-xs
+                  w-5 h-5
+                  rounded-full
+                  flex items-center justify-center
+                  text-white
+                  "
+                >
                   {activeFiltersCount}
                 </span>
               )}
             </button>
           </div>
 
-          {/* Collapsible Panel */}
+          {/* Collapsible */}
           <AnimatePresence>
             {desktopOpen && (
               <motion.div
@@ -68,11 +91,30 @@ export default function UniversalFilterLayout({
       <div className="lg:hidden fixed bottom-6 right-6 z-40">
         <button
           onClick={() => setIsOpen(true)}
-          className="relative bg-blue-500 hover:bg-blue-600 text-white p-4 rounded-full shadow-lg shadow-blue-500/30"
+          className="
+          relative
+          bg-[var(--color-primary)]
+          hover:bg-[var(--color-primary-hover)]
+          text-white
+          p-4 rounded-full
+          shadow-[0_0_20px_var(--glow-soft)]
+          transition
+          "
         >
           <FaFilter />
+
           {activeFiltersCount > 0 && (
-            <span className="absolute -top-1 -right-1 bg-red-500 text-xs w-5 h-5 rounded-full flex items-center justify-center">
+            <span
+              className="
+              absolute -top-1 -right-1
+              bg-[var(--color-error)]
+              text-xs
+              w-5 h-5
+              rounded-full
+              flex items-center justify-center
+              text-white
+              "
+            >
               {activeFiltersCount}
             </span>
           )}
@@ -84,7 +126,7 @@ export default function UniversalFilterLayout({
         {isOpen && (
           <div className="fixed inset-0 z-50">
             <motion.div
-              className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+              className="absolute inset-0 bg-[var(--bg)]/70 backdrop-blur-sm"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
@@ -96,13 +138,26 @@ export default function UniversalFilterLayout({
               animate={{ x: 0 }}
               exit={{ x: "100%" }}
               transition={{ type: "spring", stiffness: 260, damping: 28 }}
-              className="absolute right-0 top-0 h-full w-[88%] sm:w-[420px] bg-gradient-to-b from-gray-950 via-gray-900 to-gray-950 border-l border-white/10 p-6 overflow-y-auto"
+              className="
+              absolute right-0 top-0 h-full
+              w-[88%] sm:w-[420px]
+              bg-[var(--surface)]
+              border-l border-[var(--border)]
+              p-6 overflow-y-auto
+              "
             >
               <div className="flex justify-between items-center mb-6">
-                <h3 className="text-xl font-semibold text-white">Filters</h3>
+                <h3 className="text-xl font-semibold text-[var(--text)]">
+                  Filters
+                </h3>
+
                 <button
                   onClick={() => setIsOpen(false)}
-                  className="p-2 rounded-lg hover:bg-white/10 text-gray-300"
+                  className="
+                  p-2 rounded-lg
+                  hover:bg-[var(--card)]
+                  text-[var(--text-secondary)]
+                  "
                 >
                   <FaTimes />
                 </button>
@@ -112,7 +167,7 @@ export default function UniversalFilterLayout({
                 filters={filters}
                 onChange={(data) => {
                   onChange(data);
-                  setIsOpen(false); // auto close mobile
+                  setIsOpen(false);
                 }}
               />
             </motion.div>

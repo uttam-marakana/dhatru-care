@@ -34,17 +34,35 @@ export default function UniversalFilters({
         if (field.type === "search") {
           return (
             <div key={field.key}>
-              <label className="block text-sm mb-2 text-gray-300">
+              <label className="block text-sm mb-2 text-[var(--muted)]">
                 {field.label}
               </label>
+
               <div className="relative">
                 <input
                   value={localFilters[field.key] || ""}
                   onChange={(e) => updateField(field.key, e.target.value)}
                   placeholder={field.placeholder}
-                  className="w-full rounded-lg bg-gray-800/70 border border-white/10 pl-10 pr-4 py-2.5 text-white focus:ring-2 focus:ring-blue-400"
+                  className="
+                  w-full rounded-lg
+                  bg-[var(--card)]
+                  border border-[var(--border)]
+                  pl-10 pr-4 py-2.5
+                  text-[var(--text)]
+                  focus:ring-2
+                  focus:ring-[var(--color-primary)]
+                  outline-none
+                  "
                 />
-                <FaSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm" />
+
+                <FaSearch
+                  className="
+                  absolute left-3 top-1/2
+                  -translate-y-1/2
+                  text-[var(--muted)]
+                  text-sm
+                  "
+                />
               </div>
             </div>
           );
@@ -53,13 +71,23 @@ export default function UniversalFilters({
         if (field.type === "select") {
           return (
             <div key={field.key} className="relative">
-              <label className="block text-sm mb-2 text-gray-300">
+              <label className="block text-sm mb-2 text-[var(--muted)]">
                 {field.label}
               </label>
+
               <select
                 value={localFilters[field.key] || ""}
                 onChange={(e) => updateField(field.key, e.target.value)}
-                className="w-full appearance-none rounded-lg bg-gray-800/70 border border-white/10 px-4 pr-10 py-2.5 text-white focus:ring-2 focus:ring-blue-400"
+                className="
+                w-full appearance-none rounded-lg
+                bg-[var(--card)]
+                border border-[var(--border)]
+                px-4 pr-10 py-2.5
+                text-[var(--text)]
+                focus:ring-2
+                focus:ring-[var(--color-primary)]
+                outline-none
+                "
               >
                 {field.options.map((opt) => (
                   <option key={opt.value} value={opt.value}>
@@ -67,7 +95,15 @@ export default function UniversalFilters({
                   </option>
                 ))}
               </select>
-              <FaChevronDown className="absolute right-3 top-[42px] text-gray-400 text-xs pointer-events-none" />
+
+              <FaChevronDown
+                className="
+                absolute right-3 top-[42px]
+                text-[var(--muted)]
+                text-xs
+                pointer-events-none
+                "
+              />
             </div>
           );
         }
