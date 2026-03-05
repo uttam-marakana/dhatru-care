@@ -376,7 +376,7 @@ yarn build
 # 👨‍💻 About the Developer
 
 **Uttam Marakana (Shadow)**
-React & Shopify Developer • System Builder
+React & Shopify Developer 
 
 Focused on building **scalable systems, modern frontend architecture, and product-driven platforms**.
 
