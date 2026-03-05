@@ -36,39 +36,37 @@ export default function Signup() {
       navigate("/login");
     } catch (err) {
       console.error(err);
-      alert("Signup failed");
+      alert(err.message || "Signup failed");
     }
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-(--bg) px-4 py-10">
+    <div className="min-h-screen flex items-center justify-center bg-[var(--bg)] px-4 py-10">
       <form
         onSubmit={submit}
         className="
         w-full max-w-lg
-        bg-(--surface)
-        border border-(--border)
+        bg-[var(--surface)]
+        border border-[var(--border)]
         rounded-2xl
         p-8
         space-y-4
         shadow-[0_0_25px_var(--glow-soft)]
         "
       >
-        <h2 className="text-2xl font-bold text-center text-(--text)">
+        <h2 className="text-2xl font-bold text-center text-[var(--text)]">
           Patient Registration
         </h2>
 
-        {/* Name */}
         <input
           name="name"
           value={form.name}
           onChange={handleChange}
           placeholder="Full Name"
           required
-          className="w-full p-3 rounded-lg bg-(--card) border border-(--border) text-(--text)"
+          className="w-full p-3 rounded-lg bg-[var(--card)] border border-[var(--border)] text-[var(--text)]"
         />
 
-        {/* Email */}
         <input
           type="email"
           name="email"
@@ -76,26 +74,24 @@ export default function Signup() {
           onChange={handleChange}
           placeholder="Email Address"
           required
-          className="w-full p-3 rounded-lg bg-(--card) border border-(--border) text-(--text)"
+          className="w-full p-3 rounded-lg bg-[var(--card)] border border-[var(--border)] text-[var(--text)]"
         />
 
-        {/* Phone */}
         <input
           name="phone"
           value={form.phone}
           onChange={handleChange}
           placeholder="Phone Number"
           required
-          className="w-full p-3 rounded-lg bg-(--card) border border-(--border) text-(--text)"
+          className="w-full p-3 rounded-lg bg-[var(--card)] border border-[var(--border)] text-[var(--text)]"
         />
 
-        {/* Gender */}
         <select
           name="gender"
           value={form.gender}
           onChange={handleChange}
           required
-          className="w-full p-3 rounded-lg bg-(--card) border border-(--border) text-(--text)"
+          className="w-full p-3 rounded-lg bg-[var(--card)] border border-[var(--border)] text-[var(--text)]"
         >
           <option value="">Select Gender</option>
           <option value="male">Male</option>
@@ -103,27 +99,24 @@ export default function Signup() {
           <option value="other">Other</option>
         </select>
 
-        {/* DOB */}
         <input
           type="date"
           name="dob"
           value={form.dob}
           onChange={handleChange}
           required
-          className="w-full p-3 rounded-lg bg-(--card) border border-(--border) text-(--text)"
+          className="w-full p-3 rounded-lg bg-[var(--card)] border border-[var(--border)] text-[var(--text)]"
         />
 
-        {/* Address */}
         <textarea
           name="address"
           value={form.address}
           onChange={handleChange}
           placeholder="Address"
           rows="2"
-          className="w-full p-3 rounded-lg bg-(--card) border border-(--border) text-(--text)"
+          className="w-full p-3 rounded-lg bg-[var(--card)] border border-[var(--border)] text-[var(--text)]"
         />
 
-        {/* Password */}
         <input
           type="password"
           name="password"
@@ -131,10 +124,9 @@ export default function Signup() {
           onChange={handleChange}
           placeholder="Password"
           required
-          className="w-full p-3 rounded-lg bg-(--card) border border-(--border) text-(--text)"
+          className="w-full p-3 rounded-lg bg-[var(--card)] border border-[var(--border)] text-[var(--text)]"
         />
 
-        {/* Confirm Password */}
         <input
           type="password"
           name="confirmPassword"
@@ -142,15 +134,14 @@ export default function Signup() {
           onChange={handleChange}
           placeholder="Confirm Password"
           required
-          className="w-full p-3 rounded-lg bg-(--card) border border-(--border) text-(--text)"
+          className="w-full p-3 rounded-lg bg-[var(--card)] border border-[var(--border)] text-[var(--text)]"
         />
 
-        {/* Register Button */}
         <button
           className="
           w-full p-3 rounded-lg
-          bg-(--color-primary)
-          hover:bg-(--color-primary-hover)
+          bg-[var(--color-primary)]
+          hover:bg-[var(--color-primary-hover)]
           text-white
           font-semibold
           transition
@@ -160,12 +151,11 @@ export default function Signup() {
           Register
         </button>
 
-        {/* Login Link */}
-        <p className="text-sm text-center text-(--text-secondary)">
+        <p className="text-sm text-center text-[var(--text-secondary)]">
           Already have an account?{" "}
           <Link
             to="/login"
-            className="text-(--color-primary) hover:underline"
+            className="text-[var(--color-primary)] hover:underline"
           >
             Login
           </Link>

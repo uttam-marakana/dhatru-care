@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { auth } from "../firebase";
-import { getAppointments } from "../api/appointmentsApi";
+import { updateAppointmentStatus } from "../api/appointmentsApi";
 import Container from "../components/layout/Container";
 
 export default function UserAppointments() {
@@ -8,7 +8,7 @@ export default function UserAppointments() {
 
   useEffect(() => {
     const load = async () => {
-      const all = await getAppointments();
+      const all = await updateAppointmentStatus();
       const mine = all.filter((a) => a.userId === auth.currentUser?.uid);
       setAppointments(mine);
     };
