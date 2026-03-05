@@ -5,7 +5,7 @@ const fields = [
     type: "search",
     key: "search",
     label: "Search Doctor",
-    placeholder: "Dr name, specialty...",
+    placeholder: "Dr name or specialty...",
   },
   {
     type: "select",

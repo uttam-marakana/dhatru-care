@@ -83,7 +83,15 @@ export default function DoctorsList({
             to={`/doctors/${doctor.id}`}
             className="block group h-full"
           >
-            <Card hover className="h-full flex flex-col overflow-hidden">
+            <Card
+              hover
+              className="h-full flex flex-col overflow-hidden 
+              dark:bg-white/5 dark:backdrop-blur-md 
+              dark:border dark:border-white/10 
+              dark:hover:border-blue-400/40 
+              dark:hover:shadow-[0_0_40px_rgba(59,130,246,0.25)] 
+              transition-all duration-500"
+            >
               {/* IMAGE */}
               <div className="aspect-square bg-gray-100 dark:bg-gray-800 flex items-center justify-center">
                 {doctor.imageUrl ? (
@@ -99,11 +107,18 @@ export default function DoctorsList({
 
               {/* CONTENT */}
               <div className="p-5 flex flex-col grow">
-                <h3 className="text-lg font-bold line-clamp-2 group-hover:text-primary transition">
+                <h3
+                  className="text-lg font-bold line-clamp-2 transition 
+                  dark:group-hover:bg-gradient-to-r 
+                  dark:group-hover:from-blue-400 
+                  dark:group-hover:to-cyan-300 
+                  dark:group-hover:bg-clip-text 
+                  dark:group-hover:text-transparent"
+                >
                   {doctor.name}
                 </h3>
 
-                <p className="text-primary font-medium mt-1">
+                <p className="text-primary dark:text-blue-400 font-medium mt-1">
                   {doctor.specialty}
                 </p>
 
@@ -133,7 +148,7 @@ export default function DoctorsList({
 
       {/* PAGINATION */}
       {totalPages > 1 && (
-        <div className="flex flex-wrap justify-center items-center gap-4 mt-12">
+        <div className="flex flex-wrap justify-center items-center gap-4 mt-12 dark:text-gray-300">
           <Button
             variant="outline"
             disabled={currentPage === 1}
