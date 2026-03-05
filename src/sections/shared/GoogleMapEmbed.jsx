@@ -5,13 +5,18 @@ export default function GoogleMapEmbed({
   title = "Dhatru Care Hospital Location",
   className = "",
 }) {
-  // You can later make address dynamic via prop or env
   const mapEmbedUrl =
     "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3719.123456789!2d70.7890123456789!3d21.960123456789!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x395e9b123456789%3A0xabcdef123456789!2sGondal%2C%20Gujarat!5e0!3m2!1sen!2sin!4v1698765432100!5m2!1sen!2sin";
 
   return (
     <div
-      className={`w-full rounded-2xl overflow-hidden shadow-xl border border-gray-200 dark:border-gray-800 ${className}`}
+      className={`
+      w-full rounded-2xl overflow-hidden
+      shadow-xl
+      border border-(--border)
+      bg-(--card)
+      ${className}
+      `}
     >
       <iframe
         src={mapEmbedUrl}
@@ -22,7 +27,7 @@ export default function GoogleMapEmbed({
         loading="lazy"
         referrerPolicy="no-referrer-when-downgrade"
         title={title}
-      ></iframe>
+      />
     </div>
   );
 }
