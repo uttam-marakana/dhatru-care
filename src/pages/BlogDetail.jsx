@@ -31,20 +31,37 @@ export default function BlogDetail() {
 
   if (loading)
     return (
-      <div className="min-h-screen flex items-center justify-center">
+      <div
+        className="
+        min-h-screen flex items-center justify-center
+        bg-(--bg)
+        text-(--text-secondary)
+        "
+      >
         Loading...
       </div>
     );
 
   if (!post)
     return (
-      <div className="min-h-screen flex items-center justify-center">
+      <div
+        className="
+        min-h-screen flex items-center justify-center
+        bg-(--bg)
+        text-(--text-secondary)
+        "
+      >
         Post not found
       </div>
     );
 
   return (
-    <article className="min-h-screen bg-gray-50 dark:bg-gray-950">
+    <article
+      className="
+      min-h-screen
+      bg-(--bg)
+      "
+    >
       <Breadcrumb
         items={[
           { label: "Home", path: "/" },
@@ -53,7 +70,7 @@ export default function BlogDetail() {
         ]}
       />
 
-      <div className="bg-gray-900 h-64 md:h-96">
+      <div className="bg-black h-64 md:h-96">
         <img
           src={post.image || "https://via.placeholder.com/1200x600"}
           alt={post.title}
@@ -64,17 +81,35 @@ export default function BlogDetail() {
       <Container className="py-12 md:py-20 max-w-4xl mx-auto">
         <Link
           to="/blog"
-          className="inline-flex items-center gap-2 text-primary mb-8"
+          className="
+          inline-flex items-center gap-2
+          text-(--color-primary)
+          mb-8
+          "
         >
           <FaArrowLeft /> Back to Blog
         </Link>
 
-        <h1 className="text-4xl font-bold mb-6">{post.title}</h1>
+        <h1
+          className="
+          text-4xl font-bold
+          text-(--text)
+          mb-6
+          "
+        >
+          {post.title}
+        </h1>
 
-        <div className="flex gap-6 mb-10 text-gray-600 dark:text-gray-400">
+        <div
+          className="
+          flex gap-6 mb-10
+          text-(--text-secondary)
+          "
+        >
           <span className="flex items-center gap-2">
             <FaCalendarAlt /> {post.date}
           </span>
+
           <span className="flex items-center gap-2">
             <FaUser /> {post.author}
           </span>

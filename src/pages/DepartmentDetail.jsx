@@ -79,7 +79,7 @@ export default function DepartmentDetail() {
   if (!department) return null;
 
   return (
-    <main className="min-h-screen bg-gradient-to-b from-gray-950 via-gray-900 to-gray-950 text-white">
+    <div className="absolute top-0 left-1/2 -translate-x-1/2 w-150 h-150 bg-(--glow-bg) blur-[140px] rounded-full">
       {/* BREADCRUMB */}
       <Breadcrumb
         items={[
@@ -92,7 +92,7 @@ export default function DepartmentDetail() {
       {/* HERO */}
       <div className="relative py-20 overflow-hidden">
         {/* Glow */}
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-blue-500/20 blur-[140px] rounded-full"></div>
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-150 h-150 bg-blue-500/20 blur-[140px] rounded-full"></div>
 
         <Container>
           <div className="max-w-4xl mx-auto text-center relative z-10">
@@ -117,13 +117,24 @@ export default function DepartmentDetail() {
         <Container>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {/* SERVICES */}
-            <Card className="bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl p-8 transition-all duration-500 hover:-translate-y-2 hover:border-blue-400/40 hover:shadow-[0_0_40px_rgba(59,130,246,0.25)]">
+            <Card
+              className="
+              bg-(--card)
+              border border-(--border)
+              rounded-2xl
+              p-8
+              transition-all duration-500
+              hover:-translate-y-2
+              hover:border-(--color-primary)/40
+              hover:shadow-[0_0_40px_var(--glow-soft)
+              "
+            >
               <h2 className="text-2xl font-bold mb-5 flex items-center gap-2">
                 <FaStethoscope className="text-blue-400" />
                 Our Services
               </h2>
 
-              <ul className="space-y-3 text-gray-400">
+              <ul className="space-y-3 text-(--text-secondary)">
                 {department.services?.length ? (
                   department.services.map((s, i) => <li key={i}>✔ {s}</li>)
                 ) : (
@@ -133,7 +144,7 @@ export default function DepartmentDetail() {
             </Card>
 
             {/* HIGHLIGHTS */}
-            <Card className="bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl p-8 transition-all duration-500 hover:-translate-y-2 hover:border-blue-400/40 hover:shadow-[0_0_40px_rgba(59,130,246,0.25)]">
+            <Card className="bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl p-8 transition-all duration-500 hover:-translate-y-2 hover:border-blue-400/40 hover:shadow-[0_0_40px_rgba(59,130,246,0.25)">
               <h2 className="text-2xl font-bold mb-5 flex items-center gap-2">
                 <FaChartLine className="text-blue-400" />
                 Highlights
@@ -153,7 +164,7 @@ export default function DepartmentDetail() {
             </Card>
 
             {/* WHY CHOOSE US */}
-            <Card className="bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl p-8 transition-all duration-500 hover:-translate-y-2 hover:border-blue-400/40 hover:shadow-[0_0_40px_rgba(59,130,246,0.25)]">
+            <Card className="bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl p-8 transition-all duration-500 hover:-translate-y-2 hover:border-blue-400/40 hover:shadow-[0_0_40px_rgba(59,130,246,0.25)">
               <h2 className="text-2xl font-bold mb-5">Why Choose Us?</h2>
 
               <div className="space-y-3 text-gray-400">
@@ -173,7 +184,7 @@ export default function DepartmentDetail() {
 
       {/* RELATED DOCTORS */}
       {relatedDoctors.length > 0 && (
-        <section className="py-20 bg-gray-900">
+        <section className="py-20 bg-(--surface)">
           <Container>
             <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">
               Specialists in {department.name}
@@ -206,6 +217,6 @@ export default function DepartmentDetail() {
       )}
 
       <AppointmentCTA className="my-16 mx-auto max-w-6xl" />
-    </main>
+    </div>
   );
 }

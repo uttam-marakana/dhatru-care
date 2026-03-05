@@ -12,25 +12,25 @@ export default function Contact() {
         subtitle="We're here to help – reach out anytime"
       />
 
-      <section className="py-16 md:py-24 bg-linear-to-b from-[#030712] via-[#111827] to-[#030712] text-white">
+      <section className="py-16 md:py-24 bg-(--bg) text-(--text)">
         <div className="container mx-auto px-4">
           <div className="grid lg:grid-cols-2 gap-12">
             <ContactForm />
 
             <div className="space-y-8">
               {/* MAP */}
-              <div className="rounded-2xl overflow-hidden border border-white/10 shadow-[0_0_40px_rgba(59,130,246,0.25)]">
+              <div className="rounded-2xl overflow-hidden border border-(--border) shadow-[0_0_40px_var(--glow-soft)">
                 <GoogleMapEmbed />
               </div>
 
               {/* CONTACT DETAILS */}
               <div className="space-y-6">
-                <div className="bg-white/5 backdrop-blur-md border border-white/10 p-6 rounded-2xl hover:border-[#60A5FA]/40 hover:shadow-[0_0_40px_rgba(59,130,246,0.25)] transition">
-                  <h4 className="font-semibold text-lg mb-2 text-[#60A5FA]">
+                <div className="bg-(--card) border border-(--border) p-6 rounded-2xl hover:border-(--color-primary)/40 hover:shadow-[0_0_40px_var(--glow-soft) transition">
+                  <h4 className="font-semibold text-lg mb-2 text-(--color-primary)">
                     Hospital Address
                   </h4>
 
-                  <p className="text-[#9CA3AF] leading-relaxed">
+                  <p className="text-(--text-secondary) leading-relaxed">
                     123 Health Avenue,
                     <br />
                     Near Civil Hospital,
@@ -39,28 +39,30 @@ export default function Contact() {
                   </p>
                 </div>
 
-                <div className="bg-[#60A5FA]/20 border border-[#60A5FA]/40 p-6 rounded-2xl shadow-[0_0_40px_rgba(59,130,246,0.25)]">
-                  <h4 className="font-semibold text-lg mb-2 text-[#60A5FA]">
+                <div className="bg-(--color-primary)/10 border border-(--color-primary)/40 p-6 rounded-2xl shadow-[0_0_40px_var(--glow-soft)">
+                  <h4 className="font-semibold text-lg mb-2 text-(--color-primary)">
                     Emergency
                   </h4>
 
-                  <p className="text-xl font-bold text-white">
+                  <p className="text-xl font-bold text-(--text)">
                     +91 98765 43210
                   </p>
 
-                  <p className="text-sm text-[#9CA3AF]">24×7 Available</p>
+                  <p className="text-sm text-(--muted)">24×7 Available</p>
                 </div>
 
-                <div className="bg-white/5 backdrop-blur-md border border-white/10 p-6 rounded-2xl hover:border-[#60A5FA]/40 hover:shadow-[0_0_40px_rgba(59,130,246,0.25)] transition">
-                  <h4 className="font-semibold text-lg mb-2 text-[#60A5FA]">
+                <div className="bg-(--card) border border-(--border) p-6 rounded-2xl hover:border-(--color-primary)/40 hover:shadow-[0_0_40px_var(--glow-soft) transition">
+                  <h4 className="font-semibold text-lg mb-2 text-(--color-primary)">
                     General Enquiry
                   </h4>
 
-                  <p className="text-xl font-bold text-white">
+                  <p className="text-xl font-bold text-(--text)">
                     +91 12345 67890
                   </p>
 
-                  <p className="text-sm text-[#9CA3AF]">Mon–Sat: 8 AM – 8 PM</p>
+                  <p className="text-sm text-(--muted)">
+                    Mon–Sat: 8 AM – 8 PM
+                  </p>
                 </div>
               </div>
             </div>

@@ -66,20 +66,20 @@ export default function DoctorDetail() {
 
   if (loading)
     return (
-      <div className="min-h-screen flex items-center justify-center dark:bg-gray-950 dark:text-gray-300">
+      <div className="min-h-screen flex items-center justify-center bg-(--bg) text-(--text-secondary)">
         Loading doctor...
       </div>
     );
 
   if (error || !doctor)
     return (
-      <div className="min-h-screen flex items-center justify-center text-red-600 dark:bg-gray-950">
+      <div className="min-h-screen flex items-center justify-center bg-(--bg) text-red-500">
         {error}
       </div>
     );
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-950">
+    <main className="min-h-screen bg-(--bg) text-(--text)">
       <Breadcrumb
         items={[
           { label: "Home", path: "/" },
@@ -88,60 +88,54 @@ export default function DoctorDetail() {
         ]}
       />
 
-      {/* HERO SECTION */}
-      <div className="relative py-12 md:py-20 bg-linear-to-br from-primary/10 to-secondary/10 dark:bg-transparent overflow-hidden">
-        {/* Dark Mode Glow */}
-        <div className="hidden dark:block absolute top-0 left-1/2 -translate-x-1/2 w-[700px] h-[700px] bg-blue-600/20 blur-[150px] rounded-full"></div>
+      {/* HERO */}
+      <div className="relative py-12 md:py-20 overflow-hidden">
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-175 h-175 bg-(--glow-bg) blur-[150px] rounded-full"></div>
 
         <Container>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-10 relative z-10">
-            {/* PROFILE CARD */}
+          <div className="grid md:grid-cols-3 gap-10 relative z-10">
+            {/* PROFILE */}
             <Card
-              className="p-6 text-center 
-              dark:bg-white/5 dark:backdrop-blur-md 
-              dark:border dark:border-white/10 
-              dark:shadow-[0_0_40px_rgba(59,130,246,0.15)]"
+              className="
+              p-6 text-center
+              bg-(--card)
+              border border-(--border)
+              shadow-[0_0_40px_var(--glow-soft)
+              "
             >
-              <div className="mb-4">
-                {doctor.imageUrl ? (
-                  <img
-                    src={doctor.imageUrl}
-                    alt={doctor.name}
-                    className="w-32 h-32 mx-auto rounded-full object-cover"
-                  />
-                ) : (
-                  <div className="text-8xl">🩺</div>
-                )}
-              </div>
+              {doctor.imageUrl ? (
+                <img
+                  src={doctor.imageUrl}
+                  alt={doctor.name}
+                  className="w-32 h-32 mx-auto rounded-full object-cover mb-4"
+                />
+              ) : (
+                <div className="text-8xl mb-4">🩺</div>
+              )}
 
-              <h1 className="text-2xl font-bold dark:bg-gradient-to-r dark:from-blue-400 dark:to-cyan-300 dark:bg-clip-text dark:text-transparent">
+              <h1 className="text-2xl font-bold text-(--color-primary)">
                 {doctor.name}
               </h1>
 
-              <p className="text-primary dark:text-blue-400">
-                {doctor.specialty}
-              </p>
+              <p className="text-(--text-secondary)">{doctor.specialty}</p>
 
-              <div className="flex justify-center gap-4 mt-4 text-sm text-gray-600 dark:text-gray-400">
+              <div className="flex justify-center gap-4 mt-4 text-sm text-(--muted)">
                 <span>{doctor.experience}</span>
+
                 <span className="flex items-center gap-1">
-                  <FaStar className="text-yellow-500" />
+                  <FaStar className="text-yellow-400" />
                   {doctor.rating || 4.9}
                 </span>
               </div>
 
               <div className="space-y-3 mt-6">
                 <Link to="/appointments">
-                  <Button
-                    size="lg"
-                    leftIcon={<FaCalendarCheck />}
-                    className="min-w-48"
-                  >
+                  <Button size="lg" leftIcon={<FaCalendarCheck />}>
                     Book Appointment
                   </Button>
                 </Link>
 
-                <Button variant="outline" className="w-full">
+                <Button variant="outline">
                   <FaPhoneAlt className="mr-2" />
                   Call Now
                 </Button>
@@ -149,27 +143,28 @@ export default function DoctorDetail() {
             </Card>
 
             {/* DETAILS */}
-            <div className="md:col-span-2 space-y-8 text-gray-800 dark:text-gray-300">
+            <div className="md:col-span-2 space-y-8 text-(--text-secondary)">
               <div>
-                <h2 className="text-2xl font-bold mb-3 dark:bg-gradient-to-r dark:from-blue-400 dark:to-cyan-300 dark:bg-clip-text dark:text-transparent">
+                <h2 className="text-2xl font-bold text-(--text) mb-2">
                   About
                 </h2>
                 <p>{doctor.bio}</p>
               </div>
 
               <div>
-                <h3 className="text-xl font-semibold flex gap-2 items-center dark:bg-gradient-to-r dark:from-blue-400 dark:to-cyan-300 dark:bg-clip-text dark:text-transparent">
-                  <FaGraduationCap className="text-primary dark:text-blue-400" />
+                <h3 className="text-xl font-semibold flex items-center gap-2 text-(--text)">
+                  <FaGraduationCap className="text-(--color-primary)" />
                   Qualification
                 </h3>
                 <p>{doctor.qualification}</p>
               </div>
 
               <div>
-                <h3 className="text-xl font-semibold flex gap-2 items-center dark:bg-gradient-to-r dark:from-blue-400 dark:to-cyan-300 dark:bg-clip-text dark:text-transparent">
-                  <FaAward className="text-primary dark:text-blue-400" />
+                <h3 className="text-xl font-semibold flex items-center gap-2 text-(--text)">
+                  <FaAward className="text-(--color-primary)" />
                   Achievements
                 </h3>
+
                 <ul className="space-y-2 mt-2">
                   {(doctor.achievements || []).map((a, i) => (
                     <li key={i}>✔ {a}</li>
@@ -179,11 +174,12 @@ export default function DoctorDetail() {
 
               <div className="grid md:grid-cols-2 gap-6">
                 <p>
-                  <FaCalendarCheck className="inline mr-2 text-primary dark:text-blue-400" />
+                  <FaCalendarCheck className="inline mr-2 text-(--color-primary)" />
                   {doctor.availability}
                 </p>
+
                 <p>
-                  <FaMapMarkerAlt className="inline mr-2 text-primary dark:text-blue-400" />
+                  <FaMapMarkerAlt className="inline mr-2 text-(--color-primary)" />
                   {doctor.location}
                 </p>
               </div>
@@ -194,27 +190,19 @@ export default function DoctorDetail() {
 
       {/* RELATED DOCTORS */}
       {relatedDoctors.length > 0 && (
-        <section className="py-16 dark:bg-gradient-to-b dark:from-gray-950 dark:to-gray-900">
+        <section className="py-16 bg-(--surface)">
           <Container>
-            <h2 className="text-3xl font-bold text-center mb-10 dark:bg-gradient-to-r dark:from-blue-400 dark:to-cyan-300 dark:bg-clip-text dark:text-transparent">
+            <h2 className="text-3xl font-bold text-center mb-10">
               Related Specialists
             </h2>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
               {relatedDoctors.map((doc) => (
                 <Link key={doc.id} to={`/doctors/${doc.id}`}>
-                  <Card
-                    hover
-                    className="h-full text-center p-4 
-                    dark:bg-white/5 dark:backdrop-blur-md 
-                    dark:border dark:border-white/10 
-                    dark:hover:border-blue-400/40 
-                    dark:hover:shadow-[0_0_30px_rgba(59,130,246,0.25)] 
-                    transition-all duration-500"
-                  >
+                  <Card className="text-center p-4 hover:-translate-y-2 transition-all duration-300">
                     <div className="text-6xl mb-3">👨‍⚕️</div>
-                    <h3 className="font-bold line-clamp-2">{doc.name}</h3>
-                    <p className="text-primary dark:text-blue-400">
+                    <h3 className="font-bold">{doc.name}</h3>
+                    <p className="text-(--color-primary)">
                       {doc.specialty}
                     </p>
                   </Card>
@@ -229,6 +217,6 @@ export default function DoctorDetail() {
         variant="large"
         className="my-12 md:my-16 lg:my-20 mx-auto max-w-6xl"
       />
-    </div>
+    </main>
   );
 }
