@@ -20,7 +20,6 @@ export default function PackagesCompare() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  /* ------------ FETCH PACKAGES ---------------------------------------------- */
   useEffect(() => {
     let mounted = true;
 
@@ -35,9 +34,7 @@ export default function PackagesCompare() {
         setPackages(data);
       } catch (err) {
         console.error(err);
-        if (mounted) {
-          setError("Failed to load packages.");
-        }
+        if (mounted) setError("Failed to load packages.");
       } finally {
         if (mounted) setLoading(false);
       }
@@ -45,13 +42,11 @@ export default function PackagesCompare() {
 
     fetchPackages();
 
-    return () => {
-      mounted = false;
-    };
+    return () => (mounted = false);
   }, []);
 
   return (
-    <main className="min-h-screen bg-gray-50 dark:bg-gray-950">
+    <main className="min-h-screen bg-(--bg)">
       <Breadcrumb
         items={[
           { label: "Home", path: "/" },
@@ -65,13 +60,11 @@ export default function PackagesCompare() {
         subtitle="Find the right package based on tests, benefits and pricing"
       />
 
-      {/* SMART QUIZ */}
       <PackageRecommendationQuiz
         packages={packages}
         onRecommendation={setRecommended}
       />
 
-      {/* COMPARE TABLE */}
       <PackagesCompareTable
         packages={packages}
         loading={loading}
