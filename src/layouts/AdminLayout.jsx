@@ -8,16 +8,16 @@ export default function AdminLayout() {
   const linkStyle = ({ isActive }) =>
     `block px-4 py-2 rounded-lg transition ${
       isActive
-        ? "bg-primary text-white"
-        : "text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800"
+        ? "bg-[var(--color-primary)] text-white"
+        : "text-[var(--text-secondary)] hover:bg-[var(--card)]"
     }`;
 
   return (
-    <div className="min-h-screen flex bg-gray-50 dark:bg-gray-950">
+    <div className="min-h-screen flex bg-[var(--bg)]">
       {/* MOBILE OVERLAY */}
       {open && (
         <div
-          className="fixed inset-0 bg-black/40 z-30 lg:hidden"
+          className="fixed inset-0 bg-[var(--bg)]/50 backdrop-blur-sm z-30 lg:hidden"
           onClick={() => setOpen(false)}
         />
       )}
@@ -25,17 +25,21 @@ export default function AdminLayout() {
       {/* SIDEBAR */}
       <aside
         className={`
-          fixed lg:sticky top-0 left-0 h-screen w-64 z-40
-          bg-white dark:bg-gray-900
-          border-r border-gray-200 dark:border-gray-800
-          transform transition-transform duration-300
-          ${open ? "translate-x-0" : "-translate-x-full lg:translate-x-0"}
+        fixed lg:sticky top-0 left-0 h-screen w-64 z-40
+        bg-[var(--surface)]
+        border-r border-[var(--border)]
+        transform transition-transform duration-300
+        ${open ? "translate-x-0" : "-translate-x-full lg:translate-x-0"}
         `}
       >
         {/* MOBILE HEADER */}
-        <div className="p-4 flex justify-between items-center lg:hidden border-b dark:border-gray-800">
-          <h2 className="font-bold text-gray-900 dark:text-white">Admin</h2>
-          <button onClick={() => setOpen(false)}>
+        <div className="p-4 flex justify-between items-center lg:hidden border-b border-[var(--border)]">
+          <h2 className="font-bold text-[var(--text)]">Admin</h2>
+
+          <button
+            onClick={() => setOpen(false)}
+            className="text-[var(--text-secondary)] hover:text-[var(--color-primary)]"
+          >
             <FaTimes />
           </button>
         </div>
@@ -57,7 +61,14 @@ export default function AdminLayout() {
         {/* MOBILE MENU BUTTON */}
         <button
           onClick={() => setOpen(true)}
-          className="lg:hidden mb-4 p-2 rounded bg-primary text-white"
+          className="
+          lg:hidden mb-4 p-2 rounded-lg
+          bg-[var(--color-primary)]
+          hover:bg-[var(--color-primary-hover)]
+          text-white
+          shadow-[0_0_12px_var(--glow-soft)]
+          transition
+          "
         >
           <FaBars />
         </button>
