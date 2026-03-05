@@ -28,14 +28,12 @@ export default function Doctors() {
       .finally(() => setLoading(false));
   }, []);
 
-  // URL Sync
   useEffect(() => {
     const params = {};
     Object.entries(filters).forEach(([k, v]) => v && (params[k] = v));
     setSearchParams(params);
   }, [filters]);
 
-  // Filtering
   const doctors = useMemo(() => {
     let data = [...allDoctors];
 
@@ -72,7 +70,7 @@ export default function Doctors() {
   const hasActiveFilters = Object.values(filters).some((v) => v);
 
   return (
-    <main className="min-h-screen bg-gradient-to-b from-gray-950 via-gray-900 to-gray-950">
+    <main className="min-h-screen bg-(--bg)">
       <PageHero
         title="Our Expert Doctors"
         subtitle="Highly qualified specialists committed to personalized care"
@@ -84,13 +82,13 @@ export default function Doctors() {
         FiltersComponent={DoctorFilters}
       />
 
-      {/* Active Chips */}
+      {/* ACTIVE FILTERS */}
       {hasActiveFilters && (
         <div className="max-w-7xl mx-auto px-4 mt-6">
           <div className="flex flex-wrap gap-3 items-center">
             <button
               onClick={clearFilters}
-              className="text-sm text-blue-400 hover:text-blue-300 underline"
+              className="text-sm text-(--color-primary) hover:underline"
             >
               Clear All
             </button>
@@ -99,11 +97,18 @@ export default function Doctors() {
               value ? (
                 <div
                   key={key}
-                  className="flex items-center gap-2 bg-gray-800 border border-white/10 text-sm text-white px-3 py-1.5 rounded-full"
+                  className="
+                  flex items-center gap-2
+                  bg-(--card)
+                  border border-(--border)
+                  text-sm text-(--text)
+                  px-3 py-1.5 rounded-full
+                  "
                 >
                   <span className="capitalize">
                     {key}: {value}
                   </span>
+
                   <button
                     onClick={() =>
                       setFilters((prev) => ({
@@ -111,7 +116,7 @@ export default function Doctors() {
                         [key]: "",
                       }))
                     }
-                    className="text-gray-400 hover:text-red-400"
+                    className="text-(--muted) hover:text-red-400"
                   >
                     ✕
                   </button>

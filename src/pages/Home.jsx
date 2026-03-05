@@ -58,10 +58,16 @@ export default function Home() {
   }, []);
 
   return (
-    <main className="bg-white dark:bg-gray-950 min-h-screen">
+    <main
+      className="
+      min-h-screen
+      bg-(--bg)
+      "
+    >
       <HeroSlider />
 
       <QuickActions />
+
       <AboutHospital />
 
       <Facilities facilities={data.departments.slice(0, 4)} loading={loading} />

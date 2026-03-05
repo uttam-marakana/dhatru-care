@@ -13,7 +13,6 @@ const Breadcrumb = lazy(() => import("../components/common/Breadcrumb"));
 export default function Blog() {
   const [searchParams, setSearchParams] = useSearchParams();
 
-  /* ------------ FILTER STATE ---------------------------------------------- */
   const [filters, setFilters] = useState({
     search: searchParams.get("search") || "",
     category: searchParams.get("category") || "",
@@ -26,7 +25,6 @@ export default function Blog() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  /* ------------ FETCH BLOG POSTS ---------------------------------------------- */
   useEffect(() => {
     let mounted = true;
 
@@ -51,12 +49,9 @@ export default function Blog() {
 
     fetchPosts();
 
-    return () => {
-      mounted = false;
-    };
+    return () => (mounted = false);
   }, []);
 
-  /* ------------ URL SYNC ---------------------------------------------- */
   useEffect(() => {
     const params = {};
 
@@ -67,7 +62,6 @@ export default function Blog() {
     setSearchParams(params);
   }, [filters, setSearchParams]);
 
-  /* ------------ LOCAL FILTERING ---------------------------------------------- */
   useEffect(() => {
     let data = [...allPosts];
 
@@ -103,7 +97,12 @@ export default function Blog() {
   }, [filters, allPosts]);
 
   return (
-    <main className="min-h-screen bg-gray-50 dark:bg-gray-950">
+    <main
+      className="
+      min-h-screen
+      bg-(--bg)
+      "
+    >
       <Breadcrumb items={[{ label: "Home", path: "/" }, { label: "Blog" }]} />
 
       <PageHero
@@ -111,14 +110,12 @@ export default function Blog() {
         subtitle="Latest medical insights and wellness updates"
       />
 
-      {/* UNIVERSAL FILTER SYSTEM */}
       <UniversalFilterLayout
         filters={filters}
         onChange={setFilters}
         FiltersComponent={BlogFilters}
       />
 
-      {/* BLOG LIST */}
       <LatestBlog posts={posts} loading={loading} error={error} fullBlogPage />
 
       <AppointmentCTA variant="large" className="my-12 md:my-16 lg:my-20" />

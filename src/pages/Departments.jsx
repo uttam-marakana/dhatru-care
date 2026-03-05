@@ -33,25 +33,25 @@ export default function Departments() {
   }, []);
 
   return (
-    <main className="min-h-screen bg-gradient-to-b from-gray-950 via-gray-900 to-gray-950 text-white">
+    <main className="min-h-screen bg-(--bg) text-(--text)">
       <PageHero
         title="Our Specialities"
         subtitle="Comprehensive multispeciality care with expert teams."
       />
 
       <section className="py-20 relative">
-        <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[700px] h-[700px] bg-blue-500/20 blur-[160px] rounded-full"></div>
-
-        <div className="relative z-10">
-          {loading ? (
-            <p className="text-center py-20 text-gray-400">
-              Loading departments...
-            </p>
-          ) : error ? (
-            <p className="text-center text-red-400 py-20">{error}</p>
-          ) : (
-            <DepartmentsGrid departments={departments} />
-          )}
+        <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-175 h-175 bg-(--glow-bg) blur-[160px] rounded-full">
+          <div className="relative z-10">
+            {loading ? (
+              <p className="text-center py-20 text-(--text-secondary)">
+                Loading departments...
+              </p>
+            ) : error ? (
+              <p className="text-center text-red-400 py-20">{error}</p>
+            ) : (
+              <DepartmentsGrid departments={departments} />
+            )}
+          </div>
         </div>
       </section>
 

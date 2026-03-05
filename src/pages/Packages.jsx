@@ -12,7 +12,6 @@ export default function Packages() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  /* ------------ FETCH PACKAGES ---------------------------------------------- */
   useEffect(() => {
     let mounted = true;
 
@@ -24,7 +23,6 @@ export default function Packages() {
         const data = await getPackages();
 
         if (!mounted) return;
-
         setPackages(data);
       } catch (err) {
         console.error(err);
@@ -36,13 +34,11 @@ export default function Packages() {
 
     fetchPackages();
 
-    return () => {
-      mounted = false;
-    };
+    return () => (mounted = false);
   }, []);
 
   return (
-    <main className="min-h-screen bg-gray-50 dark:bg-gray-950">
+    <main className="min-h-screen bg-(--bg)">
       <Breadcrumb
         items={[{ label: "Home", path: "/" }, { label: "Health Packages" }]}
       />
