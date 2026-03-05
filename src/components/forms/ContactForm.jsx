@@ -39,7 +39,7 @@ export default function ContactForm() {
 
       setStatus({ loading: false, success: true, error: "" });
       resetForm();
-    } catch (err) {
+    } catch {
       setStatus({
         loading: false,
         success: false,
@@ -51,46 +51,57 @@ export default function ContactForm() {
   };
 
   return (
-    <div className="bg-white dark:bg-gray-900 p-8 rounded-2xl shadow-lg">
-      <h2 className="text-2xl font-bold mb-8 text-center">Get in Touch</h2>
+    <div className="relative overflow-hidden rounded-2xl">
 
-      <Formik
-        initialValues={{ name: "", email: "", subject: "", message: "" }}
-        validationSchema={validationSchema}
-        onSubmit={handleSubmit}
-      >
-        {({ isSubmitting }) => (
-          <Form className="space-y-6">
-            <Field name="name" as={Input} placeholder="Your Name" />
-            <Field name="email" as={Input} placeholder="Your Email" />
-            <Field name="subject" as={Input} placeholder="Subject" />
-            <Field
-              name="message"
-              as={Textarea}
-              rows={6}
-              placeholder="Message"
-            />
+      {/* Dark overlay */}
+      <div className="absolute inset-0 bg-[#030712]/80 backdrop-blur-sm"></div>
 
-            <Button
-              type="submit"
-              disabled={isSubmitting || status.loading}
-              loading={status.loading}
-            >
-              {status.loading ? "Sending..." : "Send Message"}
-            </Button>
-          </Form>
+      {/* Form Container */}
+      <div className="relative z-10 bg-white/5 backdrop-blur-md border border-white/10 p-8 rounded-2xl shadow-[0_0_40px_rgba(59,130,246,0.15)]">
+        <h2 className="text-2xl font-bold mb-8 text-center bg-gradient-to-r from-[#60A5FA] to-[#67E8F9] bg-clip-text text-transparent">
+          Get in Touch
+        </h2>
+
+        <Formik
+          initialValues={{ name: "", email: "", subject: "", message: "" }}
+          validationSchema={validationSchema}
+          onSubmit={handleSubmit}
+        >
+          {({ isSubmitting }) => (
+            <Form className="space-y-6">
+              <Field name="name" as={Input} placeholder="Your Name" />
+              <Field name="email" as={Input} placeholder="Your Email" />
+              <Field name="subject" as={Input} placeholder="Subject" />
+
+              <Field
+                name="message"
+                as={Textarea}
+                rows={6}
+                placeholder="Message"
+              />
+
+              <Button
+                type="submit"
+                disabled={isSubmitting || status.loading}
+                loading={status.loading}
+                className="w-full bg-gradient-to-r from-[#60A5FA] to-[#67E8F9] hover:from-[#3B82F6] hover:to-[#60A5FA] text-[#030712] font-semibold py-3 rounded-xl shadow-[0_0_20px_rgba(59,130,246,0.35)] transition"
+              >
+                {status.loading ? "Sending..." : "Send Message"}
+              </Button>
+            </Form>
+          )}
+        </Formik>
+
+        {status.success && (
+          <p className="mt-4 text-green-400 text-center">
+            Message sent successfully!
+          </p>
         )}
-      </Formik>
 
-      {status.success && (
-        <p className="mt-4 text-green-600 text-center">
-          Message sent successfully!
-        </p>
-      )}
-
-      {status.error && (
-        <p className="mt-4 text-red-600 text-center">{status.error}</p>
-      )}
+        {status.error && (
+          <p className="mt-4 text-red-500 text-center">{status.error}</p>
+        )}
+      </div>
     </div>
   );
 }
