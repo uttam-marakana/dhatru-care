@@ -8,15 +8,26 @@ const initialState = {
   phone: "",
   email: "",
   department: "",
+  doctor: "",
   date: "",
   time: "",
   message: "",
 };
 
+const departments = [
+  "Cardiology",
+  "Dermatology",
+  "Neurology",
+  "Orthopedics",
+  "Pediatrics",
+  "General Medicine",
+];
+
 export default function AppointmentForm() {
   const [form, setForm] = useState(initialState);
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
+
   const nav = useNavigate();
 
   const handleChange = (e) =>
@@ -24,19 +35,29 @@ export default function AppointmentForm() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (!auth.currentUser) {
+      alert("Please login to book an appointment.");
+      return;
+    }
+
     setLoading(true);
 
     try {
       await createAppointment({
         ...form,
-        userId: auth.currentUser?.uid || null,
+        userId: auth.currentUser.uid,
+        createdAt: new Date(),
+        status: "pending",
       });
 
       setSuccess(true);
       setForm(initialState);
+
       setTimeout(() => nav("/"), 2000);
-    } catch {
-      alert("Booking failed. Please login first.");
+    } catch (err) {
+      console.error(err);
+      alert("Booking failed");
     }
 
     setLoading(false);
@@ -46,69 +67,88 @@ export default function AppointmentForm() {
     <div
       className="
       max-w-2xl mx-auto
-      bg-[var(--card)]
-      border border-[var(--border)]
+      bg-(--card)
+      border border-(--border)
       p-8 rounded-2xl
       shadow-[0_0_40px_var(--glow-bg)]
       "
     >
-      <h1 className="text-3xl font-bold mb-6 text-center text-[var(--text)]">
+      <h1 className="text-3xl font-bold mb-6 text-center text-(--text)">
         Book an Appointment
       </h1>
 
       {success && (
-        <div className="text-[var(--color-success)] text-center mb-4">
+        <div className="text-(--color-success) text-center mb-4">
           Appointment submitted successfully!
         </div>
       )}
 
       <form onSubmit={handleSubmit} className="space-y-5">
+        {/* Name */}
         <input
           name="patientName"
           placeholder="Full Name"
           value={form.patientName}
           onChange={handleChange}
           required
-          className="w-full p-3 rounded-lg bg-[var(--surface)] border border-[var(--border)] text-[var(--text)]"
+          className="w-full p-3 rounded-lg bg-(--surface) border border-(--border) text-(--text)"
         />
 
+        {/* Phone */}
         <input
           name="phone"
           type="tel"
-          placeholder="Phone"
+          placeholder="Phone Number"
           value={form.phone}
           onChange={handleChange}
           required
-          className="w-full p-3 rounded-lg bg-[var(--surface)] border border-[var(--border)] text-[var(--text)]"
+          className="w-full p-3 rounded-lg bg-(--surface) border border-(--border) text-(--text)"
         />
 
+        {/* Email */}
         <input
           name="email"
           type="email"
-          placeholder="Email"
+          placeholder="Email Address"
           value={form.email}
           onChange={handleChange}
           required
-          className="w-full p-3 rounded-lg bg-[var(--surface)] border border-[var(--border)] text-[var(--text)]"
+          className="w-full p-3 rounded-lg bg-(--surface) border border-(--border) text-(--text)"
         />
 
-        <input
+        {/* Department */}
+        <select
           name="department"
-          placeholder="Department"
           value={form.department}
           onChange={handleChange}
           required
-          className="w-full p-3 rounded-lg bg-[var(--surface)] border border-[var(--border)] text-[var(--text)]"
+          className="w-full p-3 rounded-lg bg-(--surface) border border-(--border) text-(--text)"
+        >
+          <option value="">Select Department</option>
+          {departments.map((dept) => (
+            <option key={dept}>{dept}</option>
+          ))}
+        </select>
+
+        {/* Doctor */}
+        <input
+          name="doctor"
+          placeholder="Preferred Doctor"
+          value={form.doctor}
+          onChange={handleChange}
+          className="w-full p-3 rounded-lg bg-(--surface) border border-(--border) text-(--text)"
         />
 
+        {/* Date + Time */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <input
             type="date"
             name="date"
+            min={new Date().toISOString().split("T")[0]}
             value={form.date}
             onChange={handleChange}
             required
-            className="p-3 rounded-lg bg-[var(--surface)] border border-[var(--border)] text-[var(--text)]"
+            className="p-3 rounded-lg bg-(--surface) border border-(--border) text-(--text)"
           />
 
           <input
@@ -117,25 +157,27 @@ export default function AppointmentForm() {
             value={form.time}
             onChange={handleChange}
             required
-            className="p-3 rounded-lg bg-[var(--surface)] border border-[var(--border)] text-[var(--text)]"
+            className="p-3 rounded-lg bg-(--surface) border border-(--border) text-(--text)"
           />
         </div>
 
+        {/* Message */}
         <textarea
           name="message"
-          placeholder="Additional Notes"
+          placeholder="Additional Notes (optional)"
           value={form.message}
           onChange={handleChange}
-          className="w-full p-3 rounded-lg bg-[var(--surface)] border border-[var(--border)] text-[var(--text)]"
+          className="w-full p-3 rounded-lg bg-(--surface) border border-(--border) text-(--text)"
         />
 
+        {/* Submit */}
         <button
           type="submit"
           disabled={loading}
           className="
           w-full
-          bg-[var(--color-primary)]
-          hover:bg-[var(--color-primary-hover)]
+          bg-(--color-primary)
+          hover:bg-(--color-primary-hover)
           text-white
           p-3 rounded-xl
           shadow-[0_0_20px_var(--glow-soft)]

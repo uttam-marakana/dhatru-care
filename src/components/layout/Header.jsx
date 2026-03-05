@@ -68,9 +68,9 @@ export default function Header() {
         className={`fixed top-0 left-0 right-0 z-50
         backdrop-blur-xl
         transition-all duration-300
-        bg-[var(--surface)]/80
-        border-b border-[var(--border)]
-        ${scrolled ? "shadow-[0_0_40px_var(--glow-bg)]" : ""}`}
+        bg-(--surface)/80
+        border-b border-(--border)
+        ${scrolled ? "shadow-[0_0_40px_var(--glow-bg)" : ""}`}
       >
         <Container className="px-4 sm:px-6 lg:px-8">
           <div className="flex h-16 sm:h-20 items-center justify-between">
@@ -91,8 +91,8 @@ export default function Header() {
                   to={item.to}
                   className={({ isActive }) =>
                     isActive
-                      ? "text-[var(--color-primary)]"
-                      : "text-[var(--text-secondary)] hover:text-[var(--color-primary)]"
+                      ? "text-(--color-primary)"
+                      : "text-(--text-secondary) hover:text-(--color-primary)"
                   }
                 >
                   {item.label}
@@ -104,7 +104,7 @@ export default function Header() {
             <div className="hidden xl:flex items-center gap-6">
               <a
                 href="tel:+919876543210"
-                className="flex items-center gap-2 text-sm font-medium text-[var(--color-primary)]"
+                className="flex items-center gap-2 text-sm font-medium text-(--color-primary)"
               >
                 <FaPhoneAlt />
                 24×7 Emergency
@@ -115,14 +115,14 @@ export default function Header() {
                 <>
                   <Link
                     to="/profile"
-                    className="text-[var(--text-secondary)] hover:text-[var(--color-primary)]"
+                    className="text-(--text-secondary) hover:text-(--color-primary)"
                   >
                     <FaUser size={18} />
                   </Link>
 
                   <button
                     onClick={() => signOut(auth)}
-                    className="text-[var(--text-secondary)] hover:text-[var(--color-primary)]"
+                    className="text-(--text-secondary) hover:text-(--color-primary)"
                   >
                     <FaSignOutAlt size={18} />
                   </button>
@@ -130,7 +130,7 @@ export default function Header() {
               ) : (
                 <Link
                   to="/login"
-                  className="text-[var(--text-secondary)] hover:text-[var(--color-primary)]"
+                  className="text-(--text-secondary) hover:text-(--color-primary)"
                 >
                   Login
                 </Link>
@@ -140,7 +140,7 @@ export default function Header() {
 
               <Link
                 to="/appointment"
-                className="bg-[var(--color-primary)] hover:bg-[var(--color-primary-hover)] text-white px-6 py-2.5 rounded-full font-semibold shadow-[0_0_25px_var(--glow-soft)]"
+                className="bg-(--color-primary) hover:bg-(--color-primary-hover) text-white px-6 py-2.5 rounded-full font-semibold shadow-[0_0_25px_var(--glow-soft)"
               >
                 Book Appointment
               </Link>
@@ -149,7 +149,7 @@ export default function Header() {
             {/* MOBILE BUTTON */}
             <button
               onClick={() => setIsOpen(true)}
-              className="xl:hidden text-[var(--text-secondary)]"
+              className="xl:hidden text-(--text-secondary)"
             >
               <FaBars size={20} />
             </button>

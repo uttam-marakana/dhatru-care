@@ -3,16 +3,37 @@ import { signup } from "./authApi";
 import { useNavigate, Link } from "react-router-dom";
 
 export default function Signup() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const nav = useNavigate();
+  const navigate = useNavigate();
+
+  const [form, setForm] = useState({
+    name: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+    gender: "",
+    phone: "",
+    dob: "",
+    address: "",
+  });
+
+  const handleChange = (e) => {
+    setForm({
+      ...form,
+      [e.target.name]: e.target.value,
+    });
+  };
 
   const submit = async (e) => {
     e.preventDefault();
 
+    if (form.password !== form.confirmPassword) {
+      alert("Passwords do not match");
+      return;
+    }
+
     try {
-      await signup(email, password);
-      nav("/login");
+      await signup(form);
+      navigate("/login");
     } catch (err) {
       console.error(err);
       alert("Signup failed");
@@ -20,78 +41,131 @@ export default function Signup() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-[var(--bg)] px-4">
+    <div className="min-h-screen flex items-center justify-center bg-(--bg) px-4 py-10">
       <form
         onSubmit={submit}
         className="
-        w-full max-w-md
-        bg-[var(--surface)]
-        border border-[var(--border)]
+        w-full max-w-lg
+        bg-(--surface)
+        border border-(--border)
         rounded-2xl
         p-8
-        space-y-5
+        space-y-4
         shadow-[0_0_25px_var(--glow-soft)]
         "
       >
-        <h2 className="text-2xl font-bold text-center text-[var(--text)]">
-          Signup
+        <h2 className="text-2xl font-bold text-center text-(--text)">
+          Patient Registration
         </h2>
 
+        {/* Name */}
         <input
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          placeholder="Email"
-          type="email"
+          name="name"
+          value={form.name}
+          onChange={handleChange}
+          placeholder="Full Name"
           required
-          className="
-          w-full p-3 rounded-lg
-          bg-[var(--card)]
-          border border-[var(--border)]
-          text-[var(--text)]
-          placeholder:text-[var(--muted)]
-          focus:ring-2 focus:ring-[var(--color-primary)]
-          focus:border-[var(--color-primary)]
-          outline-none
-          "
+          className="w-full p-3 rounded-lg bg-(--card) border border-(--border) text-(--text)"
         />
 
+        {/* Email */}
+        <input
+          type="email"
+          name="email"
+          value={form.email}
+          onChange={handleChange}
+          placeholder="Email Address"
+          required
+          className="w-full p-3 rounded-lg bg-(--card) border border-(--border) text-(--text)"
+        />
+
+        {/* Phone */}
+        <input
+          name="phone"
+          value={form.phone}
+          onChange={handleChange}
+          placeholder="Phone Number"
+          required
+          className="w-full p-3 rounded-lg bg-(--card) border border-(--border) text-(--text)"
+        />
+
+        {/* Gender */}
+        <select
+          name="gender"
+          value={form.gender}
+          onChange={handleChange}
+          required
+          className="w-full p-3 rounded-lg bg-(--card) border border-(--border) text-(--text)"
+        >
+          <option value="">Select Gender</option>
+          <option value="male">Male</option>
+          <option value="female">Female</option>
+          <option value="other">Other</option>
+        </select>
+
+        {/* DOB */}
+        <input
+          type="date"
+          name="dob"
+          value={form.dob}
+          onChange={handleChange}
+          required
+          className="w-full p-3 rounded-lg bg-(--card) border border-(--border) text-(--text)"
+        />
+
+        {/* Address */}
+        <textarea
+          name="address"
+          value={form.address}
+          onChange={handleChange}
+          placeholder="Address"
+          rows="2"
+          className="w-full p-3 rounded-lg bg-(--card) border border-(--border) text-(--text)"
+        />
+
+        {/* Password */}
         <input
           type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          name="password"
+          value={form.password}
+          onChange={handleChange}
           placeholder="Password"
           required
-          className="
-          w-full p-3 rounded-lg
-          bg-[var(--card)]
-          border border-[var(--border)]
-          text-[var(--text)]
-          placeholder:text-[var(--muted)]
-          focus:ring-2 focus:ring-[var(--color-primary)]
-          focus:border-[var(--color-primary)]
-          outline-none
-          "
+          className="w-full p-3 rounded-lg bg-(--card) border border-(--border) text-(--text)"
         />
 
+        {/* Confirm Password */}
+        <input
+          type="password"
+          name="confirmPassword"
+          value={form.confirmPassword}
+          onChange={handleChange}
+          placeholder="Confirm Password"
+          required
+          className="w-full p-3 rounded-lg bg-(--card) border border-(--border) text-(--text)"
+        />
+
+        {/* Register Button */}
         <button
           className="
           w-full p-3 rounded-lg
-          bg-[var(--color-primary)]
-          hover:bg-[var(--color-primary-hover)]
+          bg-(--color-primary)
+          hover:bg-(--color-primary-hover)
           text-white
           font-semibold
           transition
           shadow-[0_0_15px_var(--glow-soft)]
           "
         >
-          Signup
+          Register
         </button>
 
-        <p className="text-sm text-center text-[var(--text-secondary)]">
+        {/* Login Link */}
+        <p className="text-sm text-center text-(--text-secondary)">
           Already have an account?{" "}
           <Link
             to="/login"
-            className="text-[var(--color-primary)] hover:underline"
+            className="text-(--color-primary) hover:underline"
           >
             Login
           </Link>

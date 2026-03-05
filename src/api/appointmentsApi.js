@@ -11,11 +11,13 @@ import {
 } from "firebase/firestore";
 import { db } from "../firebase";
 
-const ref = collection(db, "appointments");
+const appointmentsRef = collection(db, "appointments");
+
+/* ---------------- CREATE APPOINTMENT ---------------- */
 
 export const createAppointment = async (data) => {
   const q = query(
-    ref,
+    appointmentsRef,
     where("date", "==", data.date),
     where("time", "==", data.time),
     where("doctorID", "==", data.doctorID),
@@ -24,20 +26,17 @@ export const createAppointment = async (data) => {
   const snap = await getDocs(q);
 
   if (!snap.empty) {
-    throw new Error("Time slot is Already booked");
+    throw new Error("This time slot is already booked.");
   }
 
-  try {
-    return await addDoc(ref, {
-      ...data,
-      status: "pending",
-      createdAt: serverTimestamp(),
-    });
-  } catch (err) {
-    console.error("Appointment API Error:", err);
-    throw err;
-  }
+  return await addDoc(appointmentsRef, {
+    ...data,
+    status: "pending",
+    createdAt: serverTimestamp(),
+  });
 };
+
+/* ---------------- UPDATE STATUS ---------------- */
 
 export const updateAppointmentStatus = async (id, status) => {
   return await updateDoc(doc(db, "appointments", id), {
@@ -46,21 +45,28 @@ export const updateAppointmentStatus = async (id, status) => {
   });
 };
 
-/* --- Realtime Listener ----------------- */
-export const subscribeAppointments = (callback) => {
-  return onSnapshot(ref, (snap) => {
-    const data = snap.docs.map((d) => ({
-      id: d.id,
-      ...d.data(),
-    }));
-    callback(data);
-  });
+/* ---------------- GET USER APPOINTMENTS ---------------- */
+
+export const getUserAppointments = async (userId) => {
+  const q = query(appointmentsRef, where("userId", "==", userId));
+
+  const snap = await getDocs(q);
+
+  return snap.docs.map((doc) => ({
+    id: doc.id,
+    ...doc.data(),
+  }));
 };
 
-/* --- Update Status ----------------- */
-export const getAppointments = async (id, status) => {
-  return await updateDoc(doc(db, "appointments", id), {
-    status,
-    updatedAt: serverTimestamp(),
+/* ---------------- REALTIME LISTENER ---------------- */
+
+export const subscribeAppointments = (callback) => {
+  return onSnapshot(appointmentsRef, (snap) => {
+    const data = snap.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
+
+    callback(data);
   });
 };
