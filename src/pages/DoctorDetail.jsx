@@ -129,7 +129,7 @@ export default function DoctorDetail() {
               </div>
 
               <div className="space-y-3 mt-6">
-                <Link to="/appointments">
+                <Link to="/appointment">
                   <Button size="lg" leftIcon={<FaCalendarCheck />}>
                     Book Appointment
                   </Button>
@@ -145,9 +145,7 @@ export default function DoctorDetail() {
             {/* DETAILS */}
             <div className="md:col-span-2 space-y-8 text-(--text-secondary)">
               <div>
-                <h2 className="text-2xl font-bold text-(--text) mb-2">
-                  About
-                </h2>
+                <h2 className="text-2xl font-bold text-(--text) mb-2">About</h2>
                 <p>{doctor.bio}</p>
               </div>
 
@@ -202,9 +200,7 @@ export default function DoctorDetail() {
                   <Card className="text-center p-4 hover:-translate-y-2 transition-all duration-300">
                     <div className="text-6xl mb-3">👨‍⚕️</div>
                     <h3 className="font-bold">{doc.name}</h3>
-                    <p className="text-(--color-primary)">
-                      {doc.specialty}
-                    </p>
+                    <p className="text-(--color-primary)">{doc.specialty}</p>
                   </Card>
                 </Link>
               ))}

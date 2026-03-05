@@ -23,7 +23,7 @@ export default function Hero() {
           </p>
 
           <div className="flex flex-col sm:flex-row gap-5">
-            <Link to="/appointments">
+            <Link to="/appointment">
               <Button size="lg" className="flex items-center gap-2">
                 Book an Appointment <FaArrowRight />
               </Button>

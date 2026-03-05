@@ -139,7 +139,7 @@ export default function Header() {
               <ThemeToggle />
 
               <Link
-                to="/appointments"
+                to="/appointment"
                 className="bg-[var(--color-primary)] hover:bg-[var(--color-primary-hover)] text-white px-6 py-2.5 rounded-full font-semibold shadow-[0_0_25px_var(--glow-soft)]"
               >
                 Book Appointment

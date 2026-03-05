@@ -77,7 +77,7 @@ export default function HeroSlider() {
           </p>
 
           <div className="flex flex-wrap gap-4">
-            <Link to="/appointments">
+            <Link to="/appointment">
               <Button size="lg">Book Appointment</Button>
             </Link>
 
