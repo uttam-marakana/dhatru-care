@@ -54,6 +54,12 @@ export default function NewsletterForm() {
               type="submit"
               disabled={isSubmitting || status.loading}
               loading={status.loading}
+              className="
+              bg-[var(--color-primary)]
+              hover:bg-[var(--color-primary-hover)]
+              text-white
+              shadow-[0_0_15px_var(--glow-soft)]
+              "
             >
               Subscribe
             </Button>
@@ -62,10 +68,14 @@ export default function NewsletterForm() {
       </Formik>
 
       {status.success && (
-        <p className="mt-3 text-emerald-600">Subscribed successfully!</p>
+        <p className="mt-3 text-[var(--color-success)]">
+          Subscribed successfully!
+        </p>
       )}
 
-      {status.error && <p className="mt-3 text-rose-600">{status.error}</p>}
+      {status.error && (
+        <p className="mt-3 text-[var(--color-error)]">{status.error}</p>
+      )}
     </div>
   );
 }

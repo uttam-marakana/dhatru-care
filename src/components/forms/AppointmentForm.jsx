@@ -35,7 +35,7 @@ export default function AppointmentForm() {
       setSuccess(true);
       setForm(initialState);
       setTimeout(() => nav("/"), 2000);
-    } catch (err) {
+    } catch {
       alert("Booking failed. Please login first.");
     }
 
@@ -43,13 +43,21 @@ export default function AppointmentForm() {
   };
 
   return (
-    <div className="max-w-2xl mx-auto bg-white dark:bg-gray-900 p-8 rounded-2xl shadow-lg">
-      <h1 className="text-3xl font-bold mb-6 text-center">
+    <div
+      className="
+      max-w-2xl mx-auto
+      bg-[var(--card)]
+      border border-[var(--border)]
+      p-8 rounded-2xl
+      shadow-[0_0_40px_var(--glow-bg)]
+      "
+    >
+      <h1 className="text-3xl font-bold mb-6 text-center text-[var(--text)]">
         Book an Appointment
       </h1>
 
       {success && (
-        <div className="text-green-600 text-center mb-4">
+        <div className="text-[var(--color-success)] text-center mb-4">
           Appointment submitted successfully!
         </div>
       )}
@@ -61,7 +69,7 @@ export default function AppointmentForm() {
           value={form.patientName}
           onChange={handleChange}
           required
-          className="w-full p-3 border rounded"
+          className="w-full p-3 rounded-lg bg-[var(--surface)] border border-[var(--border)] text-[var(--text)]"
         />
 
         <input
@@ -71,7 +79,7 @@ export default function AppointmentForm() {
           value={form.phone}
           onChange={handleChange}
           required
-          className="w-full p-3 border rounded"
+          className="w-full p-3 rounded-lg bg-[var(--surface)] border border-[var(--border)] text-[var(--text)]"
         />
 
         <input
@@ -81,7 +89,7 @@ export default function AppointmentForm() {
           value={form.email}
           onChange={handleChange}
           required
-          className="w-full p-3 border rounded"
+          className="w-full p-3 rounded-lg bg-[var(--surface)] border border-[var(--border)] text-[var(--text)]"
         />
 
         <input
@@ -90,7 +98,7 @@ export default function AppointmentForm() {
           value={form.department}
           onChange={handleChange}
           required
-          className="w-full p-3 border rounded"
+          className="w-full p-3 rounded-lg bg-[var(--surface)] border border-[var(--border)] text-[var(--text)]"
         />
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -100,15 +108,16 @@ export default function AppointmentForm() {
             value={form.date}
             onChange={handleChange}
             required
-            className="p-3 border rounded"
+            className="p-3 rounded-lg bg-[var(--surface)] border border-[var(--border)] text-[var(--text)]"
           />
+
           <input
             type="time"
             name="time"
             value={form.time}
             onChange={handleChange}
             required
-            className="p-3 border rounded"
+            className="p-3 rounded-lg bg-[var(--surface)] border border-[var(--border)] text-[var(--text)]"
           />
         </div>
 
@@ -117,13 +126,21 @@ export default function AppointmentForm() {
           placeholder="Additional Notes"
           value={form.message}
           onChange={handleChange}
-          className="w-full p-3 border rounded"
+          className="w-full p-3 rounded-lg bg-[var(--surface)] border border-[var(--border)] text-[var(--text)]"
         />
 
         <button
           type="submit"
           disabled={loading}
-          className="w-full bg-primary text-white p-3 rounded hover:opacity-90 transition"
+          className="
+          w-full
+          bg-[var(--color-primary)]
+          hover:bg-[var(--color-primary-hover)]
+          text-white
+          p-3 rounded-xl
+          shadow-[0_0_20px_var(--glow-soft)]
+          transition
+          "
         >
           {loading ? "Booking..." : "Book Appointment"}
         </button>
