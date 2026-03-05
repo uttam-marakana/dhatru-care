@@ -1,7 +1,6 @@
 import { useState, useEffect, lazy, useMemo } from "react";
 import { useSearchParams } from "react-router-dom";
 import { getDoctors } from "../api/doctorsApi";
-
 import UniversalFilterLayout from "../components/filters/UniversalFilterLayout";
 
 const PageHero = lazy(() => import("../sections/shared/PageHero"));
@@ -12,7 +11,6 @@ const AppointmentCTA = lazy(() => import("../sections/shared/AppointmentCTA"));
 export default function Doctors() {
   const [searchParams, setSearchParams] = useSearchParams();
 
-  /* ------------ FILTER STATE ---------------------------------------------- */
   const [filters, setFilters] = useState({
     search: searchParams.get("search") || "",
     specialty: searchParams.get("specialty") || "",
@@ -20,59 +18,34 @@ export default function Doctors() {
   });
 
   const [allDoctors, setAllDoctors] = useState([]);
-  const [doctors, setDoctors] = useState([]);
-
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  /* ------------ FETCH DOCTORS ---------------------------------------------- */
   useEffect(() => {
-    let mounted = true;
-
-    const fetchDoctors = async () => {
-      try {
-        setLoading(true);
-        setError(null);
-
-        const data = await getDoctors();
-
-        if (!mounted) return;
-
-        setAllDoctors(data);
-        setDoctors(data);
-      } catch (err) {
-        console.error(err);
-        if (mounted) setError("Failed to load doctors.");
-      } finally {
-        if (mounted) setLoading(false);
-      }
-    };
-
-    fetchDoctors();
-
-    return () => {
-      mounted = false;
-    };
+    getDoctors()
+      .then(setAllDoctors)
+      .catch(() => setError("Failed to load doctors."))
+      .finally(() => setLoading(false));
   }, []);
 
-  /* ------------ URL SYNC ---------------------------------------------- */
+  // URL Sync
   useEffect(() => {
     const params = {};
-
-    if (filters.search) params.search = filters.search;
-    if (filters.specialty) params.specialty = filters.specialty;
-    if (filters.experience) params.experience = filters.experience;
-
+    Object.entries(filters).forEach(([k, v]) => v && (params[k] = v));
     setSearchParams(params);
-  }, [filters, setSearchParams]);
+  }, [filters]);
 
-  /* ------------ LOCAL FILTERING ---------------------------------------------- */
-  useEffect(() => {
+  // Filtering
+  const doctors = useMemo(() => {
     let data = [...allDoctors];
 
     if (filters.search) {
       const term = filters.search.toLowerCase();
-      data = data.filter((d) => d.name?.toLowerCase().includes(term));
+      data = data.filter(
+        (d) =>
+          d.name?.toLowerCase().includes(term) ||
+          d.specialty?.toLowerCase().includes(term),
+      );
     }
 
     if (filters.specialty) {
@@ -82,31 +55,74 @@ export default function Doctors() {
     }
 
     if (filters.experience) {
-      data = data.filter((d) =>
-        d.experience?.toLowerCase().includes(filters.experience.toLowerCase()),
-      );
+      data = data.filter((d) => d.experience?.includes(filters.experience));
     }
 
-    setDoctors(data);
+    return data;
   }, [filters, allDoctors]);
 
+  const clearFilters = () => {
+    setFilters({
+      search: "",
+      specialty: "",
+      experience: "",
+    });
+  };
+
+  const hasActiveFilters = Object.values(filters).some((v) => v);
+
   return (
-    <main className="min-h-screen bg-gray-50 dark:bg-gray-950">
+    <main className="min-h-screen bg-gradient-to-b from-gray-950 via-gray-900 to-gray-950">
       <PageHero
         title="Our Expert Doctors"
         subtitle="Highly qualified specialists committed to personalized care"
-        bgClass="bg-gradient-to-br from-primary/10 via-white to-secondary/10 dark:from-gray-950 dark:via-gray-900 dark:to-gray-950"
       />
 
-      {/* UNIVERSAL FILTER SYSTEM */}
       <UniversalFilterLayout
         filters={filters}
         onChange={setFilters}
         FiltersComponent={DoctorFilters}
       />
 
-      {/* DOCTORS LIST */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+      {/* Active Chips */}
+      {hasActiveFilters && (
+        <div className="max-w-7xl mx-auto px-4 mt-6">
+          <div className="flex flex-wrap gap-3 items-center">
+            <button
+              onClick={clearFilters}
+              className="text-sm text-blue-400 hover:text-blue-300 underline"
+            >
+              Clear All
+            </button>
+
+            {Object.entries(filters).map(([key, value]) =>
+              value ? (
+                <div
+                  key={key}
+                  className="flex items-center gap-2 bg-gray-800 border border-white/10 text-sm text-white px-3 py-1.5 rounded-full"
+                >
+                  <span className="capitalize">
+                    {key}: {value}
+                  </span>
+                  <button
+                    onClick={() =>
+                      setFilters((prev) => ({
+                        ...prev,
+                        [key]: "",
+                      }))
+                    }
+                    className="text-gray-400 hover:text-red-400"
+                  >
+                    ✕
+                  </button>
+                </div>
+              ) : null,
+            )}
+          </div>
+        </div>
+      )}
+
+      <section className="max-w-7xl mx-auto px-4 py-10">
         <DoctorsList
           doctors={doctors}
           loading={loading}
@@ -115,7 +131,7 @@ export default function Doctors() {
         />
       </section>
 
-      <AppointmentCTA variant="large" className="my-12 md:my-16 lg:my-20" />
+      <AppointmentCTA variant="large" className="my-16" />
     </main>
   );
 }

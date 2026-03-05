@@ -66,14 +66,14 @@ export default function DoctorDetail() {
 
   if (loading)
     return (
-      <div className="min-h-screen flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center dark:bg-gray-950 dark:text-gray-300">
         Loading doctor...
       </div>
     );
 
   if (error || !doctor)
     return (
-      <div className="min-h-screen flex items-center justify-center text-red-600">
+      <div className="min-h-screen flex items-center justify-center text-red-600 dark:bg-gray-950">
         {error}
       </div>
     );
@@ -87,10 +87,21 @@ export default function DoctorDetail() {
           { label: doctor?.name || "Profile" },
         ]}
       />
-      <div className="py-12 md:py-20 bg-linear-to-br from-primary/10 to-secondary/10">
+
+      {/* HERO SECTION */}
+      <div className="relative py-12 md:py-20 bg-linear-to-br from-primary/10 to-secondary/10 dark:bg-transparent overflow-hidden">
+        {/* Dark Mode Glow */}
+        <div className="hidden dark:block absolute top-0 left-1/2 -translate-x-1/2 w-[700px] h-[700px] bg-blue-600/20 blur-[150px] rounded-full"></div>
+
         <Container>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-10">
-            <Card className="p-6 text-center">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-10 relative z-10">
+            {/* PROFILE CARD */}
+            <Card
+              className="p-6 text-center 
+              dark:bg-white/5 dark:backdrop-blur-md 
+              dark:border dark:border-white/10 
+              dark:shadow-[0_0_40px_rgba(59,130,246,0.15)]"
+            >
               <div className="mb-4">
                 {doctor.imageUrl ? (
                   <img
@@ -103,10 +114,15 @@ export default function DoctorDetail() {
                 )}
               </div>
 
-              <h1 className="text-2xl font-bold">{doctor.name}</h1>
-              <p className="text-primary">{doctor.specialty}</p>
+              <h1 className="text-2xl font-bold dark:bg-gradient-to-r dark:from-blue-400 dark:to-cyan-300 dark:bg-clip-text dark:text-transparent">
+                {doctor.name}
+              </h1>
 
-              <div className="flex justify-center gap-4 mt-4 text-sm">
+              <p className="text-primary dark:text-blue-400">
+                {doctor.specialty}
+              </p>
+
+              <div className="flex justify-center gap-4 mt-4 text-sm text-gray-600 dark:text-gray-400">
                 <span>{doctor.experience}</span>
                 <span className="flex items-center gap-1">
                   <FaStar className="text-yellow-500" />
@@ -124,6 +140,7 @@ export default function DoctorDetail() {
                     Book Appointment
                   </Button>
                 </Link>
+
                 <Button variant="outline" className="w-full">
                   <FaPhoneAlt className="mr-2" />
                   Call Now
@@ -131,26 +148,29 @@ export default function DoctorDetail() {
               </div>
             </Card>
 
-            <div className="md:col-span-2 space-y-8">
+            {/* DETAILS */}
+            <div className="md:col-span-2 space-y-8 text-gray-800 dark:text-gray-300">
               <div>
-                <h2 className="text-2xl font-bold mb-3">About</h2>
+                <h2 className="text-2xl font-bold mb-3 dark:bg-gradient-to-r dark:from-blue-400 dark:to-cyan-300 dark:bg-clip-text dark:text-transparent">
+                  About
+                </h2>
                 <p>{doctor.bio}</p>
               </div>
 
               <div>
-                <h3 className="text-xl font-semibold flex gap-2 items-center">
-                  <FaGraduationCap className="text-primary" />
+                <h3 className="text-xl font-semibold flex gap-2 items-center dark:bg-gradient-to-r dark:from-blue-400 dark:to-cyan-300 dark:bg-clip-text dark:text-transparent">
+                  <FaGraduationCap className="text-primary dark:text-blue-400" />
                   Qualification
                 </h3>
                 <p>{doctor.qualification}</p>
               </div>
 
               <div>
-                <h3 className="text-xl font-semibold flex gap-2 items-center">
-                  <FaAward className="text-primary" />
+                <h3 className="text-xl font-semibold flex gap-2 items-center dark:bg-gradient-to-r dark:from-blue-400 dark:to-cyan-300 dark:bg-clip-text dark:text-transparent">
+                  <FaAward className="text-primary dark:text-blue-400" />
                   Achievements
                 </h3>
-                <ul className="space-y-2">
+                <ul className="space-y-2 mt-2">
                   {(doctor.achievements || []).map((a, i) => (
                     <li key={i}>✔ {a}</li>
                   ))}
@@ -159,11 +179,11 @@ export default function DoctorDetail() {
 
               <div className="grid md:grid-cols-2 gap-6">
                 <p>
-                  <FaCalendarCheck className="inline mr-2 text-primary" />
+                  <FaCalendarCheck className="inline mr-2 text-primary dark:text-blue-400" />
                   {doctor.availability}
                 </p>
                 <p>
-                  <FaMapMarkerAlt className="inline mr-2 text-primary" />
+                  <FaMapMarkerAlt className="inline mr-2 text-primary dark:text-blue-400" />
                   {doctor.location}
                 </p>
               </div>
@@ -172,20 +192,31 @@ export default function DoctorDetail() {
         </Container>
       </div>
 
+      {/* RELATED DOCTORS */}
       {relatedDoctors.length > 0 && (
-        <section className="py-16">
+        <section className="py-16 dark:bg-gradient-to-b dark:from-gray-950 dark:to-gray-900">
           <Container>
-            <h2 className="text-3xl font-bold text-center mb-10">
+            <h2 className="text-3xl font-bold text-center mb-10 dark:bg-gradient-to-r dark:from-blue-400 dark:to-cyan-300 dark:bg-clip-text dark:text-transparent">
               Related Specialists
             </h2>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
               {relatedDoctors.map((doc) => (
                 <Link key={doc.id} to={`/doctors/${doc.id}`}>
-                  <Card hover className="h-full text-center p-4">
+                  <Card
+                    hover
+                    className="h-full text-center p-4 
+                    dark:bg-white/5 dark:backdrop-blur-md 
+                    dark:border dark:border-white/10 
+                    dark:hover:border-blue-400/40 
+                    dark:hover:shadow-[0_0_30px_rgba(59,130,246,0.25)] 
+                    transition-all duration-500"
+                  >
                     <div className="text-6xl mb-3">👨‍⚕️</div>
                     <h3 className="font-bold line-clamp-2">{doc.name}</h3>
-                    <p className="text-primary">{doc.specialty}</p>
+                    <p className="text-primary dark:text-blue-400">
+                      {doc.specialty}
+                    </p>
                   </Card>
                 </Link>
               ))}
