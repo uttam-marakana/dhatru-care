@@ -1,13 +1,6 @@
 import { useEffect, useState, useRef, lazy } from "react";
 import { Link, NavLink, useNavigate, useLocation } from "react-router-dom";
-import {
-  FaBars,
-  FaSearch,
-  FaTimesCircle,
-  FaUser,
-  FaSignOutAlt,
-  FaPhoneAlt,
-} from "react-icons/fa";
+import { FaBars, FaUser, FaSignOutAlt, FaPhoneAlt } from "react-icons/fa";
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import { auth } from "../../firebase";
 
@@ -32,18 +25,16 @@ export default function Header() {
 
   const [user, setUser] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
-  const [searchQuery, setSearchQuery] = useState("");
-  const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
-  const searchRef = useRef(null);
-
+  /* AUTH WATCH */
   useEffect(() => {
     const unsub = onAuthStateChanged(auth, (u) => setUser(u || null));
     return () => unsub();
   }, []);
 
+  /* DARK MODE WATCH */
   useEffect(() => {
     const observer = new MutationObserver(() => {
       setIsDarkMode(document.documentElement.classList.contains("dark"));
@@ -59,45 +50,17 @@ export default function Header() {
     return () => observer.disconnect();
   }, []);
 
+  /* SCROLL SHADOW */
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 10);
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  /* CLOSE MOBILE ON ROUTE CHANGE */
   useEffect(() => {
     setIsOpen(false);
-    setIsSearchOpen(false);
   }, [location.pathname]);
-
-  useEffect(() => {
-    const handleClickOutside = (e) => {
-      if (searchRef.current && !searchRef.current.contains(e.target)) {
-        setIsSearchOpen(false);
-      }
-    };
-
-    const handleEsc = (e) => {
-      if (e.key === "Escape") setIsSearchOpen(false);
-    };
-
-    document.addEventListener("mousedown", handleClickOutside);
-    document.addEventListener("keydown", handleEsc);
-
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-      document.removeEventListener("keydown", handleEsc);
-    };
-  }, []);
-
-  const handleSearch = (e) => {
-    e.preventDefault();
-    if (!searchQuery.trim()) return;
-
-    navigate(`/search?q=${encodeURIComponent(searchQuery.trim())}`);
-    setSearchQuery("");
-    setIsSearchOpen(false);
-  };
 
   return (
     <>
@@ -107,8 +70,7 @@ export default function Header() {
         transition-all duration-300
         bg-[var(--surface)]/80
         border-b border-[var(--border)]
-        ${scrolled ? "shadow-[0_0_40px_var(--glow-bg)]" : ""}
-        `}
+        ${scrolled ? "shadow-[0_0_40px_var(--glow-bg)]" : ""}`}
       >
         <Container className="px-4 sm:px-6 lg:px-8">
           <div className="flex h-16 sm:h-20 items-center justify-between">
@@ -121,18 +83,16 @@ export default function Header() {
               />
             </Link>
 
-            {/* NAVIGATION */}
+            {/* NAV */}
             <nav className="hidden xl:flex gap-8 font-medium">
               {navItems.map((item) => (
                 <NavLink
                   key={item.to}
                   to={item.to}
                   className={({ isActive }) =>
-                    `transition-colors duration-300 ${
-                      isActive
-                        ? "text-[var(--color-primary)]"
-                        : "text-[var(--text-secondary)] hover:text-[var(--color-primary)]"
-                    }`
+                    isActive
+                      ? "text-[var(--color-primary)]"
+                      : "text-[var(--text-secondary)] hover:text-[var(--color-primary)]"
                   }
                 >
                   {item.label}
@@ -150,30 +110,46 @@ export default function Header() {
                 24×7 Emergency
               </a>
 
+              {/* ACCOUNT */}
+              {user ? (
+                <>
+                  <Link
+                    to="/profile"
+                    className="text-[var(--text-secondary)] hover:text-[var(--color-primary)]"
+                  >
+                    <FaUser size={18} />
+                  </Link>
+
+                  <button
+                    onClick={() => signOut(auth)}
+                    className="text-[var(--text-secondary)] hover:text-[var(--color-primary)]"
+                  >
+                    <FaSignOutAlt size={18} />
+                  </button>
+                </>
+              ) : (
+                <Link
+                  to="/login"
+                  className="text-[var(--text-secondary)] hover:text-[var(--color-primary)]"
+                >
+                  Login
+                </Link>
+              )}
+
               <ThemeToggle />
 
               <Link
                 to="/appointments"
-                className="
-                bg-[var(--color-primary)]
-                hover:bg-[var(--color-primary-hover)]
-                text-white
-                px-6 py-2.5
-                rounded-full
-                font-semibold
-                shadow-[0_0_25px_var(--glow-soft)]
-                transition-all duration-300
-                "
+                className="bg-[var(--color-primary)] hover:bg-[var(--color-primary-hover)] text-white px-6 py-2.5 rounded-full font-semibold shadow-[0_0_25px_var(--glow-soft)]"
               >
                 Book Appointment
               </Link>
             </div>
 
-            {/* MOBILE MENU */}
+            {/* MOBILE BUTTON */}
             <button
               onClick={() => setIsOpen(true)}
               className="xl:hidden text-[var(--text-secondary)]"
-              aria-label="Open menu"
             >
               <FaBars size={20} />
             </button>
@@ -186,16 +162,12 @@ export default function Header() {
         onClose={() => setIsOpen(false)}
         navItems={navItems}
         user={user}
-        searchQuery={searchQuery}
-        setSearchQuery={setSearchQuery}
-        handleSearch={handleSearch}
         isDarkMode={isDarkMode}
         light_logo={light_logo}
         dark_logo={dark_logo}
         ThemeToggle={ThemeToggle}
       />
 
-      {/* Spacer */}
       <div className="h-16 sm:h-20" />
     </>
   );
