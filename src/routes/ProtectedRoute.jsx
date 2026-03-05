@@ -4,7 +4,7 @@ import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "../firebase";
 
 export default function ProtectedRoute({ children }) {
-  const [user, setUser] = useState(undefined); // undefined = loading
+  const [user, setUser] = useState(undefined);
 
   useEffect(() => {
     const unsub = onAuthStateChanged(auth, (u) => {
@@ -14,20 +14,35 @@ export default function ProtectedRoute({ children }) {
     return () => unsub();
   }, []);
 
-  // Loading state (prevents flicker)
+  /* LOADING STATE */
   if (user === undefined) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-950">
-        <p className="text-gray-500">Checking authentication...</p>
+      <div
+        className="
+        min-h-screen flex flex-col items-center justify-center
+        bg-[var(--bg)]
+        text-[var(--text-secondary)]
+        gap-4
+        "
+      >
+        <div
+          className="
+          w-8 h-8 rounded-full
+          border-4 border-[var(--color-primary)]
+          border-t-transparent
+          animate-spin
+          "
+        />
+
+        <p>Checking authentication...</p>
       </div>
     );
   }
 
-  // Not logged in → redirect
+  /* NOT AUTHENTICATED */
   if (!user) {
     return <Navigate to="/login" replace />;
   }
 
-  // Authenticated
   return children;
 }

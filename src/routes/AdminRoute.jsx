@@ -33,14 +33,32 @@ export default function AdminRoute({ children }) {
     return () => unsubscribe();
   }, []);
 
+  /* LOADING STATE */
   if (status === "loading") {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-950 text-gray-400">
-        Checking admin access...
+      <div
+        className="
+        min-h-screen flex flex-col items-center justify-center
+        bg-[var(--bg)]
+        text-[var(--text-secondary)]
+        gap-4
+        "
+      >
+        <div
+          className="
+          w-8 h-8 rounded-full
+          border-4 border-[var(--color-primary)]
+          border-t-transparent
+          animate-spin
+          "
+        />
+
+        <p>Checking admin access...</p>
       </div>
     );
   }
 
+  /* ACCESS DENIED */
   if (status === "denied") {
     return <Navigate to="/" replace />;
   }
