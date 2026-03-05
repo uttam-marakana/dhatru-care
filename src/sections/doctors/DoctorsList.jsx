@@ -15,7 +15,6 @@ export default function DoctorsList({
 }) {
   const [currentPage, setCurrentPage] = useState(1);
 
-  /* ------------ PAGINATION ---------------------------------------------- */
   const totalPages = Math.ceil(doctors.length / ITEMS_PER_PAGE);
 
   const paginatedDoctors = useMemo(() => {
@@ -23,26 +22,33 @@ export default function DoctorsList({
     return doctors.slice(start, start + ITEMS_PER_PAGE);
   }, [doctors, currentPage]);
 
-  /* Reset page if doctors change */
   useMemo(() => {
     setCurrentPage(1);
   }, [doctors]);
 
-  /* ------------ LOADING STATE ---------------------------------------------- */
+  /* LOADING STATE */
   if (loading) {
     return (
       <Container className="py-12">
+        {" "}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {Array.from({ length: 8 }).map((_, i) => (
             <div
               key={i}
-              className="animate-pulse bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-800 overflow-hidden"
+              className="
+           animate-pulse
+           bg-(--card)
+           rounded-xl
+           border border-(--border)
+           overflow-hidden
+           "
             >
-              <div className="aspect-square bg-gray-200 dark:bg-gray-800" />
+              {" "}
+              <div className="aspect-square bg-(--surface)" />
               <div className="p-5 space-y-3">
-                <div className="h-5 bg-gray-200 dark:bg-gray-700 rounded" />
-                <div className="h-4 w-2/3 bg-gray-200 dark:bg-gray-700 rounded" />
-                <div className="h-4 w-1/2 bg-gray-200 dark:bg-gray-700 rounded" />
+                <div className="h-5 bg-(--surface) rounded" />
+                <div className="h-4 w-2/3 bg-(--surface) rounded" />
+                <div className="h-4 w-1/2 bg-(--surface) rounded" />
               </div>
             </div>
           ))}
@@ -51,32 +57,43 @@ export default function DoctorsList({
     );
   }
 
-  /* ------------ ERROR STATE ---------------------------------------------- */
+  /* ERROR STATE */
   if (error) {
     return (
       <Container className="py-20 text-center">
-        <p className="text-red-600 text-lg">{error}</p>
+        {" "}
+        <p className="text-red-500 text-lg">{error}</p>{" "}
       </Container>
     );
   }
 
-  /* ------------ EMPTY STATE ---------------------------------------------- */
+  /* EMPTY STATE */
   if (doctors.length === 0) {
     return (
       <Container className="py-20 text-center">
-        <h3 className="text-2xl font-semibold mb-3">No Doctors Found</h3>
-        <p className="text-gray-600 dark:text-gray-400">
-          Try adjusting your filters.
-        </p>
+        {" "}
+        <h3 className="text-2xl font-semibold mb-3 text-(--text)">
+          No Doctors Found{" "}
+        </h3>
+        <p className="text-(--text-secondary)">Try adjusting your filters.</p>
       </Container>
     );
   }
 
-  /* ------------ MAIN UI ---------------------------------------------- */
+  /* MAIN UI */
   return (
     <Container className="py-12">
       {/* GRID */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+      <div
+        className="
+  grid
+  grid-cols-1
+  sm:grid-cols-2
+  lg:grid-cols-3
+  xl:grid-cols-4
+  gap-6
+  "
+      >
         {paginatedDoctors.map((doctor) => (
           <Link
             key={doctor.id}
@@ -85,15 +102,24 @@ export default function DoctorsList({
           >
             <Card
               hover
-              className="h-full flex flex-col overflow-hidden 
-              dark:bg-white/5 dark:backdrop-blur-md 
-              dark:border dark:border-white/10 
-              dark:hover:border-blue-400/40 
-              dark:hover:shadow-[0_0_40px_rgba(59,130,246,0.25)] 
-              transition-all duration-500"
+              className="
+          h-full flex flex-col overflow-hidden
+          bg-(--card)
+          border border-(--border)
+          transition-all duration-500
+          hover:-translate-y-2
+          hover:border-(--color-primary)/40
+          hover:shadow-[0_0_40px_var(--glow-soft)]
+          "
             >
               {/* IMAGE */}
-              <div className="aspect-square bg-gray-100 dark:bg-gray-800 flex items-center justify-center">
+              <div
+                className="
+          aspect-square
+          bg-(--surface)
+          flex items-center justify-center
+          "
+              >
                 {doctor.imageUrl ? (
                   <img
                     src={doctor.imageUrl}
@@ -108,35 +134,64 @@ export default function DoctorsList({
               {/* CONTENT */}
               <div className="p-5 flex flex-col grow">
                 <h3
-                  className="text-lg font-bold line-clamp-2 transition 
-                  dark:group-hover:bg-gradient-to-r 
-                  dark:group-hover:from-blue-400 
-                  dark:group-hover:to-cyan-300 
-                  dark:group-hover:bg-clip-text 
-                  dark:group-hover:text-transparent"
+                  className="
+              text-lg
+              font-bold
+              line-clamp-2
+              text-(--text)
+              transition
+              group-hover:text-(--color-primary)
+              "
                 >
                   {doctor.name}
                 </h3>
 
-                <p className="text-primary dark:text-blue-400 font-medium mt-1">
+                <p
+                  className="
+            text-(--color-primary)
+            font-medium
+            mt-1
+            "
+                >
                   {doctor.specialty}
                 </p>
 
-                <div className="flex items-center gap-3 text-sm text-gray-600 dark:text-gray-400 mt-2">
+                <div
+                  className="
+            flex items-center gap-3
+            text-sm
+            text-(--text-secondary)
+            mt-2
+            "
+                >
                   <span>{doctor.experience}</span>
+
                   <span className="flex items-center gap-1">
                     <FaStar className="text-yellow-500" />
                     {doctor.rating || 4.8}
                   </span>
                 </div>
 
-                <p className="text-sm text-gray-600 dark:text-gray-400 mt-3 line-clamp-2 grow">
+                <p
+                  className="
+            text-sm
+            text-(--text-secondary)
+            mt-3
+            line-clamp-2
+            grow
+            "
+                >
                   {doctor.bio || "Experienced specialist."}
                 </p>
 
                 <Button
                   variant="outline"
-                  className="mt-5 w-full group-hover:bg-primary group-hover:text-white transition"
+                  className="
+              mt-5 w-full
+              group-hover:bg-(--color-primary)
+              group-hover:text-white
+              transition
+              "
                 >
                   View Profile & Book
                 </Button>
@@ -148,7 +203,16 @@ export default function DoctorsList({
 
       {/* PAGINATION */}
       {totalPages > 1 && (
-        <div className="flex flex-wrap justify-center items-center gap-4 mt-12 dark:text-gray-300">
+        <div
+          className="
+    flex flex-wrap
+    justify-center
+    items-center
+    gap-4
+    mt-12
+    text-(--text-secondary)
+    "
+        >
           <Button
             variant="outline"
             disabled={currentPage === 1}
