@@ -1,6 +1,7 @@
 [
   {
     "name": "Dr. Rajesh Patel",
+    "gender": "Male",
     "specialty": "Cardiology",
     "qualification": "MBBS, MD, DM",
     "experience": "18+ years",
@@ -11,10 +12,11 @@
     "location": "Dhatru Care Hospital, Rajkot, India",
     "bio": "Senior cardiologist focused on preventive heart care.",
     "achievements": ["Gold Medalist", "25+ papers"],
-    "imageUrl": "https://example.com/doc1.jpg"
+    "imageUrl": "https://shorturl.at/cJtZ7"
   },
   {
     "name": "Dr. Meera Shah",
+    "gender": "Female",
     "specialty": "Dermatology",
     "qualification": "MBBS, MD Dermatology",
     "experience": "12+ years",
@@ -29,6 +31,7 @@
   },
   {
     "name": "Dr. Vikram Joshi",
+    "gender": "Male",
     "specialty": "Orthopedics",
     "qualification": "MBBS, MS Ortho",
     "experience": "15+ years",
@@ -43,6 +46,7 @@
   },
   {
     "name": "Dr. Ananya Rao",
+    "gender": "Female",
     "specialty": "Pediatrics",
     "qualification": "MBBS, MD Pediatrics",
     "experience": "10+ years",
@@ -57,6 +61,7 @@
   },
   {
     "name": "Dr. Kunal Singh",
+    "gender": "Male",
     "specialty": "Neurology",
     "qualification": "MBBS, MD, DM Neuro",
     "experience": "14+ years",
@@ -71,6 +76,7 @@
   },
   {
     "name": "Dr. Priya Nair",
+    "gender": "Female",
     "specialty": "Gynecology",
     "qualification": "MBBS, MS OBG",
     "experience": "13+ years",
@@ -85,6 +91,7 @@
   },
   {
     "name": "Dr. Arjun Desai",
+    "gender": "Male",
     "specialty": "ENT",
     "qualification": "MBBS, MS ENT",
     "experience": "11+ years",
@@ -99,6 +106,7 @@
   },
   {
     "name": "Dr. Sneha Kulkarni",
+    "gender": "Female",
     "specialty": "Psychiatry",
     "qualification": "MBBS, MD Psychiatry",
     "experience": "9+ years",
@@ -113,6 +121,7 @@
   },
   {
     "name": "Dr. Rohit Verma",
+    "gender": "Male",
     "specialty": "Urology",
     "qualification": "MBBS, MS, MCh Urology",
     "experience": "16+ years",
@@ -127,6 +136,7 @@
   },
   {
     "name": "Dr. Nisha Kapoor",
+    "gender": "Female",
     "specialty": "Ophthalmology",
     "qualification": "MBBS, MS Ophthalmology",
     "experience": "10+ years",
@@ -142,6 +152,7 @@
 
   {
     "name": "Dr. Michael Carter",
+    "gender": "Male",
     "specialty": "Cardiology",
     "qualification": "MD, FACC",
     "experience": "20+ years",
@@ -156,6 +167,7 @@
   },
   {
     "name": "Dr. Emily Rogers",
+    "gender": "Female",
     "specialty": "Dermatology",
     "qualification": "MD Dermatology",
     "experience": "14+ years",
@@ -170,6 +182,7 @@
   },
   {
     "name": "Dr. Daniel Brooks",
+    "gender": "Male",
     "specialty": "Orthopedics",
     "qualification": "MD, Orthopedic Surgery",
     "experience": "17+ years",
@@ -184,6 +197,7 @@
   },
   {
     "name": "Dr. Olivia Reed",
+    "gender": "Female",
     "specialty": "Pediatrics",
     "qualification": "MD Pediatrics",
     "experience": "11+ years",
@@ -198,6 +212,7 @@
   },
   {
     "name": "Dr. Ethan Clark",
+    "gender": "Male",
     "specialty": "Neurology",
     "qualification": "MD Neurology",
     "experience": "15+ years",
@@ -212,6 +227,7 @@
   },
   {
     "name": "Dr. Sophia Bennett",
+    "gender": "Female",
     "specialty": "Gynecology",
     "qualification": "MD OB-GYN",
     "experience": "13+ years",
@@ -226,6 +242,7 @@
   },
   {
     "name": "Dr. Liam Walker",
+    "gender": "Male",
     "specialty": "ENT",
     "qualification": "MD Otolaryngology",
     "experience": "12+ years",
@@ -240,6 +257,7 @@
   },
   {
     "name": "Dr. Ava Mitchell",
+    "gender": "Female",
     "specialty": "Psychiatry",
     "qualification": "MD Psychiatry",
     "experience": "10+ years",
@@ -254,6 +272,7 @@
   },
   {
     "name": "Dr. Noah Foster",
+    "gender": "Male",
     "specialty": "Urology",
     "qualification": "MD Urology",
     "experience": "16+ years",
@@ -268,6 +287,7 @@
   },
   {
     "name": "Dr. Grace Turner",
+    "gender": "Female",
     "specialty": "Ophthalmology",
     "qualification": "MD Ophthalmology",
     "experience": "12+ years",
@@ -283,6 +303,7 @@
 
   {
     "name": "Dr. Ivan Petrov",
+    "gender": "Male",
     "specialty": "Cardiology",
     "qualification": "MD Cardiology",
     "experience": "19+ years",
@@ -297,6 +318,7 @@
   },
   {
     "name": "Dr. Anna Volkov",
+    "gender": "Female",
     "specialty": "Dermatology",
     "qualification": "MD Dermatology",
     "experience": "13+ years",
@@ -311,6 +333,7 @@
   },
   {
     "name": "Dr. Sergey Ivanov",
+    "gender": "Male",
     "specialty": "Orthopedics",
     "qualification": "MD Orthopedics",
     "experience": "16+ years",
@@ -325,6 +348,7 @@
   },
   {
     "name": "Dr. Elena Smirnova",
+    "gender": "Female",
     "specialty": "Pediatrics",
     "qualification": "MD Pediatrics",
     "experience": "11+ years",
@@ -339,6 +363,7 @@
   },
   {
     "name": "Dr. Dmitry Kozlov",
+    "gender": "Male",
     "specialty": "Neurology",
     "qualification": "MD Neurology",
     "experience": "15+ years",
@@ -353,6 +378,7 @@
   },
   {
     "name": "Dr. Olga Romanova",
+    "gender": "Female",
     "specialty": "Gynecology",
     "qualification": "MD OB-GYN",
     "experience": "12+ years",
@@ -367,6 +393,7 @@
   },
   {
     "name": "Dr. Pavel Orlov",
+    "gender": "Male",
     "specialty": "ENT",
     "qualification": "MD ENT",
     "experience": "10+ years",
@@ -381,6 +408,7 @@
   },
   {
     "name": "Dr. Marina Lebedeva",
+    "gender": "Female",
     "specialty": "Psychiatry",
     "qualification": "MD Psychiatry",
     "experience": "9+ years",
@@ -395,6 +423,7 @@
   },
   {
     "name": "Dr. Alexei Morozov",
+    "gender": "Male",
     "specialty": "Urology",
     "qualification": "MD Urology",
     "experience": "14+ years",
@@ -409,6 +438,7 @@
   },
   {
     "name": "Dr. Yulia Sokolova",
+    "gender": "Female",
     "specialty": "Ophthalmology",
     "qualification": "MD Ophthalmology",
     "experience": "11+ years",
@@ -424,6 +454,7 @@
 
   {
     "name": "Dr. Li Wei",
+    "gender": "Male",
     "specialty": "Cardiology",
     "qualification": "MD Cardiology",
     "experience": "18+ years",
@@ -438,6 +469,7 @@
   },
   {
     "name": "Dr. Zhang Min",
+    "gender": "Female",
     "specialty": "Dermatology",
     "qualification": "MD Dermatology",
     "experience": "12+ years",
@@ -452,6 +484,7 @@
   },
   {
     "name": "Dr. Chen Hao",
+    "gender": "Male",
     "specialty": "Orthopedics",
     "qualification": "MD Orthopedics",
     "experience": "15+ years",
@@ -466,6 +499,7 @@
   },
   {
     "name": "Dr. Wang Yu",
+    "gender": "Female",
     "specialty": "Pediatrics",
     "qualification": "MD Pediatrics",
     "experience": "10+ years",
@@ -480,6 +514,7 @@
   },
   {
     "name": "Dr. Liu Fang",
+    "gender": "Male",
     "specialty": "Neurology",
     "qualification": "MD Neurology",
     "experience": "14+ years",
@@ -494,6 +529,7 @@
   },
   {
     "name": "Dr. Zhao Lin",
+    "gender": "Female",
     "specialty": "Gynecology",
     "qualification": "MD OB-GYN",
     "experience": "13+ years",
@@ -508,6 +544,7 @@
   },
   {
     "name": "Dr. Sun Mei",
+    "gender": "Female",
     "specialty": "ENT",
     "qualification": "MD ENT",
     "experience": "11+ years",
@@ -522,6 +559,7 @@
   },
   {
     "name": "Dr. Gao Qiang",
+    "gender": "Female",
     "specialty": "Psychiatry",
     "qualification": "MD Psychiatry",
     "experience": "9+ years",
@@ -536,6 +574,7 @@
   },
   {
     "name": "Dr. Xu Jie",
+    "gender": "Male",
     "specialty": "Urology",
     "qualification": "MD Urology",
     "experience": "16+ years",
@@ -550,6 +589,7 @@
   },
   {
     "name": "Dr. Tang Rui",
+    "gender": "Female",
     "specialty": "Ophthalmology",
     "qualification": "MD Ophthalmology",
     "experience": "10+ years",
@@ -565,6 +605,7 @@
 
   {
     "name": "Dr. Hiroshi Tanaka",
+    "gender": "Male",
     "specialty": "Cardiology",
     "qualification": "MD Cardiology",
     "experience": "20+ years",
@@ -579,6 +620,7 @@
   },
   {
     "name": "Dr. Yuki Sato",
+    "gender": "Female",
     "specialty": "Dermatology",
     "qualification": "MD Dermatology",
     "experience": "13+ years",
@@ -593,6 +635,7 @@
   },
   {
     "name": "Dr. Kenji Nakamura",
+    "gender": "Male",
     "specialty": "Orthopedics",
     "qualification": "MD Orthopedics",
     "experience": "17+ years",
@@ -607,6 +650,7 @@
   },
   {
     "name": "Dr. Aiko Yamamoto",
+    "gender": "Female",
     "specialty": "Pediatrics",
     "qualification": "MD Pediatrics",
     "experience": "11+ years",
@@ -621,6 +665,7 @@
   },
   {
     "name": "Dr. Takumi Ito",
+    "gender": "Male",
     "specialty": "Neurology",
     "qualification": "MD Neurology",
     "experience": "15+ years",
@@ -635,6 +680,7 @@
   },
   {
     "name": "Dr. Emi Kobayashi",
+    "gender": "Female",
     "specialty": "Gynecology",
     "qualification": "MD OB-GYN",
     "experience": "12+ years",
@@ -649,6 +695,7 @@
   },
   {
     "name": "Dr. Riku Matsuda",
+    "gender": "Male",
     "specialty": "ENT",
     "qualification": "MD ENT",
     "experience": "10+ years",
@@ -663,6 +710,7 @@
   },
   {
     "name": "Dr. Nana Fujimoto",
+    "gender": "Female",
     "specialty": "Psychiatry",
     "qualification": "MD Psychiatry",
     "experience": "9+ years",
@@ -677,6 +725,7 @@
   },
   {
     "name": "Dr. Sho Watanabe",
+    "gender": "Male",
     "specialty": "Urology",
     "qualification": "MD Urology",
     "experience": "14+ years",
@@ -691,6 +740,7 @@
   },
   {
     "name": "Dr. Haruka Suzuki",
+    "gender": "Female",
     "specialty": "Ophthalmology",
     "qualification": "MD Ophthalmology",
     "experience": "11+ years",
