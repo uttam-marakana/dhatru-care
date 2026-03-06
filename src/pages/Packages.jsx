@@ -38,7 +38,7 @@ export default function Packages() {
   }, []);
 
   return (
-    <main className="min-h-screen bg-(--bg)">
+    <main className="min-h-screen bg-[var(--bg)]">
       <Breadcrumb
         items={[{ label: "Home", path: "/" }, { label: "Health Packages" }]}
       />

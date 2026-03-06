@@ -51,11 +51,11 @@ export default function Search() {
   }, [query]);
 
   return (
-    <main className="min-h-screen bg-(--bg)">
+    <main className="min-h-screen bg-[var(--bg)]">
       {" "}
       <Container className="py-12 md:py-20 lg:py-24">
         <div className="max-w-5xl mx-auto">
-          <h1 className="text-3xl md:text-4xl font-bold mb-6 text-center text-(--text)">
+          <h1 className="text-3xl md:text-4xl font-bold mb-6 text-center text-[var(--text)]">
             Search Results for "{query}"
           </h1>
 
@@ -68,9 +68,9 @@ export default function Search() {
                 placeholder="Search doctors, departments, packages, blogs..."
                 className="
             w-full pl-12 pr-5 py-4 rounded-full
-            border border-(--border)
-            bg-(--card)
-            text-(--text)
+            border border-[var(--border)]
+            bg-[var(--card)]
+            text-[var(--text)]
             placeholder-(--muted)
             focus:outline-none
             focus:border-primary
@@ -105,7 +105,7 @@ export default function Search() {
               {/* DOCTORS RESULTS */}
               {results.doctors.length > 0 && (
                 <section>
-                  <h2 className="text-2xl font-semibold mb-6 text-(--text)">
+                  <h2 className="text-2xl font-semibold mb-6 text-[var(--text)]">
                     Doctors
                   </h2>
 
@@ -116,14 +116,14 @@ export default function Search() {
                         to={`/doctors/${doc.id}`}
                         className="
                     p-6 rounded-xl
-                    bg-(--card)
-                    border border-(--border)
+                    bg-[var(--card)]
+                    border border-[var(--border)]
                     hover:border-[var(--color-primary)]/40
                     hover:shadow-[0_0_25px_var(--glow-soft)
                     transition
                     "
                       >
-                        <h3 className="font-bold text-lg text-(--text)">
+                        <h3 className="font-bold text-lg text-[var(--text)]">
                           {doc.name}
                         </h3>
 

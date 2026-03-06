@@ -102,13 +102,13 @@ export default function AppointmentForm() {
     <div
       className="
       max-w-2xl mx-auto
-      bg-(--card)
-      border border-(--border)
+      bg-[var(--card)]
+      border border-[var(--border)]
       p-8 rounded-2xl
       shadow-[0_0_40px_var(--glow-bg)]
       "
     >
-      <h1 className="text-3xl font-bold mb-6 text-center text-(--text)">
+      <h1 className="text-3xl font-bold mb-6 text-center text-[var(--text)]">
         Book an Appointment
       </h1>
 
@@ -126,7 +126,7 @@ export default function AppointmentForm() {
           value={form.patientName}
           onChange={handleChange}
           required
-          className="w-full p-3 rounded-lg bg-(--surface) border border-(--border)"
+          className="w-full p-3 rounded-lg bg-[var(--surface)] border border-[var(--border)]"
         />
 
         {/* Phone */}
@@ -137,7 +137,7 @@ export default function AppointmentForm() {
           value={form.phone}
           onChange={handleChange}
           required
-          className="w-full p-3 rounded-lg bg-(--surface) border border-(--border)"
+          className="w-full p-3 rounded-lg bg-[var(--surface)] border border-[var(--border)]"
         />
 
         {/* Email */}
@@ -148,7 +148,7 @@ export default function AppointmentForm() {
           value={form.email}
           onChange={handleChange}
           required
-          className="w-full p-3 rounded-lg bg-(--surface) border border-(--border)"
+          className="w-full p-3 rounded-lg bg-[var(--surface)] border border-[var(--border)]"
         />
 
         {/* Department */}
@@ -157,7 +157,7 @@ export default function AppointmentForm() {
           value={form.department}
           onChange={handleChange}
           required
-          className="w-full p-3 rounded-lg bg-(--surface) border border-(--border)"
+          className="w-full p-3 rounded-lg bg-[var(--surface)] border border-[var(--border)]"
         >
           <option value="">Select Department</option>
           {departments.map((dept) => (
@@ -174,7 +174,7 @@ export default function AppointmentForm() {
           value={form.doctorID}
           onChange={handleChange}
           required
-          className="w-full p-3 rounded-lg bg-(--surface) border border-(--border)"
+          className="w-full p-3 rounded-lg bg-[var(--surface)] border border-[var(--border)]"
         />
 
         {/* Date + Time */}
@@ -186,7 +186,7 @@ export default function AppointmentForm() {
             value={form.date}
             onChange={handleChange}
             required
-            className="p-3 rounded-lg bg-(--surface) border border-(--border)"
+            className="p-3 rounded-lg bg-[var(--surface)] border border-[var(--border)]"
           />
 
           <input
@@ -195,7 +195,7 @@ export default function AppointmentForm() {
             value={form.time}
             onChange={handleChange}
             required
-            className="p-3 rounded-lg bg-(--surface) border border-(--border)"
+            className="p-3 rounded-lg bg-[var(--surface)] border border-[var(--border)]"
           />
         </div>
 
@@ -205,7 +205,7 @@ export default function AppointmentForm() {
           placeholder="Additional Notes"
           value={form.message}
           onChange={handleChange}
-          className="w-full p-3 rounded-lg bg-(--surface) border border-(--border)"
+          className="w-full p-3 rounded-lg bg-[var(--surface)] border border-[var(--border)]"
         />
 
         {/* Submit */}

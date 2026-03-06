@@ -70,7 +70,7 @@ export default function Doctors() {
   const hasActiveFilters = Object.values(filters).some((v) => v);
 
   return (
-    <main className="min-h-screen bg-(--bg)">
+    <main className="min-h-screen bg-[var(--bg)]">
       <PageHero
         title="Our Expert Doctors"
         subtitle="Highly qualified specialists committed to personalized care"
@@ -99,9 +99,9 @@ export default function Doctors() {
                   key={key}
                   className="
                   flex items-center gap-2
-                  bg-(--card)
-                  border border-(--border)
-                  text-sm text-(--text)
+                  bg-[var(--card)]
+                  border border-[var(--border)]
+                  text-sm text-[var(--text)]
                   px-3 py-1.5 rounded-full
                   "
                 >

@@ -12,20 +12,20 @@ export default function Contact() {
         subtitle="We're here to help – reach out anytime"
       />
 
-      <section className="py-16 md:py-24 bg-(--bg) text-(--text)">
+      <section className="py-16 md:py-24 bg-[var(--bg)] text-[var(--text)]">
         <div className="container mx-auto px-4">
           <div className="grid lg:grid-cols-2 gap-12">
             <ContactForm />
 
             <div className="space-y-8">
               {/* MAP */}
-              <div className="rounded-2xl overflow-hidden border border-(--border) shadow-[0_0_40px_var(--glow-soft)">
+              <div className="rounded-2xl overflow-hidden border border-[var(--border)] shadow-[0_0_40px_var(--glow-soft)">
                 <GoogleMapEmbed />
               </div>
 
               {/* CONTACT DETAILS */}
               <div className="space-y-6">
-                <div className="bg-(--card) border border-(--border) p-6 rounded-2xl hover:border-[var(--color-primary)]/40 hover:shadow-[0_0_40px_var(--glow-soft) transition">
+                <div className="bg-[var(--card)] border border-[var(--border)] p-6 rounded-2xl hover:border-[var(--color-primary)]/40 hover:shadow-[0_0_40px_var(--glow-soft) transition">
                   <h4 className="font-semibold text-lg mb-2 text-[var(--color-primary)]">
                     Hospital Address
                   </h4>
@@ -44,19 +44,19 @@ export default function Contact() {
                     Emergency
                   </h4>
 
-                  <p className="text-xl font-bold text-(--text)">
+                  <p className="text-xl font-bold text-[var(--text)]">
                     +91 98765 43210
                   </p>
 
                   <p className="text-sm text-(--muted)">24×7 Available</p>
                 </div>
 
-                <div className="bg-(--card) border border-(--border) p-6 rounded-2xl hover:border-[var(--color-primary)]/40 hover:shadow-[0_0_40px_var(--glow-soft) transition">
+                <div className="bg-[var(--card)] border border-[var(--border)] p-6 rounded-2xl hover:border-[var(--color-primary)]/40 hover:shadow-[0_0_40px_var(--glow-soft) transition">
                   <h4 className="font-semibold text-lg mb-2 text-[var(--color-primary)]">
                     General Enquiry
                   </h4>
 
-                  <p className="text-xl font-bold text-(--text)">
+                  <p className="text-xl font-bold text-[var(--text)]">
                     +91 12345 67890
                   </p>
 
