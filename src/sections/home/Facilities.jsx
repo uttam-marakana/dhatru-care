@@ -9,7 +9,7 @@ export default function Facilities({ facilities = [], loading, error }) {
 
       <Container>
         <div className="text-center mb-14">
-          <h2 className="text-4xl md:text-5xl font-bold text-(--color-primary)">
+          <h2 className="text-4xl md:text-5xl font-bold text-main">
             State of the Art Facilities
           </h2>
 
@@ -36,12 +36,10 @@ export default function Facilities({ facilities = [], loading, error }) {
               key={i}
               className="bg-(--card) border border-(--border)
               rounded-2xl p-8 text-center transition
-              hover:-translate-y-2 hover:border-(--color-primary)/40
+              hover:-translate-y-2 hover:border-main/40
               hover:shadow-[0_0_40px_var(--glow-soft)]"
             >
-              <div className="text-5xl mb-6 text-(--color-primary)">
-                {item.icon || "🏥"}
-              </div>
+              <div className="text-5xl mb-6 text-main">{item.icon || "🏥"}</div>
 
               <h3 className="text-xl font-semibold mb-3">{item.title}</h3>
 

@@ -77,7 +77,7 @@ export default function PackagesCompare() {
               onClick={() => setTier(t)}
               className={`px-4 py-2 rounded-lg capitalize transition ${
                 tier === t
-                  ? "bg-(--color-primary) text-white"
+                  ? "bg-(--color-main) text-white"
                   : "hover:bg-(--surface)"
               }`}
             >

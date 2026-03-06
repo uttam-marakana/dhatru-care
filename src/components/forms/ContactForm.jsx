@@ -104,8 +104,8 @@ export default function ContactForm() {
                 loading={status.loading}
                 className="
                 w-full
-                bg-[var(--color-primary)]
-                hover:bg-[var(--color-primary-hover)]
+                bg-[var(--color-main)]
+                hover:bg-[var(--color-main-hover)]
                 text-white
                 font-semibold
                 py-3 rounded-xl
@@ -120,7 +120,7 @@ export default function ContactForm() {
         </Formik>
 
         {status.success && (
-          <p className="mt-4 text-[var(--color-success)] text-center">
+          <p className="mt-4 text-[var(--color-complete)] text-center">
             Message sent successfully!
           </p>
         )}

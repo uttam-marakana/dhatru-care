@@ -8,7 +8,7 @@ export default function Newsletter() {
 
       <Container>
         <div className="relative z-10 text-center max-w-3xl mx-auto">
-          <h2 className="text-4xl md:text-5xl font-bold mb-6 text-(--color-primary)">
+          <h2 className="text-4xl md:text-5xl font-bold mb-6 text-main">
             Stay Informed. Stay Healthy.
           </h2>
 
@@ -18,24 +18,24 @@ export default function Newsletter() {
           </p>
 
           <div className="relative bg-(--card) border border-(--border) rounded-2xl p-6 md:p-8 shadow-[0_0_40px_var(--glow-soft)]">
-            <div className="absolute top-0 left-0 w-full h-0.5 bg-(--color-primary)"></div>
+            <div className="absolute top-0 left-0 w-full h-0.5 bg-(--color-main)"></div>
 
             <NewsletterForm />
           </div>
 
           <div className="mt-8 text-sm text-(--text-secondary) space-y-2">
             <p className="flex justify-center items-center gap-2">
-              <span className="text-(--color-primary)">✔</span>
+              <span className="text-main">✔</span>
               No spam. Only medical insights.
             </p>
 
             <p className="flex justify-center items-center gap-2">
-              <span className="text-(--color-primary)">✔</span>
+              <span className="text-main">✔</span>
               Trusted by thousands of patients.
             </p>
 
             <p className="flex justify-center items-center gap-2">
-              <span className="text-(--color-primary)">✔</span>
+              <span className="text-main">✔</span>
               Unsubscribe anytime.
             </p>
           </div>

@@ -7,17 +7,17 @@
 @theme {
   /* ---------------- Brand ---------------- */
 
-  --color-primary: #38bdf8;
-  --color-primary-hover: #0ea5e9;
+  --color-main: #38bdf8;
+  --color-main-hover: #0ea5e9;
   --color-accent: #22d3ee;
 
   /* ---------------- LIGHT THEME ---------------- */
 
-  --bg-primary-light: #f8fafc;
+  --bg-main-light: #f8fafc;
   --bg-surface-light: #ffffff;
   --bg-card-light: #f1f5f9;
 
-  --text-primary-light: #020617;
+  --bg-main-light: #020617;
   --text-secondary-light: #334155;
   --text-muted-light: #64748b;
 
@@ -25,11 +25,11 @@
 
   /* ---------------- DARK THEME ---------------- */
 
-  --bg-primary-dark: #020617;
+  --bg-main-dark: #020617;
   --bg-surface-dark: #071a2f;
   --bg-card-dark: #0f243d;
 
-  --text-primary-dark: #f1f5f9;
+  --bg-main-dark: #f1f5f9;
   --text-secondary-dark: #cbd5e1;
   --text-muted-dark: #94a3b8;
 
@@ -47,7 +47,7 @@
 
   /* ---------------- STATUS ---------------- */
 
-  --color-success: #22c55e;
+  --color-complete: #22c55e;
   --color-warning: #f59e0b;
   --color-error: #ef4444;
 }
@@ -55,11 +55,11 @@
 /* -------- 3. Default Theme (LIGHT) ------------------------------------------- */
 
 :root {
-  --bg: var(--bg-primary-light);
+  --bg: var(--bg-main-light);
   --surface: var(--bg-surface-light);
   --card: var(--bg-card-light);
 
-  --text: var(--text-primary-light);
+  --text: var(--bg-main-light);
   --text-secondary: var(--text-secondary-light);
   --muted: var(--text-muted-light);
 
@@ -69,11 +69,11 @@
 /* -------- 4. Dark Theme Override ------------------------------------------- */
 
 .dark {
-  --bg: var(--bg-primary-dark);
+  --bg: var(--bg-main-dark);
   --surface: var(--bg-surface-dark);
   --card: var(--bg-card-dark);
 
-  --text: var(--text-primary-dark);
+  --text: var(--text-main-dark);
   --text-secondary: var(--text-secondary-dark);
   --muted: var(--text-muted-dark);
 

@@ -41,11 +41,11 @@ export default function UniversalFilterLayout({
               onClick={() => setDesktopOpen((prev) => !prev)}
               className="
               relative flex items-center gap-2
-              bg-[var(--color-primary)]/10
-              border border-[var(--color-primary)]/30
-              text-[var(--color-primary)]
+              bg-[var(--color-main)]/10
+              border border-[var(--color-main)]/30
+              text-[var(--color-main)]
               px-4 py-2 rounded-lg
-              hover:bg-[var(--color-primary)]/20
+              hover:bg-[var(--color-main)]/20
               transition
               "
             >
@@ -93,8 +93,8 @@ export default function UniversalFilterLayout({
           onClick={() => setIsOpen(true)}
           className="
           relative
-          bg-[var(--color-primary)]
-          hover:bg-[var(--color-primary-hover)]
+          bg-[var(--color-main)]
+          hover:bg-[var(--color-main-hover)]
           text-white
           p-4 rounded-full
           shadow-[0_0_20px_var(--glow-soft)]

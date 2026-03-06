@@ -20,7 +20,7 @@ export default function Services() {
           p-6 rounded-2xl
           bg-(--card)
           border border-(--border)
-          hover:border-(--color-primary)/40
+          hover:border-main/40
           hover:shadow-[0_0_30px_var(--glow-soft)
           transition
           "
@@ -39,7 +39,7 @@ export default function Services() {
           p-6 rounded-2xl
           bg-(--card)
           border border-(--border)
-          hover:border-(--color-primary)/40
+          hover:border-main/40
           hover:shadow-[0_0_30px_var(--glow-soft)
           transition
           "
@@ -58,7 +58,7 @@ export default function Services() {
           p-6 rounded-2xl
           bg-(--card)
           border border-(--border)
-          hover:border-(--color-primary)/40
+          hover:border-main/40
           hover:shadow-[0_0_30px_var(--glow-soft)
           transition
           "

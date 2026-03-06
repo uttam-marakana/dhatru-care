@@ -16,9 +16,7 @@ export default function Profile() {
   if (!user) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-(--bg)">
-        <p className="text-(--text-secondary)">
-          Please login to view profile.
-        </p>
+        <p className="text-(--text-secondary)">Please login to view profile.</p>
       </div>
     );
   }
@@ -27,8 +25,8 @@ export default function Profile() {
     <div className="min-h-screen bg-(--bg) py-10 px-4">
       <div className="max-w-3xl mx-auto bg-(--card) rounded-2xl shadow border border-(--border) p-6 sm:p-8">
         <div className="flex items-center gap-4 mb-8">
-          <div className="w-16 h-16 rounded-full bg-(--color-primary)/10 flex items-center justify-center">
-            <FaUserCircle size={40} className="text-(--color-primary)" />
+          <div className="w-16 h-16 rounded-full bg-(--color-main)/10 flex items-center justify-center">
+            <FaUserCircle size={40} className="text-main" />
           </div>
 
           <div>

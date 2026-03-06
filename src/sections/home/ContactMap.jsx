@@ -10,7 +10,7 @@ export default function ContactMap() {
 
       <Container>
         <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold text-(--color-primary)">
+          <h2 className="text-4xl md:text-5xl font-bold text-main">
             Visit Dhatru Care
           </h2>
 
@@ -37,7 +37,7 @@ export default function ContactMap() {
               target="_blank"
               rel="noopener noreferrer"
               className="absolute bottom-6 left-1/2 -translate-x-1/2
-              bg-(--color-primary) hover:bg-(--color-primary-hover)
+              bg-(--color-main) hover:bg-(--color-main-hover)
               text-white px-6 py-3 rounded-full flex items-center gap-2"
             >
               <FaDirections />
@@ -48,7 +48,7 @@ export default function ContactMap() {
           {/* INFO */}
           <div className="space-y-8">
             <div className="bg-(--card) border border-(--border) rounded-2xl p-6">
-              <div className="flex items-center gap-3 mb-4 text-(--color-primary)">
+              <div className="flex items-center gap-3 mb-4 text-main">
                 <FaMapMarkerAlt />
                 <h3 className="text-xl font-semibold">Hospital Address</h3>
               </div>
@@ -61,7 +61,7 @@ export default function ContactMap() {
             </div>
 
             <div className="bg-(--card) border border-(--border) rounded-2xl p-6">
-              <div className="flex items-center gap-3 mb-4 text-(--color-primary)">
+              <div className="flex items-center gap-3 mb-4 text-main">
                 <FaPhoneAlt />
                 <h4 className="text-lg font-semibold">
                   24×7 Emergency Support

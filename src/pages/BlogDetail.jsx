@@ -83,7 +83,7 @@ export default function BlogDetail() {
           to="/blog"
           className="
           inline-flex items-center gap-2
-          text-(--color-primary)
+          text-main
           mb-8
           "
         >

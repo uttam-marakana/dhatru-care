@@ -36,7 +36,7 @@ export default function Testimonials({ testimonials = [], loading = false }) {
       <Container>
         {/* Header */}
         <div className="text-center mb-16 relative z-10">
-          <h2 className="text-4xl md:text-5xl font-bold text-(--color-primary)">
+          <h2 className="text-4xl md:text-5xl font-bold text-main">
             What Our Patients Say
           </h2>
 
@@ -56,7 +56,7 @@ export default function Testimonials({ testimonials = [], loading = false }) {
               rounded-2xl
               p-8
               transition-all
-              hover:border-(--color-primary)/40
+              hover:border-main/40
               hover:shadow-[0_0_40px_var(--glow-soft)]"
             >
               <p className="italic text-(--text-secondary) mb-6 leading-relaxed">
@@ -65,7 +65,7 @@ export default function Testimonials({ testimonials = [], loading = false }) {
 
               <div className="flex gap-1 mb-3">
                 {Array.from({ length: t.rating }).map((_, i) => (
-                  <FaStar key={i} className="text-(--color-primary)" />
+                  <FaStar key={i} className="text-main" />
                 ))}
               </div>
 

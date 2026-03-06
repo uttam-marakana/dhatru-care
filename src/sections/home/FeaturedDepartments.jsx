@@ -21,7 +21,7 @@ export default function FeaturedDepartments({
 
       <Container>
         <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold text-(--color-primary)">
+          <h2 className="text-4xl md:text-5xl font-bold text-main">
             Our Specialized Departments
           </h2>
 
@@ -38,12 +38,10 @@ export default function FeaturedDepartments({
               to={`/departments/${dept.slug}`}
               className="group bg-(--card) border border-(--border)
               rounded-2xl p-8 text-center transition
-              hover:-translate-y-2 hover:border-(--color-primary)/40
+              hover:-translate-y-2 hover:border-main/40
               hover:shadow-[0_0_40px_var(--glow-soft)]"
             >
-              <div className="text-4xl mb-4 text-(--color-primary)">
-                {dept.icon || "🏥"}
-              </div>
+              <div className="text-4xl mb-4 text-main">{dept.icon || "🏥"}</div>
 
               <h3 className="text-xl font-semibold mb-3">{dept.name}</h3>
 

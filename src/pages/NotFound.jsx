@@ -8,9 +8,7 @@ export default function NotFound() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-(--bg) py-16 px-4">
       <Container className="text-center">
-        <h1 className="text-8xl md:text-9xl font-bold text-(--color-primary) mb-6">
-          404
-        </h1>
+        <h1 className="text-8xl md:text-9xl font-bold text-main mb-6">404</h1>
 
         <h2 className="text-3xl md:text-4xl font-semibold mb-4 text-(--text)">
           Page Not Found

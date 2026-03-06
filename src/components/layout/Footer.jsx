@@ -71,8 +71,8 @@ export default function Footer() {
                       w-9 h-9 flex items-center justify-center
                       rounded-full
                       border border-[var(--border)]
-                      hover:border-[var(--color-primary)]/40
-                      hover:text-[var(--color-primary)]
+                      hover:border-[var(--color-main)]/40
+                      hover:text-[var(--color-main)]
                       hover:shadow-[0_0_20px_var(--glow-soft)]
                       transition cursor-pointer
                       "
@@ -96,7 +96,7 @@ export default function Footer() {
                     <li key={i}>
                       <Link
                         to={`/${i}`}
-                        className="hover:text-[var(--color-primary)] transition-colors"
+                        className="hover:text-[var(--color-main)] transition-colors"
                       >
                         {i.charAt(0).toUpperCase() + i.slice(1)}
                       </Link>
@@ -129,19 +129,19 @@ export default function Footer() {
 
               <ul className="space-y-4 text-[var(--muted)]">
                 <li className="flex gap-3">
-                  <FaMapMarkerAlt className="text-[var(--color-primary)] mt-1" />
+                  <FaMapMarkerAlt className="text-[var(--color-main)] mt-1" />
                   Gondal, Gujarat, India
                 </li>
 
                 <li className="flex gap-3 items-center">
-                  <FaPhoneAlt className="text-[var(--color-primary)]" />
+                  <FaPhoneAlt className="text-[var(--color-main)]" />
                   <span className="font-semibold text-[var(--text)]">
                     +91 98765 43210
                   </span>
                 </li>
 
                 <li className="flex gap-3">
-                  <FaEnvelope className="text-[var(--color-primary)] mt-1" />
+                  <FaEnvelope className="text-[var(--color-main)] mt-1" />
                   care@dhatruhospital.com
                 </li>
               </ul>
@@ -150,9 +150,9 @@ export default function Footer() {
               <div
                 className="
                 mt-6
-                bg-[var(--color-primary)]/10
-                border border-[var(--color-primary)]/40
-                text-[var(--color-primary)]
+                bg-[var(--color-main)]/10
+                border border-[var(--color-main)]/40
+                text-[var(--color-main)]
                 p-4 rounded-xl
                 text-sm
                 backdrop-blur-md
@@ -174,11 +174,11 @@ export default function Footer() {
             </p>
 
             <div className="flex justify-center gap-6">
-              <Link to="/privacy" className="hover:text-[var(--color-primary)]">
+              <Link to="/privacy" className="hover:text-[var(--color-main)]">
                 Privacy Policy
               </Link>
 
-              <Link to="/terms" className="hover:text-[var(--color-primary)]">
+              <Link to="/terms" className="hover:text-[var(--color-main)]">
                 Terms & Conditions
               </Link>
             </div>

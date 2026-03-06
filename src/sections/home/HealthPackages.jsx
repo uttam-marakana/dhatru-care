@@ -23,7 +23,7 @@ export default function HealthPackages({ packages = [], loading, error }) {
 
       <Container>
         <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold text-(--color-primary)">
+          <h2 className="text-4xl md:text-5xl font-bold text-main">
             Comprehensive Health Packages
           </h2>
         </div>
@@ -34,14 +34,12 @@ export default function HealthPackages({ packages = [], loading, error }) {
               key={pkg.id}
               className="bg-(--card) border border-(--border)
               rounded-2xl p-6 flex flex-col
-              hover:border-(--color-primary)/40
+              hover:border-main/40
               hover:shadow-[0_0_40px_var(--glow-soft)]"
             >
               <h3 className="font-semibold mb-2">{pkg.name}</h3>
 
-              <p className="text-3xl font-bold text-(--color-primary) mb-6">
-                {pkg.price}
-              </p>
+              <p className="text-3xl font-bold text-main mb-6">{pkg.price}</p>
 
               <ul className="space-y-2 text-(--text-secondary) mb-6">
                 {(pkg.includes || []).map((i, idx) => (

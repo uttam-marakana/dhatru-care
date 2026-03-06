@@ -18,7 +18,7 @@ export default function FeaturedDoctors({ doctors = [], loading }) {
 
       <Container>
         <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold text-(--color-primary)">
+          <h2 className="text-4xl md:text-5xl font-bold text-main">
             Meet Our Expert Doctors
           </h2>
 
@@ -34,7 +34,7 @@ export default function FeaturedDoctors({ doctors = [], loading }) {
               to={`/doctors/${doctor.id}`}
               className="group bg-(--card) border border-(--border)
               rounded-2xl overflow-hidden transition
-              hover:-translate-y-2 hover:border-(--color-primary)/40
+              hover:-translate-y-2 hover:border-main/40
               hover:shadow-[0_0_40px_var(--glow-soft)]"
             >
               <div className="aspect-square overflow-hidden">
@@ -48,9 +48,7 @@ export default function FeaturedDoctors({ doctors = [], loading }) {
               <div className="p-6 text-center">
                 <h3 className="font-semibold text-lg">{doctor.name}</h3>
 
-                <p className="text-(--color-primary) mb-5">
-                  {doctor.specialty}
-                </p>
+                <p className="text-main mb-5">{doctor.specialty}</p>
 
                 <Button size="sm" className="w-full">
                   Book Consultation

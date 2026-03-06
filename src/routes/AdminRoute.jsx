@@ -47,7 +47,7 @@ export default function AdminRoute({ children }) {
         <div
           className="
           w-8 h-8 rounded-full
-          border-4 border-[var(--color-primary)]
+          border-4 border-[var(--color-main)]
           border-t-transparent
           animate-spin
           "

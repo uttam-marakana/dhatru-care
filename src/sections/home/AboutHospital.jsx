@@ -12,7 +12,7 @@ export default function AboutHospital() {
         <div className="grid lg:grid-cols-2 gap-14 lg:gap-20 items-center relative z-10">
           {/* Content */}
           <div>
-            <h2 className="text-4xl md:text-5xl font-bold mb-6 text-(--color-primary)">
+            <h2 className="text-4xl md:text-5xl font-bold mb-6 text-main">
               Welcome to Dhatru Care
             </h2>
 
@@ -38,12 +38,10 @@ export default function AboutHospital() {
                   key={i}
                   className="group bg-(--card) border border-(--border)
                   rounded-xl p-6 text-center transition-all duration-500
-                  hover:-translate-y-1 hover:border-(--color-primary)/40
+                  hover:-translate-y-1 hover:border-main/40
                   hover:shadow-[0_0_30px_var(--glow-soft)]"
                 >
-                  <h3 className="text-2xl font-bold text-(--color-primary)">
-                    {item.value}
-                  </h3>
+                  <h3 className="text-2xl font-bold text-main">{item.value}</h3>
 
                   <p className="text-sm text-(--text-secondary)">
                     {item.label}

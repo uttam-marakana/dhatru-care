@@ -25,8 +25,8 @@ export default function Contact() {
 
               {/* CONTACT DETAILS */}
               <div className="space-y-6">
-                <div className="bg-(--card) border border-(--border) p-6 rounded-2xl hover:border-(--color-primary)/40 hover:shadow-[0_0_40px_var(--glow-soft) transition">
-                  <h4 className="font-semibold text-lg mb-2 text-(--color-primary)">
+                <div className="bg-(--card) border border-(--border) p-6 rounded-2xl hover:border-main/40 hover:shadow-[0_0_40px_var(--glow-soft) transition">
+                  <h4 className="font-semibold text-lg mb-2 text-main">
                     Hospital Address
                   </h4>
 
@@ -39,8 +39,8 @@ export default function Contact() {
                   </p>
                 </div>
 
-                <div className="bg-(--color-primary)/10 border border-(--color-primary)/40 p-6 rounded-2xl shadow-[0_0_40px_var(--glow-soft)">
-                  <h4 className="font-semibold text-lg mb-2 text-(--color-primary)">
+                <div className="bg-main/10 border border-main/40 p-6 rounded-2xl shadow-[0_0_40px_var(--glow-soft)">
+                  <h4 className="font-semibold text-lg mb-2 text-main">
                     Emergency
                   </h4>
 
@@ -51,8 +51,8 @@ export default function Contact() {
                   <p className="text-sm text-(--muted)">24×7 Available</p>
                 </div>
 
-                <div className="bg-(--card) border border-(--border) p-6 rounded-2xl hover:border-(--color-primary)/40 hover:shadow-[0_0_40px_var(--glow-soft) transition">
-                  <h4 className="font-semibold text-lg mb-2 text-(--color-primary)">
+                <div className="bg-(--card) border border-(--border) p-6 rounded-2xl hover:border-main/40 hover:shadow-[0_0_40px_var(--glow-soft) transition">
+                  <h4 className="font-semibold text-lg mb-2 text-main">
                     General Enquiry
                   </h4>
 
@@ -60,9 +60,7 @@ export default function Contact() {
                     +91 12345 67890
                   </p>
 
-                  <p className="text-sm text-(--muted)">
-                    Mon–Sat: 8 AM – 8 PM
-                  </p>
+                  <p className="text-sm text-(--muted)">Mon–Sat: 8 AM – 8 PM</p>
                 </div>
               </div>
             </div>

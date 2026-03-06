@@ -27,7 +27,7 @@ export default function LatestBlog({ posts = [], loading }) {
       <Container>
         {/* Header */}
         <div className="text-center mb-16 relative z-10">
-          <h2 className="text-4xl md:text-5xl font-bold text-(--color-primary)">
+          <h2 className="text-4xl md:text-5xl font-bold text-main">
             Latest from Our Medical Blog
           </h2>
 
@@ -50,7 +50,7 @@ export default function LatestBlog({ posts = [], loading }) {
               overflow-hidden
               transition-all duration-500
               hover:-translate-y-2
-              hover:border-(--color-primary)/40
+              hover:border-main/40
               hover:shadow-[0_0_40px_var(--glow-soft)]
               flex flex-col"
             >
@@ -69,7 +69,7 @@ export default function LatestBlog({ posts = [], loading }) {
                   {post.date}
                 </p>
 
-                <h3 className="text-xl font-semibold mb-3 group-hover:text-(--color-primary) transition">
+                <h3 className="text-xl font-semibold mb-3 group-hover:text-main transition">
                   {post.title}
                 </h3>
 
@@ -77,9 +77,7 @@ export default function LatestBlog({ posts = [], loading }) {
                   {post.excerpt}
                 </p>
 
-                <span className="mt-6 text-(--color-primary) font-medium">
-                  Read More →
-                </span>
+                <span className="mt-6 text-main font-medium">Read More →</span>
               </div>
             </Link>
           ))}

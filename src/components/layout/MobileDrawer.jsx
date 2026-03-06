@@ -65,7 +65,7 @@ export default function MobileDrawer({
             {/* EMERGENCY */}
             <a
               href="tel:+919876543210"
-              className="flex items-center justify-center gap-3 bg-[var(--color-primary)] text-white py-3 rounded-xl mb-8"
+              className="flex items-center justify-center gap-3 bg-[var(--color-main)] text-white py-3 rounded-xl mb-8"
             >
               <FaPhoneAlt />
               24×7 Emergency Call
@@ -80,7 +80,7 @@ export default function MobileDrawer({
                   onClick={onClose}
                   className={({ isActive }) =>
                     isActive
-                      ? "text-[var(--color-primary)]"
+                      ? "text-[var(--color-main)]"
                       : "text-[var(--text-secondary)]"
                   }
                 >
@@ -127,7 +127,7 @@ export default function MobileDrawer({
               <Link
                 to="/appointments"
                 onClick={onClose}
-                className="flex-1 text-center bg-[var(--color-primary)] text-white py-3 rounded-xl"
+                className="flex-1 text-center bg-[var(--color-main)] text-white py-3 rounded-xl"
               >
                 Book Appointment
               </Link>

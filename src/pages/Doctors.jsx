@@ -88,7 +88,7 @@ export default function Doctors() {
           <div className="flex flex-wrap gap-3 items-center">
             <button
               onClick={clearFilters}
-              className="text-sm text-(--color-primary) hover:underline"
+              className="text-sm text-main hover:underline"
             >
               Clear All
             </button>

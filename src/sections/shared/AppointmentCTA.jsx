@@ -30,7 +30,7 @@ export default function AppointmentCTA({
       <div className="absolute -top-40 left-1/2 -translate-x-1/2 w-175 h-175 bg-(--glow-bg) blur-[140px] rounded-full"></div>
 
       <Container className="relative z-10 text-center">
-        <h2 className="text-4xl md:text-5xl font-bold mb-6 text-(--color-primary)">
+        <h2 className="text-4xl md:text-5xl font-bold mb-6 text-main">
           Ready to Prioritize Your Health?
         </h2>
 
@@ -44,7 +44,7 @@ export default function AppointmentCTA({
             <Button
               size="lg"
               leftIcon={<FaCalendarCheck />}
-              className="min-w-55 bg-(--color-primary) hover:bg-(--color-primary-hover) text-white shadow-lg"
+              className="min-w-55 bg-(--color-main) hover:bg-(--color-main-hover) text-white shadow-lg"
             >
               Book Appointment
             </Button>
@@ -55,7 +55,7 @@ export default function AppointmentCTA({
               variant="ghost"
               size="lg"
               leftIcon={<FaPhoneAlt />}
-              className="min-w-55 border border-(--border) text-(--color-primary) hover:bg-(--color-primary)"
+              className="min-w-55 border border-(--border) text-main hover:bg-(--color-main)"
             >
               Call Now
             </Button>
@@ -64,17 +64,17 @@ export default function AppointmentCTA({
 
         <div className="mt-12 text-sm text-(--text-secondary) flex flex-wrap justify-center gap-4">
           <span className="flex items-center gap-2">
-            <span className="text-(--color-primary)">✔</span>
+            <span className="text-main">✔</span>
             24×7 Emergency Support
           </span>
 
           <span className="flex items-center gap-2">
-            <span className="text-(--color-primary)">✔</span>
+            <span className="text-main">✔</span>
             Experienced Specialists
           </span>
 
           <span className="flex items-center gap-2">
-            <span className="text-(--color-primary)">✔</span>
+            <span className="text-main">✔</span>
             Advanced Infrastructure
           </span>
         </div>

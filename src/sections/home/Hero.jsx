@@ -14,7 +14,7 @@ export default function Hero() {
           <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold leading-tight mb-6">
             Your Health,
             <br className="hidden sm:block" />
-            <span className="text-(--color-primary)">Our Priority</span>
+            <span className="text-main">Our Priority</span>
           </h1>
 
           <p className="text-lg md:text-xl lg:text-2xl text-(--text-secondary) mb-10 max-w-3xl">

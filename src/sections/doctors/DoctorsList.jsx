@@ -108,7 +108,7 @@ export default function DoctorsList({
           border border-(--border)
           transition-all duration-500
           hover:-translate-y-2
-          hover:border-(--color-primary)/40
+          hover:border-main/40
           hover:shadow-[0_0_40px_var(--glow-soft)]
           "
             >
@@ -140,7 +140,7 @@ export default function DoctorsList({
               line-clamp-2
               text-(--text)
               transition
-              group-hover:text-(--color-primary)
+              group-hover:text-main
               "
                 >
                   {doctor.name}
@@ -148,7 +148,7 @@ export default function DoctorsList({
 
                 <p
                   className="
-            text-(--color-primary)
+            text-main
             font-medium
             mt-1
             "
@@ -188,7 +188,7 @@ export default function DoctorsList({
                   variant="outline"
                   className="
               mt-5 w-full
-              group-hover:bg-(--color-primary)
+              group-hover:bg-(--color-main)
               group-hover:text-white
               transition
               "

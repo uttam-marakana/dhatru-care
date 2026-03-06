@@ -43,7 +43,7 @@ export default function QuickActions() {
       <Container>
         {/* Header */}
         <div className="text-center mb-16 relative z-10">
-          <h2 className="text-4xl md:text-5xl font-bold text-(--color-primary)">
+          <h2 className="text-4xl md:text-5xl font-bold text-main">
             Comprehensive Care, Simplified
           </h2>
 
@@ -68,7 +68,7 @@ export default function QuickActions() {
               text-center
               transition-all duration-500
               hover:-translate-y-2
-              hover:border-(--color-primary)/40
+              hover:border-main/40
               hover:shadow-[0_0_40px_var(--glow-soft)]
               "
             >
@@ -80,7 +80,7 @@ export default function QuickActions() {
                   flex items-center justify-center
                   rounded-xl
                   bg-(--surface)
-                  text-(--color-primary)
+                  text-main
                   text-3xl
                   group-hover:scale-110
                   transition duration-500
@@ -104,7 +104,7 @@ export default function QuickActions() {
               <Button
                 variant="ghost"
                 size="sm"
-                className="text-(--color-primary) hover:text-white"
+                className="text-main hover:text-white"
               >
                 Get Started →
               </Button>

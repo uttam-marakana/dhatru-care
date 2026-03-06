@@ -46,7 +46,7 @@ export default function DepartmentsGrid({ departments = [] }) {
           text-center
           transition-all duration-500
           hover:-translate-y-2
-          hover:border-(--color-primary)/40
+          hover:border-main/40
           hover:shadow-[0_0_40px_var(--glow-soft)]
           "
             >
@@ -58,7 +58,7 @@ export default function DepartmentsGrid({ departments = [] }) {
           font-semibold
           mb-3
           text-(--text)
-          group-hover:text-(--color-primary)
+          group-hover:text-main
           transition-colors
           "
               >
@@ -81,8 +81,8 @@ export default function DepartmentsGrid({ departments = [] }) {
                   variant="ghost"
                   size="sm"
                   className="
-              text-(--color-primary)
-              hover:text-(--color-primary-hover)
+              text-main
+              hover:text-(--color-main-hover)
               "
                   rightIcon={<FaArrowRight />}
                 >

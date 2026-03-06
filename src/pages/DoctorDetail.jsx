@@ -113,9 +113,7 @@ export default function DoctorDetail() {
                 <div className="text-8xl mb-4">🩺</div>
               )}
 
-              <h1 className="text-2xl font-bold text-(--color-primary)">
-                {doctor.name}
-              </h1>
+              <h1 className="text-2xl font-bold text-main">{doctor.name}</h1>
 
               <p className="text-(--text-secondary)">{doctor.specialty}</p>
 
@@ -151,7 +149,7 @@ export default function DoctorDetail() {
 
               <div>
                 <h3 className="text-xl font-semibold flex items-center gap-2 text-(--text)">
-                  <FaGraduationCap className="text-(--color-primary)" />
+                  <FaGraduationCap className="text-main" />
                   Qualification
                 </h3>
                 <p>{doctor.qualification}</p>
@@ -159,7 +157,7 @@ export default function DoctorDetail() {
 
               <div>
                 <h3 className="text-xl font-semibold flex items-center gap-2 text-(--text)">
-                  <FaAward className="text-(--color-primary)" />
+                  <FaAward className="text-main" />
                   Achievements
                 </h3>
 
@@ -172,12 +170,12 @@ export default function DoctorDetail() {
 
               <div className="grid md:grid-cols-2 gap-6">
                 <p>
-                  <FaCalendarCheck className="inline mr-2 text-(--color-primary)" />
+                  <FaCalendarCheck className="inline mr-2 text-main" />
                   {doctor.availability}
                 </p>
 
                 <p>
-                  <FaMapMarkerAlt className="inline mr-2 text-(--color-primary)" />
+                  <FaMapMarkerAlt className="inline mr-2 text-main" />
                   {doctor.location}
                 </p>
               </div>
@@ -200,7 +198,7 @@ export default function DoctorDetail() {
                   <Card className="text-center p-4 hover:-translate-y-2 transition-all duration-300">
                     <div className="text-6xl mb-3">👨‍⚕️</div>
                     <h3 className="font-bold">{doc.name}</h3>
-                    <p className="text-(--color-primary)">{doc.specialty}</p>
+                    <p className="text-main">{doc.specialty}</p>
                   </Card>
                 </Link>
               ))}

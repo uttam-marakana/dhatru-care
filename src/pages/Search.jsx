@@ -73,7 +73,7 @@ export default function Search() {
             text-(--text)
             placeholder-(--muted)
             focus:outline-none
-            focus:border-(--color-primary)
+            focus:border-main
             focus:shadow-[0_0_20px_var(--glow-soft)
             text-lg
             "
@@ -91,7 +91,7 @@ export default function Search() {
 
           {loading ? (
             <div className="text-center py-20">
-              <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-(--color-primary) mx-auto"></div>
+              <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-main mx-auto"></div>
               <p className="mt-4 text-(--text-secondary)">Searching...</p>
             </div>
           ) : query.trim() === "" ? (
@@ -118,7 +118,7 @@ export default function Search() {
                     p-6 rounded-xl
                     bg-(--card)
                     border border-(--border)
-                    hover:border-(--color-primary)/40
+                    hover:border-main/40
                     hover:shadow-[0_0_25px_var(--glow-soft)
                     transition
                     "
@@ -127,9 +127,7 @@ export default function Search() {
                           {doc.name}
                         </h3>
 
-                        <p className="text-(--color-primary)">
-                          {doc.specialty}
-                        </p>
+                        <p className="text-main">{doc.specialty}</p>
                       </Link>
                     ))}
                   </div>

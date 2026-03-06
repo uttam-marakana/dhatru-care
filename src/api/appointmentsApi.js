@@ -8,6 +8,7 @@ import {
   where,
   getDocs,
   onSnapshot,
+  orderBy,
 } from "firebase/firestore";
 import { db } from "../firebase";
 
@@ -16,11 +17,17 @@ const appointmentsRef = collection(db, "appointments");
 /* ---------------- CREATE APPOINTMENT ---------------- */
 
 export const createAppointment = async (data) => {
+  if (!data?.date || !data?.time || !data?.doctorID) {
+    throw new Error("Missing required appointment data.");
+  }
+
+  /* prevent double booking */
+
   const q = query(
     appointmentsRef,
+    where("doctorID", "==", data.doctorID),
     where("date", "==", data.date),
     where("time", "==", data.time),
-    where("doctorID", "==", data.doctorID),
   );
 
   const snap = await getDocs(q);
@@ -29,7 +36,7 @@ export const createAppointment = async (data) => {
     throw new Error("This time slot is already booked.");
   }
 
-  return await addDoc(appointmentsRef, {
+  return addDoc(appointmentsRef, {
     ...data,
     status: "pending",
     createdAt: serverTimestamp(),
@@ -39,32 +46,42 @@ export const createAppointment = async (data) => {
 /* ---------------- UPDATE STATUS ---------------- */
 
 export const updateAppointmentStatus = async (id, status) => {
-  return await updateDoc(doc(db, "appointments", id), {
+  return updateDoc(doc(db, "appointments", id), {
     status,
     updatedAt: serverTimestamp(),
   });
 };
 
-/* ---------------- GET USER APPOINTMENTS ---------------- */
+/* ---------------- USER APPOINTMENTS ---------------- */
 
-export const getUserAppointments = async (userId) => {
-  const q = query(appointmentsRef, where("userId", "==", userId));
+export const subscribeUserAppointments = (userId, callback) => {
+  if (!userId) return;
 
-  const snap = await getDocs(q);
+  const q = query(
+    appointmentsRef,
+    where("userId", "==", userId),
+    orderBy("createdAt", "desc"),
+  );
 
-  return snap.docs.map((doc) => ({
-    id: doc.id,
-    ...doc.data(),
-  }));
+  return onSnapshot(q, (snap) => {
+    const data = snap.docs.map((d) => ({
+      id: d.id,
+      ...d.data(),
+    }));
+
+    callback(data);
+  });
 };
 
-/* ---------------- REALTIME LISTENER ---------------- */
+/* ---------------- ADMIN APPOINTMENTS ---------------- */
 
 export const subscribeAppointments = (callback) => {
-  return onSnapshot(appointmentsRef, (snap) => {
-    const data = snap.docs.map((doc) => ({
-      id: doc.id,
-      ...doc.data(),
+  const q = query(appointmentsRef, orderBy("createdAt", "desc"));
+
+  return onSnapshot(q, (snap) => {
+    const data = snap.docs.map((d) => ({
+      id: d.id,
+      ...d.data(),
     }));
 
     callback(data);

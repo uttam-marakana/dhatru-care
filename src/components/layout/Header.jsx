@@ -91,8 +91,8 @@ export default function Header() {
                   to={item.to}
                   className={({ isActive }) =>
                     isActive
-                      ? "text-(--color-primary)"
-                      : "text-(--text-secondary) hover:text-(--color-primary)"
+                      ? "text-main"
+                      : "text-(--text-secondary) hover:text-main"
                   }
                 >
                   {item.label}
@@ -104,7 +104,7 @@ export default function Header() {
             <div className="hidden xl:flex items-center gap-6">
               <a
                 href="tel:+919876543210"
-                className="flex items-center gap-2 text-sm font-medium text-(--color-primary)"
+                className="flex items-center gap-2 text-sm font-medium text-main"
               >
                 <FaPhoneAlt />
                 24×7 Emergency
@@ -115,14 +115,14 @@ export default function Header() {
                 <>
                   <Link
                     to="/profile"
-                    className="text-(--text-secondary) hover:text-(--color-primary)"
+                    className="text-(--text-secondary) hover:text-main"
                   >
                     <FaUser size={18} />
                   </Link>
 
                   <button
                     onClick={() => signOut(auth)}
-                    className="text-(--text-secondary) hover:text-(--color-primary)"
+                    className="text-(--text-secondary) hover:text-main"
                   >
                     <FaSignOutAlt size={18} />
                   </button>
@@ -130,7 +130,7 @@ export default function Header() {
               ) : (
                 <Link
                   to="/login"
-                  className="text-(--text-secondary) hover:text-(--color-primary)"
+                  className="text-(--text-secondary) hover:text-main"
                 >
                   Login
                 </Link>
@@ -140,7 +140,7 @@ export default function Header() {
 
               <Link
                 to="/appointment"
-                className="bg-(--color-primary) hover:bg-(--color-primary-hover) text-white px-6 py-2.5 rounded-full font-semibold shadow-[0_0_25px_var(--glow-soft)"
+                className="bg-(--color-main) hover:bg-(--color-main-hover) text-white px-6 py-2.5 rounded-full font-semibold shadow-[0_0_25px_var(--glow-soft)"
               >
                 Book Appointment
               </Link>

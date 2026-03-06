@@ -112,7 +112,7 @@ export default function PackagesCompareTable({
     <section className="py-16">
       <Container>
         <div className="overflow-x-auto border rounded-xl bg-(--card)">
-          <table className="min-w-[950px] w-full">
+          <table className="min-w-237.5 w-full">
             {/* ---------- HEADER ---------- */}
 
             <thead>
@@ -124,17 +124,17 @@ export default function PackagesCompareTable({
                 {packages.map((pkg) => (
                   <th
                     key={pkg.id}
-                    className={`p-6 min-w-[240px] text-center relative
+                    className={`p-6 min-w-60 text-center relative
                     ${
                       isRecommended(pkg)
-                        ? "bg-(--color-primary)/10 border-x-2 border-(--color-primary)"
+                        ? "bg-main/10 border-x-2 border-main"
                         : ""
                     }`}
                   >
                     {/* Recommended Badge */}
 
                     {isRecommended(pkg) && (
-                      <span className="absolute top-2 right-2 bg-(--color-primary) text-white text-xs px-2 py-1 rounded-full">
+                      <span className="absolute top-2 right-2 bg-main text-white text-xs px-2 py-1 rounded-full">
                         ⭐ Recommended
                       </span>
                     )}
@@ -149,7 +149,7 @@ export default function PackagesCompareTable({
 
                     <div className="text-lg font-bold">{pkg.name}</div>
 
-                    <div className="text-2xl font-bold mt-2 text-(--color-primary)">
+                    <div className="text-2xl font-bold mt-2 text-main">
                       ₹{parsePrice(pkg.price)}
                     </div>
                   </th>
@@ -192,9 +192,7 @@ export default function PackagesCompareTable({
                   <td key={pkg.id} className="p-6 text-center">
                     <Button
                       className={`w-full ${
-                        isRecommended(pkg)
-                          ? "bg-(--color-primary) text-white"
-                          : ""
+                        isRecommended(pkg) ? "bg-main text-white" : ""
                       }`}
                       onClick={() => navigate(`/appointment?package=${pkg.id}`)}
                     >
