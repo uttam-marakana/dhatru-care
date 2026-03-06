@@ -15,12 +15,12 @@ export default function AppointmentCTA({
     <section
       className={`
       relative overflow-hidden
-      bg-(--bg)
-      text-(--text)
+      bg-[var(--bg)]
+      text-[var(--text)]
       py-20 md:py-24
       ${
         isLarge
-          ? "my-16 md:my-24 rounded-3xl border border-(--border) shadow-[0_0_60px_var(--glow-soft)] mx-4 md:mx-8 lg:mx-auto max-w-6xl"
+          ? "my-16 md:my-24 rounded-3xl border border-[var(--border)] shadow-[0_0_60px_var(--glow-soft)] mx-4 md:mx-8 lg:mx-auto max-w-6xl"
           : ""
       }
       ${className}
@@ -44,7 +44,7 @@ export default function AppointmentCTA({
             <Button
               size="lg"
               leftIcon={<FaCalendarCheck />}
-              className="min-w-55 bg-(--color-primary) hover:bg-(--color-primary-hover) text-white shadow-lg"
+              className="min-w-55 bg-[var(--color-primary)] hover:bg-(--color-primary-hover) text-white shadow-lg"
             >
               Book Appointment
             </Button>
@@ -55,7 +55,7 @@ export default function AppointmentCTA({
               variant="ghost"
               size="lg"
               leftIcon={<FaPhoneAlt />}
-              className="min-w-55 border border-(--border) text-[var(--color-primary)] hover:bg-(--color-primary)"
+              className="min-w-55 border border-[var(--border)] text-[var(--color-primary)] hover:bg-[var(--color-primary)]"
             >
               Call Now
             </Button>

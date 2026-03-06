@@ -6,8 +6,8 @@ const Container = lazy(() => import("../../components/layout/Container"));
 export default function PageHero({
   title,
   subtitle,
-  bgClass = "bg-(--bg)",
-  textColor = "text-(--text)",
+  bgClass = "bg-[var(--bg)]",
+  textColor = "text-[var(--text)]",
   height = "py-16 md:py-24 lg:py-32",
   children,
 }) {

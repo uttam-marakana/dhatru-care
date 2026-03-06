@@ -5,7 +5,7 @@ import Button from "../../components/common/Button";
 
 export default function Hero() {
   return (
-    <section className="relative min-h-[85vh] md:min-h-[95vh] flex items-center bg-(--bg) text-(--text) overflow-hidden">
+    <section className="relative min-h-[85vh] md:min-h-[95vh] flex items-center bg-[var(--bg)] text-[var(--text)] overflow-hidden">
       {/* Background Glow */}
       <div className="absolute inset-0 bg-(--glow-bg) blur-[140px] opacity-40"></div>
 

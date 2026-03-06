@@ -3,7 +3,7 @@ import NewsletterForm from "../../components/forms/NewsletterForm";
 
 export default function Newsletter() {
   return (
-    <section className="relative py-20 md:py-24 bg-(--bg) text-(--text) overflow-hidden">
+    <section className="relative py-20 md:py-24 bg-[var(--bg)] text-[var(--text)] overflow-hidden">
       <div className="absolute -top-32 left-1/2 -translate-x-1/2 w-175 h-175 bg-(--glow-bg) blur-[140px] rounded-full"></div>
 
       <Container>
@@ -17,8 +17,8 @@ export default function Newsletter() {
             wellness tips, and exclusive package offers.
           </p>
 
-          <div className="relative bg-(--card) border border-(--border) rounded-2xl p-6 md:p-8 shadow-[0_0_40px_var(--glow-soft)]">
-            <div className="absolute top-0 left-0 w-full h-0.5 bg-(--color-primary)"></div>
+          <div className="relative bg-[var(--card)] border border-[var(--border)] rounded-2xl p-6 md:p-8 shadow-[0_0_40px_var(--glow-soft)]">
+            <div className="absolute top-0 left-0 w-full h-0.5 bg-[var(--color-primary)]"></div>
 
             <NewsletterForm />
           </div>

@@ -13,8 +13,8 @@ export default function GoogleMapEmbed({
       className={`
       w-full rounded-2xl overflow-hidden
       shadow-xl
-      border border-(--border)
-      bg-(--card)
+      border border-[var(--border)]
+      bg-[var(--card)]
       ${className}
       `}
     >
