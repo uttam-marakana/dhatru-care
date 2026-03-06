@@ -7,18 +7,20 @@ const Button = lazy(() => import("../../components/common/Button"));
 export default function HealthPackages({ packages = [], loading, error }) {
   if (loading)
     return (
-      <div className="text-center py-24 text-[var(--text-secondary)] bg-(--bg)">
+      <div className="text-center py-24 text-[var(--text-secondary)] bg-[var(--bg)]">
         Loading packages...
       </div>
     );
 
   if (error)
     return (
-      <div className="text-center py-24 text-red-500 bg-(--bg)">{error}</div>
+      <div className="text-center py-24 text-red-500 bg-[var(--bg)]">
+        {error}
+      </div>
     );
 
   return (
-    <section className="relative py-20 md:py-24 bg-(--bg) text-(--text) overflow-hidden">
+    <section className="relative py-20 md:py-24 bg-[var(--bg)] text-[var(--text)] overflow-hidden">
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-162.5 h-162.5 bg-(--glow-bg) blur-[140px] rounded-full"></div>
 
       <Container>
@@ -32,7 +34,7 @@ export default function HealthPackages({ packages = [], loading, error }) {
           {packages.map((pkg) => (
             <div
               key={pkg.id}
-              className="bg-(--card) border border-(--border)
+              className="bg-[var(--card)] border border-[var(--border)]
               rounded-2xl p-6 flex flex-col
               hover:border-[var(--color-primary)]/40
               hover:shadow-[0_0_40px_var(--glow-soft)]"

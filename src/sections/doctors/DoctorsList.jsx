@@ -37,18 +37,18 @@ export default function DoctorsList({
               key={i}
               className="
            animate-pulse
-           bg-(--card)
+           bg-[var(--card)]
            rounded-xl
-           border border-(--border)
+           border border-[var(--border)]
            overflow-hidden
            "
             >
               {" "}
-              <div className="aspect-square bg-(--surface)" />
+              <div className="aspect-square bg-[var(--surface)]" />
               <div className="p-5 space-y-3">
-                <div className="h-5 bg-(--surface) rounded" />
-                <div className="h-4 w-2/3 bg-(--surface) rounded" />
-                <div className="h-4 w-1/2 bg-(--surface) rounded" />
+                <div className="h-5 bg-[var(--surface)] rounded" />
+                <div className="h-4 w-2/3 bg-[var(--surface)] rounded" />
+                <div className="h-4 w-1/2 bg-[var(--surface)] rounded" />
               </div>
             </div>
           ))}
@@ -72,7 +72,7 @@ export default function DoctorsList({
     return (
       <Container className="py-20 text-center">
         {" "}
-        <h3 className="text-2xl font-semibold mb-3 text-(--text)">
+        <h3 className="text-2xl font-semibold mb-3 text-[var(--text)]">
           No Doctors Found{" "}
         </h3>
         <p className="text-[var(--text-secondary)]">
@@ -106,8 +106,8 @@ export default function DoctorsList({
               hover
               className="
           h-full flex flex-col overflow-hidden
-          bg-(--card)
-          border border-(--border)
+          bg-[var(--card)]
+          border border-[var(--border)]
           transition-all duration-500
           hover:-translate-y-2
           hover:border-[var(--color-primary)]/40
@@ -118,7 +118,7 @@ export default function DoctorsList({
               <div
                 className="
           aspect-square
-          bg-(--surface)
+          bg-[var(--surface)]
           flex items-center justify-center
           "
               >
@@ -140,7 +140,7 @@ export default function DoctorsList({
               text-lg
               font-bold
               line-clamp-2
-              text-(--text)
+              text-[var(--text)]
               transition
               group-hover:text-[var(--color-primary)]
               "
@@ -190,7 +190,7 @@ export default function DoctorsList({
                   variant="outline"
                   className="
               mt-5 w-full
-              group-hover:bg-(--color-primary)
+              group-hover:bg-[var(--color-primary)]
               group-hover:text-white
               transition
               "

@@ -5,7 +5,7 @@ const Container = lazy(() => import("../../components/layout/Container"));
 
 export default function AboutHospital() {
   return (
-    <section className="relative py-20 md:py-24 bg-(--bg) text-(--text) overflow-hidden">
+    <section className="relative py-20 md:py-24 bg-[var(--bg)] text-[var(--text)] overflow-hidden">
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-165.5 h-165.5 bg-(--glow-bg) blur-[140px] rounded-full"></div>
 
       <Container>
@@ -36,7 +36,7 @@ export default function AboutHospital() {
               ].map((item, i) => (
                 <div
                   key={i}
-                  className="group bg-(--card) border border-(--border)
+                  className="group bg-[var(--card)] border border-[var(--border)]
                   rounded-xl p-6 text-center transition-all duration-500
                   hover:-translate-y-1 hover:border-[var(--color-primary)]/40
                   hover:shadow-[0_0_30px_var(--glow-soft)]"
@@ -57,7 +57,7 @@ export default function AboutHospital() {
           <div className="relative group">
             <div className="absolute -inset-4 rounded-3xl bg-(--glow-bg) blur-3xl opacity-60"></div>
 
-            <div className="relative rounded-3xl overflow-hidden border border-(--border) shadow-xl">
+            <div className="relative rounded-3xl overflow-hidden border border-[var(--border)] shadow-xl">
               <img
                 src={Hospital_Img}
                 alt="Dhatru Care Hospital"

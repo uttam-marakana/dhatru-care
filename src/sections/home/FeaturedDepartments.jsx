@@ -10,13 +10,13 @@ export default function FeaturedDepartments({
 }) {
   if (loading)
     return (
-      <section className="py-24 text-center text-[var(--text-secondary)] bg-(--bg)">
+      <section className="py-24 text-center text-[var(--text-secondary)] bg-[var(--bg)]">
         Loading departments...
       </section>
     );
 
   return (
-    <section className="relative py-20 md:py-24 bg-(--bg) text-(--text) overflow-hidden">
+    <section className="relative py-20 md:py-24 bg-[var(--bg)] text-[var(--text)] overflow-hidden">
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-162.5 h-162.5 bg-(--glow-bg) blur-[140px] rounded-full"></div>
 
       <Container>
@@ -36,7 +36,7 @@ export default function FeaturedDepartments({
             <Link
               key={dept.id}
               to={`/departments/${dept.slug}`}
-              className="group bg-(--card) border border-(--border)
+              className="group bg-[var(--card)] border border-[var(--border)]
               rounded-2xl p-8 text-center transition
               hover:-translate-y-2 hover:border-[var(--color-primary)]/40
               hover:shadow-[0_0_40px_var(--glow-soft)]"

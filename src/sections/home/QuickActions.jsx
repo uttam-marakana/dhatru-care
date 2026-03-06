@@ -91,7 +91,7 @@ export default function QuickActions() {
               </div>
 
               {/* Title */}
-              <h3 className="text-xl font-semibold mb-3 text-(--text)">
+              <h3 className="text-xl font-semibold mb-3 text-[var(--text)]">
                 {title}
               </h3>
 

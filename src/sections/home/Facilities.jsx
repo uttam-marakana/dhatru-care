@@ -4,7 +4,7 @@ const Container = lazy(() => import("../../components/layout/Container"));
 
 export default function Facilities({ facilities = [], loading, error }) {
   return (
-    <section className="relative py-20 bg-(--bg) text-(--text) overflow-hidden">
+    <section className="relative py-20 bg-[var(--bg)] text-[var(--text)] overflow-hidden">
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-150 h-150 bg-(--glow-bg) blur-[120px] rounded-full"></div>
 
       <Container>
@@ -34,7 +34,7 @@ export default function Facilities({ facilities = [], loading, error }) {
           {facilities.map((item, i) => (
             <div
               key={i}
-              className="bg-(--card) border border-(--border)
+              className="bg-[var(--card)] border border-[var(--border)]
               rounded-2xl p-8 text-center transition
               hover:-translate-y-2 hover:border-[var(--color-primary)]/40
               hover:shadow-[0_0_40px_var(--glow-soft)]"

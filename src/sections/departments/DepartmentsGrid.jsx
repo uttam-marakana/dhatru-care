@@ -39,8 +39,8 @@ export default function DepartmentsGrid({ departments = [] }) {
             <Card
               className="
           h-full flex flex-col
-          bg-(--card)
-          border border-(--border)
+          bg-[var(--card)]
+          border border-[var(--border)]
           rounded-2xl
           p-8
           text-center
@@ -57,7 +57,7 @@ export default function DepartmentsGrid({ departments = [] }) {
           text-xl
           font-semibold
           mb-3
-          text-(--text)
+          text-[var(--text)]
           group-hover:text-[var(--color-primary)]
           transition-colors
           "
