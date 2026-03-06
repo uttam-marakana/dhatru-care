@@ -119,7 +119,7 @@ export default function DoctorDetail() {
 
               <p className="text-[var(--text-secondary)]">{doctor.specialty}</p>
 
-              <div className="flex justify-center gap-4 mt-4 text-sm text-(--muted)">
+              <div className="flex justify-center gap-4 mt-4 text-sm text-[var(--muted)]">
                 <span>{doctor.experience}</span>
 
                 <span className="flex items-center gap-1">

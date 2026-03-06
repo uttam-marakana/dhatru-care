@@ -116,7 +116,7 @@ export default function Doctors() {
                         [key]: "",
                       }))
                     }
-                    className="text-(--muted) hover:text-red-400"
+                    className="text-[var(--muted)] hover:text-red-400"
                   >
                     ✕
                   </button>

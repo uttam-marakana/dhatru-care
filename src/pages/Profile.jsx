@@ -35,7 +35,7 @@ export default function Profile() {
             <h1 className="text-xl font-semibold text-[var(--text)]">
               {user.displayName || "User Profile"}
             </h1>
-            <p className="text-sm text-(--muted)">
+            <p className="text-sm text-[var(--muted)]">
               Manage your account details
             </p>
           </div>
@@ -43,22 +43,22 @@ export default function Profile() {
 
         <div className="space-y-4">
           <div className="p-4 rounded-xl bg-[var(--surface)]">
-            <p className="text-sm text-(--muted) mb-1">Full Name</p>
+            <p className="text-sm text-[var(--muted)] mb-1">Full Name</p>
             <p className="font-medium text-[var(--text)]">
               {user.displayName || "Not provided"}
             </p>
           </div>
 
           <div className="p-4 rounded-xl bg-[var(--surface)] flex items-center gap-3">
-            <FaEnvelope className="text-(--muted)" />
+            <FaEnvelope className="text-[var(--muted)]" />
             <div>
-              <p className="text-sm text-(--muted)">Email</p>
+              <p className="text-sm text-[var(--muted)]">Email</p>
               <p className="font-medium text-[var(--text)]">{user.email}</p>
             </div>
           </div>
 
           <div className="p-4 rounded-xl bg-[var(--surface)]">
-            <p className="text-sm text-(--muted) mb-1">User ID</p>
+            <p className="text-sm text-[var(--muted)] mb-1">User ID</p>
             <p className="text-sm break-all text-[var(--text-secondary)]">
               {user.uid}
             </p>

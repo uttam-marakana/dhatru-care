@@ -48,7 +48,7 @@ export default function Contact() {
                     +91 98765 43210
                   </p>
 
-                  <p className="text-sm text-(--muted)">24×7 Available</p>
+                  <p className="text-sm text-[var(--muted)]">24×7 Available</p>
                 </div>
 
                 <div className="bg-[var(--card)] border border-[var(--border)] p-6 rounded-2xl hover:border-[var(--color-primary)]/40 hover:shadow-[0_0_40px_var(--glow-soft) transition">
@@ -60,7 +60,9 @@ export default function Contact() {
                     +91 12345 67890
                   </p>
 
-                  <p className="text-sm text-(--muted)">Mon–Sat: 8 AM – 8 PM</p>
+                  <p className="text-sm text-[var(--muted)]">
+                    Mon–Sat: 8 AM – 8 PM
+                  </p>
                 </div>
               </div>
             </div>
