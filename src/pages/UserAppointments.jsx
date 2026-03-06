@@ -1,7 +1,9 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, lazy } from "react";
 import { auth } from "../firebase";
 import { onAuthStateChanged } from "firebase/auth";
 import { subscribeUserAppointments } from "../api/appointmentsApi";
+
+const Container = lazy(() => import("../components/layout/Container"));
 
 export default function UserAppointments() {
   const [appointments, setAppointments] = useState([]);
@@ -31,85 +33,116 @@ export default function UserAppointments() {
 
   if (loading) {
     return (
-      <div className="p-10 text-center text-gray-400">
+      <div className="min-h-[60vh] flex items-center justify-center text-[var(--text-secondary)] bg-[var(--section)]">
         Loading appointments...
       </div>
     );
   }
 
   return (
-    <section className="py-16 px-6">
-      <div className="max-w-5xl mx-auto space-y-8">
-        <h1 className="text-3xl font-bold text-center text-[var(--text)]">
-          My Appointments
-        </h1>
+    <section className="relative py-20 md:py-24 bg-[var(--section)] text-[var(--text)] overflow-hidden">
+      {/* Background Glow */}
+      <div
+        className="
+        pointer-events-none
+        absolute -top-40 left-1/2 -translate-x-1/2
+        w-[700px] md:w-[900px]
+        h-[700px] md:h-[900px]
+        bg-[var(--glow-bg)]
+        blur-[140px]
+        rounded-full
+        opacity-70
+        z-0
+        "
+      />
 
-        {appointments.length === 0 ? (
-          <p className="text-center text-gray-400">No appointments found.</p>
-        ) : (
-          <div className="grid gap-6 md:grid-cols-2">
-            {appointments.map((a) => (
-              <div
-                key={a.id}
-                className="
-                relative
-                bg-[var(--card)]
-                border border-[var(--border)]
-                rounded-2xl
-                p-6
-                transition
-                hover:shadow-[0_0_35px_var(--glow-bg)]
-                hover:border-blue-500/40
-                "
-              >
-                {/* Glow overlay */}
+      <Container className="relative z-10">
+        <div className="max-w-5xl mx-auto space-y-10">
+          <h1 className="text-3xl md:text-4xl font-bold text-center text-[var(--color-primary)]">
+            My Appointments
+          </h1>
+
+          {appointments.length === 0 ? (
+            <p className="text-center text-[var(--text-secondary)]">
+              No appointments found.
+            </p>
+          ) : (
+            <div className="grid gap-6 md:grid-cols-2">
+              {appointments.map((a) => (
                 <div
-                  className="absolute inset-0 rounded-2xl pointer-events-none
-                  bg-gradient-to-br from-blue-500/10 via-transparent to-transparent
-                  opacity-0 hover:opacity-100 transition"
-                />
+                  key={a.id}
+                  className="
+                  group
+                  relative
+                  bg-[var(--card)]
+                  border border-[var(--border)]
+                  rounded-2xl
+                  p-6
+                  transition-all duration-500
+                  hover:-translate-y-1
+                  hover:border-[var(--color-primary)]/40
+                  hover:shadow-[0_0_40px_var(--glow-soft)]
+                  "
+                >
+                  {/* Hover Glow */}
+                  <div
+                    className="
+                    absolute inset-0 rounded-2xl
+                    pointer-events-none
+                    bg-gradient-to-br
+                    from-[var(--color-primary)]/10
+                    via-transparent
+                    to-transparent
+                    opacity-0
+                    group-hover:opacity-100
+                    transition
+                    "
+                  />
 
-                <div className="relative space-y-2 text-[var(--text)]">
-                  <p>
-                    <span className="text-gray-400">Patient:</span>{" "}
-                    {a.patientName}
-                  </p>
+                  <div className="relative space-y-3 text-[var(--text)]">
+                    <p>
+                      <span className="text-[var(--muted)]">Patient:</span>{" "}
+                      {a.patientName}
+                    </p>
 
-                  <p>
-                    <span className="text-gray-400">Department:</span>{" "}
-                    {a.department}
-                  </p>
+                    <p>
+                      <span className="text-[var(--muted)]">Department:</span>{" "}
+                      {a.department}
+                    </p>
 
-                  <p>
-                    <span className="text-gray-400">Date:</span> {a.date}
-                  </p>
+                    <p>
+                      <span className="text-[var(--muted)]">Date:</span>{" "}
+                      {a.date}
+                    </p>
 
-                  <p>
-                    <span className="text-gray-400">Time:</span> {a.time}
-                  </p>
+                    <p>
+                      <span className="text-[var(--muted)]">Time:</span>{" "}
+                      {a.time}
+                    </p>
 
-                  <div className="pt-2">
-                    <span
-                      className={`
-                      px-3 py-1 text-sm rounded-full
-                      ${
-                        a.status === "confirmed"
-                          ? "bg-green-500/20 text-green-400"
-                          : a.status === "completed"
-                            ? "bg-blue-500/20 text-blue-400"
-                            : "bg-yellow-500/20 text-yellow-400"
-                      }
-                      `}
-                    >
-                      {a.status}
-                    </span>
+                    <div className="pt-3">
+                      <span
+                        className={`
+                        px-3 py-1 text-sm rounded-full font-medium
+                        ${
+                          a.status === "confirmed"
+                            ? "bg-[var(--color-success)]/20 text-[var(--color-success)]"
+                            : a.status === "completed"
+                              ? "bg-[var(--color-primary)]/20 text-[var(--color-primary)]"
+                              : "bg-[var(--color-warning)]/20 text-[var(--color-warning)]"
+                        }
+                        `}
+                      >
+                        {a.status}
+                      </span>
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
-          </div>
-        )}
-      </div>
+              ))}
+            </div>
+          )}
+        </div>
+      </Container>
     </section>
   );
 }
