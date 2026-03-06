@@ -242,7 +242,7 @@ export default function Header() {
 
               {/* CTA */}
               <Link
-                to="/appointments"
+                to="/appointment"
                 className="
                 bg-[var(--color-primary)]
                 hover:bg-[var(--color-primary-hover)]

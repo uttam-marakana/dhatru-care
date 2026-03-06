@@ -57,7 +57,7 @@ export default function ContactForm() {
         className="
         pointer-events-none
         absolute -top-32 left-1/2 -translate-x-1/2
-        w-[500px] h-[500px]
+        w-125 h-125
         bg-[var(--glow-bg)]
         blur-[120px]
         rounded-full

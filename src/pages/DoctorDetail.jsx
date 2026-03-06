@@ -135,7 +135,7 @@ export default function DoctorDetail() {
                   </Button>
                 </Link>
 
-                <Button variant="outline">
+                <Button className="mt-3" size="lg" variant="outline">
                   <FaPhoneAlt className="mr-2" />
                   Call Now
                 </Button>
