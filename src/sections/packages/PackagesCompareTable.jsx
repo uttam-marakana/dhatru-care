@@ -127,7 +127,7 @@ export default function PackagesCompareTable({
                     className={`p-6 min-w-60 text-center relative
                     ${
                       isRecommended(pkg)
-                        ? "bg-[var(--color-primary)]/10 border-x-2 border-primary"
+                        ? "bg-[var(--color-primary)]/10 border-x-2 border-[var(--color-primary)]"
                         : ""
                     }`}
                   >

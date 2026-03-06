@@ -30,7 +30,7 @@ export default function DataUpload() {
                 onClick={() => setActive(t.key)}
                 className={`px-4 py-2 rounded-lg border ${
                   active === t.key
-                    ? "bg-primary text-white border-primary"
+                    ? "bg-primary text-white border-[var(--color-primary)]"
                     : "bg-white dark:bg-gray-900"
                 }`}
               >

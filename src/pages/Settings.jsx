@@ -15,7 +15,7 @@ export default function Settings() {
         <div className="p-4 rounded-xl bg-[var(--surface)] flex items-center justify-between">
           <div>
             <p className="font-medium text-[var(--text)]">Appearance</p>
-            <p className="text-sm text-(--muted)">
+            <p className="text-sm text-[var(--muted)]">
               Switch between light and dark mode
             </p>
           </div>

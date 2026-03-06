@@ -71,9 +71,9 @@ export default function Search() {
             border border-[var(--border)]
             bg-[var(--card)]
             text-[var(--text)]
-            placeholder-(--muted)
+            placeholder-[var(--muted)]
             focus:outline-none
-            focus:border-primary
+            focus:border-[var(--color-primary)]
             focus:shadow-[0_0_20px_var(--glow-soft)
             text-lg
             "
@@ -81,7 +81,7 @@ export default function Search() {
 
               <button
                 type="submit"
-                className="absolute left-4 top-1/2 -translate-y-1/2 text-(--muted)"
+                className="absolute left-4 top-1/2 -translate-y-1/2 text-[var(--muted)]"
                 aria-label="Search"
               >
                 <FaSearch size={20} />
@@ -91,7 +91,7 @@ export default function Search() {
 
           {loading ? (
             <div className="text-center py-20">
-              <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary mx-auto"></div>
+              <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[var(--color-primary)] mx-auto"></div>
               <p className="mt-4 text-[var(--text-secondary)]">Searching...</p>
             </div>
           ) : query.trim() === "" ? (
@@ -119,7 +119,7 @@ export default function Search() {
                     bg-[var(--card)]
                     border border-[var(--border)]
                     hover:border-[var(--color-primary)]/40
-                    hover:shadow-[0_0_25px_var(--glow-soft)
+                    hover:shadow-[0_0_25px_var(--glow-soft)]
                     transition
                     "
                       >
