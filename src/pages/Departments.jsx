@@ -33,7 +33,7 @@ export default function Departments() {
   }, []);
 
   return (
-    <main className="min-h-screen bg-(--bg) text-(--text)">
+    <main className="min-h-screen bg-[var(--bg)] text-[var(--text)]">
       <PageHero
         title="Our Specialities"
         subtitle="Comprehensive multispeciality care with expert teams."

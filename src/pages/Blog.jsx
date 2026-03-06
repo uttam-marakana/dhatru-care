@@ -100,7 +100,7 @@ export default function Blog() {
     <main
       className="
       min-h-screen
-      bg-(--bg)
+      bg-[var(--bg)]
       "
     >
       <Breadcrumb items={[{ label: "Home", path: "/" }, { label: "Blog" }]} />

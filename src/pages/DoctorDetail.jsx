@@ -66,20 +66,20 @@ export default function DoctorDetail() {
 
   if (loading)
     return (
-      <div className="min-h-screen flex items-center justify-center bg-(--bg) text-[var(--text-secondary)]">
+      <div className="min-h-screen flex items-center justify-center bg-[var(--bg)] text-[var(--text-secondary)]">
         Loading doctor...
       </div>
     );
 
   if (error || !doctor)
     return (
-      <div className="min-h-screen flex items-center justify-center bg-(--bg) text-red-500">
+      <div className="min-h-screen flex items-center justify-center bg-[var(--bg)] text-red-500">
         {error}
       </div>
     );
 
   return (
-    <main className="min-h-screen bg-(--bg) text-(--text)">
+    <main className="min-h-screen bg-[var(--bg)] text-[var(--text)]">
       <Breadcrumb
         items={[
           { label: "Home", path: "/" },
@@ -98,8 +98,8 @@ export default function DoctorDetail() {
             <Card
               className="
               p-6 text-center
-              bg-(--card)
-              border border-(--border)
+              bg-[var(--card)]
+              border border-[var(--border)]
               shadow-[0_0_40px_var(--glow-soft)
               "
             >
@@ -145,12 +145,14 @@ export default function DoctorDetail() {
             {/* DETAILS */}
             <div className="md:col-span-2 space-y-8 text-[var(--text-secondary)]">
               <div>
-                <h2 className="text-2xl font-bold text-(--text) mb-2">About</h2>
+                <h2 className="text-2xl font-bold text-[var(--text)] mb-2">
+                  About
+                </h2>
                 <p>{doctor.bio}</p>
               </div>
 
               <div>
-                <h3 className="text-xl font-semibold flex items-center gap-2 text-(--text)">
+                <h3 className="text-xl font-semibold flex items-center gap-2 text-[var(--text)]">
                   <FaGraduationCap className="text-[var(--color-primary)]" />
                   Qualification
                 </h3>
@@ -158,7 +160,7 @@ export default function DoctorDetail() {
               </div>
 
               <div>
-                <h3 className="text-xl font-semibold flex items-center gap-2 text-(--text)">
+                <h3 className="text-xl font-semibold flex items-center gap-2 text-[var(--text)]">
                   <FaAward className="text-[var(--color-primary)]" />
                   Achievements
                 </h3>
@@ -188,7 +190,7 @@ export default function DoctorDetail() {
 
       {/* RELATED DOCTORS */}
       {relatedDoctors.length > 0 && (
-        <section className="py-16 bg-(--surface)">
+        <section className="py-16 bg-[var(--surface)]">
           <Container>
             <h2 className="text-3xl font-bold text-center mb-10">
               Related Specialists

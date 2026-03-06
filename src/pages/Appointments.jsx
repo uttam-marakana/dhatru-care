@@ -6,7 +6,7 @@ export default function Appointments() {
     <section
       className="
       min-h-screen
-      bg-(--bg)
+      bg-[var(--bg)]
       py-16
       "
     >
@@ -15,7 +15,7 @@ export default function Appointments() {
           <h1
             className="
             text-4xl font-bold
-            text-(--text)
+            text-[var(--text)]
             "
           >
             Book an Appointment

@@ -119,8 +119,8 @@ export default function DepartmentDetail() {
             {/* SERVICES */}
             <Card
               className="
-              bg-(--card)
-              border border-(--border)
+              bg-[var(--card)]
+              border border-[var(--border)]
               rounded-2xl
               p-8
               transition-all duration-500
@@ -184,7 +184,7 @@ export default function DepartmentDetail() {
 
       {/* RELATED DOCTORS */}
       {relatedDoctors.length > 0 && (
-        <section className="py-20 bg-(--surface)">
+        <section className="py-20 bg-[var(--surface)]">
           <Container>
             <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">
               Specialists in {department.name}

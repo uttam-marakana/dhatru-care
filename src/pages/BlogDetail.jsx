@@ -34,7 +34,7 @@ export default function BlogDetail() {
       <div
         className="
         min-h-screen flex items-center justify-center
-        bg-(--bg)
+        bg-[var(--bg)]
         text-[var(--text-secondary)]
         "
       >
@@ -47,7 +47,7 @@ export default function BlogDetail() {
       <div
         className="
         min-h-screen flex items-center justify-center
-        bg-(--bg)
+        bg-[var(--bg)]
         text-[var(--text-secondary)]
         "
       >
@@ -59,7 +59,7 @@ export default function BlogDetail() {
     <article
       className="
       min-h-screen
-      bg-(--bg)
+      bg-[var(--bg)]
       "
     >
       <Breadcrumb
@@ -93,7 +93,7 @@ export default function BlogDetail() {
         <h1
           className="
           text-4xl font-bold
-          text-(--text)
+          text-[var(--text)]
           mb-6
           "
         >

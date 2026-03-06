@@ -48,7 +48,7 @@ export default function PackagesCompare() {
       : packages.filter((p) => p.tier?.toLowerCase() === tier);
 
   return (
-    <main className="min-h-screen bg-(--bg)">
+    <main className="min-h-screen bg-[var(--bg)]">
       <Breadcrumb
         items={[
           { label: "Home", path: "/" },
@@ -70,15 +70,15 @@ export default function PackagesCompare() {
       {/* TIER TOGGLE */}
 
       <div className="flex justify-center mt-10">
-        <div className="flex gap-2 bg-(--card) border border-(--border) rounded-xl p-2">
+        <div className="flex gap-2 bg-[var(--card)] border border-[var(--border)] rounded-xl p-2">
           {["all", "basic", "advanced", "premium"].map((t) => (
             <button
               key={t}
               onClick={() => setTier(t)}
               className={`px-4 py-2 rounded-lg capitalize transition ${
                 tier === t
-                  ? "bg-(--color-primary) text-white"
-                  : "hover:bg-(--surface)"
+                  ? "bg-[var(--color-primary)] text-white"
+                  : "hover:bg-[var(--surface)]"
               }`}
             >
               {t}
