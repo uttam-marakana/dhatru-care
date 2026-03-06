@@ -10,18 +10,17 @@ import {
   onSnapshot,
   orderBy,
 } from "firebase/firestore";
+
 import { db } from "../firebase";
 
 const appointmentsRef = collection(db, "appointments");
 
-/* ---------------- CREATE APPOINTMENT ---------------- */
+/* -------- CREATE APPOINTMENT ---------- */
 
 export const createAppointment = async (data) => {
-  if (!data?.date || !data?.time || !data?.doctorID) {
-    throw new Error("Missing required appointment data.");
+  if (!data?.doctorID || !data?.date || !data?.time) {
+    throw new Error("Missing appointment data");
   }
-
-  /* prevent double booking */
 
   const q = query(
     appointmentsRef,
@@ -33,17 +32,18 @@ export const createAppointment = async (data) => {
   const snap = await getDocs(q);
 
   if (!snap.empty) {
-    throw new Error("This time slot is already booked.");
+    throw new Error("This slot is already booked");
   }
 
   return addDoc(appointmentsRef, {
     ...data,
     status: "pending",
     createdAt: serverTimestamp(),
+    updatedAt: serverTimestamp(),
   });
 };
 
-/* ---------------- UPDATE STATUS ---------------- */
+/* -------- UPDATE STATUS ---------- */
 
 export const updateAppointmentStatus = async (id, status) => {
   return updateDoc(doc(db, "appointments", id), {
@@ -52,7 +52,7 @@ export const updateAppointmentStatus = async (id, status) => {
   });
 };
 
-/* ---------------- USER APPOINTMENTS ---------------- */
+/* -------- USER APPOINTMENTS ---------- */
 
 export const subscribeUserAppointments = (userId, callback) => {
   if (!userId) return;
@@ -73,7 +73,7 @@ export const subscribeUserAppointments = (userId, callback) => {
   });
 };
 
-/* ---------------- ADMIN APPOINTMENTS ---------------- */
+/* -------- ADMIN APPOINTMENTS ---------- */
 
 export const subscribeAppointments = (callback) => {
   const q = query(appointmentsRef, orderBy("createdAt", "desc"));

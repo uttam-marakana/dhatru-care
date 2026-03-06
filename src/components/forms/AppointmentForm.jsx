@@ -71,14 +71,7 @@ export default function AppointmentForm() {
 
     try {
       const appointmentData = {
-        patientName: form.patientName,
-        phone: form.phone,
-        email: form.email,
-        department: form.department,
-        doctorID: form.doctorID,
-        date: form.date,
-        time: form.time,
-        message: form.message,
+        ...form,
         userId: user.uid,
       };
 
@@ -108,9 +101,6 @@ export default function AppointmentForm() {
       shadow-[0_0_40px_var(--glow-bg)]
       "
     >
-      <h1 className="text-3xl font-bold mb-6 text-center text-[var(--text)]">
-        Book an Appointment
-      </h1>
 
       {success && (
         <div className="text-complete text-center mb-4">
