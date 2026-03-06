@@ -5,7 +5,7 @@ const AppointmentCTA = lazy(() => import("../sections/shared/AppointmentCTA"));
 
 export default function Services() {
   return (
-    <main className="min-h-screen bg-(--bg)">
+    <main className="min-h-screen bg-[var(--bg)]">
       <PageHero
         title="Our Services"
         subtitle="Comprehensive healthcare solutions under one roof"
@@ -18,14 +18,14 @@ export default function Services() {
             <div
               className="
           p-6 rounded-2xl
-          bg-(--card)
-          border border-(--border)
+          bg-[var(--card)]
+          border border-[var(--border)]
           hover:border-[var(--color-primary)]/40
           hover:shadow-[0_0_30px_var(--glow-soft)
           transition
           "
             >
-              <h3 className="text-xl font-semibold text-(--text) mb-2">
+              <h3 className="text-xl font-semibold text-[var(--text)] mb-2">
                 Emergency Care
               </h3>
 
@@ -37,14 +37,14 @@ export default function Services() {
             <div
               className="
           p-6 rounded-2xl
-          bg-(--card)
-          border border-(--border)
+          bg-[var(--card)]
+          border border-[var(--border)]
           hover:border-[var(--color-primary)]/40
           hover:shadow-[0_0_30px_var(--glow-soft)
           transition
           "
             >
-              <h3 className="text-xl font-semibold text-(--text) mb-2">
+              <h3 className="text-xl font-semibold text-[var(--text)] mb-2">
                 Diagnostic Services
               </h3>
 
@@ -56,14 +56,14 @@ export default function Services() {
             <div
               className="
           p-6 rounded-2xl
-          bg-(--card)
-          border border-(--border)
+          bg-[var(--card)]
+          border border-[var(--border)]
           hover:border-[var(--color-primary)]/40
           hover:shadow-[0_0_30px_var(--glow-soft)
           transition
           "
             >
-              <h3 className="text-xl font-semibold text-(--text) mb-2">
+              <h3 className="text-xl font-semibold text-[var(--text)] mb-2">
                 Preventive Health
               </h3>
 

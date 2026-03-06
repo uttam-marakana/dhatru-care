@@ -33,10 +33,10 @@ export default function RelatedBlogs({
   if (!blogs.length) return null;
 
   return (
-    <section className="py-12 md:py-16 bg-(--surface)">
+    <section className="py-12 md:py-16 bg-[var(--surface)]">
       {" "}
       <Container>
-        <h2 className="text-2xl md:text-3xl font-bold text-center mb-10 text-(--text)">
+        <h2 className="text-2xl md:text-3xl font-bold text-center mb-10 text-[var(--text)]">
           {title}
         </h2>
 
@@ -55,14 +55,14 @@ export default function RelatedBlogs({
                 hover
                 className="
             h-full overflow-hidden
-            bg-(--card)
-            border border-(--border)
+            bg-[var(--card)]
+            border border-[var(--border)]
             transition-all duration-300
             hover:border-[var(--color-primary)]/40
             hover:shadow-[0_0_40px_var(--glow-soft)]
             "
               >
-                <div className="aspect-video bg-(--surface)" />
+                <div className="aspect-video bg-[var(--surface)]" />
 
                 <div className="p-5">
                   <h3
@@ -71,7 +71,7 @@ export default function RelatedBlogs({
               text-lg
               mb-2
               line-clamp-2
-              text-(--text)
+              text-[var(--text)]
               "
                   >
                     {post.title}

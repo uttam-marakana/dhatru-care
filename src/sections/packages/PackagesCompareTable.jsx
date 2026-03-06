@@ -85,7 +85,7 @@ export default function PackagesCompareTable({
   if (loading) {
     return (
       <Container className="py-16">
-        <div className="animate-pulse h-80 bg-(--card) border border-(--border) rounded-xl"></div>
+        <div className="animate-pulse h-80 bg-[var(--card)] border border-[var(--border)] rounded-xl"></div>
       </Container>
     );
   }
@@ -111,13 +111,13 @@ export default function PackagesCompareTable({
   return (
     <section className="py-16">
       <Container>
-        <div className="overflow-x-auto border rounded-xl bg-(--card)">
+        <div className="overflow-x-auto border rounded-xl bg-[var(--card)]">
           <table className="min-w-237.5 w-full">
             {/* ---------- HEADER ---------- */}
 
             <thead>
               <tr>
-                <th className="sticky left-0 bg-(--card) p-6 font-bold z-10">
+                <th className="sticky left-0 bg-[var(--card)] p-6 font-bold z-10">
                   Features
                 </th>
 
@@ -162,8 +162,8 @@ export default function PackagesCompareTable({
             <tbody>
               {/* Tests */}
 
-              <tr className="border-t border-(--border)">
-                <td className="sticky left-0 bg-(--card) p-6 font-semibold">
+              <tr className="border-t border-[var(--border)]">
+                <td className="sticky left-0 bg-[var(--card)] p-6 font-semibold">
                   Tests Included
                 </td>
 
@@ -183,8 +183,8 @@ export default function PackagesCompareTable({
 
               {/* Action */}
 
-              <tr className="border-t border-(--border)">
-                <td className="sticky left-0 bg-(--card) p-6 font-semibold">
+              <tr className="border-t border-[var(--border)]">
+                <td className="sticky left-0 bg-[var(--card)] p-6 font-semibold">
                   Action
                 </td>
 

@@ -8,7 +8,7 @@ const AppRoutes = lazy(() => import("./routes/AppRoutes"));
 
 function App() {
   return (
-    <div className="min-h-screen bg-(--bg) text-(--text)">
+    <div className="min-h-screen bg-[var(--bg)] text-[var(--text)]">
       {/* Vercel Analytics */}
       <Analytics />
 
@@ -18,7 +18,7 @@ function App() {
             className="
         fixed inset-0 z-50
         flex items-center justify-center
-        bg-(--bg)/80
+        bg-[var(--bg)]/80
         backdrop-blur-md
         "
           >

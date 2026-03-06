@@ -23,13 +23,13 @@ export default function Testimonials({ testimonials = [], loading = false }) {
 
   if (loading)
     return (
-      <div className="text-center py-24 bg-(--bg) text-[var(--text-secondary)]">
+      <div className="text-center py-24 bg-[var(--bg)] text-[var(--text-secondary)]">
         Loading testimonials...
       </div>
     );
 
   return (
-    <section className="relative py-20 md:py-24 bg-(--bg) text-(--text)">
+    <section className="relative py-20 md:py-24 bg-[var(--bg)] text-[var(--text)]">
       {/* Glow */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[650px] h-[650px] bg-(--glow-bg) blur-[140px] rounded-full"></div>
 
@@ -51,8 +51,8 @@ export default function Testimonials({ testimonials = [], loading = false }) {
             <div
               key={i}
               className="
-              bg-(--card)
-              border border-(--border)
+              bg-[var(--card)]
+              border border-[var(--border)]
               rounded-2xl
               p-8
               transition-all
@@ -69,7 +69,7 @@ export default function Testimonials({ testimonials = [], loading = false }) {
                 ))}
               </div>
 
-              <p className="font-semibold text-(--text)">{t.name}</p>
+              <p className="font-semibold text-[var(--text)]">{t.name}</p>
 
               <p className="text-sm text-[var(--text-secondary)]">
                 {t.location}

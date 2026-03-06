@@ -7,20 +7,20 @@ const Button = lazy(() => import("../../components/common/Button"));
 export default function LatestBlog({ posts = [], loading }) {
   if (loading)
     return (
-      <div className="text-center py-24 bg-(--bg) text-[var(--text-secondary)]">
+      <div className="text-center py-24 bg-[var(--bg)] text-[var(--text-secondary)]">
         Loading blogs...
       </div>
     );
 
   if (!posts.length)
     return (
-      <div className="text-center py-24 bg-(--bg) text-[var(--text-secondary)]">
+      <div className="text-center py-24 bg-[var(--bg)] text-[var(--text-secondary)]">
         Blog articles coming soon.
       </div>
     );
 
   return (
-    <section className="relative py-20 md:py-24 bg-(--bg) text-(--text)">
+    <section className="relative py-20 md:py-24 bg-[var(--bg)] text-[var(--text)]">
       {/* Glow */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[650px] h-[650px] bg-(--glow-bg) blur-[140px] rounded-full"></div>
 
@@ -44,8 +44,8 @@ export default function LatestBlog({ posts = [], loading }) {
               to={`/blog/${post.slug}`}
               className="
               group relative
-              bg-(--card)
-              border border-(--border)
+              bg-[var(--card)]
+              border border-[var(--border)]
               rounded-2xl
               overflow-hidden
               transition-all duration-500
