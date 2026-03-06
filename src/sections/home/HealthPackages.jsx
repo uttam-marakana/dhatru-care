@@ -7,7 +7,7 @@ const Button = lazy(() => import("../../components/common/Button"));
 export default function HealthPackages({ packages = [], loading, error }) {
   if (loading)
     return (
-      <div className="text-center py-24 text-(--text-secondary) bg-(--bg)">
+      <div className="text-center py-24 text-[var(--text-secondary)] bg-(--bg)">
         Loading packages...
       </div>
     );
@@ -23,7 +23,7 @@ export default function HealthPackages({ packages = [], loading, error }) {
 
       <Container>
         <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold text-main">
+          <h2 className="text-4xl md:text-5xl font-bold text-[var(--color-primary)]">
             Comprehensive Health Packages
           </h2>
         </div>
@@ -34,14 +34,16 @@ export default function HealthPackages({ packages = [], loading, error }) {
               key={pkg.id}
               className="bg-(--card) border border-(--border)
               rounded-2xl p-6 flex flex-col
-              hover:border-main/40
+              hover:border-[var(--color-primary)]/40
               hover:shadow-[0_0_40px_var(--glow-soft)]"
             >
               <h3 className="font-semibold mb-2">{pkg.name}</h3>
 
-              <p className="text-3xl font-bold text-main mb-6">{pkg.price}</p>
+              <p className="text-3xl font-bold text-[var(--color-primary)] mb-6">
+                {pkg.price}
+              </p>
 
-              <ul className="space-y-2 text-(--text-secondary) mb-6">
+              <ul className="space-y-2 text-[var(--text-secondary)] mb-6">
                 {(pkg.includes || []).map((i, idx) => (
                   <li key={idx}>✔ {i}</li>
                 ))}

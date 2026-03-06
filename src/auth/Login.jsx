@@ -56,8 +56,8 @@ export default function Login() {
           border border-[var(--border)]
           text-[var(--text)]
           placeholder:text-[var(--muted)]
-          focus:ring-2 focus:ring-[var(--color-main)]
-          focus:border-[var(--color-main)]
+          focus:ring-2 focus:ring-[var(--color-primary)]
+          focus:border-[var(--color-primary)]
           outline-none
           "
         />
@@ -74,8 +74,8 @@ export default function Login() {
           border border-[var(--border)]
           text-[var(--text)]
           placeholder:text-[var(--muted)]
-          focus:ring-2 focus:ring-[var(--color-main)]
-          focus:border-[var(--color-main)]
+          focus:ring-2 focus:ring-[var(--color-primary)]
+          focus:border-[var(--color-primary)]
           outline-none
           "
         />
@@ -83,8 +83,8 @@ export default function Login() {
         <button
           className="
           w-full p-3 rounded-lg
-          bg-[var(--color-main)]
-          hover:bg-[var(--color-main-hover)]
+          bg-[var(--color-primary)]
+          hover:bg-[var(--color-primary-hover)]
           text-white
           font-semibold
           transition
@@ -98,7 +98,7 @@ export default function Login() {
           Not registered?{" "}
           <Link
             to="/signup"
-            className="text-[var(--color-main)] hover:underline"
+            className="text-[var(--color-primary)] hover:underline"
           >
             Create account
           </Link>

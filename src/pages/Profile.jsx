@@ -16,7 +16,9 @@ export default function Profile() {
   if (!user) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-(--bg)">
-        <p className="text-(--text-secondary)">Please login to view profile.</p>
+        <p className="text-[var(--text-secondary)]">
+          Please login to view profile.
+        </p>
       </div>
     );
   }
@@ -25,8 +27,8 @@ export default function Profile() {
     <div className="min-h-screen bg-(--bg) py-10 px-4">
       <div className="max-w-3xl mx-auto bg-(--card) rounded-2xl shadow border border-(--border) p-6 sm:p-8">
         <div className="flex items-center gap-4 mb-8">
-          <div className="w-16 h-16 rounded-full bg-(--color-main)/10 flex items-center justify-center">
-            <FaUserCircle size={40} className="text-main" />
+          <div className="w-16 h-16 rounded-full bg-(--color-primary)/10 flex items-center justify-center">
+            <FaUserCircle size={40} className="text-[var(--color-primary)]" />
           </div>
 
           <div>
@@ -57,7 +59,7 @@ export default function Profile() {
 
           <div className="p-4 rounded-xl bg-(--surface)">
             <p className="text-sm text-(--muted) mb-1">User ID</p>
-            <p className="text-sm break-all text-(--text-secondary)">
+            <p className="text-sm break-all text-[var(--text-secondary)]">
               {user.uid}
             </p>
           </div>

@@ -36,18 +36,18 @@ const actions = [
 
 export default function QuickActions() {
   return (
-    <section className="relative py-20 md:py-24 bg-(--bg) text-(--text) overflow-hidden">
+    <section className="relative py-20 md:py-24 bg-[var(--bg)] text-[var(--text)] overflow-hidden">
       {/* Glow background */}
       <div className="absolute -top-40 left-1/2 -translate-x-1/2 w-175 h-175 bg-(--glow-bg) blur-[140px] rounded-full"></div>
 
       <Container>
         {/* Header */}
         <div className="text-center mb-16 relative z-10">
-          <h2 className="text-4xl md:text-5xl font-bold text-main">
+          <h2 className="text-4xl md:text-5xl font-bold text-[var(--color-primary)]">
             Comprehensive Care, Simplified
           </h2>
 
-          <p className="mt-5 text-(--text-secondary) max-w-2xl mx-auto">
+          <p className="mt-5 text-[var(--text-secondary)] max-w-2xl mx-auto">
             Quick access to essential healthcare services — book, consult,
             track, and manage your care seamlessly.
           </p>
@@ -61,14 +61,14 @@ export default function QuickActions() {
               className="
               group
               relative
-              bg-(--card)
-              border border-(--border)
+              bg-[var(--card)]
+              border border-[var(--border)]
               rounded-2xl
               p-8
               text-center
               transition-all duration-500
               hover:-translate-y-2
-              hover:border-main/40
+              hover:border-[var(--color-primary)]/40
               hover:shadow-[0_0_40px_var(--glow-soft)]
               "
             >
@@ -79,8 +79,8 @@ export default function QuickActions() {
                   w-16 h-16
                   flex items-center justify-center
                   rounded-xl
-                  bg-(--surface)
-                  text-main
+                  bg-[var(--surface)]
+                  text-[var(--color-primary)]
                   text-3xl
                   group-hover:scale-110
                   transition duration-500
@@ -96,7 +96,7 @@ export default function QuickActions() {
               </h3>
 
               {/* Description */}
-              <p className="text-(--text-secondary) mb-6 text-sm md:text-base leading-relaxed">
+              <p className="text-[var(--text-secondary)] mb-6 text-sm md:text-base leading-relaxed">
                 {desc}
               </p>
 
@@ -104,7 +104,7 @@ export default function QuickActions() {
               <Button
                 variant="ghost"
                 size="sm"
-                className="text-main hover:text-white"
+                className="text-[var(--color-primary)] hover:text-white"
               >
                 Get Started →
               </Button>

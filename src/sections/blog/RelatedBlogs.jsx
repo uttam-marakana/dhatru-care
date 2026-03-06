@@ -58,7 +58,7 @@ export default function RelatedBlogs({
             bg-(--card)
             border border-(--border)
             transition-all duration-300
-            hover:border-main/40
+            hover:border-[var(--color-primary)]/40
             hover:shadow-[0_0_40px_var(--glow-soft)]
             "
               >
@@ -80,7 +80,7 @@ export default function RelatedBlogs({
                   <p
                     className="
               text-sm
-              text-(--text-secondary)
+              text-[var(--text-secondary)]
               line-clamp-3
               "
                   >

@@ -7,14 +7,14 @@ const Button = lazy(() => import("../../components/common/Button"));
 export default function LatestBlog({ posts = [], loading }) {
   if (loading)
     return (
-      <div className="text-center py-24 bg-(--bg) text-(--text-secondary)">
+      <div className="text-center py-24 bg-(--bg) text-[var(--text-secondary)]">
         Loading blogs...
       </div>
     );
 
   if (!posts.length)
     return (
-      <div className="text-center py-24 bg-(--bg) text-(--text-secondary)">
+      <div className="text-center py-24 bg-(--bg) text-[var(--text-secondary)]">
         Blog articles coming soon.
       </div>
     );
@@ -27,11 +27,11 @@ export default function LatestBlog({ posts = [], loading }) {
       <Container>
         {/* Header */}
         <div className="text-center mb-16 relative z-10">
-          <h2 className="text-4xl md:text-5xl font-bold text-main">
+          <h2 className="text-4xl md:text-5xl font-bold text-[var(--color-primary)]">
             Latest from Our Medical Blog
           </h2>
 
-          <p className="mt-5 text-(--text-secondary) max-w-2xl mx-auto">
+          <p className="mt-5 text-[var(--text-secondary)] max-w-2xl mx-auto">
             Insights, prevention tips, and expert advice to keep you informed.
           </p>
         </div>
@@ -50,7 +50,7 @@ export default function LatestBlog({ posts = [], loading }) {
               overflow-hidden
               transition-all duration-500
               hover:-translate-y-2
-              hover:border-main/40
+              hover:border-[var(--color-primary)]/40
               hover:shadow-[0_0_40px_var(--glow-soft)]
               flex flex-col"
             >
@@ -65,19 +65,21 @@ export default function LatestBlog({ posts = [], loading }) {
 
               {/* Content */}
               <div className="p-6 flex flex-col flex-1">
-                <p className="text-sm text-(--text-secondary) mb-2">
+                <p className="text-sm text-[var(--text-secondary)] mb-2">
                   {post.date}
                 </p>
 
-                <h3 className="text-xl font-semibold mb-3 group-hover:text-main transition">
+                <h3 className="text-xl font-semibold mb-3 group-hover:text-[var(--color-primary)] transition">
                   {post.title}
                 </h3>
 
-                <p className="text-(--text-secondary) text-sm leading-relaxed line-clamp-3 flex-1">
+                <p className="text-[var(--text-secondary)] text-sm leading-relaxed line-clamp-3 flex-1">
                   {post.excerpt}
                 </p>
 
-                <span className="mt-6 text-main font-medium">Read More →</span>
+                <span className="mt-6 text-[var(--color-primary)] font-medium">
+                  Read More →
+                </span>
               </div>
             </Link>
           ))}

@@ -12,8 +12,8 @@ const Textarea = forwardRef(({ rows = 4, error, ...props }, ref) => {
         border-[var(--border)]
         text-[var(--text)]
         placeholder:text-[var(--muted)]
-        focus:ring-2 focus:ring-[var(--color-main)]
-        focus:border-[var(--color-main)]
+        focus:ring-2 focus:ring-[var(--color-primary)]
+        focus:border-[var(--color-primary)]
         resize-y
         "
         {...props}

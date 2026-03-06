@@ -1,6 +1,5 @@
 import { lazy, useEffect, useState } from "react";
 import HeroSlider from "../sections/home/HeroSlider";
-
 import QuickActions from "../sections/home/QuickActions";
 import AboutHospital from "../sections/home/AboutHospital";
 
@@ -58,34 +57,18 @@ export default function Home() {
   }, []);
 
   return (
-    <main
-      className="
-      min-h-screen
-      bg-(--bg)
-      "
-    >
+    <main className="min-h-screen bg-[var(--bg)]">
       <HeroSlider />
-
       <QuickActions />
-
       <AboutHospital />
-
       <Facilities facilities={data.departments.slice(0, 4)} loading={loading} />
-
       <FeaturedDepartments departments={data.departments} loading={loading} />
-
       <FeaturedDoctors doctors={data.doctors} loading={loading} />
-
       <HealthPackages packages={data.packages} loading={loading} />
-
       <Testimonials />
-
       <LatestBlog posts={data.blogs} loading={loading} />
-
       <AppointmentCTA variant="large" />
-
       <ContactMap />
-
       <Newsletter />
     </main>
   );

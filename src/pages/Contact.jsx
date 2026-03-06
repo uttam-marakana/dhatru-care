@@ -25,12 +25,12 @@ export default function Contact() {
 
               {/* CONTACT DETAILS */}
               <div className="space-y-6">
-                <div className="bg-(--card) border border-(--border) p-6 rounded-2xl hover:border-main/40 hover:shadow-[0_0_40px_var(--glow-soft) transition">
-                  <h4 className="font-semibold text-lg mb-2 text-main">
+                <div className="bg-(--card) border border-(--border) p-6 rounded-2xl hover:border-[var(--color-primary)]/40 hover:shadow-[0_0_40px_var(--glow-soft) transition">
+                  <h4 className="font-semibold text-lg mb-2 text-[var(--color-primary)]">
                     Hospital Address
                   </h4>
 
-                  <p className="text-(--text-secondary) leading-relaxed">
+                  <p className="text-[var(--text-secondary)] leading-relaxed">
                     123 Health Avenue,
                     <br />
                     Near Civil Hospital,
@@ -39,8 +39,8 @@ export default function Contact() {
                   </p>
                 </div>
 
-                <div className="bg-main/10 border border-main/40 p-6 rounded-2xl shadow-[0_0_40px_var(--glow-soft)">
-                  <h4 className="font-semibold text-lg mb-2 text-main">
+                <div className="bg-[var(--color-primary)]/10 border border-[var(--color-primary)]/40 p-6 rounded-2xl shadow-[0_0_40px_var(--glow-soft)">
+                  <h4 className="font-semibold text-lg mb-2 text-[var(--color-primary)]">
                     Emergency
                   </h4>
 
@@ -51,8 +51,8 @@ export default function Contact() {
                   <p className="text-sm text-(--muted)">24×7 Available</p>
                 </div>
 
-                <div className="bg-(--card) border border-(--border) p-6 rounded-2xl hover:border-main/40 hover:shadow-[0_0_40px_var(--glow-soft) transition">
-                  <h4 className="font-semibold text-lg mb-2 text-main">
+                <div className="bg-(--card) border border-(--border) p-6 rounded-2xl hover:border-[var(--color-primary)]/40 hover:shadow-[0_0_40px_var(--glow-soft) transition">
+                  <h4 className="font-semibold text-lg mb-2 text-[var(--color-primary)]">
                     General Enquiry
                   </h4>
 

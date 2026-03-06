@@ -16,6 +16,8 @@ import light_logo from "../../assets/images/light_logo.png";
 import dark_logo from "../../assets/images/dark_logo.png";
 
 export default function Footer() {
+  const socials = [FaFacebookF, FaTwitter, FaInstagram, FaLinkedinIn];
+
   return (
     <footer
       className="
@@ -39,12 +41,12 @@ export default function Footer() {
           rounded-3xl
           p-10
           shadow-[0_0_60px_var(--glow-bg)]
-        "
+          "
         >
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
             {/* Brand */}
             <div className="space-y-6">
-              <Link to="/">
+              <Link to="/" aria-label="Dhatru Care">
                 <img
                   src={light_logo}
                   className="block dark:hidden h-16 object-contain"
@@ -63,24 +65,22 @@ export default function Footer() {
               </p>
 
               <div className="flex gap-4">
-                {[FaFacebookF, FaTwitter, FaInstagram, FaLinkedinIn].map(
-                  (Icon, i) => (
-                    <div
-                      key={i}
-                      className="
-                      w-9 h-9 flex items-center justify-center
-                      rounded-full
-                      border border-[var(--border)]
-                      hover:border-[var(--color-main)]/40
-                      hover:text-[var(--color-main)]
-                      hover:shadow-[0_0_20px_var(--glow-soft)]
-                      transition cursor-pointer
-                      "
-                    >
-                      <Icon size={14} />
-                    </div>
-                  ),
-                )}
+                {socials.map((Icon, i) => (
+                  <div
+                    key={i}
+                    className="
+                    w-9 h-9 flex items-center justify-center
+                    rounded-full
+                    border border-[var(--border)]
+                    hover:border-[var(--color-primary)]/40
+                    hover:text-[var(--color-primary)]
+                    hover:shadow-[0_0_20px_var(--glow-soft)]
+                    transition cursor-pointer
+                    "
+                  >
+                    <Icon size={14} />
+                  </div>
+                ))}
               </div>
             </div>
 
@@ -96,7 +96,7 @@ export default function Footer() {
                     <li key={i}>
                       <Link
                         to={`/${i}`}
-                        className="hover:text-[var(--color-main)] transition-colors"
+                        className="hover:text-[var(--color-primary)] transition-colors"
                       >
                         {i.charAt(0).toUpperCase() + i.slice(1)}
                       </Link>
@@ -129,30 +129,29 @@ export default function Footer() {
 
               <ul className="space-y-4 text-[var(--muted)]">
                 <li className="flex gap-3">
-                  <FaMapMarkerAlt className="text-[var(--color-main)] mt-1" />
+                  <FaMapMarkerAlt className="text-[var(--color-primary)] mt-1" />
                   Gondal, Gujarat, India
                 </li>
 
                 <li className="flex gap-3 items-center">
-                  <FaPhoneAlt className="text-[var(--color-main)]" />
+                  <FaPhoneAlt className="text-[var(--color-primary)]" />
                   <span className="font-semibold text-[var(--text)]">
                     +91 98765 43210
                   </span>
                 </li>
 
                 <li className="flex gap-3">
-                  <FaEnvelope className="text-[var(--color-main)] mt-1" />
+                  <FaEnvelope className="text-[var(--color-primary)] mt-1" />
                   care@dhatruhospital.com
                 </li>
               </ul>
 
-              {/* Emergency Highlight */}
               <div
                 className="
                 mt-6
-                bg-[var(--color-main)]/10
-                border border-[var(--color-main)]/40
-                text-[var(--color-main)]
+                bg-[var(--color-primary)]/10
+                border border-[var(--color-primary)]/40
+                text-[var(--color-primary)]
                 p-4 rounded-xl
                 text-sm
                 backdrop-blur-md
@@ -166,7 +165,7 @@ export default function Footer() {
           {/* Divider */}
           <div className="mt-16 h-px bg-gradient-to-r from-transparent via-[var(--border)] to-transparent"></div>
 
-          {/* Bottom Strip */}
+          {/* Bottom */}
           <div className="pt-8 text-center text-sm text-[var(--muted)] space-y-3">
             <p>
               © {new Date().getFullYear()} Dhatru Care Multispeciality Hospital.
@@ -174,11 +173,11 @@ export default function Footer() {
             </p>
 
             <div className="flex justify-center gap-6">
-              <Link to="/privacy" className="hover:text-[var(--color-main)]">
+              <Link to="/privacy" className="hover:text-[var(--color-primary)]">
                 Privacy Policy
               </Link>
 
-              <Link to="/terms" className="hover:text-[var(--color-main)]">
+              <Link to="/terms" className="hover:text-[var(--color-primary)]">
                 Terms & Conditions
               </Link>
             </div>

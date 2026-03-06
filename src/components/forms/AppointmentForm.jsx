@@ -214,8 +214,8 @@ export default function AppointmentForm() {
           disabled={loading}
           className="
           w-full
-          bg-main
-          hover:bg-main-hover
+          bg-primary
+          hover:bg-primary-hover
           text-white
           p-3 rounded-xl
           transition

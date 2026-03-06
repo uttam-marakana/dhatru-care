@@ -14,10 +14,10 @@ export default function Hero() {
           <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold leading-tight mb-6">
             Your Health,
             <br className="hidden sm:block" />
-            <span className="text-main">Our Priority</span>
+            <span className="text-[var(--color-primary)]">Our Priority</span>
           </h1>
 
-          <p className="text-lg md:text-xl lg:text-2xl text-(--text-secondary) mb-10 max-w-3xl">
+          <p className="text-lg md:text-xl lg:text-2xl text-[var(--text-secondary)] mb-10 max-w-3xl">
             Premium multispeciality hospital in Gondal offering compassionate
             care, advanced treatments, and 24×7 emergency services.
           </p>
@@ -41,7 +41,7 @@ export default function Hero() {
           </div>
 
           {/* Trust Badges */}
-          <div className="mt-12 grid grid-cols-1 sm:grid-cols-3 gap-6 text-(--text-secondary)">
+          <div className="mt-12 grid grid-cols-1 sm:grid-cols-3 gap-6 text-[var(--text-secondary)]">
             <div className="flex items-center gap-3">
               <span className="text-3xl">🏥</span> 50,000+ Patients
             </div>

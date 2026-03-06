@@ -9,17 +9,17 @@ export default function Facilities({ facilities = [], loading, error }) {
 
       <Container>
         <div className="text-center mb-14">
-          <h2 className="text-4xl md:text-5xl font-bold text-main">
+          <h2 className="text-4xl md:text-5xl font-bold text-[var(--color-primary)]">
             State of the Art Facilities
           </h2>
 
-          <p className="mt-4 text-(--text-secondary) max-w-2xl mx-auto">
+          <p className="mt-4 text-[var(--text-secondary)] max-w-2xl mx-auto">
             Equipped with advanced technology and modern infrastructure.
           </p>
         </div>
 
         {loading && (
-          <div className="text-center py-10 text-(--text-secondary)">
+          <div className="text-center py-10 text-[var(--text-secondary)]">
             Loading facilities...
           </div>
         )}
@@ -36,14 +36,16 @@ export default function Facilities({ facilities = [], loading, error }) {
               key={i}
               className="bg-(--card) border border-(--border)
               rounded-2xl p-8 text-center transition
-              hover:-translate-y-2 hover:border-main/40
+              hover:-translate-y-2 hover:border-[var(--color-primary)]/40
               hover:shadow-[0_0_40px_var(--glow-soft)]"
             >
-              <div className="text-5xl mb-6 text-main">{item.icon || "🏥"}</div>
+              <div className="text-5xl mb-6 text-[var(--color-primary)]">
+                {item.icon || "🏥"}
+              </div>
 
               <h3 className="text-xl font-semibold mb-3">{item.title}</h3>
 
-              <p className="text-(--text-secondary)">{item.desc}</p>
+              <p className="text-[var(--text-secondary)]">{item.desc}</p>
             </div>
           ))}
         </div>

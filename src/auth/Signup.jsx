@@ -140,8 +140,8 @@ export default function Signup() {
         <button
           className="
           w-full p-3 rounded-lg
-          bg-[var(--color-main)]
-          hover:bg-[var(--color-main-hover)]
+          bg-[var(--color-primary)]
+          hover:bg-[var(--color-primary-hover)]
           text-white
           font-semibold
           transition
@@ -155,7 +155,7 @@ export default function Signup() {
           Already have an account?{" "}
           <Link
             to="/login"
-            className="text-[var(--color-main)] hover:underline"
+            className="text-[var(--color-primary)] hover:underline"
           >
             Login
           </Link>

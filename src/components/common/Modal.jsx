@@ -11,7 +11,7 @@ export default function Modal({ isOpen, onClose, title, children }) {
 
           <button
             onClick={onClose}
-            className="text-[var(--text-secondary)] hover:text-[var(--color-main)]"
+            className="text-[var(--text-secondary)] hover:text-[var(--color-primary)]"
           >
             ✕
           </button>

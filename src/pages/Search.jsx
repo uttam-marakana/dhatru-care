@@ -73,7 +73,7 @@ export default function Search() {
             text-(--text)
             placeholder-(--muted)
             focus:outline-none
-            focus:border-main
+            focus:border-primary
             focus:shadow-[0_0_20px_var(--glow-soft)
             text-lg
             "
@@ -91,11 +91,11 @@ export default function Search() {
 
           {loading ? (
             <div className="text-center py-20">
-              <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-main mx-auto"></div>
-              <p className="mt-4 text-(--text-secondary)">Searching...</p>
+              <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary mx-auto"></div>
+              <p className="mt-4 text-[var(--text-secondary)]">Searching...</p>
             </div>
           ) : query.trim() === "" ? (
-            <p className="text-center text-(--text-secondary) text-lg">
+            <p className="text-center text-[var(--text-secondary)] text-lg">
               Please enter a search term above.
             </p>
           ) : error ? (
@@ -118,7 +118,7 @@ export default function Search() {
                     p-6 rounded-xl
                     bg-(--card)
                     border border-(--border)
-                    hover:border-main/40
+                    hover:border-[var(--color-primary)]/40
                     hover:shadow-[0_0_25px_var(--glow-soft)
                     transition
                     "
@@ -127,7 +127,9 @@ export default function Search() {
                           {doc.name}
                         </h3>
 
-                        <p className="text-main">{doc.specialty}</p>
+                        <p className="text-[var(--color-primary)]">
+                          {doc.specialty}
+                        </p>
                       </Link>
                     ))}
                   </div>
@@ -135,7 +137,7 @@ export default function Search() {
               )}
 
               {results.doctors.length === 0 && (
-                <p className="text-center text-(--text-secondary) text-lg">
+                <p className="text-center text-[var(--text-secondary)] text-lg">
                   No results found for "{query}".
                 </p>
               )}

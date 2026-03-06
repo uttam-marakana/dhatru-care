@@ -125,7 +125,7 @@ export default function DepartmentDetail() {
               p-8
               transition-all duration-500
               hover:-translate-y-2
-              hover:border-main/40
+              hover:border-[var(--color-primary)]/40
               hover:shadow-[0_0_40px_var(--glow-soft)
               "
             >
@@ -134,7 +134,7 @@ export default function DepartmentDetail() {
                 Our Services
               </h2>
 
-              <ul className="space-y-3 text-(--text-secondary)">
+              <ul className="space-y-3 text-[var(--text-secondary)]">
                 {department.services?.length ? (
                   department.services.map((s, i) => <li key={i}>✔ {s}</li>)
                 ) : (

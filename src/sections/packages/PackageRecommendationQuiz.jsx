@@ -101,7 +101,7 @@ export default function PackageRecommendationQuiz({
 
   const optionStyle = (active) =>
     `w-full border border-(--border) rounded-lg p-3 transition
-    ${active ? "border-(--color-main)" : "hover:border-(--color-main)"}`;
+    ${active ? "border-(--color-primary)" : "hover:border-(--color-primary)"}`;
 
   return (
     <section className="py-12">
@@ -193,7 +193,7 @@ export default function PackageRecommendationQuiz({
           {/* RESULT */}
 
           {recommendation?.pkg && step === 3 && (
-            <div className="mt-8 p-4 border rounded-lg bg-(--color-main)/10">
+            <div className="mt-8 p-4 border rounded-lg bg-(--color-primary)/10">
               <h4 className="font-bold mb-2">⭐ Recommended Package</h4>
 
               <p className="font-semibold">{recommendation.pkg.name}</p>

@@ -43,7 +43,7 @@ export default function Departments() {
         <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-175 h-175 bg-(--glow-bg) blur-[160px] rounded-full">
           <div className="relative z-10">
             {loading ? (
-              <p className="text-center py-20 text-(--text-secondary)">
+              <p className="text-center py-20 text-[var(--text-secondary)]">
                 Loading departments...
               </p>
             ) : error ? (

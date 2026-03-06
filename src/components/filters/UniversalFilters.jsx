@@ -50,7 +50,7 @@ export default function UniversalFilters({
                   pl-10 pr-4 py-2.5
                   text-[var(--text)]
                   focus:ring-2
-                  focus:ring-[var(--color-main)]
+                  focus:ring-[var(--color-primary)]
                   outline-none
                   "
                 />
@@ -85,7 +85,7 @@ export default function UniversalFilters({
                 px-4 pr-10 py-2.5
                 text-[var(--text)]
                 focus:ring-2
-                focus:ring-[var(--color-main)]
+                focus:ring-[var(--color-primary)]
                 outline-none
                 "
               >

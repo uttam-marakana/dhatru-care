@@ -32,7 +32,7 @@ export default function PageHero({
               className="
               text-lg md:text-xl lg:text-2xl
               max-w-3xl mx-auto
-              text-(--text-secondary)
+              text-[var(--text-secondary)]
               "
             >
               {subtitle}

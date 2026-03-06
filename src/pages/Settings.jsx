@@ -8,7 +8,7 @@ export default function Settings() {
     <div className="min-h-screen bg-(--bg) py-10 px-4">
       <div className="max-w-3xl mx-auto bg-(--card) rounded-2xl shadow border border-(--border) p-6 sm:p-8">
         <div className="flex items-center gap-3 mb-8">
-          <FaCog className="text-main" size={22} />
+          <FaCog className="text-[var(--color-primary)]" size={22} />
           <h1 className="text-xl font-semibold text-(--text)">Settings</h1>
         </div>
 

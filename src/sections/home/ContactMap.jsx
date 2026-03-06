@@ -10,11 +10,11 @@ export default function ContactMap() {
 
       <Container>
         <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold text-main">
+          <h2 className="text-4xl md:text-5xl font-bold text-[var(--color-primary)]">
             Visit Dhatru Care
           </h2>
 
-          <p className="mt-5 text-(--text-secondary) max-w-2xl mx-auto">
+          <p className="mt-5 text-[var(--text-secondary)] max-w-2xl mx-auto">
             Conveniently located in the heart of Gondal with 24×7 emergency
             access.
           </p>
@@ -37,7 +37,7 @@ export default function ContactMap() {
               target="_blank"
               rel="noopener noreferrer"
               className="absolute bottom-6 left-1/2 -translate-x-1/2
-              bg-(--color-main) hover:bg-(--color-main-hover)
+              bg-(--color-primary) hover:bg-(--color-primary-hover)
               text-white px-6 py-3 rounded-full flex items-center gap-2"
             >
               <FaDirections />
@@ -48,12 +48,12 @@ export default function ContactMap() {
           {/* INFO */}
           <div className="space-y-8">
             <div className="bg-(--card) border border-(--border) rounded-2xl p-6">
-              <div className="flex items-center gap-3 mb-4 text-main">
+              <div className="flex items-center gap-3 mb-4 text-[var(--color-primary)]">
                 <FaMapMarkerAlt />
                 <h3 className="text-xl font-semibold">Hospital Address</h3>
               </div>
 
-              <p className="text-(--text-secondary)">
+              <p className="text-[var(--text-secondary)]">
                 Dhatru Care Multispeciality Hospital
                 <br />
                 Gondal, Gujarat, India
@@ -61,7 +61,7 @@ export default function ContactMap() {
             </div>
 
             <div className="bg-(--card) border border-(--border) rounded-2xl p-6">
-              <div className="flex items-center gap-3 mb-4 text-main">
+              <div className="flex items-center gap-3 mb-4 text-[var(--color-primary)]">
                 <FaPhoneAlt />
                 <h4 className="text-lg font-semibold">
                   24×7 Emergency Support

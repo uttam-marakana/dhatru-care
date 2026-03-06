@@ -20,7 +20,7 @@ export default function Services() {
           p-6 rounded-2xl
           bg-(--card)
           border border-(--border)
-          hover:border-main/40
+          hover:border-[var(--color-primary)]/40
           hover:shadow-[0_0_30px_var(--glow-soft)
           transition
           "
@@ -29,7 +29,7 @@ export default function Services() {
                 Emergency Care
               </h3>
 
-              <p className="text-(--text-secondary)">
+              <p className="text-[var(--text-secondary)]">
                 24×7 emergency support with advanced trauma and ICU facilities.
               </p>
             </div>
@@ -39,7 +39,7 @@ export default function Services() {
           p-6 rounded-2xl
           bg-(--card)
           border border-(--border)
-          hover:border-main/40
+          hover:border-[var(--color-primary)]/40
           hover:shadow-[0_0_30px_var(--glow-soft)
           transition
           "
@@ -48,7 +48,7 @@ export default function Services() {
                 Diagnostic Services
               </h3>
 
-              <p className="text-(--text-secondary)">
+              <p className="text-[var(--text-secondary)]">
                 Advanced lab testing and imaging with accurate reporting.
               </p>
             </div>
@@ -58,7 +58,7 @@ export default function Services() {
           p-6 rounded-2xl
           bg-(--card)
           border border-(--border)
-          hover:border-main/40
+          hover:border-[var(--color-primary)]/40
           hover:shadow-[0_0_30px_var(--glow-soft)
           transition
           "
@@ -67,7 +67,7 @@ export default function Services() {
                 Preventive Health
               </h3>
 
-              <p className="text-(--text-secondary)">
+              <p className="text-[var(--text-secondary)]">
                 Comprehensive health checkups designed for early detection.
               </p>
             </div>

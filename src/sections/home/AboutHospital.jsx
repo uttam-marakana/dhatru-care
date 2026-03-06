@@ -12,17 +12,17 @@ export default function AboutHospital() {
         <div className="grid lg:grid-cols-2 gap-14 lg:gap-20 items-center relative z-10">
           {/* Content */}
           <div>
-            <h2 className="text-4xl md:text-5xl font-bold mb-6 text-main">
+            <h2 className="text-4xl md:text-5xl font-bold mb-6 text-[var(--color-primary)]">
               Welcome to Dhatru Care
             </h2>
 
-            <p className="text-lg text-(--text-secondary) leading-relaxed mb-6">
+            <p className="text-lg text-[var(--text-secondary)] leading-relaxed mb-6">
               Dhatru Care Multispeciality Hospital is dedicated to delivering
               advanced healthcare solutions with compassion, innovation, and
               clinical excellence.
             </p>
 
-            <p className="text-lg text-(--text-secondary) leading-relaxed mb-10">
+            <p className="text-lg text-[var(--text-secondary)] leading-relaxed mb-10">
               With modern infrastructure and a highly experienced medical team,
               we ensure personalized treatment and round-the-clock support.
             </p>
@@ -38,12 +38,14 @@ export default function AboutHospital() {
                   key={i}
                   className="group bg-(--card) border border-(--border)
                   rounded-xl p-6 text-center transition-all duration-500
-                  hover:-translate-y-1 hover:border-main/40
+                  hover:-translate-y-1 hover:border-[var(--color-primary)]/40
                   hover:shadow-[0_0_30px_var(--glow-soft)]"
                 >
-                  <h3 className="text-2xl font-bold text-main">{item.value}</h3>
+                  <h3 className="text-2xl font-bold text-[var(--color-primary)]">
+                    {item.value}
+                  </h3>
 
-                  <p className="text-sm text-(--text-secondary)">
+                  <p className="text-sm text-[var(--text-secondary)]">
                     {item.label}
                   </p>
                 </div>

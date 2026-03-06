@@ -8,34 +8,34 @@ export default function Newsletter() {
 
       <Container>
         <div className="relative z-10 text-center max-w-3xl mx-auto">
-          <h2 className="text-4xl md:text-5xl font-bold mb-6 text-main">
+          <h2 className="text-4xl md:text-5xl font-bold mb-6 text-[var(--color-primary)]">
             Stay Informed. Stay Healthy.
           </h2>
 
-          <p className="text-lg md:text-xl mb-10 text-(--text-secondary)">
+          <p className="text-lg md:text-xl mb-10 text-[var(--text-secondary)]">
             Receive expert health insights, preventive care updates, seasonal
             wellness tips, and exclusive package offers.
           </p>
 
           <div className="relative bg-(--card) border border-(--border) rounded-2xl p-6 md:p-8 shadow-[0_0_40px_var(--glow-soft)]">
-            <div className="absolute top-0 left-0 w-full h-0.5 bg-(--color-main)"></div>
+            <div className="absolute top-0 left-0 w-full h-0.5 bg-(--color-primary)"></div>
 
             <NewsletterForm />
           </div>
 
-          <div className="mt-8 text-sm text-(--text-secondary) space-y-2">
+          <div className="mt-8 text-sm text-[var(--text-secondary)] space-y-2">
             <p className="flex justify-center items-center gap-2">
-              <span className="text-main">✔</span>
+              <span className="text-[var(--color-primary)]">✔</span>
               No spam. Only medical insights.
             </p>
 
             <p className="flex justify-center items-center gap-2">
-              <span className="text-main">✔</span>
+              <span className="text-[var(--color-primary)]">✔</span>
               Trusted by thousands of patients.
             </p>
 
             <p className="flex justify-center items-center gap-2">
-              <span className="text-main">✔</span>
+              <span className="text-[var(--color-primary)]">✔</span>
               Unsubscribe anytime.
             </p>
           </div>

@@ -12,7 +12,7 @@ const Select = forwardRef(
         border-[var(--border)]
         text-[var(--text)]
         focus:outline-none
-        focus:ring-2 focus:ring-[var(--color-main)]
+        focus:ring-2 focus:ring-[var(--color-primary)]
         appearance-none
         disabled:opacity-60
         "

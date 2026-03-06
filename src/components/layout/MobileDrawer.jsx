@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { FaTimes, FaPhoneAlt, FaUser, FaSignOutAlt } from "react-icons/fa";
+import { FaTimes, FaPhoneAlt } from "react-icons/fa";
 import { signOut } from "firebase/auth";
 import { auth } from "../../firebase";
 
@@ -10,6 +10,9 @@ export default function MobileDrawer({
   onClose,
   navItems,
   user,
+  searchQuery,
+  setSearchQuery,
+  handleSearch,
   isDarkMode,
   light_logo,
   dark_logo,
@@ -17,34 +20,54 @@ export default function MobileDrawer({
 }) {
   const drawerRef = useRef(null);
 
+  /* FOCUS TRAP */
   useEffect(() => {
     if (!isOpen) return;
 
-    const focusable = drawerRef.current.querySelectorAll("a, button");
+    const focusable = drawerRef.current.querySelectorAll("a, button, input");
     focusable[0]?.focus();
 
-    const handleEsc = (e) => {
+    const handleKey = (e) => {
       if (e.key === "Escape") onClose();
+
+      if (e.key === "Tab") {
+        const first = focusable[0];
+        const last = focusable[focusable.length - 1];
+
+        if (e.shiftKey && document.activeElement === first) {
+          e.preventDefault();
+          last.focus();
+        } else if (!e.shiftKey && document.activeElement === last) {
+          e.preventDefault();
+          first.focus();
+        }
+      }
     };
 
-    document.addEventListener("keydown", handleEsc);
-    return () => document.removeEventListener("keydown", handleEsc);
+    document.addEventListener("keydown", handleKey);
+    return () => document.removeEventListener("keydown", handleKey);
   }, [isOpen, onClose]);
 
   return (
     <AnimatePresence>
       {isOpen && (
         <motion.div
+          role="dialog"
+          aria-modal="true"
           className="fixed inset-0 z-50 bg-[var(--bg)] text-[var(--text)]"
-          initial={{ x: "100%" }}
-          animate={{ x: 0 }}
-          exit={{ x: "100%" }}
+          initial={{ y: "-100%" }}
+          animate={{ y: 0 }}
+          exit={{ y: "-100%" }}
+          transition={{ duration: 0.35, ease: "easeInOut" }}
         >
+          {/* BACKGROUND GLOW */}
+          <div className="absolute -top-40 left-1/2 -translate-x-1/2 w-[700px] h-[700px] bg-[var(--glow-bg)] blur-[140px] rounded-full"></div>
+
           <div
             ref={drawerRef}
-            className="flex flex-col h-full px-6 py-6 backdrop-blur-xl"
+            className="relative z-10 flex flex-col h-full px-6 py-6 backdrop-blur-xl"
           >
-            {/* HEADER */}
+            {/* TOP BAR */}
             <div className="flex justify-between items-center mb-10">
               <Link to="/" onClick={onClose}>
                 <img
@@ -55,8 +78,15 @@ export default function MobileDrawer({
               </Link>
 
               <button
+                aria-label="Close menu"
                 onClick={onClose}
-                className="p-2 rounded-full border border-[var(--border)]"
+                className="
+                p-2 rounded-full
+                border border-[var(--border)]
+                hover:border-[var(--color-primary)]/40
+                hover:shadow-[0_0_20px_var(--glow-soft)]
+                transition
+                "
               >
                 <FaTimes size={20} />
               </button>
@@ -65,13 +95,45 @@ export default function MobileDrawer({
             {/* EMERGENCY */}
             <a
               href="tel:+919876543210"
-              className="flex items-center justify-center gap-3 bg-[var(--color-main)] text-white py-3 rounded-xl mb-8"
+              className="
+              flex items-center justify-center gap-3
+              bg-[var(--color-primary)]
+              hover:bg-[var(--color-primary-hover)]
+              text-white
+              py-3 rounded-xl mb-8 font-semibold
+              shadow-[0_0_25px_var(--glow-soft)]
+              transition
+              "
             >
               <FaPhoneAlt />
               24×7 Emergency Call
             </a>
 
-            {/* NAV */}
+            {/* SEARCH */}
+            <form onSubmit={handleSearch} className="mb-10">
+              <input
+                type="search"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="Search doctors, departments..."
+                aria-label="Search"
+                className="
+                w-full
+                bg-[var(--card)]/70
+                border border-[var(--border)]
+                rounded-xl
+                py-3 px-4
+                text-[var(--text)]
+                placeholder-[var(--muted)]
+                focus:outline-none
+                focus:border-[var(--color-primary)]
+                focus:shadow-[0_0_20px_var(--glow-soft)]
+                transition
+                "
+              />
+            </form>
+
+            {/* NAVIGATION */}
             <nav className="flex flex-col gap-6 text-lg font-medium">
               {navItems.map((item) => (
                 <NavLink
@@ -79,9 +141,11 @@ export default function MobileDrawer({
                   to={item.to}
                   onClick={onClose}
                   className={({ isActive }) =>
-                    isActive
-                      ? "text-[var(--color-main)]"
-                      : "text-[var(--text-secondary)]"
+                    `transition ${
+                      isActive
+                        ? "text-[var(--color-primary)] font-semibold"
+                        : "text-[var(--text-secondary)] hover:text-[var(--color-primary)]"
+                    }`
                   }
                 >
                   {item.label}
@@ -92,15 +156,23 @@ export default function MobileDrawer({
             <div className="flex-1" />
 
             {/* ACCOUNT */}
-            <div className="border-t border-[var(--border)] pt-6 mb-6">
+            <div className="border-t border-[var(--border)] pt-6 mb-6 text-[var(--text-secondary)]">
               {user ? (
                 <div className="flex flex-col gap-4">
                   <Link
                     to="/profile"
                     onClick={onClose}
-                    className="flex items-center gap-2"
+                    className="hover:text-[var(--color-primary)]"
                   >
-                    <FaUser /> Profile
+                    Profile
+                  </Link>
+
+                  <Link
+                    to="/appointments"
+                    onClick={onClose}
+                    className="hover:text-[var(--color-primary)]"
+                  >
+                    My Appointments
                   </Link>
 
                   <button
@@ -108,26 +180,39 @@ export default function MobileDrawer({
                       signOut(auth);
                       onClose();
                     }}
-                    className="flex items-center gap-2 text-[var(--color-error)]"
+                    className="text-[var(--color-error)] text-left"
                   >
-                    <FaSignOutAlt /> Logout
+                    Logout
                   </button>
                 </div>
               ) : (
-                <Link to="/login" onClick={onClose}>
+                <Link
+                  to="/login"
+                  onClick={onClose}
+                  className="hover:text-[var(--color-primary)]"
+                >
                   Login
                 </Link>
               )}
             </div>
 
-            {/* FOOTER */}
-            <div className="flex items-center gap-4">
+            {/* FOOTER ACTIONS */}
+            <div className="flex justify-between items-center gap-4">
               <ThemeToggle />
 
               <Link
                 to="/appointments"
                 onClick={onClose}
-                className="flex-1 text-center bg-[var(--color-main)] text-white py-3 rounded-xl"
+                className="
+                flex-1 text-center
+                bg-[var(--color-primary)]
+                hover:bg-[var(--color-primary-hover)]
+                text-white
+                py-3 rounded-xl
+                font-semibold
+                shadow-[0_0_25px_var(--glow-soft)]
+                transition
+                "
               >
                 Book Appointment
               </Link>

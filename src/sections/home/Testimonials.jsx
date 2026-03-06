@@ -23,7 +23,7 @@ export default function Testimonials({ testimonials = [], loading = false }) {
 
   if (loading)
     return (
-      <div className="text-center py-24 bg-(--bg) text-(--text-secondary)">
+      <div className="text-center py-24 bg-(--bg) text-[var(--text-secondary)]">
         Loading testimonials...
       </div>
     );
@@ -36,11 +36,11 @@ export default function Testimonials({ testimonials = [], loading = false }) {
       <Container>
         {/* Header */}
         <div className="text-center mb-16 relative z-10">
-          <h2 className="text-4xl md:text-5xl font-bold text-main">
+          <h2 className="text-4xl md:text-5xl font-bold text-[var(--color-primary)]">
             What Our Patients Say
           </h2>
 
-          <p className="mt-5 text-(--text-secondary) max-w-2xl mx-auto">
+          <p className="mt-5 text-[var(--text-secondary)] max-w-2xl mx-auto">
             Real stories from people who trusted us with their health.
           </p>
         </div>
@@ -56,22 +56,24 @@ export default function Testimonials({ testimonials = [], loading = false }) {
               rounded-2xl
               p-8
               transition-all
-              hover:border-main/40
+              hover:border-[var(--color-primary)]/40
               hover:shadow-[0_0_40px_var(--glow-soft)]"
             >
-              <p className="italic text-(--text-secondary) mb-6 leading-relaxed">
+              <p className="italic text-[var(--text-secondary)] mb-6 leading-relaxed">
                 “{t.text}”
               </p>
 
               <div className="flex gap-1 mb-3">
                 {Array.from({ length: t.rating }).map((_, i) => (
-                  <FaStar key={i} className="text-main" />
+                  <FaStar key={i} className="text-[var(--color-primary)]" />
                 ))}
               </div>
 
               <p className="font-semibold text-(--text)">{t.name}</p>
 
-              <p className="text-sm text-(--text-secondary)">{t.location}</p>
+              <p className="text-sm text-[var(--text-secondary)]">
+                {t.location}
+              </p>
             </div>
           ))}
         </div>

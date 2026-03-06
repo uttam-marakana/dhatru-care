@@ -11,7 +11,7 @@ export default function Loader({ size = "md" }) {
         className={`
         animate-spin rounded-full
         border-4 border-current border-t-transparent
-        text-[var(--color-main)]
+        text-[var(--color-primary)]
         ${sizes[size]}
         `}
       />

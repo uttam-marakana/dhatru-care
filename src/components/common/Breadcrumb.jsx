@@ -17,7 +17,7 @@ export default function Breadcrumb({ items = [] }) {
                   <>
                     <Link
                       to={item.path}
-                      className="text-[var(--text-secondary)] hover:text-[var(--color-main)] transition"
+                      className="text-[var(--text-secondary)] hover:text-[var(--color-primary)] transition"
                     >
                       {item.label}
                     </Link>

@@ -28,7 +28,7 @@ export default function ProtectedRoute({ children }) {
         <div
           className="
           w-8 h-8 rounded-full
-          border-4 border-[var(--color-main)]
+          border-4 border-[var(--color-primary)]
           border-t-transparent
           animate-spin
           "

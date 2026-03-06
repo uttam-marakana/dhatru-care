@@ -55,8 +55,8 @@ export default function NewsletterForm() {
               disabled={isSubmitting || status.loading}
               loading={status.loading}
               className="
-              bg-[var(--color-main)]
-              hover:bg-[var(--color-main-hover)]
+              bg-[var(--color-primary)]
+              hover:bg-[var(--color-primary-hover)]
               text-white
               shadow-[0_0_15px_var(--glow-soft)]
               "
@@ -68,7 +68,7 @@ export default function NewsletterForm() {
       </Formik>
 
       {status.success && (
-        <p className="mt-3 text-[var(--color-complete)]">
+        <p className="mt-3 text-[var(--color-success)]">
           Subscribed successfully!
         </p>
       )}

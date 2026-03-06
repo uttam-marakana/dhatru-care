@@ -35,7 +35,7 @@ export default function CustomSelect({
         text-left text-sm
         flex items-center
         focus:outline-none
-        focus:ring-2 focus:ring-[var(--color-main)]
+        focus:ring-2 focus:ring-[var(--color-primary)]
         "
       >
         <span className="truncate">{selected}</span>

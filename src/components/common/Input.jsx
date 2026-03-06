@@ -11,8 +11,8 @@ const Input = forwardRef(({ className = "", error, ...props }, ref) => {
         border-[var(--border)]
         text-[var(--text)]
         placeholder:text-[var(--muted)]
-        focus:ring-2 focus:ring-[var(--color-main)]
-        focus:border-[var(--color-main)]
+        focus:ring-2 focus:ring-[var(--color-primary)]
+        focus:border-[var(--color-primary)]
         transition
         ${error ? "border-[var(--color-error)]" : ""}
         ${className}

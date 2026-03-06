@@ -66,7 +66,7 @@ export default function DoctorDetail() {
 
   if (loading)
     return (
-      <div className="min-h-screen flex items-center justify-center bg-(--bg) text-(--text-secondary)">
+      <div className="min-h-screen flex items-center justify-center bg-(--bg) text-[var(--text-secondary)]">
         Loading doctor...
       </div>
     );
@@ -113,9 +113,11 @@ export default function DoctorDetail() {
                 <div className="text-8xl mb-4">🩺</div>
               )}
 
-              <h1 className="text-2xl font-bold text-main">{doctor.name}</h1>
+              <h1 className="text-2xl font-bold text-[var(--color-primary)]">
+                {doctor.name}
+              </h1>
 
-              <p className="text-(--text-secondary)">{doctor.specialty}</p>
+              <p className="text-[var(--text-secondary)]">{doctor.specialty}</p>
 
               <div className="flex justify-center gap-4 mt-4 text-sm text-(--muted)">
                 <span>{doctor.experience}</span>
@@ -141,7 +143,7 @@ export default function DoctorDetail() {
             </Card>
 
             {/* DETAILS */}
-            <div className="md:col-span-2 space-y-8 text-(--text-secondary)">
+            <div className="md:col-span-2 space-y-8 text-[var(--text-secondary)]">
               <div>
                 <h2 className="text-2xl font-bold text-(--text) mb-2">About</h2>
                 <p>{doctor.bio}</p>
@@ -149,7 +151,7 @@ export default function DoctorDetail() {
 
               <div>
                 <h3 className="text-xl font-semibold flex items-center gap-2 text-(--text)">
-                  <FaGraduationCap className="text-main" />
+                  <FaGraduationCap className="text-[var(--color-primary)]" />
                   Qualification
                 </h3>
                 <p>{doctor.qualification}</p>
@@ -157,7 +159,7 @@ export default function DoctorDetail() {
 
               <div>
                 <h3 className="text-xl font-semibold flex items-center gap-2 text-(--text)">
-                  <FaAward className="text-main" />
+                  <FaAward className="text-[var(--color-primary)]" />
                   Achievements
                 </h3>
 
@@ -170,12 +172,12 @@ export default function DoctorDetail() {
 
               <div className="grid md:grid-cols-2 gap-6">
                 <p>
-                  <FaCalendarCheck className="inline mr-2 text-main" />
+                  <FaCalendarCheck className="inline mr-2 text-[var(--color-primary)]" />
                   {doctor.availability}
                 </p>
 
                 <p>
-                  <FaMapMarkerAlt className="inline mr-2 text-main" />
+                  <FaMapMarkerAlt className="inline mr-2 text-[var(--color-primary)]" />
                   {doctor.location}
                 </p>
               </div>
@@ -198,7 +200,9 @@ export default function DoctorDetail() {
                   <Card className="text-center p-4 hover:-translate-y-2 transition-all duration-300">
                     <div className="text-6xl mb-3">👨‍⚕️</div>
                     <h3 className="font-bold">{doc.name}</h3>
-                    <p className="text-main">{doc.specialty}</p>
+                    <p className="text-[var(--color-primary)]">
+                      {doc.specialty}
+                    </p>
                   </Card>
                 </Link>
               ))}

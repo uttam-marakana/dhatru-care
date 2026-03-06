@@ -23,7 +23,7 @@ export default function Appointments() {
 
           <p
             className="
-            text-(--text-secondary)
+            text-[var(--text-secondary)]
             mt-4
             "
           >

@@ -7,7 +7,7 @@ const Button = lazy(() => import("../../components/common/Button"));
 export default function FeaturedDoctors({ doctors = [], loading }) {
   if (loading)
     return (
-      <div className="text-center py-20 text-(--text-secondary) bg-(--bg)">
+      <div className="text-center py-20 text-[var(--text-secondary)] bg-(--bg)">
         Loading doctors...
       </div>
     );
@@ -18,11 +18,11 @@ export default function FeaturedDoctors({ doctors = [], loading }) {
 
       <Container>
         <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold text-main">
+          <h2 className="text-4xl md:text-5xl font-bold text-[var(--color-primary)]">
             Meet Our Expert Doctors
           </h2>
 
-          <p className="mt-5 text-(--text-secondary) max-w-2xl mx-auto">
+          <p className="mt-5 text-[var(--text-secondary)] max-w-2xl mx-auto">
             Experienced specialists delivering personalized care.
           </p>
         </div>
@@ -34,7 +34,7 @@ export default function FeaturedDoctors({ doctors = [], loading }) {
               to={`/doctors/${doctor.id}`}
               className="group bg-(--card) border border-(--border)
               rounded-2xl overflow-hidden transition
-              hover:-translate-y-2 hover:border-main/40
+              hover:-translate-y-2 hover:border-[var(--color-primary)]/40
               hover:shadow-[0_0_40px_var(--glow-soft)]"
             >
               <div className="aspect-square overflow-hidden">
@@ -48,7 +48,9 @@ export default function FeaturedDoctors({ doctors = [], loading }) {
               <div className="p-6 text-center">
                 <h3 className="font-semibold text-lg">{doctor.name}</h3>
 
-                <p className="text-main mb-5">{doctor.specialty}</p>
+                <p className="text-[var(--color-primary)] mb-5">
+                  {doctor.specialty}
+                </p>
 
                 <Button size="sm" className="w-full">
                   Book Consultation

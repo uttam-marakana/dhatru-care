@@ -75,7 +75,9 @@ export default function DoctorsList({
         <h3 className="text-2xl font-semibold mb-3 text-(--text)">
           No Doctors Found{" "}
         </h3>
-        <p className="text-(--text-secondary)">Try adjusting your filters.</p>
+        <p className="text-[var(--text-secondary)]">
+          Try adjusting your filters.
+        </p>
       </Container>
     );
   }
@@ -108,7 +110,7 @@ export default function DoctorsList({
           border border-(--border)
           transition-all duration-500
           hover:-translate-y-2
-          hover:border-main/40
+          hover:border-[var(--color-primary)]/40
           hover:shadow-[0_0_40px_var(--glow-soft)]
           "
             >
@@ -140,7 +142,7 @@ export default function DoctorsList({
               line-clamp-2
               text-(--text)
               transition
-              group-hover:text-main
+              group-hover:text-[var(--color-primary)]
               "
                 >
                   {doctor.name}
@@ -148,7 +150,7 @@ export default function DoctorsList({
 
                 <p
                   className="
-            text-main
+            text-[var(--color-primary)]
             font-medium
             mt-1
             "
@@ -160,7 +162,7 @@ export default function DoctorsList({
                   className="
             flex items-center gap-3
             text-sm
-            text-(--text-secondary)
+            text-[var(--text-secondary)]
             mt-2
             "
                 >
@@ -175,7 +177,7 @@ export default function DoctorsList({
                 <p
                   className="
             text-sm
-            text-(--text-secondary)
+            text-[var(--text-secondary)]
             mt-3
             line-clamp-2
             grow
@@ -188,7 +190,7 @@ export default function DoctorsList({
                   variant="outline"
                   className="
               mt-5 w-full
-              group-hover:bg-(--color-main)
+              group-hover:bg-(--color-primary)
               group-hover:text-white
               transition
               "
@@ -210,7 +212,7 @@ export default function DoctorsList({
     items-center
     gap-4
     mt-12
-    text-(--text-secondary)
+    text-[var(--text-secondary)]
     "
         >
           <Button

@@ -35,7 +35,7 @@ export default function BlogDetail() {
         className="
         min-h-screen flex items-center justify-center
         bg-(--bg)
-        text-(--text-secondary)
+        text-[var(--text-secondary)]
         "
       >
         Loading...
@@ -48,7 +48,7 @@ export default function BlogDetail() {
         className="
         min-h-screen flex items-center justify-center
         bg-(--bg)
-        text-(--text-secondary)
+        text-[var(--text-secondary)]
         "
       >
         Post not found
@@ -83,7 +83,7 @@ export default function BlogDetail() {
           to="/blog"
           className="
           inline-flex items-center gap-2
-          text-main
+          text-[var(--color-primary)]
           mb-8
           "
         >
@@ -103,7 +103,7 @@ export default function BlogDetail() {
         <div
           className="
           flex gap-6 mb-10
-          text-(--text-secondary)
+          text-[var(--text-secondary)]
           "
         >
           <span className="flex items-center gap-2">

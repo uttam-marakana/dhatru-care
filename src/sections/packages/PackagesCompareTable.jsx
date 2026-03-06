@@ -102,7 +102,7 @@ export default function PackagesCompareTable({
 
   if (!packages.length) {
     return (
-      <Container className="py-16 text-center text-(--text-secondary)">
+      <Container className="py-16 text-center text-[var(--text-secondary)]">
         No packages available for this category.
       </Container>
     );
@@ -127,14 +127,14 @@ export default function PackagesCompareTable({
                     className={`p-6 min-w-60 text-center relative
                     ${
                       isRecommended(pkg)
-                        ? "bg-main/10 border-x-2 border-main"
+                        ? "bg-[var(--color-primary)]/10 border-x-2 border-primary"
                         : ""
                     }`}
                   >
                     {/* Recommended Badge */}
 
                     {isRecommended(pkg) && (
-                      <span className="absolute top-2 right-2 bg-main text-white text-xs px-2 py-1 rounded-full">
+                      <span className="absolute top-2 right-2 bg-primary text-white text-xs px-2 py-1 rounded-full">
                         ⭐ Recommended
                       </span>
                     )}
@@ -149,7 +149,7 @@ export default function PackagesCompareTable({
 
                     <div className="text-lg font-bold">{pkg.name}</div>
 
-                    <div className="text-2xl font-bold mt-2 text-main">
+                    <div className="text-2xl font-bold mt-2 text-[var(--color-primary)]">
                       ₹{parsePrice(pkg.price)}
                     </div>
                   </th>
@@ -169,7 +169,7 @@ export default function PackagesCompareTable({
 
                 {packages.map((pkg) => (
                   <td key={pkg.id} className="p-6 align-top">
-                    <ul className="space-y-2 text-sm text-(--text-secondary)">
+                    <ul className="space-y-2 text-sm text-[var(--text-secondary)]">
                       {(pkg.includes || []).map((item, i) => (
                         <li key={i} className="flex gap-2">
                           <span className="text-green-500">✔</span>
@@ -192,7 +192,7 @@ export default function PackagesCompareTable({
                   <td key={pkg.id} className="p-6 text-center">
                     <Button
                       className={`w-full ${
-                        isRecommended(pkg) ? "bg-main text-white" : ""
+                        isRecommended(pkg) ? "bg-primary text-white" : ""
                       }`}
                       onClick={() => navigate(`/appointment?package=${pkg.id}`)}
                     >

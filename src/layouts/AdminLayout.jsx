@@ -8,7 +8,7 @@ export default function AdminLayout() {
   const linkStyle = ({ isActive }) =>
     `block px-4 py-2 rounded-lg transition ${
       isActive
-        ? "bg-[var(--color-main)] text-white"
+        ? "bg-[var(--color-primary)] text-white"
         : "text-[var(--text-secondary)] hover:bg-[var(--card)]"
     }`;
 
@@ -38,7 +38,7 @@ export default function AdminLayout() {
 
           <button
             onClick={() => setOpen(false)}
-            className="text-[var(--text-secondary)] hover:text-[var(--color-main)]"
+            className="text-[var(--text-secondary)] hover:text-[var(--color-primary)]"
           >
             <FaTimes />
           </button>
@@ -63,8 +63,8 @@ export default function AdminLayout() {
           onClick={() => setOpen(true)}
           className="
           lg:hidden mb-4 p-2 rounded-lg
-          bg-[var(--color-main)]
-          hover:bg-[var(--color-main-hover)]
+          bg-[var(--color-primary)]
+          hover:bg-[var(--color-primary-hover)]
           text-white
           shadow-[0_0_12px_var(--glow-soft)]
           transition

@@ -11,7 +11,7 @@ export default function DepartmentsGrid({ departments = [] }) {
     return (
       <Container>
         {" "}
-        <p className="text-center py-20 text-(--text-secondary)">
+        <p className="text-center py-20 text-[var(--text-secondary)]">
           No departments found.{" "}
         </p>{" "}
       </Container>
@@ -46,7 +46,7 @@ export default function DepartmentsGrid({ departments = [] }) {
           text-center
           transition-all duration-500
           hover:-translate-y-2
-          hover:border-main/40
+          hover:border-[var(--color-primary)]/40
           hover:shadow-[0_0_40px_var(--glow-soft)]
           "
             >
@@ -58,7 +58,7 @@ export default function DepartmentsGrid({ departments = [] }) {
           font-semibold
           mb-3
           text-(--text)
-          group-hover:text-main
+          group-hover:text-[var(--color-primary)]
           transition-colors
           "
               >
@@ -67,7 +67,7 @@ export default function DepartmentsGrid({ departments = [] }) {
 
               <p
                 className="
-          text-(--text-secondary)
+          text-[var(--text-secondary)]
           mb-6
           text-sm
           leading-relaxed
@@ -81,8 +81,8 @@ export default function DepartmentsGrid({ departments = [] }) {
                   variant="ghost"
                   size="sm"
                   className="
-              text-main
-              hover:text-(--color-main-hover)
+              text-[var(--color-primary)]
+              hover:text-(--color-primary-hover)
               "
                   rightIcon={<FaArrowRight />}
                 >

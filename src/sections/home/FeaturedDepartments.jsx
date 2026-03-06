@@ -10,7 +10,7 @@ export default function FeaturedDepartments({
 }) {
   if (loading)
     return (
-      <section className="py-24 text-center text-(--text-secondary) bg-(--bg)">
+      <section className="py-24 text-center text-[var(--text-secondary)] bg-(--bg)">
         Loading departments...
       </section>
     );
@@ -21,11 +21,11 @@ export default function FeaturedDepartments({
 
       <Container>
         <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold text-main">
+          <h2 className="text-4xl md:text-5xl font-bold text-[var(--color-primary)]">
             Our Specialized Departments
           </h2>
 
-          <p className="mt-5 text-(--text-secondary) max-w-2xl mx-auto">
+          <p className="mt-5 text-[var(--text-secondary)] max-w-2xl mx-auto">
             Comprehensive care across multiple specialties supported by advanced
             medical infrastructure.
           </p>
@@ -38,14 +38,18 @@ export default function FeaturedDepartments({
               to={`/departments/${dept.slug}`}
               className="group bg-(--card) border border-(--border)
               rounded-2xl p-8 text-center transition
-              hover:-translate-y-2 hover:border-main/40
+              hover:-translate-y-2 hover:border-[var(--color-primary)]/40
               hover:shadow-[0_0_40px_var(--glow-soft)]"
             >
-              <div className="text-4xl mb-4 text-main">{dept.icon || "🏥"}</div>
+              <div className="text-4xl mb-4 text-[var(--color-primary)]">
+                {dept.icon || "🏥"}
+              </div>
 
               <h3 className="text-xl font-semibold mb-3">{dept.name}</h3>
 
-              <p className="text-(--text-secondary) mb-6">{dept.shortDesc}</p>
+              <p className="text-[var(--text-secondary)] mb-6">
+                {dept.shortDesc}
+              </p>
 
               <Button variant="ghost" size="sm">
                 Explore →

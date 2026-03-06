@@ -2,10 +2,10 @@ import PropTypes from "prop-types";
 
 const variants = {
   primary:
-    "bg-[var(--color-main)] hover:bg-[var(--color-main-hover)] text-white shadow-[0_0_10px_var(--glow-soft)]",
+    "bg-[var(--color-primary)] hover:bg-[var(--color-primary-hover)] text-white shadow-[0_0_10px_var(--glow-soft)]",
 
   secondary:
-    "border border-[var(--color-main)] text-[var(--color-main)] hover:bg-[var(--color-main)]/10",
+    "border border-[var(--color-primary)] text-[var(--color-primary)] hover:bg-[var(--color-primary)]/10",
 
   outline:
     "border border-[var(--border)] text-[var(--text)] hover:bg-[var(--card)]",
@@ -14,7 +14,7 @@ const variants = {
 
   danger: "bg-[var(--color-error)] text-white",
 
-  success: "bg-[var(--color-complete)] text-white",
+  success: "bg-[var(--color-success)] text-white",
 };
 
 const sizes = {
@@ -41,7 +41,7 @@ export default function Button({
       inline-flex items-center justify-center gap-2.5
       font-medium transition-all duration-200
       focus:outline-none
-      focus:ring-2 focus:ring-[var(--color-main)]
+      focus:ring-2 focus:ring-[var(--color-primary)]
       focus:ring-offset-2 focus:ring-offset-[var(--surface)]
       active:scale-[0.98]
       disabled:opacity-60 disabled:pointer-events-none
