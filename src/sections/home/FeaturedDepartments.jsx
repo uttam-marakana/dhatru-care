@@ -10,16 +10,30 @@ export default function FeaturedDepartments({
 }) {
   if (loading)
     return (
-      <section className="py-24 text-center text-[var(--text-secondary)] bg-[var(--bg)]">
+      <section className="py-24 text-center text-[var(--text-secondary)] bg-[var(--section)]">
         Loading departments...
       </section>
     );
 
   return (
-    <section className="relative py-20 md:py-24 bg-[var(--bg)] text-[var(--text)] overflow-hidden">
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-162.5 h-162.5 bg-(--glow-bg) blur-[140px] rounded-full"></div>
+    <section className="relative py-20 md:py-24 bg-[var(--section)] text-[var(--text)] overflow-hidden">
+      {/* Background Glow */}
+      <div
+        className="
+        pointer-events-none
+        absolute -top-40 left-1/2 -translate-x-1/2
+        w-[700px] md:w-[900px]
+        h-[700px] md:h-[900px]
+        bg-[var(--glow-bg)]
+        blur-[140px]
+        rounded-full
+        opacity-70
+        z-0
+        "
+      />
 
-      <Container>
+      <Container className="relative z-10">
+        {/* Header */}
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-bold text-[var(--color-primary)]">
             Our Specialized Departments
@@ -31,21 +45,32 @@ export default function FeaturedDepartments({
           </p>
         </div>
 
+        {/* Grid */}
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
           {departments.slice(0, 4).map((dept) => (
             <Link
               key={dept.id}
               to={`/departments/${dept.slug}`}
-              className="group bg-[var(--card)] border border-[var(--border)]
-              rounded-2xl p-8 text-center transition
-              hover:-translate-y-2 hover:border-[var(--color-primary)]/40
-              hover:shadow-[0_0_40px_var(--glow-soft)]"
+              className="
+              group
+              bg-[var(--card)]
+              border border-[var(--border)]
+              rounded-2xl
+              p-8
+              text-center
+              transition-all duration-500
+              hover:-translate-y-2
+              hover:border-[var(--color-primary)]/40
+              hover:shadow-[0_0_40px_var(--glow-soft)]
+              "
             >
               <div className="text-4xl mb-4 text-[var(--color-primary)]">
                 {dept.icon || "🏥"}
               </div>
 
-              <h3 className="text-xl font-semibold mb-3">{dept.name}</h3>
+              <h3 className="text-xl font-semibold mb-3 text-[var(--text)]">
+                {dept.name}
+              </h3>
 
               <p className="text-[var(--text-secondary)] mb-6">
                 {dept.shortDesc}

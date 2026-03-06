@@ -4,23 +4,23 @@ const Container = lazy(() => import("../../components/layout/Container"));
 
 export default function Facilities({ facilities = [], loading, error }) {
   return (
-    <section className="relative py-16 md:py-20 bg-[var(--bg)] text-[var(--text)] overflow-hidden">
+    <section className="relative py-20 md:py-24 bg-[var(--section)] text-[var(--text)] overflow-hidden">
       {/* Background Glow */}
       <div
         className="
         pointer-events-none
-        absolute top-0 left-1/2 -translate-x-1/2
-        w-[500px] md:w-[700px]
-        h-[500px] md:h-[700px]
+        absolute -top-40 left-1/2 -translate-x-1/2
+        w-[700px] md:w-[900px]
+        h-[700px] md:h-[900px]
         bg-[var(--glow-bg)]
-        blur-[120px]
+        blur-[140px]
         rounded-full
-        opacity-60
-        -z-10
+        opacity-70
+        z-0
         "
       />
 
-      <Container>
+      <Container className="relative z-10">
         {/* Header */}
         <div className="text-center mb-12 md:mb-16">
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-[var(--color-primary)]">
@@ -42,49 +42,63 @@ export default function Facilities({ facilities = [], loading, error }) {
         {/* Error */}
         {error && (
           <div className="text-center py-10 text-[var(--color-error)]">
-            Failed to load facilities.
+            Failed to load facilities...
           </div>
         )}
 
-        {/* Facilities Grid */}
-        <div
-          className="
-          grid
-          grid-cols-1
-          sm:grid-cols-2
-          lg:grid-cols-4
-          gap-6 md:gap-8
-          "
-        >
+        {/* Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
           {facilities.map((item, i) => (
             <div
               key={i}
               className="
+              group
+              relative
               bg-[var(--card)]
               border border-[var(--border)]
               rounded-2xl
               p-6 md:p-8
               text-center
-              transition-all duration-300
+              backdrop-blur-xl
+              transition-all duration-500
               hover:-translate-y-2
               hover:border-[var(--color-primary)]/40
               hover:shadow-[0_0_40px_var(--glow-soft)]
               "
             >
               {/* Icon */}
-              <div className="text-4xl md:text-5xl mb-5 text-[var(--color-primary)]">
-                {item.icon || "🏥"}
+              <div className="flex justify-center mb-6">
+                <div
+                  className="
+                  w-14 h-14
+                  md:w-16 md:h-16
+                  flex items-center justify-center
+                  rounded-xl
+                  bg-[var(--surface)]
+                  text-[var(--color-primary)]
+                  text-2xl md:text-3xl
+                  group-hover:scale-110
+                  transition duration-500
+                  "
+                >
+                  {item.icon || "🏥"}
+                </div>
               </div>
 
               {/* Title */}
-              <h3 className="text-lg md:text-xl font-semibold mb-3">
+              <h3 className="text-lg md:text-xl font-semibold mb-3 text-[var(--text)]">
                 {item.title}
               </h3>
 
               {/* Description */}
-              <p className="text-[var(--text-secondary)] text-sm md:text-base">
+              <p className="text-[var(--text-secondary)] text-sm md:text-base mb-5">
                 {item.desc}
               </p>
+
+              {/* CTA */}
+              <span className="text-[var(--color-primary)] text-sm font-medium hover:underline cursor-pointer">
+                Get Started →
+              </span>
             </div>
           ))}
         </div>

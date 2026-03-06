@@ -189,19 +189,60 @@ export default function DoctorDetail() {
       </div>
 
       {/* RELATED DOCTORS */}
+      {/* RELATED DOCTORS */}
       {relatedDoctors.length > 0 && (
-        <section className="py-16 bg-[var(--surface)]">
-          <Container>
-            <h2 className="text-3xl font-bold text-center mb-10">
-              Related Specialists
-            </h2>
+        <section className="relative py-20 md:py-24 bg-[var(--section)] text-[var(--text)] overflow-hidden">
+          {/* Background Glow */}
+          <div
+            className="
+      pointer-events-none
+      absolute -top-40 left-1/2 -translate-x-1/2
+      w-[700px] md:w-[900px]
+      h-[700px] md:h-[900px]
+      bg-[var(--glow-bg)]
+      blur-[140px]
+      rounded-full
+      opacity-70
+      z-0
+      "
+          />
 
-            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <Container className="relative z-10">
+            {/* Header */}
+            <div className="text-center mb-16">
+              <h2 className="text-4xl md:text-5xl font-bold text-[var(--color-primary)]">
+                Related Specialists
+              </h2>
+
+              <p className="mt-4 text-[var(--text-secondary)] max-w-2xl mx-auto">
+                Meet other experienced doctors specializing in similar fields.
+              </p>
+            </div>
+
+            {/* Doctors Grid */}
+            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
               {relatedDoctors.map((doc) => (
                 <Link key={doc.id} to={`/doctors/${doc.id}`}>
-                  <Card className="text-center p-4 hover:-translate-y-2 transition-all duration-300">
-                    <div className="text-6xl mb-3">👨‍⚕️</div>
-                    <h3 className="font-bold">{doc.name}</h3>
+                  <Card
+                    className="
+                    group
+                    text-center
+                    p-6
+                    bg-[var(--card)]
+                    border border-[var(--border)]
+                    rounded-2xl
+                    transition-all duration-500
+                    hover:-translate-y-2
+                    hover:border-[var(--color-primary)]/40
+                    hover:shadow-[0_0_40px_var(--glow-soft)]
+                    "
+                  >
+                    <div className="text-6xl mb-4">👨‍⚕️</div>
+
+                    <h3 className="font-semibold text-lg text-[var(--text)]">
+                      {doc.name}
+                    </h3>
+
                     <p className="text-[var(--color-primary)]">
                       {doc.specialty}
                     </p>

@@ -52,18 +52,30 @@ export default function ContactForm() {
 
   return (
     <div className="relative overflow-hidden rounded-2xl">
-      {/* Background overlay */}
-      <div className="absolute inset-0 bg-[var(--bg)]/80 backdrop-blur-sm"></div>
+      {/* Glow */}
+      <div
+        className="
+        pointer-events-none
+        absolute -top-32 left-1/2 -translate-x-1/2
+        w-[500px] h-[500px]
+        bg-[var(--glow-bg)]
+        blur-[120px]
+        rounded-full
+        opacity-60
+        "
+      />
 
       {/* Form Container */}
       <div
         className="
         relative z-10
-        bg-[var(--card)]/80
-        backdrop-blur-md
+        bg-[var(--card)]
         border border-[var(--border)]
         p-8 rounded-2xl
-        shadow-[0_0_40px_var(--glow-bg)]
+        backdrop-blur-md
+        transition-all duration-500
+        hover:border-[var(--color-primary)]/40
+        hover:shadow-[0_0_40px_var(--glow-soft)]
         "
       >
         <h2

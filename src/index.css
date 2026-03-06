@@ -1,12 +1,13 @@
 @import "tailwindcss";
 
-/* ---- 1. Custom Dark Variant --------------------- */
+/* ---- 1. Custom Dark Variant -------------------------- */
 
 @custom-variant dark (&:where(.dark, .dark *));
 
-/* ---- 2. Theme Tokens --------------------- */
+/* ---- 2. Theme Tokens -------------------------- */
 
 @theme {
+
   /* Brand */
 
   --color-primary: #38bdf8;
@@ -26,7 +27,7 @@
   --bg-surface-light: #ffffff;
   --bg-card-light: #f8fafc;
 
-  --glass-light: rgba(255, 255, 255, 0.75);
+  --glass-light: rgba(255,255,255,0.75);
 
   --text-primary-light: #020617;
   --text-secondary-light: #334155;
@@ -42,7 +43,7 @@
   --bg-surface-dark: #071a2f;
   --bg-card-dark: #0f243d;
 
-  --glass-dark: rgba(15, 23, 42, 0.6);
+  --glass-dark: rgba(15,23,42,0.6);
 
   --text-primary-dark: #f1f5f9;
   --text-secondary-dark: #cbd5e1;
@@ -51,26 +52,29 @@
   --border-dark: #243b53;
   --divider-dark: #1e293b;
 
-  /* Effects */
+  /* Glow */
 
-  --glow-soft: rgba(56, 189, 248, 0.35);
-  --glow-bg: rgba(59, 130, 246, 0.25);
+  --glow-soft: rgba(56,189,248,0.35);
+
+  --glow-bg-light: rgba(59,130,246,0.15);
+  --glow-bg-dark: rgba(59,130,246,0.25);
 
   /* Gradient */
 
   --heading-gradient-from: #60a5fa;
   --heading-gradient-to: #22d3ee;
 
-  /* Layout Tokens */
+  /* Layout */
 
   --container-max: 1280px;
-  --section-padding: clamp(3rem, 6vw, 6rem);
+  --section-padding: clamp(3rem,6vw,6rem);
   --radius-lg: 1rem;
 }
 
-/* ---- 3. Default Theme --------------------- */
+/* ---- 3. Default Theme -------------------------- */
 
 :root {
+
   --bg: var(--bg-primary-light);
   --section: var(--bg-section-light);
   --surface: var(--bg-surface-light);
@@ -83,11 +87,14 @@
 
   --border: var(--border-light);
   --divider: var(--divider-light);
+
+  --glow-bg: var(--glow-bg-light);
 }
 
-/* ---- 4. Dark Theme --------------------- */
+/* ---- 4. Dark Theme -------------------------- */
 
 .dark {
+
   --bg: var(--bg-primary-dark);
   --section: var(--bg-section-dark);
   --surface: var(--bg-surface-dark);
@@ -100,16 +107,18 @@
 
   --border: var(--border-dark);
   --divider: var(--divider-dark);
+
+  --glow-bg: var(--glow-bg-dark);
 }
 
-/* ---- 5. Base Styles --------------------- */
+/* ---- 5. Base Styles -------------------------- */
 
 html {
   scroll-behavior: smooth;
 }
 
 body {
-  background: var(--bg);
+  background: var(--section);
   color: var(--text);
 
   font-family:
@@ -123,28 +132,40 @@ body {
   line-height: 1.6;
 
   transition:
-    background-color 0.3s ease,
-    color 0.3s ease;
+    background-color .3s ease,
+    color .3s ease;
 }
 
-/* ---- Reduced Motion --------------------- */
+/* ---- Global Theme Transition -------------------------- */
+
+* {
+  transition:
+    background-color .3s ease,
+    border-color .3s ease,
+    color .3s ease;
+}
+
+/* ---- Reduced Motion -------------------------- */
 
 @media (prefers-reduced-motion: reduce) {
+
   * {
-    animation-duration: 0.01ms !important;
+    animation-duration: .01ms !important;
     animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
+    transition-duration: .01ms !important;
     scroll-behavior: auto !important;
   }
 }
 
-/* ---- 6. Interactive Elements --------------------- */
+/* ---- 6. Interactive Elements -------------------------- */
 
 @layer base {
+
   button,
   [role="button"] {
     @apply cursor-pointer;
   }
+
 }
 
 a,
@@ -152,17 +173,19 @@ button,
 input,
 textarea,
 select {
+
   transition:
-    background-color 0.3s ease,
-    border-color 0.3s ease,
-    color 0.3s ease,
-    transform 0.25s ease,
-    box-shadow 0.25s ease;
+    background-color .3s ease,
+    border-color .3s ease,
+    color .3s ease,
+    transform .25s ease,
+    box-shadow .25s ease;
 }
 
-/* ---- Focus Ring --------------------- */
+/* ---- Focus Ring -------------------------- */
 
 :focus-visible {
+
   outline: none;
 
   box-shadow:
@@ -170,162 +193,158 @@ select {
     0 0 0 4px var(--color-primary);
 }
 
-/* ---- 7. Animations --------------------- */
+/* ---- Animations -------------------------- */
 
 @keyframes fadeInUp {
+
   from {
-    opacity: 0;
-    transform: translateY(24px);
+    opacity:0;
+    transform:translateY(24px);
   }
 
   to {
-    opacity: 1;
-    transform: translateY(0);
+    opacity:1;
+    transform:translateY(0);
   }
+
 }
 
 .animate-fade-in-up {
-  animation: fadeInUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation: fadeInUp .7s cubic-bezier(.16,1,.3,1) forwards;
 }
 
-/* Skeleton shimmer */
+/* ---- Skeleton -------------------------- */
 
 @keyframes shimmer {
-  100% {
-    transform: translateX(100%);
-  }
+  100% { transform:translateX(100%); }
 }
 
 .skeleton {
-  position: relative;
-  overflow: hidden;
+  position:relative;
+  overflow:hidden;
 }
 
 .skeleton::after {
-  content: "";
 
-  position: absolute;
-  inset: 0;
+  content:"";
+  position:absolute;
+  inset:0;
 
-  background: linear-gradient(
+  background:linear-gradient(
     90deg,
     transparent,
-    rgba(255, 255, 255, 0.08),
+    rgba(255,255,255,0.08),
     transparent
   );
 
-  transform: translateX(-100%);
-
-  animation: shimmer 1.6s infinite;
+  transform:translateX(-100%);
+  animation:shimmer 1.6s infinite;
 }
 
-/* ---- 8. Hover Lift --------------------- */
+/* ---- Hover Lift -------------------------- */
 
 .hover-lift {
-  will-change: transform;
+
+  will-change:transform;
 
   transition:
-    transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
-    box-shadow 0.35s ease;
+    transform .35s cubic-bezier(.16,1,.3,1),
+    box-shadow .35s ease;
 }
 
 .hover-lift:hover,
 .hover-lift:focus-visible {
-  transform: translateY(-8px);
 
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.45);
+  transform:translateY(-8px);
+
+  box-shadow:
+    0 25px 50px -12px rgba(0,0,0,.45);
 }
 
-/* ---- 9. Premium Scrollbar --------------------- */
+/* ---- Scrollbar -------------------------- */
 
-::-webkit-scrollbar {
-  width: 8px;
-}
+::-webkit-scrollbar { width:8px; }
+
+::-webkit-scrollbar-track { background:transparent; }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--border);
-  border-radius: 10px;
+
+  background:var(--border);
+  border-radius:10px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--color-primary);
+  background:var(--color-primary);
 }
-
-/* Firefox */
 
 * {
-  scrollbar-width: thin;
-  scrollbar-color: var(--border) transparent;
+  scrollbar-width:thin;
+  scrollbar-color:var(--border) transparent;
 }
 
-/* ---- 10. Typography --------------------- */
+/* ---- Typography -------------------------- */
 
-.prose {
-  max-width: none;
-}
+.prose { max-width:none; }
 
-.prose :where(h1, h2, h3, h4) {
-  color: var(--text);
-}
+.prose :where(h1,h2,h3,h4) { color:var(--text); }
 
-.prose :where(p, li) {
-  color: var(--muted);
-}
+.prose :where(p,li) { color:var(--muted); }
 
-/* ---- 11. Glass Effect --------------------- */
+/* ---- Glass -------------------------- */
 
 .glass {
-  background: var(--glass);
 
-  backdrop-filter: blur(12px);
+  background:var(--glass);
 
-  border: 1px solid var(--border);
+  backdrop-filter:blur(12px);
 
-  border-radius: var(--radius-lg);
+  border:1px solid var(--border);
+
+  border-radius:var(--radius-lg);
 }
 
-/* ---- 12. Glow Utilities --------------------- */
+/* ---- Glow Utilities -------------------------- */
 
-.glow-primary {
-  box-shadow: 0 0 25px var(--glow-soft);
-}
+.glow-primary { box-shadow:0 0 25px var(--glow-soft); }
 
-.glow-bg {
-  box-shadow: 0 0 60px var(--glow-bg);
-}
+.glow-bg { box-shadow:0 0 60px var(--glow-bg); }
 
-/* ---- 13. Gradient Heading --------------------- */
+/* ---- Gradient Heading -------------------------- */
 
 .gradient-heading {
-  background: linear-gradient(
+
+  background:linear-gradient(
     to right,
     var(--heading-gradient-from),
     var(--heading-gradient-to)
   );
 
-  -webkit-background-clip: text;
-  color: transparent;
+  -webkit-background-clip:text;
+
+  color:transparent;
 }
 
-/* ---- 14. Layout Utilities --------------------- */
+/* ---- Layout Utilities -------------------------- */
 
 .container-system {
-  max-width: var(--container-max);
 
-  margin-inline: auto;
+  max-width:var(--container-max);
 
-  padding-inline: 1.5rem;
+  margin-inline:auto;
+
+  padding-inline:1.5rem;
 }
 
 .section-padding {
-  padding-block: var(--section-padding);
+  padding-block:var(--section-padding);
 }
 
-/* ---- 15. Interaction Utility --------------------- */
+/* ---- Interaction -------------------------- */
 
 .interactive {
+
   transition:
-    transform 0.25s ease,
-    box-shadow 0.25s ease,
-    background-color 0.25s ease;
+    transform .25s ease,
+    box-shadow .25s ease,
+    background-color .25s ease;
 }

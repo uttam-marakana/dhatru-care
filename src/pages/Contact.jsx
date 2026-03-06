@@ -3,6 +3,7 @@ import { lazy } from "react";
 const ContactForm = lazy(() => import("../components/forms/ContactForm"));
 const GoogleMapEmbed = lazy(() => import("../sections/shared/GoogleMapEmbed"));
 const PageHero = lazy(() => import("../sections/shared/PageHero"));
+const Container = lazy(() => import("../components/layout/Container"));
 
 export default function Contact() {
   return (
@@ -12,20 +13,45 @@ export default function Contact() {
         subtitle="We're here to help – reach out anytime"
       />
 
-      <section className="py-16 md:py-24 bg-[var(--bg)] text-[var(--text)]">
-        <div className="container mx-auto px-4">
+      <section className="relative py-20 md:py-24 bg-[var(--section)] text-[var(--text)] overflow-hidden">
+        {/* Glow */}
+        <div
+          className="
+          pointer-events-none
+          absolute -top-40 left-1/2 -translate-x-1/2
+          w-[700px] md:w-[900px]
+          h-[700px] md:h-[900px]
+          bg-[var(--glow-bg)]
+          blur-[140px]
+          rounded-full
+          opacity-70
+          z-0
+          "
+        />
+
+        <Container className="relative z-10">
           <div className="grid lg:grid-cols-2 gap-12">
             <ContactForm />
 
             <div className="space-y-8">
               {/* MAP */}
-              <div className="rounded-2xl overflow-hidden border border-[var(--border)] shadow-[0_0_40px_var(--glow-soft)">
-                <GoogleMapEmbed />
-              </div>
+              <GoogleMapEmbed />
 
               {/* CONTACT DETAILS */}
+
               <div className="space-y-6">
-                <div className="bg-[var(--card)] border border-[var(--border)] p-6 rounded-2xl hover:border-[var(--color-primary)]/40 hover:shadow-[0_0_40px_var(--glow-soft) transition">
+                {/* Address */}
+                <div
+                  className="
+                  bg-[var(--card)]
+                  border border-[var(--border)]
+                  p-6 rounded-2xl
+                  transition-all duration-500
+                  hover:-translate-y-1
+                  hover:border-[var(--color-primary)]/40
+                  hover:shadow-[0_0_40px_var(--glow-soft)]
+                  "
+                >
                   <h4 className="font-semibold text-lg mb-2 text-[var(--color-primary)]">
                     Hospital Address
                   </h4>
@@ -39,7 +65,15 @@ export default function Contact() {
                   </p>
                 </div>
 
-                <div className="bg-[var(--color-primary)]/10 border border-[var(--color-primary)]/40 p-6 rounded-2xl shadow-[0_0_40px_var(--glow-soft)">
+                {/* Emergency */}
+                <div
+                  className="
+                  bg-[var(--color-primary)]/10
+                  border border-[var(--color-primary)]/40
+                  p-6 rounded-2xl
+                  shadow-[0_0_40px_var(--glow-soft)]
+                  "
+                >
                   <h4 className="font-semibold text-lg mb-2 text-[var(--color-primary)]">
                     Emergency
                   </h4>
@@ -51,7 +85,18 @@ export default function Contact() {
                   <p className="text-sm text-[var(--muted)]">24×7 Available</p>
                 </div>
 
-                <div className="bg-[var(--card)] border border-[var(--border)] p-6 rounded-2xl hover:border-[var(--color-primary)]/40 hover:shadow-[0_0_40px_var(--glow-soft) transition">
+                {/* General Enquiry */}
+                <div
+                  className="
+                  bg-[var(--card)]
+                  border border-[var(--border)]
+                  p-6 rounded-2xl
+                  transition-all duration-500
+                  hover:-translate-y-1
+                  hover:border-[var(--color-primary)]/40
+                  hover:shadow-[0_0_40px_var(--glow-soft)]
+                  "
+                >
                   <h4 className="font-semibold text-lg mb-2 text-[var(--color-primary)]">
                     General Enquiry
                   </h4>
@@ -67,7 +112,7 @@ export default function Contact() {
               </div>
             </div>
           </div>
-        </div>
+        </Container>
       </section>
     </>
   );
