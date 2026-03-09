@@ -1,4 +1,5 @@
 import { lazy, Suspense } from "react";
+import PageTransition from "./PageTransition";
 
 const Loader = lazy(() => import("./Loader"));
 
@@ -11,7 +12,7 @@ export default function LazyWrapper({ children }) {
         </div>
       }
     >
-      {children}
+      <PageTransition>{children}</PageTransition>
     </Suspense>
   );
 }
