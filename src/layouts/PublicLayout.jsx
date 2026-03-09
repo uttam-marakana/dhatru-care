@@ -6,6 +6,9 @@ const Footer = lazy(() => import("../components/layout/Footer"));
 
 import AnimatedOutlet from "../components/common/AnimatedOutlet";
 
+import FloatingAppointmentButton from "../components/common/FloatingAppointmentButton";
+
+
 export default function PublicLayout() {
   return (
     <div
@@ -21,6 +24,7 @@ export default function PublicLayout() {
 
       <main className="grow">
         <AnimatedOutlet />
+        <FloatingAppointmentButton />
       </main>
 
       <Footer />
