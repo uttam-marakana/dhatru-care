@@ -15,89 +15,57 @@ import { db } from "../firebase";
 
 const doctorsRef = collection(db, "doctors");
 
-/* ------------------------------------------------ */
 /* GET ALL DOCTORS */
-/* ------------------------------------------------ */
 
 export const getDoctors = async (filters = {}) => {
-  try {
-    const constraints = [];
+  const constraints = [];
 
-    if (filters.specialty) {
-      constraints.push(where("specialty", "==", filters.specialty));
-    }
-
-    const q =
-      constraints.length > 0 ? query(doctorsRef, ...constraints) : doctorsRef;
-
-    const snap = await getDocs(q);
-
-    let data = snap.docs.map((doc) => ({
-      id: doc.id,
-      ...doc.data(),
-    }));
-
-    if (filters.search?.trim()) {
-      const search = filters.search.toLowerCase();
-
-      data = data.filter((d) => d.name?.toLowerCase().includes(search));
-    }
-
-    return data;
-  } catch (err) {
-    console.error("GET DOCTORS ERROR:", err);
-    throw err;
+  if (filters.specialty) {
+    constraints.push(where("specialty", "==", filters.specialty));
   }
+
+  const q =
+    constraints.length > 0 ? query(doctorsRef, ...constraints) : doctorsRef;
+
+  const snap = await getDocs(q);
+
+  return snap.docs.map((doc) => ({
+    id: doc.id,
+    ...doc.data(),
+  }));
 };
 
-/* ------------------------------------------------ */
-/* GET DOCTORS BY DEPARTMENT (FOR APPOINTMENT FORM) */
-/* ------------------------------------------------ */
+/* GET DOCTORS BY DEPARTMENT */
 
 export const getDoctorsByDepartment = async (departmentId) => {
-  try {
-    if (!departmentId) return [];
+  if (!departmentId) return [];
 
-    const q = query(doctorsRef, where("departmentId", "==", departmentId));
+  const q = query(doctorsRef, where("departmentId", "==", departmentId));
 
-    const snap = await getDocs(q);
+  const snap = await getDocs(q);
 
-    return snap.docs.map((doc) => ({
-      id: doc.id,
-      ...doc.data(),
-    }));
-  } catch (err) {
-    console.error("GET DOCTORS BY DEPARTMENT ERROR:", err);
-    throw err;
-  }
+  return snap.docs.map((doc) => ({
+    id: doc.id,
+    ...doc.data(),
+  }));
 };
 
-/* ------------------------------------------------ */
 /* GET DOCTOR BY ID */
-/* ------------------------------------------------ */
 
 export const getDoctorById = async (id) => {
-  try {
-    if (!id) return null;
+  const ref = doc(db, "doctors", id);
 
-    const ref = doc(db, "doctors", String(id));
-    const snap = await getDoc(ref);
+  const snap = await getDoc(ref);
 
-    if (!snap.exists()) return null;
+  if (!snap.exists()) return null;
 
-    return {
-      id: snap.id,
-      ...snap.data(),
-    };
-  } catch (err) {
-    console.error("GET DOCTOR BY ID ERROR:", err);
-    throw err;
-  }
+  return {
+    id: snap.id,
+    ...snap.data(),
+  };
 };
 
-/* ------------------------------------------------ */
-/* CREATE DOCTOR */
-/* ------------------------------------------------ */
+/* CREATE */
 
 export const createDoctor = async (doctor) => {
   return await addDoc(doctorsRef, {
@@ -107,9 +75,7 @@ export const createDoctor = async (doctor) => {
   });
 };
 
-/* ------------------------------------------------ */
-/* UPDATE DOCTOR */
-/* ------------------------------------------------ */
+/* UPDATE */
 
 export const updateDoctor = async (id, data) => {
   return await updateDoc(doc(db, "doctors", id), {
@@ -118,9 +84,7 @@ export const updateDoctor = async (id, data) => {
   });
 };
 
-/* ------------------------------------------------ */
-/* DELETE DOCTOR */
-/* ------------------------------------------------ */
+/* DELETE */
 
 export const deleteDoctor = async (id) => {
   return await deleteDoc(doc(db, "doctors", id));
