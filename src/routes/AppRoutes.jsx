@@ -1,39 +1,109 @@
 import { Routes, Route, Navigate } from "react-router-dom";
+import { lazy } from "react";
 
 import PublicLayout from "../layouts/PublicLayout";
 import AuthLayout from "../layouts/AuthLayout";
 import AdminLayout from "../layouts/AdminLayout";
+
+import LazyWrapper from "../components/common/LazyWrapper";
 
 import ProtectedRoute from "./ProtectedRoute";
 import AdminRoute from "./AdminRoute";
 
 import NotFound from "../pages/NotFound";
 
-import {
-  publicRoutes,
-  authRoutes,
-  userRoutes,
-  adminRoutes,
-} from "./routeConfig";
+/* AUTO ROUTES */
+
+import { autoRoutes } from "./autoRoutes";
+
+/* DYNAMIC ROUTES */
+
+const DepartmentDetail = lazy(() => import("../pages/DepartmentDetail"));
+const DoctorDetail = lazy(() => import("../pages/DoctorDetail"));
+const BlogDetail = lazy(() => import("../pages/BlogDetail"));
+
+/* AUTH */
+
+const Login = lazy(() => import("../auth/Login"));
+const Signup = lazy(() => import("../auth/Signup"));
+
+/* USER */
+
+const Profile = lazy(() => import("../pages/Profile"));
+const Settings = lazy(() => import("../pages/Settings"));
+const UserAppointments = lazy(() => import("../pages/UserAppointments"));
 
 export default function AppRoutes() {
   return (
     <Routes>
-      {/* PUBLIC ROUTES */}
+      {/* PUBLIC */}
       <Route element={<PublicLayout />}>
-        {publicRoutes.map(({ path, element: Component }) => (
-          <Route key={path} path={path} element={<Component />} />
+        {autoRoutes.map(({ path, element: Component }) => (
+          <Route
+            key={path}
+            path={path}
+            element={
+              <LazyWrapper>
+                <Component />
+              </LazyWrapper>
+            }
+          />
         ))}
+
+        {/* DYNAMIC ROUTES */}
+
+        <Route
+          path="/departments/:slug"
+          element={
+            <LazyWrapper>
+              <DepartmentDetail />
+            </LazyWrapper>
+          }
+        />
+
+        <Route
+          path="/doctors/:id"
+          element={
+            <LazyWrapper>
+              <DoctorDetail />
+            </LazyWrapper>
+          }
+        />
+
+        <Route
+          path="/blog/:slug"
+          element={
+            <LazyWrapper>
+              <BlogDetail />
+            </LazyWrapper>
+          }
+        />
       </Route>
 
-      {/* AUTH ROUTES */}
+      {/* AUTH */}
+
       <Route element={<AuthLayout />}>
-        {authRoutes.map(({ path, element: Component }) => (
-          <Route key={path} path={path} element={<Component />} />
-        ))}
+        <Route
+          path="/login"
+          element={
+            <LazyWrapper>
+              <Login />
+            </LazyWrapper>
+          }
+        />
+
+        <Route
+          path="/signup"
+          element={
+            <LazyWrapper>
+              <Signup />
+            </LazyWrapper>
+          }
+        />
       </Route>
 
-      {/* USER PROTECTED ROUTES */}
+      {/* USER */}
+
       <Route
         element={
           <ProtectedRoute>
@@ -41,12 +111,36 @@ export default function AppRoutes() {
           </ProtectedRoute>
         }
       >
-        {userRoutes.map(({ path, element: Component }) => (
-          <Route key={path} path={path} element={<Component />} />
-        ))}
+        <Route
+          path="/profile"
+          element={
+            <LazyWrapper>
+              <Profile />
+            </LazyWrapper>
+          }
+        />
+
+        <Route
+          path="/settings"
+          element={
+            <LazyWrapper>
+              <Settings />
+            </LazyWrapper>
+          }
+        />
+
+        <Route
+          path="/profile/appointments"
+          element={
+            <LazyWrapper>
+              <UserAppointments />
+            </LazyWrapper>
+          }
+        />
       </Route>
 
-      {/* ADMIN ROUTES */}
+      {/* ADMIN */}
+
       <Route
         path="/admin"
         element={
@@ -56,13 +150,10 @@ export default function AppRoutes() {
         }
       >
         <Route index element={<Navigate to="upload" />} />
-
-        {adminRoutes.map(({ path, element: Component }) => (
-          <Route key={path} path={path} element={<Component />} />
-        ))}
       </Route>
 
       {/* 404 */}
+
       <Route path="*" element={<NotFound />} />
     </Routes>
   );

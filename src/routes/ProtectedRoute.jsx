@@ -6,7 +6,7 @@ export default function ProtectedRoute({ children }) {
 
   if (user === undefined) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
+      <div className="flex items-center justify-center min-h-screen">
         Checking authentication...
       </div>
     );
