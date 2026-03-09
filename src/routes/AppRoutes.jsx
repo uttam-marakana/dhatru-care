@@ -10,35 +10,50 @@ import LazyWrapper from "../components/common/LazyWrapper";
 import ProtectedRoute from "./ProtectedRoute";
 import AdminRoute from "./AdminRoute";
 
-import NotFound from "../pages/NotFound";
+import { publicRoutes } from "./autoRoutes";
 
-/* AUTO ROUTES */
+/* PUBLIC DYNAMIC */
 
-import { autoRoutes } from "./autoRoutes";
+const DepartmentDetail = lazy(() => import("../pages/public/DepartmentDetail"));
 
-/* DYNAMIC ROUTES */
+const DoctorDetail = lazy(() => import("../pages/public/DoctorDetail"));
 
-const DepartmentDetail = lazy(() => import("../pages/DepartmentDetail"));
-const DoctorDetail = lazy(() => import("../pages/DoctorDetail"));
-const BlogDetail = lazy(() => import("../pages/BlogDetail"));
+const BlogDetail = lazy(() => import("../pages/public/BlogDetail"));
 
 /* AUTH */
 
 const Login = lazy(() => import("../auth/Login"));
 const Signup = lazy(() => import("../auth/Signup"));
 
-/* USER */
+/* PROTECTED */
 
-const Profile = lazy(() => import("../pages/Profile"));
-const Settings = lazy(() => import("../pages/Settings"));
-const UserAppointments = lazy(() => import("../pages/UserAppointments"));
+const Profile = lazy(() => import("../pages/protected/Profile"));
+
+const Settings = lazy(() => import("../pages/protected/Settings"));
+
+const UserAppointments = lazy(
+  () => import("../pages/protected/UserAppointments.jsx"),
+);
+
+/* ADMIN */
+
+const DataUpload = lazy(() => import("../admin/pages/DataUpload"));
+
+const BulkUpload = lazy(() => import("../admin/pages/BulkUpload"));
+
+const ManageAppointment = lazy(
+  () => import("../admin/pages/ManageAppointment"),
+);
+
+const NotFound = lazy(() => import("../pages/public/NotFound"));
 
 export default function AppRoutes() {
   return (
     <Routes>
-      {/* PUBLIC */}
+      {/* PUBLIC ROUTES */}
+
       <Route element={<PublicLayout />}>
-        {autoRoutes.map(({ path, element: Component }) => (
+        {publicRoutes.map(({ path, element: Component }) => (
           <Route
             key={path}
             path={path}
@@ -80,7 +95,7 @@ export default function AppRoutes() {
         />
       </Route>
 
-      {/* AUTH */}
+      {/* AUTH ROUTES */}
 
       <Route element={<AuthLayout />}>
         <Route
@@ -102,7 +117,7 @@ export default function AppRoutes() {
         />
       </Route>
 
-      {/* USER */}
+      {/* PROTECTED ROUTES */}
 
       <Route
         element={
@@ -139,7 +154,7 @@ export default function AppRoutes() {
         />
       </Route>
 
-      {/* ADMIN */}
+      {/* ADMIN ROUTES */}
 
       <Route
         path="/admin"
@@ -149,12 +164,44 @@ export default function AppRoutes() {
           </AdminRoute>
         }
       >
-        <Route index element={<Navigate to="upload" />} />
+        <Route
+          path="upload"
+          element={
+            <LazyWrapper>
+              <DataUpload />
+            </LazyWrapper>
+          }
+        />
+
+        <Route
+          path="bulk-upload"
+          element={
+            <LazyWrapper>
+              <BulkUpload />
+            </LazyWrapper>
+          }
+        />
+
+        <Route
+          path="appointment"
+          element={
+            <LazyWrapper>
+              <ManageAppointment />
+            </LazyWrapper>
+          }
+        />
       </Route>
 
       {/* 404 */}
 
-      <Route path="*" element={<NotFound />} />
+      <Route
+        path="*"
+        element={
+          <LazyWrapper>
+            <NotFound />
+          </LazyWrapper>
+        }
+      />
     </Routes>
   );
 }
