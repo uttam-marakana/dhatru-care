@@ -194,7 +194,6 @@ dhatrucare/
 │   │   ├── AppRoutes.jsx
 │   │   └── ProtectedRoute.jsx
 │   │   ├── autoRoutes.js
-│   │   └── routeConfig.js
 │
 │
 │   ├── scripts/                   # Utility scripts
