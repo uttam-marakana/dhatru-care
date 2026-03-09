@@ -131,7 +131,7 @@ export default function DoctorDetail() {
               </div>
 
               <div className="space-y-3 mt-6">
-                <Link to="/appointment">
+                <Link to="/appointments">
                   <Button size="lg" leftIcon={<FaCalendarCheck />}>
                     Book Appointment
                   </Button>
