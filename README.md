@@ -138,12 +138,13 @@ dhatrucare/
 │   │       ├── Header.jsx
 │   │       ├── MobileDrawer.jsx
 │   │       └── TopBar.jsx
+│   │       └── UserMenu.jsx
 │
 │
 │   ├── context/                   # React Context state management
 │   │   ├── HomeDataContext.jsx
 │   │   └── ThemeContext.jsx
-│
+│   │   └── AuthContext.jsx
 │
 │   ├── data/                      # Local mock or static data
 │   │   ├── appointments.json
@@ -189,6 +190,7 @@ dhatrucare/
 │   │   ├── AdminRoute.jsx
 │   │   ├── AppRoutes.jsx
 │   │   └── ProtectedRoute.jsx
+│   │   └── routeConfig.js
 │
 │
 │   ├── scripts/                   # Utility scripts
