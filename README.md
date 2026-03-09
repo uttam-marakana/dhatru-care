@@ -168,25 +168,29 @@ dhatrucare/
 │   │   └── PublicLayout.jsx
 │
 │
-│   ├── pages/                     # Main route pages
+│   ├── pages/                     # Main route container
 │   │
-│   │   ├── Appointments.jsx
-│   │   ├── Blog.jsx
-│   │   ├── BlogDetail.jsx
-│   │   ├── Contact.jsx
-│   │   ├── DepartmentDetail.jsx
-│   │   ├── Departments.jsx
-│   │   ├── DoctorDetail.jsx
-│   │   ├── Doctors.jsx
-│   │   ├── Home.jsx
-│   │   ├── NotFound.jsx
-│   │   ├── Packages.jsx
-│   │   ├── PackagesCompare.jsx
-│   │   ├── Profile.jsx
-│   │   ├── Search.jsx
-│   │   ├── Services.jsx
-│   │   ├── Settings.jsx
-│   │   └── UserAppointments.jsx
+│   │   ├── public/                # Main Public route pages
+│   │   │
+│   │   │   ├── Appointments.jsx
+│   │   │   ├── Blog.jsx
+│   │   │   ├── BlogDetail.jsx
+│   │   │   ├── Contact.jsx
+│   │   │   ├── DepartmentDetail.jsx
+│   │   │   ├── Departments.jsx
+│   │   │   ├── DoctorDetail.jsx
+│   │   │   ├── Doctors.jsx
+│   │   │   ├── Home.jsx
+│   │   │   ├── NotFound.jsx
+│   │   │   ├── Packages.jsx
+│   │   │   ├── PackagesCompare.jsx
+│   │   │   ├── Search.jsx
+│   │   │   ├── Services.jsx
+│   │   │
+│   │   ├── protected/                # Main Protected route pages
+│   │   │   ├── Profile.jsx
+│   │   │   ├── Settings.jsx
+│   │   │   └── UserAppointments.jsx
 │
 │
 │   ├── routes/                    # Route configuration
