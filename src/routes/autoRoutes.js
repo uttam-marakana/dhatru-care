@@ -22,13 +22,24 @@ function getRoutePath(file) {
   return path || "/";
 }
 
-export const publicRoutes = Object.entries(publicPages).map(
-  ([file, importer]) => {
+/*
+Exclude pages handled manually (dynamic routes)
+*/
+
+const excludedRoutes = ["/blogdetail", "/departmentdetail", "/doctordetail"];
+
+/*
+Generate routes
+*/
+
+export const publicRoutes = Object.entries(publicPages)
+  .map(([file, importer]) => {
     const Component = lazy(importer);
 
     return {
       path: getRoutePath(file),
       element: Component,
     };
-  },
-);
+  })
+  .filter((route) => !excludedRoutes.includes(route.path))
+  .sort((a, b) => a.path.length - b.path.length);

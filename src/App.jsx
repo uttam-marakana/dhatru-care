@@ -16,11 +16,11 @@ function App() {
         fallback={
           <div
             className="
-        fixed inset-0 z-50
-        flex items-center justify-center
-        bg-[var(--bg)]/80
-        backdrop-blur-md
-        "
+            fixed inset-0 z-50
+            flex items-center justify-center
+            bg-[var(--bg)]/80
+            backdrop-blur-md
+            "
           >
             <Loader size="lg" />
           </div>

@@ -1,4 +1,4 @@
-import { Routes, Route, Navigate } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import { lazy } from "react";
 
 import PublicLayout from "../layouts/PublicLayout";
@@ -12,7 +12,7 @@ import AdminRoute from "./AdminRoute";
 
 import { publicRoutes } from "./autoRoutes";
 
-/* PUBLIC DYNAMIC */
+/* DYNAMIC PUBLIC ROUTES */
 
 const DepartmentDetail = lazy(() => import("../pages/public/DepartmentDetail"));
 
@@ -28,11 +28,10 @@ const Signup = lazy(() => import("../auth/Signup"));
 /* PROTECTED */
 
 const Profile = lazy(() => import("../pages/protected/Profile"));
-
 const Settings = lazy(() => import("../pages/protected/Settings"));
 
 const UserAppointments = lazy(
-  () => import("../pages/protected/UserAppointments.jsx"),
+  () => import("../pages/protected/UserAppointments"),
 );
 
 /* ADMIN */
