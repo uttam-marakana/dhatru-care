@@ -38,7 +38,7 @@ export default function QuickActions() {
   return (
     <section className="relative py-20 md:py-24 bg-[var(--bg)] text-[var(--text)] overflow-hidden">
       {/* Glow background */}
-      <div className="absolute -top-40 left-1/2 -translate-x-1/2 w-175 h-175 bg-(--glow-bg) blur-[140px] rounded-full"></div>
+      <div className="absolute -top-40 left-1/2 -translate-x-1/2 w-175 h-175 bg-[var(--glow-bg)] blur-[140px] rounded-full"></div>
 
       <Container>
         {/* Header */}

@@ -81,7 +81,7 @@ export default function DepartmentDetail() {
   if (!department) return null;
 
   return (
-    <div className="absolute top-0 left-1/2 -translate-x-1/2 w-150 h-150 bg-(--glow-bg) blur-[140px] rounded-full">
+    <div className="absolute top-0 left-1/2 -translate-x-1/2 w-150 h-150 bg-[var(--glow-bg)] blur-[140px] rounded-full">
       {/* BREADCRUMB */}
       <Breadcrumb
         items={[

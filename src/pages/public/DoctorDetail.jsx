@@ -92,7 +92,7 @@ export default function DoctorDetail() {
 
       {/* HERO */}
       <div className="relative py-12 md:py-20 overflow-hidden">
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-175 h-175 bg-(--glow-bg) blur-[150px] rounded-full"></div>
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-175 h-175 bg-[var(--glow-bg)] blur-[150px] rounded-full"></div>
 
         <Container>
           <div className="grid md:grid-cols-3 gap-10 relative z-10">

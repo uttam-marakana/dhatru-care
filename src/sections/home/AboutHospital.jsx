@@ -6,7 +6,7 @@ const Container = lazy(() => import("../../components/layout/Container"));
 export default function AboutHospital() {
   return (
     <section className="relative py-20 md:py-24 bg-[var(--bg)] text-[var(--text)] overflow-hidden">
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-165.5 h-165.5 bg-(--glow-bg) blur-[140px] rounded-full"></div>
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-165.5 h-165.5 bg-[var(--glow-bg)] blur-[140px] rounded-full"></div>
 
       <Container>
         <div className="grid lg:grid-cols-2 gap-14 lg:gap-20 items-center relative z-10">
@@ -55,7 +55,7 @@ export default function AboutHospital() {
 
           {/* Image */}
           <div className="relative group">
-            <div className="absolute -inset-4 rounded-3xl bg-(--glow-bg) blur-3xl opacity-60"></div>
+            <div className="absolute -inset-4 rounded-3xl bg-[var(--glow-bg)] blur-3xl opacity-60"></div>
 
             <div className="relative rounded-3xl overflow-hidden border border-[var(--border)] shadow-xl">
               <img

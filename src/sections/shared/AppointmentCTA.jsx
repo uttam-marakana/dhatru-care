@@ -27,7 +27,7 @@ export default function AppointmentCTA({
       `}
     >
       {/* Glow */}
-      <div className="absolute -top-40 left-1/2 -translate-x-1/2 w-175 h-175 bg-(--glow-bg) blur-[140px] rounded-full"></div>
+      <div className="absolute -top-40 left-1/2 -translate-x-1/2 w-175 h-175 bg-[var(--glow-bg)] blur-[140px] rounded-full"></div>
 
       <Container className="relative z-10 text-center">
         <h2 className="text-4xl md:text-5xl font-bold mb-6 text-[var(--color-primary)]">

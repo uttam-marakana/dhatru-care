@@ -7,7 +7,7 @@ export default function Hero() {
   return (
     <section className="relative min-h-[85vh] md:min-h-[95vh] flex items-center bg-[var(--bg)] text-[var(--text)] overflow-hidden">
       {/* Background Glow */}
-      <div className="absolute inset-0 bg-(--glow-bg) blur-[140px] opacity-40"></div>
+      <div className="absolute inset-0 bg-[var(--glow-bg)] blur-[140px] opacity-40"></div>
 
       <Container className="relative z-10 py-16 md:py-24">
         <div className="max-w-4xl">

@@ -42,7 +42,7 @@ export default function Departments() {
       />
 
       <section className="py-20 relative">
-        <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-175 h-175 bg-(--glow-bg) blur-[160px] rounded-full">
+        <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-175 h-175 bg-[var(--glow-bg)] blur-[160px] rounded-full">
           <div className="relative z-10">
             {loading ? (
               <p className="text-center py-20 text-[var(--text-secondary)]">

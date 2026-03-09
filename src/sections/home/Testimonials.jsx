@@ -31,7 +31,7 @@ export default function Testimonials({ testimonials = [], loading = false }) {
   return (
     <section className="relative py-20 md:py-24 bg-[var(--bg)] text-[var(--text)]">
       {/* Glow */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[650px] h-[650px] bg-(--glow-bg) blur-[140px] rounded-full"></div>
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[650px] h-[650px] bg-[var(--glow-bg)] blur-[140px] rounded-full"></div>
 
       <Container>
         {/* Header */}

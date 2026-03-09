@@ -6,7 +6,7 @@ const Container = lazy(() => import("../../components/layout/Container"));
 export default function ContactMap() {
   return (
     <section className="relative py-20 md:py-24 bg-[var(--bg)] text-[var(--text)] overflow-hidden">
-      <div className="absolute -top-40 left-1/2 -translate-x-1/2 w-162.5 h-162.5 bg-(--glow-bg) blur-[140px] rounded-full"></div>
+      <div className="absolute -top-40 left-1/2 -translate-x-1/2 w-162.5 h-162.5 bg-[var(--glow-bg)] blur-[140px] rounded-full"></div>
 
       <Container>
         <div className="text-center mb-16">

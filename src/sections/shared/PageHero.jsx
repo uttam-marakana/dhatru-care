@@ -13,7 +13,7 @@ export default function PageHero({
 }) {
   return (
     <section className={`relative overflow-hidden ${bgClass} ${height}`}>
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-175 h-175 bg-(--glow-bg) blur-[150px] rounded-full"></div>
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-175 h-175 bg-[var(--glow-bg)] blur-[150px] rounded-full"></div>
 
       <Container>
         <div className="text-center max-w-4xl mx-auto relative z-10">
