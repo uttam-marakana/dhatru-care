@@ -8,8 +8,7 @@ import {
   FaSignOutAlt,
   FaPhoneAlt,
 } from "react-icons/fa";
-import { onAuthStateChanged, signOut } from "firebase/auth";
-import { auth } from "../../firebase";
+import { useAuth } from "../../context/AuthContext";
 
 const Container = lazy(() => import("./Container"));
 const ThemeToggle = lazy(() => import("../common/ThemeToggle"));
@@ -30,20 +29,21 @@ export default function Header() {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const [user, setUser] = useState(null);
+  
   const [isOpen, setIsOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
+  /* NEW STATE FOR USER DROPDOWN */
+  const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
+
   const searchRef = useRef(null);
+  const userMenuRef = useRef(null);
 
   /* AUTH STATE */
-  useEffect(() => {
-    const unsub = onAuthStateChanged(auth, (u) => setUser(u || null));
-    return () => unsub();
-  }, []);
+  const { user, logout } = useAuth();
 
   /* DARK MODE WATCHER */
   useEffect(() => {
@@ -72,6 +72,7 @@ export default function Header() {
   useEffect(() => {
     setIsOpen(false);
     setIsSearchOpen(false);
+    setIsUserMenuOpen(false);
   }, [location.pathname]);
 
   /* OUTSIDE SEARCH CLOSE */
@@ -80,10 +81,17 @@ export default function Header() {
       if (searchRef.current && !searchRef.current.contains(e.target)) {
         setIsSearchOpen(false);
       }
+
+      if (userMenuRef.current && !userMenuRef.current.contains(e.target)) {
+        setIsUserMenuOpen(false);
+      }
     };
 
     const handleEsc = (e) => {
-      if (e.key === "Escape") setIsSearchOpen(false);
+      if (e.key === "Escape") {
+        setIsSearchOpen(false);
+        setIsUserMenuOpen(false);
+      }
     };
 
     document.addEventListener("mousedown", handleClickOutside);
@@ -132,17 +140,7 @@ export default function Header() {
             {/* DESKTOP NAV */}
             <nav className="hidden xl:flex gap-8 font-medium">
               {navItems.map((item) => (
-                <NavLink
-                  key={item.to}
-                  to={item.to}
-                  className={({ isActive }) =>
-                    `transition-colors duration-300 ${
-                      isActive
-                        ? "text-[var(--color-primary)]"
-                        : "text-[var(--text-secondary)] hover:text-[var(--color-primary)]"
-                    }`
-                  }
-                >
+                <NavLink key={item.to} to={item.to}>
                   {item.label}
                 </NavLink>
               ))}
@@ -164,7 +162,6 @@ export default function Header() {
                 <button
                   aria-label="Open search"
                   onClick={() => setIsSearchOpen((prev) => !prev)}
-                  className="text-[var(--text-secondary)] hover:text-[var(--color-primary)] transition"
                 >
                   <FaSearch />
                 </button>
@@ -172,15 +169,7 @@ export default function Header() {
                 {isSearchOpen && (
                   <form
                     onSubmit={handleSearch}
-                    className="
-                    absolute right-0 top-full mt-3 w-64
-                    bg-[var(--card)]/90
-                    backdrop-blur-md
-                    border border-[var(--border)]
-                    rounded-xl p-4
-                    shadow-[0_0_30px_var(--glow-bg)]
-                    z-50
-                    "
+                    className="absolute right-0 top-full mt-3 w-64 bg-[var(--card)] border rounded-xl p-4"
                   >
                     <div className="flex items-center gap-3">
                       <input
@@ -189,20 +178,15 @@ export default function Header() {
                         onChange={(e) => setSearchQuery(e.target.value)}
                         placeholder="Search..."
                         autoFocus
-                        className="
-                        w-full bg-transparent outline-none
-                        text-[var(--text)]
-                        placeholder-[var(--muted)]
-                        "
+                        className="w-full bg-transparent outline-none"
                       />
 
                       {searchQuery && (
                         <button
                           type="button"
-                          aria-label="Clear search"
                           onClick={() => setSearchQuery("")}
                         >
-                          <FaTimesCircle className="text-[var(--muted)] hover:text-[var(--color-primary)]" />
+                          <FaTimesCircle />
                         </button>
                       )}
                     </div>
@@ -210,32 +194,53 @@ export default function Header() {
                 )}
               </div>
 
-              {/* USER */}
+              {/* USER DROPDOWN */}
               {user ? (
-                <>
-                  <Link
-                    to="/profile"
-                    aria-label="Profile"
-                    className="text-[var(--text-secondary)] hover:text-[var(--color-primary)]"
-                  >
+                <div ref={userMenuRef} className="relative">
+                  <button onClick={() => setIsUserMenuOpen((prev) => !prev)}>
                     <FaUser />
-                  </Link>
-
-                  <button
-                    aria-label="Logout"
-                    onClick={() => signOut(auth)}
-                    className="text-[var(--text-secondary)] hover:text-[var(--color-primary)]"
-                  >
-                    <FaSignOutAlt />
                   </button>
-                </>
+
+                  {isUserMenuOpen && (
+                    <div className="absolute right-0 mt-3 w-56 bg-[var(--card)] border rounded-xl shadow-lg">
+                      <div className="px-4 py-3 border-b text-sm">
+                        <p>Signed in as</p>
+                        <p className="font-medium truncate">{user.email}</p>
+                      </div>
+
+                      <Link
+                        to="/profile/appointments"
+                        className="block px-4 py-3 hover:bg-[var(--surface)]"
+                      >
+                        My Appointments
+                      </Link>
+
+                      <Link
+                        to="/profile"
+                        className="block px-4 py-3 hover:bg-[var(--surface)]"
+                      >
+                        Profile
+                      </Link>
+
+                      <Link
+                        to="/settings"
+                        className="block px-4 py-3 hover:bg-[var(--surface)]"
+                      >
+                        Settings
+                      </Link>
+
+                      <button
+                        onClick={logout}
+                        className="w-full text-left px-4 py-3 hover:bg-red-50 text-red-500 flex items-center gap-2"
+                      >
+                        <FaSignOutAlt />
+                        Logout
+                      </button>
+                    </div>
+                  )}
+                </div>
               ) : (
-                <Link
-                  to="/login"
-                  className="text-[var(--text-secondary)] hover:text-[var(--color-primary)]"
-                >
-                  Login
-                </Link>
+                <Link to="/login">Login</Link>
               )}
 
               <ThemeToggle />
@@ -243,49 +248,27 @@ export default function Header() {
               {/* CTA */}
               <Link
                 to="/appointment"
-                className="
-                bg-[var(--color-primary)]
-                hover:bg-[var(--color-primary-hover)]
-                text-white
-                px-6 py-2.5
-                rounded-full
-                font-semibold
-                shadow-[0_0_25px_var(--glow-soft)]
-                transition-all duration-300
-                "
+                className="bg-[var(--color-primary)] text-white px-6 py-2.5 rounded-full"
               >
                 Book Appointment
               </Link>
             </div>
 
             {/* MOBILE MENU BUTTON */}
-            <button
-              aria-label="Open menu"
-              onClick={() => setIsOpen(true)}
-              className="xl:hidden text-[var(--text-secondary)]"
-            >
+            <button onClick={() => setIsOpen(true)} className="xl:hidden">
               <FaBars size={20} />
             </button>
           </div>
         </Container>
       </header>
 
-      {/* MOBILE DRAWER */}
       <MobileDrawer
         isOpen={isOpen}
         onClose={() => setIsOpen(false)}
         navItems={navItems}
         user={user}
-        searchQuery={searchQuery}
-        setSearchQuery={setSearchQuery}
-        handleSearch={handleSearch}
-        isDarkMode={isDarkMode}
-        light_logo={light_logo}
-        dark_logo={dark_logo}
-        ThemeToggle={ThemeToggle}
       />
 
-      {/* HEADER OFFSET */}
       <div className="h-16 sm:h-20" />
     </>
   );
