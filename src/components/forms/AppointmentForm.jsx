@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 import {
   createAppointment,
@@ -15,12 +15,17 @@ import SlotGrid from "../common/SlotGrid";
 
 import { auth } from "../../firebase";
 
+const [searchParams] = useSearchParams();
+
+const departmentFromURL = searchParams.get("department");
+const doctorFromURL = searchParams.get("doctor");
+
 const initialState = {
   patientName: "",
   phone: "",
   email: "",
-  department: "",
-  doctorId: "",
+  department: departmentFromURL || "",
+  doctorId: doctorFromURL || "",
   date: "",
   time: "",
   message: "",
