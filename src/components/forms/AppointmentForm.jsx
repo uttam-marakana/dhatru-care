@@ -1,6 +1,10 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { createAppointment } from "../../api/appointmentsApi";
+import {
+  createAppointment,
+  subscribeDoctorSlots,
+} from "../../api/appointmentsApi";
+import { generateSlots, filterAvailableSlots } from "../../utils/generateSlots";
 import { auth } from "../../firebase";
 
 const initialState = {
@@ -8,212 +12,153 @@ const initialState = {
   phone: "",
   email: "",
   department: "",
-  doctorID: "",
+  doctorId: "",
   date: "",
   time: "",
   message: "",
 };
 
-const departments = [
-  "Cardiology",
-  "Dermatology",
-  "Neurology",
-  "Orthopedics",
-  "Pediatrics",
-  "General Medicine",
-];
-
 export default function AppointmentForm() {
   const [form, setForm] = useState(initialState);
   const [loading, setLoading] = useState(false);
-  const [success, setSuccess] = useState(false);
+
+  const [slots, setSlots] = useState([]);
+  const [availableSlots, setAvailableSlots] = useState([]);
 
   const navigate = useNavigate();
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
-
     setForm((prev) => ({
       ...prev,
-      [name]: value,
+      [e.target.name]: e.target.value,
     }));
   };
 
-  const validateForm = () => {
-    if (!form.patientName) return "Patient name required";
-    if (!form.phone) return "Phone number required";
-    if (!form.email) return "Email required";
-    if (!form.department) return "Select department";
-    if (!form.doctorID) return "Select doctor";
-    if (!form.date) return "Select appointment date";
-    if (!form.time) return "Select appointment time";
+  /* SLOT GENERATION */
 
-    return null;
-  };
+  useEffect(() => {
+    if (!form.doctorId || !form.date) return;
+
+    const allSlots = generateSlots(9, 17, 30);
+
+    const unsubscribe = subscribeDoctorSlots(
+      form.doctorId,
+      form.date,
+      (bookedSlots) => {
+        const available = filterAvailableSlots(allSlots, bookedSlots);
+
+        setSlots(allSlots);
+        setAvailableSlots(available);
+      },
+    );
+
+    return () => unsubscribe();
+  }, [form.doctorId, form.date]);
+
+  /* SUBMIT */
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     const user = auth.currentUser;
 
-    if (!user?.uid) {
-      alert("Please login to book an appointment.");
-      return;
-    }
-
-    const error = validateForm();
-    if (error) {
-      alert(error);
+    if (!user) {
+      alert("Please login first.");
       return;
     }
 
     setLoading(true);
 
     try {
-      const appointmentData = {
+      await createAppointment({
         ...form,
         userId: user.uid,
-      };
+      });
 
-      await createAppointment(appointmentData);
+      alert("Appointment booked!");
 
-      setSuccess(true);
       setForm(initialState);
 
-      setTimeout(() => {
-        navigate("/profile/appointments");
-      }, 1500);
+      navigate("/profile/appointments");
     } catch (err) {
-      console.error("Appointment booking error:", err);
-      alert(err.message || "Booking failed");
+      alert(err.message);
     }
 
     setLoading(false);
   };
 
   return (
-    <div
-      className="
-      max-w-2xl mx-auto
-      bg-[var(--card)]
-      border border-[var(--border)]
-      p-8 rounded-2xl
-      shadow-[0_0_40px_var(--glow-bg)]
-      "
-    >
+    <form onSubmit={handleSubmit} className="space-y-4">
+      <input
+        name="patientName"
+        placeholder="Full Name"
+        value={form.patientName}
+        onChange={handleChange}
+        required
+      />
 
-      {success && (
-        <div className="text-complete text-center mb-4">
-          Appointment submitted successfully!
-        </div>
-      )}
+      <input
+        name="phone"
+        placeholder="Phone"
+        value={form.phone}
+        onChange={handleChange}
+        required
+      />
 
-      <form onSubmit={handleSubmit} className="space-y-5">
-        {/* Name */}
-        <input
-          name="patientName"
-          placeholder="Full Name"
-          value={form.patientName}
-          onChange={handleChange}
-          required
-          className="w-full p-3 rounded-lg bg-[var(--surface)] border border-[var(--border)]"
-        />
+      <input
+        name="email"
+        placeholder="Email"
+        value={form.email}
+        onChange={handleChange}
+        required
+      />
 
-        {/* Phone */}
-        <input
-          name="phone"
-          type="tel"
-          placeholder="Phone Number"
-          value={form.phone}
-          onChange={handleChange}
-          required
-          className="w-full p-3 rounded-lg bg-[var(--surface)] border border-[var(--border)]"
-        />
+      <input
+        name="department"
+        placeholder="Department"
+        value={form.department}
+        onChange={handleChange}
+        required
+      />
 
-        {/* Email */}
-        <input
-          name="email"
-          type="email"
-          placeholder="Email Address"
-          value={form.email}
-          onChange={handleChange}
-          required
-          className="w-full p-3 rounded-lg bg-[var(--surface)] border border-[var(--border)]"
-        />
+      <input
+        name="doctorId"
+        placeholder="Doctor ID"
+        value={form.doctorId}
+        onChange={handleChange}
+        required
+      />
 
-        {/* Department */}
-        <select
-          name="department"
-          value={form.department}
-          onChange={handleChange}
-          required
-          className="w-full p-3 rounded-lg bg-[var(--surface)] border border-[var(--border)]"
-        >
-          <option value="">Select Department</option>
-          {departments.map((dept) => (
-            <option key={dept} value={dept}>
-              {dept}
-            </option>
-          ))}
-        </select>
+      <input
+        type="date"
+        name="date"
+        value={form.date}
+        onChange={handleChange}
+        required
+      />
 
-        {/* Doctor ID */}
-        <input
-          name="doctorID"
-          placeholder="Doctor ID (example: doc_1)"
-          value={form.doctorID}
-          onChange={handleChange}
-          required
-          className="w-full p-3 rounded-lg bg-[var(--surface)] border border-[var(--border)]"
-        />
+      {/* SLOT SELECTOR */}
 
-        {/* Date + Time */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <input
-            type="date"
-            name="date"
-            min={new Date().toISOString().split("T")[0]}
-            value={form.date}
-            onChange={handleChange}
-            required
-            className="p-3 rounded-lg bg-[var(--surface)] border border-[var(--border)]"
-          />
+      <select name="time" value={form.time} onChange={handleChange} required>
+        <option value="">Select Time Slot</option>
 
-          <input
-            type="time"
-            name="time"
-            value={form.time}
-            onChange={handleChange}
-            required
-            className="p-3 rounded-lg bg-[var(--surface)] border border-[var(--border)]"
-          />
-        </div>
+        {availableSlots.map((slot) => (
+          <option key={slot} value={slot}>
+            {slot}
+          </option>
+        ))}
+      </select>
 
-        {/* Message */}
-        <textarea
-          name="message"
-          placeholder="Additional Notes"
-          value={form.message}
-          onChange={handleChange}
-          className="w-full p-3 rounded-lg bg-[var(--surface)] border border-[var(--border)]"
-        />
+      <textarea
+        name="message"
+        placeholder="Additional Notes"
+        value={form.message}
+        onChange={handleChange}
+      />
 
-        {/* Submit */}
-        <button
-          type="submit"
-          disabled={loading}
-          className="
-          w-full
-          bg-primary
-          hover:bg-primary-hover
-          text-white
-          p-3 rounded-xl
-          transition
-          "
-        >
-          {loading ? "Booking..." : "Book Appointment"}
-        </button>
-      </form>
-    </div>
+      <button disabled={loading}>
+        {loading ? "Booking..." : "Book Appointment"}
+      </button>
+    </form>
   );
 }
