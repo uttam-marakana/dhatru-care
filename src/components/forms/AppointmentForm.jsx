@@ -12,6 +12,7 @@ import { getDoctorsByDepartment } from "../../api/doctorsApi";
 import { generateSlots, filterAvailableSlots } from "../../utils/generateSlots";
 
 import SlotGrid from "../common/SlotGrid";
+import DoctorAvailabilityCalendar from "../common/DoctorAvailabilityCalendar";
 
 import { auth } from "../../firebase";
 
@@ -19,12 +20,8 @@ export default function AppointmentForm() {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
 
-  /* READ QUERY PARAMS */
-
   const departmentFromURL = searchParams.get("department");
   const doctorFromURL = searchParams.get("doctor");
-
-  /* FORM STATE */
 
   const [form, setForm] = useState({
     patientName: "",
@@ -39,6 +36,7 @@ export default function AppointmentForm() {
 
   const [departments, setDepartments] = useState([]);
   const [doctors, setDoctors] = useState([]);
+  const [doctor, setDoctor] = useState(null);
   const [availableSlots, setAvailableSlots] = useState([]);
 
   const [loading, setLoading] = useState(false);
@@ -61,18 +59,33 @@ export default function AppointmentForm() {
 
     const loadDoctors = async () => {
       const data = await getDoctorsByDepartment(form.department);
+
       setDoctors(data);
+
+      const selected = data.find((d) => d.id === form.doctorId);
+      if (selected) setDoctor(selected);
     };
 
     loadDoctors();
   }, [form.department]);
 
-  /* LOAD AVAILABLE SLOTS */
+  /* SET SELECTED DOCTOR */
+
+  useEffect(() => {
+    const selected = doctors.find((d) => d.id === form.doctorId);
+    setDoctor(selected || null);
+  }, [form.doctorId, doctors]);
+
+  /* LOAD SLOTS */
 
   useEffect(() => {
     if (!form.doctorId || !form.date) return;
 
-    const allSlots = generateSlots(9, 17, 30);
+    const start = doctor?.startHour ?? 9;
+    const end = doctor?.endHour ?? 17;
+    const interval = doctor?.slotDuration ?? 30
+
+    const allSlots = generateSlots(start, end, interval);
 
     const unsubscribe = subscribeDoctorSlots(
       form.doctorId,
@@ -84,9 +97,7 @@ export default function AppointmentForm() {
     );
 
     return () => unsubscribe();
-  }, [form.doctorId, form.date]);
-
-  /* INPUT CHANGE */
+  }, [form.doctorId, form.date, doctor]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -94,17 +105,25 @@ export default function AppointmentForm() {
     setForm((prev) => ({
       ...prev,
       [name]: value,
-      ...(name === "department" && { doctorId: "", time: "" }),
+      ...(name === "department" && { doctorId: "", date: "", time: "" }),
+      ...(name === "doctorId" && { date: "", time: "" }),
     }));
   };
 
-  /* SELECT SLOT */
-
-  const selectSlot = (slot) => {
-    setForm((prev) => ({ ...prev, time: slot }));
+  const selectDate = (date) => {
+    setForm((prev) => ({
+      ...prev,
+      date,
+      time: "",
+    }));
   };
 
-  /* SUBMIT */
+  const selectSlot = (slot) => {
+    setForm((prev) => ({
+      ...prev,
+      time: slot,
+    }));
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -126,17 +145,6 @@ export default function AppointmentForm() {
 
       alert("Appointment booked successfully!");
 
-      setForm({
-        patientName: "",
-        phone: "",
-        email: "",
-        department: "",
-        doctorId: "",
-        date: "",
-        time: "",
-        message: "",
-      });
-
       navigate("/profile/appointments");
     } catch (err) {
       alert(err.message);
@@ -155,7 +163,7 @@ export default function AppointmentForm() {
   `;
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-5">
+    <form onSubmit={handleSubmit} className="space-y-6">
       <input
         name="patientName"
         placeholder="Full Name"
@@ -219,23 +227,25 @@ export default function AppointmentForm() {
         ))}
       </select>
 
-      <input
-        type="date"
-        name="date"
-        min={new date().toISOString().split("T")[0]}
-        value={form.date}
-        onChange={handleChange}
-        required
-        className={inputStyle}
-      />
+      {/* CALENDAR */}
 
-      {/* SLOT GRID */}
+      {doctor && (
+        <DoctorAvailabilityCalendar
+          selectedDate={form.date}
+          onSelect={selectDate}
+          doctor={doctor}
+        />
+      )}
 
-      <SlotGrid
-        slots={availableSlots}
-        selected={form.time}
-        onSelect={selectSlot}
-      />
+      {/* SLOTS */}
+
+      {form.date && (
+        <SlotGrid
+          slots={availableSlots}
+          selected={form.time}
+          onSelect={selectSlot}
+        />
+      )}
 
       <textarea
         name="message"
@@ -247,12 +257,13 @@ export default function AppointmentForm() {
       />
 
       <button
-        disabled={loading}
+        disabled={loading || !form.time}
         className="
         w-full py-3 rounded-lg
         bg-blue-500 hover:bg-blue-600
         text-white font-medium
         shadow-blue-500/30
+        disabled:opacity-50
         "
       >
         {loading ? "Booking..." : "Book Appointment"}
