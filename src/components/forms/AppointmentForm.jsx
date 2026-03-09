@@ -20,10 +20,8 @@ const initialState = {
 
 export default function AppointmentForm() {
   const [form, setForm] = useState(initialState);
-  const [loading, setLoading] = useState(false);
-
-  const [slots, setSlots] = useState([]);
   const [availableSlots, setAvailableSlots] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
 
@@ -46,8 +44,6 @@ export default function AppointmentForm() {
       form.date,
       (bookedSlots) => {
         const available = filterAvailableSlots(allSlots, bookedSlots);
-
-        setSlots(allSlots);
         setAvailableSlots(available);
       },
     );
@@ -63,7 +59,7 @@ export default function AppointmentForm() {
     const user = auth.currentUser;
 
     if (!user) {
-      alert("Please login first.");
+      navigate("/login");
       return;
     }
 
@@ -87,14 +83,32 @@ export default function AppointmentForm() {
     setLoading(false);
   };
 
+  const inputStyle = `
+  w-full
+  p-3
+  rounded-lg
+  border border-gray-200
+  dark:border-white/10
+  bg-white
+  dark:bg-white/5
+  text-gray-900
+  dark:text-white
+  placeholder-gray-500
+  focus:outline-none
+  focus:ring-2
+  focus:ring-blue-500
+  transition
+  `;
+
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
+    <form onSubmit={handleSubmit} className="space-y-5">
       <input
         name="patientName"
         placeholder="Full Name"
         value={form.patientName}
         onChange={handleChange}
         required
+        className={inputStyle}
       />
 
       <input
@@ -103,6 +117,7 @@ export default function AppointmentForm() {
         value={form.phone}
         onChange={handleChange}
         required
+        className={inputStyle}
       />
 
       <input
@@ -111,6 +126,7 @@ export default function AppointmentForm() {
         value={form.email}
         onChange={handleChange}
         required
+        className={inputStyle}
       />
 
       <input
@@ -119,6 +135,7 @@ export default function AppointmentForm() {
         value={form.department}
         onChange={handleChange}
         required
+        className={inputStyle}
       />
 
       <input
@@ -127,6 +144,7 @@ export default function AppointmentForm() {
         value={form.doctorId}
         onChange={handleChange}
         required
+        className={inputStyle}
       />
 
       <input
@@ -135,11 +153,18 @@ export default function AppointmentForm() {
         value={form.date}
         onChange={handleChange}
         required
+        className={inputStyle}
       />
 
-      {/* SLOT SELECTOR */}
+      {/* SLOT */}
 
-      <select name="time" value={form.time} onChange={handleChange} required>
+      <select
+        name="time"
+        value={form.time}
+        onChange={handleChange}
+        required
+        className={inputStyle}
+      >
         <option value="">Select Time Slot</option>
 
         {availableSlots.map((slot) => (
@@ -154,9 +179,26 @@ export default function AppointmentForm() {
         placeholder="Additional Notes"
         value={form.message}
         onChange={handleChange}
+        rows="4"
+        className={inputStyle}
       />
 
-      <button disabled={loading}>
+      {/* BUTTON */}
+
+      <button
+        disabled={loading}
+        className="
+        w-full
+        py-3
+        rounded-lg
+        font-medium
+        bg-blue-500
+        hover:bg-blue-600
+        text-white
+        transition
+        shadow-blue-500/30
+        "
+      >
         {loading ? "Booking..." : "Book Appointment"}
       </button>
     </form>

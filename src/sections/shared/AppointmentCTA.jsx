@@ -40,7 +40,7 @@ export default function AppointmentCTA({
         </p>
 
         <div className="flex flex-col sm:flex-row gap-6 justify-center">
-          <Link to="/appointment">
+          <Link to="/appointments">
             <Button
               size="lg"
               leftIcon={<FaCalendarCheck />}
