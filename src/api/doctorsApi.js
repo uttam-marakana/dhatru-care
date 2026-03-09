@@ -10,20 +10,19 @@ import {
   where,
   serverTimestamp,
 } from "firebase/firestore";
+
 import { db } from "../firebase";
 
-/* ------------ COLLECTION REF ---------------------------------------------- */
 const doctorsRef = collection(db, "doctors");
 
-/* ------------ GET ALL DOCTORS (WITH FILTERS)   
-  - Safe for old & new docs
-  - No orderBy (avoids index errors)
----------------------------------------------- */
+/* ------------------------------------------------ */
+/* GET ALL DOCTORS */
+/* ------------------------------------------------ */
+
 export const getDoctors = async (filters = {}) => {
   try {
     const constraints = [];
 
-    // Firestore-level filtering (fast)
     if (filters.specialty) {
       constraints.push(where("specialty", "==", filters.specialty));
     }
@@ -33,24 +32,15 @@ export const getDoctors = async (filters = {}) => {
 
     const snap = await getDocs(q);
 
-    let data = snap.docs.map((d) => ({
-      id: d.id, // 🔥 Firestore document ID
-      ...d.data(),
+    let data = snap.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
     }));
 
-    /* ------------ CLIENT-SIDE FILTERS ---------------------------------------------- */
-
-    // Search by name
     if (filters.search?.trim()) {
       const search = filters.search.toLowerCase();
-      data = data.filter((d) => d.name?.toLowerCase().includes(search));
-    }
 
-    // Experience filter
-    if (filters.experience?.trim()) {
-      data = data.filter((d) =>
-        d.experience?.toLowerCase().includes(filters.experience.toLowerCase()),
-      );
+      data = data.filter((d) => d.name?.toLowerCase().includes(search));
     }
 
     return data;
@@ -60,7 +50,32 @@ export const getDoctors = async (filters = {}) => {
   }
 };
 
-/* ------------ GET SINGLE DOCTOR BY FIRESTORE ID ---------------------------------------------- */
+/* ------------------------------------------------ */
+/* GET DOCTORS BY DEPARTMENT (FOR APPOINTMENT FORM) */
+/* ------------------------------------------------ */
+
+export const getDoctorsByDepartment = async (departmentId) => {
+  try {
+    if (!departmentId) return [];
+
+    const q = query(doctorsRef, where("departmentId", "==", departmentId));
+
+    const snap = await getDocs(q);
+
+    return snap.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
+  } catch (err) {
+    console.error("GET DOCTORS BY DEPARTMENT ERROR:", err);
+    throw err;
+  }
+};
+
+/* ------------------------------------------------ */
+/* GET DOCTOR BY ID */
+/* ------------------------------------------------ */
+
 export const getDoctorById = async (id) => {
   try {
     if (!id) return null;
@@ -80,39 +95,33 @@ export const getDoctorById = async (id) => {
   }
 };
 
-/* ------------ CREATE DOCTOR ---------------------------------------------- */
+/* ------------------------------------------------ */
+/* CREATE DOCTOR */
+/* ------------------------------------------------ */
+
 export const createDoctor = async (doctor) => {
-  try {
-    return await addDoc(doctorsRef, {
-      ...doctor,
-      createdAt: serverTimestamp(),
-      updatedAt: serverTimestamp(),
-    });
-  } catch (err) {
-    console.error("CREATE DOCTOR ERROR:", err);
-    throw err;
-  }
+  return await addDoc(doctorsRef, {
+    ...doctor,
+    createdAt: serverTimestamp(),
+    updatedAt: serverTimestamp(),
+  });
 };
 
-/* ------------ UPDATE DOCTOR ---------------------------------------------- */
+/* ------------------------------------------------ */
+/* UPDATE DOCTOR */
+/* ------------------------------------------------ */
+
 export const updateDoctor = async (id, data) => {
-  try {
-    return await updateDoc(doc(db, "doctors", id), {
-      ...data,
-      updatedAt: serverTimestamp(),
-    });
-  } catch (err) {
-    console.error("UPDATE DOCTOR ERROR:", err);
-    throw err;
-  }
+  return await updateDoc(doc(db, "doctors", id), {
+    ...data,
+    updatedAt: serverTimestamp(),
+  });
 };
 
-/* ------------ DELETE DOCTOR ---------------------------------------------- */
+/* ------------------------------------------------ */
+/* DELETE DOCTOR */
+/* ------------------------------------------------ */
+
 export const deleteDoctor = async (id) => {
-  try {
-    return await deleteDoc(doc(db, "doctors", id));
-  } catch (err) {
-    console.error("DELETE DOCTOR ERROR:", err);
-    throw err;
-  }
+  return await deleteDoc(doc(db, "doctors", id));
 };
