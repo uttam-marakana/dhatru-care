@@ -1,10 +1,18 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+
 import {
   createAppointment,
   subscribeDoctorSlots,
 } from "../../api/appointmentsApi";
+
+import { getDepartments } from "../../api/departmentsApi";
+import { getDoctorsByDepartment } from "../../api/doctorsApi";
+
 import { generateSlots, filterAvailableSlots } from "../../utils/generateSlots";
+
+import SlotGrid from "../common/SlotGrid";
+
 import { auth } from "../../firebase";
 
 const initialState = {
@@ -20,19 +28,40 @@ const initialState = {
 
 export default function AppointmentForm() {
   const [form, setForm] = useState(initialState);
+
+  const [departments, setDepartments] = useState([]);
+  const [doctors, setDoctors] = useState([]);
   const [availableSlots, setAvailableSlots] = useState([]);
+
   const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
 
-  const handleChange = (e) => {
-    setForm((prev) => ({
-      ...prev,
-      [e.target.name]: e.target.value,
-    }));
-  };
+  /* LOAD DEPARTMENTS */
 
-  /* SLOT GENERATION */
+  useEffect(() => {
+    const load = async () => {
+      const data = await getDepartments();
+      setDepartments(data);
+    };
+
+    load();
+  }, []);
+
+  /* LOAD DOCTORS */
+
+  useEffect(() => {
+    if (!form.department) return;
+
+    const loadDoctors = async () => {
+      const data = await getDoctorsByDepartment(form.department);
+      setDoctors(data);
+    };
+
+    loadDoctors();
+  }, [form.department]);
+
+  /* LOAD AVAILABLE SLOTS */
 
   useEffect(() => {
     if (!form.doctorId || !form.date) return;
@@ -50,6 +79,24 @@ export default function AppointmentForm() {
 
     return () => unsubscribe();
   }, [form.doctorId, form.date]);
+
+  /* HANDLE INPUT */
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+
+    setForm((prev) => ({
+      ...prev,
+      [name]: value,
+      ...(name === "department" && { doctorId: "", time: "" }),
+    }));
+  };
+
+  /* SELECT SLOT */
+
+  const selectSlot = (slot) => {
+    setForm((prev) => ({ ...prev, time: slot }));
+  };
 
   /* SUBMIT */
 
@@ -71,7 +118,7 @@ export default function AppointmentForm() {
         userId: user.uid,
       });
 
-      alert("Appointment booked!");
+      alert("Appointment booked successfully!");
 
       setForm(initialState);
 
@@ -84,20 +131,12 @@ export default function AppointmentForm() {
   };
 
   const inputStyle = `
-  w-full
-  p-3
-  rounded-lg
-  border border-gray-200
-  dark:border-white/10
-  bg-white
-  dark:bg-white/5
-  text-gray-900
-  dark:text-white
-  placeholder-gray-500
-  focus:outline-none
-  focus:ring-2
-  focus:ring-blue-500
-  transition
+  w-full p-3 rounded-lg
+  border border-gray-200 dark:border-white/10
+  bg-white dark:bg-white/5
+  text-gray-900 dark:text-white
+  focus:ring-2 focus:ring-blue-500
+  outline-none
   `;
 
   return (
@@ -129,23 +168,37 @@ export default function AppointmentForm() {
         className={inputStyle}
       />
 
-      <input
+      <select
         name="department"
-        placeholder="Department"
         value={form.department}
         onChange={handleChange}
         required
         className={inputStyle}
-      />
+      >
+        <option value="">Select Department</option>
 
-      <input
+        {departments.map((d) => (
+          <option key={d.id} value={d.id}>
+            {d.name}
+          </option>
+        ))}
+      </select>
+
+      <select
         name="doctorId"
-        placeholder="Doctor ID"
         value={form.doctorId}
         onChange={handleChange}
         required
         className={inputStyle}
-      />
+      >
+        <option value="">Select Doctor</option>
+
+        {doctors.map((doc) => (
+          <option key={doc.id} value={doc.id}>
+            {doc.name}
+          </option>
+        ))}
+      </select>
 
       <input
         type="date"
@@ -156,23 +209,13 @@ export default function AppointmentForm() {
         className={inputStyle}
       />
 
-      {/* SLOT */}
+      {/* SLOT GRID */}
 
-      <select
-        name="time"
-        value={form.time}
-        onChange={handleChange}
-        required
-        className={inputStyle}
-      >
-        <option value="">Select Time Slot</option>
-
-        {availableSlots.map((slot) => (
-          <option key={slot} value={slot}>
-            {slot}
-          </option>
-        ))}
-      </select>
+      <SlotGrid
+        slots={availableSlots}
+        selected={form.time}
+        onSelect={selectSlot}
+      />
 
       <textarea
         name="message"
@@ -183,19 +226,12 @@ export default function AppointmentForm() {
         className={inputStyle}
       />
 
-      {/* BUTTON */}
-
       <button
         disabled={loading}
         className="
-        w-full
-        py-3
-        rounded-lg
-        font-medium
-        bg-blue-500
-        hover:bg-blue-600
-        text-white
-        transition
+        w-full py-3 rounded-lg
+        bg-blue-500 hover:bg-blue-600
+        text-white font-medium
         shadow-blue-500/30
         "
       >

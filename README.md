@@ -123,6 +123,7 @@ dhatrucare/
 │   │   │   ├── PageTransition.jsx
 │   │   │   ├── Select.jsx
 │   │   │   ├── SkeletonCard.jsx
+│   │   │   ├── SlotGrid.jsx
 │   │   │   ├── Textarea.jsx
 │   │   │   └── ThemeToggle.jsx
 │    
