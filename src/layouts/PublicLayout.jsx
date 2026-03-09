@@ -1,9 +1,10 @@
 import { lazy } from "react";
-import { Outlet } from "react-router-dom";
 
 const TopBar = lazy(() => import("../components/layout/TopBar"));
 const Header = lazy(() => import("../components/layout/Header"));
 const Footer = lazy(() => import("../components/layout/Footer"));
+
+import AnimatedOutlet from "../components/common/AnimatedOutlet";
 
 export default function PublicLayout() {
   return (
@@ -19,7 +20,7 @@ export default function PublicLayout() {
       <Header />
 
       <main className="grow">
-        <Outlet />
+        <AnimatedOutlet />
       </main>
 
       <Footer />
