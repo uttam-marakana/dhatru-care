@@ -107,6 +107,7 @@ dhatrucare/
 │   │
 │   │   ├── common/                # Generic reusable UI components
 │   │   │
+│   │   │   ├── AnimatedOutlet.jsx
 │   │   │   ├── Breadcrumb.jsx
 │   │   │   ├── Button.jsx
 │   │   │   ├── Card.jsx
@@ -118,10 +119,12 @@ dhatrucare/
 │   │   │   ├── LazyWrapper.jsx    # Lazy loading wrapper
 │   │   │   ├── Loader.jsx
 │   │   │   ├── Modal.jsx
+│   │   │   ├── PageTransition.jsx
 │   │   │   ├── Select.jsx
 │   │   │   ├── SkeletonCard.jsx
 │   │   │   ├── Textarea.jsx
 │   │   │   └── ThemeToggle.jsx
+│    
 │
 │   │   ├── filters/               # Filter UI components
 │   │   │   ├── UniversalFilterLayout.jsx
@@ -190,6 +193,7 @@ dhatrucare/
 │   │   ├── AdminRoute.jsx
 │   │   ├── AppRoutes.jsx
 │   │   └── ProtectedRoute.jsx
+│   │   ├── autoRoutes.js
 │   │   └── routeConfig.js
 │
 │
