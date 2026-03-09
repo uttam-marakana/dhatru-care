@@ -247,7 +247,7 @@ export default function Header() {
 
               {/* CTA */}
               <Link
-                to="/appointment"
+                to="/appointments"
                 className="bg-[var(--color-primary)] text-white px-6 py-2.5 rounded-full"
               >
                 Book Appointment
