@@ -70,12 +70,6 @@ export default function AppRoutes() {
         <Route path="/appointment" element={<Appointments />} />
       </Route>
 
-      {/* ------ AUTH -------------------------- */}
-      <Route element={<AuthLayout />}>
-        <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<Signup />} />
-      </Route>
-
       {/* ------ USER PROTECTED -------------------------- */}
       <Route
         element={
@@ -89,6 +83,12 @@ export default function AppRoutes() {
 
         {/* User Appointment Dashboard */}
         <Route path="profile/appointments" element={<UserAppointments />} />
+      </Route>
+
+      {/* ------ AUTH -------------------------- */}
+      <Route element={<AuthLayout />}>
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
       </Route>
 
       {/* ------ ADMIN -------------------------- */}

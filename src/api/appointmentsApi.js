@@ -1,89 +1,179 @@
 import {
   collection,
-  addDoc,
-  updateDoc,
   doc,
+  getDoc,
+  setDoc,
+  updateDoc,
   serverTimestamp,
   query,
   where,
-  getDocs,
-  onSnapshot,
   orderBy,
+  onSnapshot,
+  runTransaction,
 } from "firebase/firestore";
 
 import { db } from "../firebase";
 
+/* ------------------------------------------------ */
+/* COLLECTION REFERENCES */
+/* ------------------------------------------------ */
+
 const appointmentsRef = collection(db, "appointments");
 
-/* -------- CREATE APPOINTMENT ---------- */
+/* ------------------------------------------------ */
+/* CREATE APPOINTMENT (DOUBLE BOOKING SAFE) */
+/* ------------------------------------------------ */
 
 export const createAppointment = async (data) => {
-  if (!data?.doctorID || !data?.date || !data?.time) {
+  if (!data?.doctorId || !data?.date || !data?.time || !data?.userId) {
     throw new Error("Missing appointment data");
   }
 
-  const q = query(
-    appointmentsRef,
-    where("doctorID", "==", data.doctorID),
-    where("date", "==", data.date),
-    where("time", "==", data.time),
-  );
+  try {
+    const slotId = `${data.doctorId}_${data.date}_${data.time}`;
 
-  const snap = await getDocs(q);
+    const slotRef = doc(db, "appointmentSlots", slotId);
+    const appointmentRef = doc(appointmentsRef);
 
-  if (!snap.empty) {
-    throw new Error("This slot is already booked");
+    await runTransaction(db, async (transaction) => {
+      const slotDoc = await transaction.get(slotRef);
+
+      /* prevent double booking */
+      if (slotDoc.exists() && slotDoc.data().booked === true) {
+        throw new Error("This slot is already booked");
+      }
+
+      /* lock slot */
+      transaction.set(slotRef, {
+        doctorId: data.doctorId,
+        date: data.date,
+        time: data.time,
+        booked: true,
+        updatedAt: serverTimestamp(),
+      });
+
+      /* create appointment */
+      transaction.set(appointmentRef, {
+        ...data,
+        slotId,
+        status: "pending",
+        createdAt: serverTimestamp(),
+        updatedAt: serverTimestamp(),
+      });
+    });
+
+    return appointmentRef.id;
+  } catch (error) {
+    console.error("Error creating appointment:", error);
+    throw error;
+  }
+};
+
+/* ------------------------------------------------ */
+/* UPDATE APPOINTMENT STATUS */
+/* ------------------------------------------------ */
+
+export const updateAppointmentStatus = async (appointmentId, status) => {
+  if (!appointmentId || !status) {
+    throw new Error("Invalid appointment update");
   }
 
-  return addDoc(appointmentsRef, {
-    ...data,
-    status: "pending",
-    createdAt: serverTimestamp(),
-    updatedAt: serverTimestamp(),
-  });
+  try {
+    await updateDoc(doc(db, "appointments", appointmentId), {
+      status,
+      updatedAt: serverTimestamp(),
+    });
+  } catch (error) {
+    console.error("Error updating appointment:", error);
+    throw error;
+  }
 };
 
-/* -------- UPDATE STATUS ---------- */
+/* ------------------------------------------------ */
+/* CANCEL APPOINTMENT */
+/* ------------------------------------------------ */
 
-export const updateAppointmentStatus = async (id, status) => {
-  return updateDoc(doc(db, "appointments", id), {
-    status,
-    updatedAt: serverTimestamp(),
-  });
+export const cancelAppointment = async (appointment) => {
+  const appointmentRef = doc(db, "appointments", appointment.id);
+  const slotRef = doc(db, "appointmentSlots", appointment.slotId);
+
+  try {
+    await runTransaction(db, async (transaction) => {
+      transaction.update(appointmentRef, {
+        status: "cancelled",
+        updatedAt: serverTimestamp(),
+      });
+
+      /* free the slot again */
+      transaction.update(slotRef, {
+        booked: false,
+      });
+    });
+  } catch (error) {
+    console.error("Error cancelling appointment:", error);
+    throw error;
+  }
 };
 
-/* -------- USER APPOINTMENTS ---------- */
+/* ------------------------------------------------ */
+/* USER APPOINTMENTS (REALTIME LISTENER) */
+/* ------------------------------------------------ */
 
 export const subscribeUserAppointments = (userId, callback) => {
-  if (!userId) return;
+  if (!userId) return () => {};
 
-  const q = query(
-    appointmentsRef,
-    where("userId", "==", userId),
-    orderBy("createdAt", "desc"),
-  );
+  try {
+    const q = query(
+      appointmentsRef,
+      where("userId", "==", userId),
+      orderBy("createdAt", "desc"), // requires index
+    );
 
-  return onSnapshot(q, (snap) => {
-    const data = snap.docs.map((d) => ({
-      id: d.id,
-      ...d.data(),
-    }));
+    const unsubscribe = onSnapshot(
+      q,
+      (snapshot) => {
+        const appointments = snapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
 
-    callback(data);
-  });
+        callback(appointments);
+      },
+      (error) => {
+        console.error("User appointments listener error:", error);
+        callback([]); // prevent UI freeze
+      },
+    );
+
+    return unsubscribe;
+  } catch (error) {
+    console.error("Subscription error:", error);
+    return () => {};
+  }
 };
 
-/* -------- ADMIN APPOINTMENTS ---------- */
+/* ------------------------------------------------ */
+/* ADMIN APPOINTMENTS */
+/* ------------------------------------------------ */
 
 export const subscribeAppointments = (callback) => {
   const q = query(appointmentsRef, orderBy("createdAt", "desc"));
 
-  return onSnapshot(q, (snap) => {
-    const data = snap.docs.map((d) => ({
-      id: d.id,
-      ...d.data(),
-    }));
+  const unsubscribe = onSnapshot(
+    q,
+    (snapshot) => {
+      const appointments = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
 
-    callback(data);
-  });
+      callback(appointments);
+    },
+    (error) => {
+      console.error("Appointments listener error:", error);
+      callback([]);
+    },
+  );
+
+  return unsubscribe;
 };
