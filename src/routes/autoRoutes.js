@@ -1,20 +1,20 @@
 import { lazy } from "react";
 
-/* ----- Automatically import all pages inside /pages
-Vite converts them into lazy modules ------------------------- */
+/*
+Auto import ONLY public pages
+*/
 
-const pages = import.meta.glob("../pages/**/*.jsx");
+const publicPages = import.meta.glob("../pages/public/**/*.jsx");
 
 /*
-Convert file paths into routes
-Example:
-../pages/Home.jsx -> /
-../pages/Doctors.jsx -> /doctors
-../pages/blog/BlogDetail.jsx -> /blog/blogdetail
+Convert file path → route path
 */
 
 function getRoutePath(file) {
-  let path = file.replace("../pages", "").replace(".jsx", "").toLowerCase();
+  let path = file
+    .replace("../pages/public", "")
+    .replace(".jsx", "")
+    .toLowerCase();
 
   if (path === "/home") return "/";
   if (path.endsWith("/index")) path = path.replace("/index", "");
@@ -22,11 +22,13 @@ function getRoutePath(file) {
   return path || "/";
 }
 
-export const autoRoutes = Object.entries(pages).map(([file, importer]) => {
-  const Component = lazy(importer);
+export const publicRoutes = Object.entries(publicPages).map(
+  ([file, importer]) => {
+    const Component = lazy(importer);
 
-  return {
-    path: getRoutePath(file),
-    element: Component,
-  };
-});
+    return {
+      path: getRoutePath(file),
+      element: Component,
+    };
+  },
+);
