@@ -15,32 +15,33 @@ import SlotGrid from "../common/SlotGrid";
 
 import { auth } from "../../firebase";
 
-const [searchParams] = useSearchParams();
-
-const departmentFromURL = searchParams.get("department");
-const doctorFromURL = searchParams.get("doctor");
-
-const initialState = {
-  patientName: "",
-  phone: "",
-  email: "",
-  department: departmentFromURL || "",
-  doctorId: doctorFromURL || "",
-  date: "",
-  time: "",
-  message: "",
-};
-
 export default function AppointmentForm() {
-  const [form, setForm] = useState(initialState);
+  const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+
+  /* READ QUERY PARAMS */
+
+  const departmentFromURL = searchParams.get("department");
+  const doctorFromURL = searchParams.get("doctor");
+
+  /* FORM STATE */
+
+  const [form, setForm] = useState({
+    patientName: "",
+    phone: "",
+    email: "",
+    department: departmentFromURL || "",
+    doctorId: doctorFromURL || "",
+    date: "",
+    time: "",
+    message: "",
+  });
 
   const [departments, setDepartments] = useState([]);
   const [doctors, setDoctors] = useState([]);
   const [availableSlots, setAvailableSlots] = useState([]);
 
   const [loading, setLoading] = useState(false);
-
-  const navigate = useNavigate();
 
   /* LOAD DEPARTMENTS */
 
@@ -85,7 +86,7 @@ export default function AppointmentForm() {
     return () => unsubscribe();
   }, [form.doctorId, form.date]);
 
-  /* HANDLE INPUT */
+  /* INPUT CHANGE */
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -125,7 +126,16 @@ export default function AppointmentForm() {
 
       alert("Appointment booked successfully!");
 
-      setForm(initialState);
+      setForm({
+        patientName: "",
+        phone: "",
+        email: "",
+        department: "",
+        doctorId: "",
+        date: "",
+        time: "",
+        message: "",
+      });
 
       navigate("/profile/appointments");
     } catch (err) {
@@ -173,6 +183,8 @@ export default function AppointmentForm() {
         className={inputStyle}
       />
 
+      {/* DEPARTMENT */}
+
       <select
         name="department"
         value={form.department}
@@ -188,6 +200,8 @@ export default function AppointmentForm() {
           </option>
         ))}
       </select>
+
+      {/* DOCTOR */}
 
       <select
         name="doctorId"
@@ -208,6 +222,7 @@ export default function AppointmentForm() {
       <input
         type="date"
         name="date"
+        min={new date().toISOString().split("T")[0]}
         value={form.date}
         onChange={handleChange}
         required
