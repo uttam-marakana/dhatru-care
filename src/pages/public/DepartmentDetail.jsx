@@ -6,7 +6,6 @@ import { getDepartmentBySlug } from "../../api/departmentsApi";
 import { getDoctors } from "../../api/doctorsApi";
 import { getDoctorSpecialtiesFromDepartment } from "../../utils/departmentDoctorMap";
 
-/* LAZY IMPORTS */
 const Container = lazy(() => import("../../components/layout/Container"));
 const Button = lazy(() => import("../../components/common/Button"));
 const Card = lazy(() => import("../../components/common/Card"));
@@ -28,10 +27,8 @@ export default function DepartmentDetail() {
 
     const fetchData = async () => {
       try {
-        setLoading(true);
-        setError(null);
-
         const dept = await getDepartmentBySlug(slug);
+
         if (!mounted) return;
 
         if (!dept) {
@@ -42,8 +39,8 @@ export default function DepartmentDetail() {
         setDepartment(dept);
 
         const specialties = getDoctorSpecialtiesFromDepartment(dept.slug);
+
         const allDoctors = await getDoctors();
-        if (!mounted) return;
 
         const filteredDoctors = allDoctors.filter((doc) =>
           specialties.some(
@@ -54,13 +51,14 @@ export default function DepartmentDetail() {
         setRelatedDoctors(filteredDoctors.slice(0, 4));
       } catch (err) {
         console.error(err);
-        if (mounted) setError("Failed to load department details");
+        if (mounted) setError("Failed to load department");
       } finally {
         if (mounted) setLoading(false);
       }
     };
 
     if (slug) fetchData();
+
     return () => (mounted = false);
   }, [slug]);
 
@@ -78,11 +76,17 @@ export default function DepartmentDetail() {
       </div>
     );
 
-  if (!department) return null;
-
   return (
-    <div className="absolute top-0 left-1/2 -translate-x-1/2 w-150 h-150 bg-[var(--glow-bg)] blur-[140px] rounded-full">
-      {/* BREADCRUMB */}
+    <main
+      className="
+      min-h-screen
+      bg-gradient-to-b
+      from-gray-50 via-gray-100 to-gray-50
+      dark:from-gray-950 dark:via-gray-900 dark:to-gray-950
+      "
+    >
+      {/* Breadcrumb */}
+
       <Breadcrumb
         items={[
           { label: "Home", path: "/" },
@@ -92,91 +96,75 @@ export default function DepartmentDetail() {
       />
 
       {/* HERO */}
-      <div className="relative py-20 overflow-hidden">
-        {/* Glow */}
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-150 h-150 bg-blue-500/20 blur-[140px] rounded-full"></div>
+
+      <section className="relative py-20 text-center">
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-blue-500/20 blur-[140px] rounded-full" />
 
         <Container>
-          <div className="max-w-4xl mx-auto text-center relative z-10">
-            <div className="text-7xl md:text-8xl mb-6">
-              {department.icon || "🏥"}
-            </div>
+          <div className="max-w-3xl mx-auto">
+            <div className="text-7xl mb-6">{department.icon || "🏥"}</div>
 
-            <h1 className="text-4xl md:text-5xl font-bold mb-4 text-blue-400 tracking-tight">
+            <h1 className="text-4xl md:text-5xl font-bold text-blue-400 mb-4">
               {department.name}
             </h1>
 
-            <p className="text-lg md:text-xl text-gray-400 max-w-2xl mx-auto">
+            <p className="text-gray-500 dark:text-gray-400">
               {department.description ||
                 "Specialized care with advanced facilities."}
             </p>
           </div>
         </Container>
-      </div>
+      </section>
 
-      {/* CONTENT CARDS */}
+      {/* CONTENT */}
+
       <section className="py-20">
         <Container>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {/* SERVICES */}
-            <Card
-              className="
-              bg-[var(--card)]
-              border border-[var(--border)]
-              rounded-2xl
-              p-8
-              transition-all duration-500
-              hover:-translate-y-2
-              hover:border-[var(--color-primary)]/40
-              hover:shadow-[0_0_40px_var(--glow-soft)
-              "
-            >
-              <h2 className="text-2xl font-bold mb-5 flex items-center gap-2">
+
+            <Card className="bg-white dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-2xl p-8 hover:-translate-y-2 transition">
+              <h2 className="text-xl font-bold mb-4 flex items-center gap-2">
                 <FaStethoscope className="text-blue-400" />
                 Our Services
               </h2>
 
-              <ul className="space-y-3 text-[var(--text-secondary)]">
-                {department.services?.length ? (
-                  department.services.map((s, i) => <li key={i}>✔ {s}</li>)
-                ) : (
-                  <p>No services listed</p>
-                )}
+              <ul className="space-y-2 text-gray-600 dark:text-gray-400">
+                {department.services?.map((s, i) => (
+                  <li key={i}>✔ {s}</li>
+                ))}
               </ul>
             </Card>
 
             {/* HIGHLIGHTS */}
-            <Card className="bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl p-8 transition-all duration-500 hover:-translate-y-2 hover:border-blue-400/40 hover:shadow-[0_0_40px_rgba(59,130,246,0.25)">
-              <h2 className="text-2xl font-bold mb-5 flex items-center gap-2">
+
+            <Card className="bg-white dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-2xl p-8 hover:-translate-y-2 transition">
+              <h2 className="text-xl font-bold mb-4 flex items-center gap-2">
                 <FaChartLine className="text-blue-400" />
                 Highlights
               </h2>
 
-              <ul className="space-y-3 text-gray-400">
-                {department.highlights?.length ? (
-                  department.highlights.map((h, i) => <li key={i}>★ {h}</li>)
-                ) : (
-                  <p>No highlights listed</p>
-                )}
+              <ul className="space-y-2 text-gray-600 dark:text-gray-400">
+                {department.highlights?.map((h, i) => (
+                  <li key={i}>★ {h}</li>
+                ))}
               </ul>
-
-              <p className="mt-6 text-blue-400 font-semibold">
-                {department.doctorsCount || 0} Specialists Available
-              </p>
             </Card>
 
-            {/* WHY CHOOSE US */}
-            <Card className="bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl p-8 transition-all duration-500 hover:-translate-y-2 hover:border-blue-400/40 hover:shadow-[0_0_40px_rgba(59,130,246,0.25)">
-              <h2 className="text-2xl font-bold mb-5">Why Choose Us?</h2>
+            {/* CTA */}
 
-              <div className="space-y-3 text-gray-400">
-                <p>• 24×7 Emergency Support</p>
-                <p>• Advanced Diagnostics</p>
-                <p>• Multidisciplinary Team</p>
-                <p>• Patient-Centered Care</p>
-              </div>
+            <Card className="bg-white dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-2xl p-8 hover:-translate-y-2 transition">
+              <h2 className="text-xl font-bold mb-4">Why Choose Us?</h2>
 
-              <Button className="w-full mt-6 bg-blue-500 hover:bg-blue-600 shadow-lg shadow-blue-500/30 transition-all duration-300">
+              <p className="text-gray-600 dark:text-gray-400 mb-6">
+                Expert doctors and advanced medical technology for better care.
+              </p>
+
+              <Button
+                as={Link}
+                to={`/appointments?department=${department.slug}`}
+                className="w-full bg-blue-500 hover:bg-blue-600 text-white"
+              >
                 Book Consultation
               </Button>
             </Card>
@@ -185,28 +173,27 @@ export default function DepartmentDetail() {
       </section>
 
       {/* RELATED DOCTORS */}
+
       {relatedDoctors.length > 0 && (
-        <section className="py-20 bg-[var(--surface)]">
+        <section className="py-20 bg-gray-100 dark:bg-gray-900">
           <Container>
-            <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">
+            <h2 className="text-3xl font-bold text-center mb-12">
               Specialists in {department.name}
             </h2>
 
             <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
               {relatedDoctors.map((doc) => (
                 <Link key={doc.id} to={`/doctors/${doc.id}`}>
-                  <Card className="text-center p-6 bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl hover:-translate-y-2 transition-all duration-300">
-                    <div className="text-6xl mb-3">
+                  <Card className="p-6 text-center hover:-translate-y-2 transition">
+                    <div className="text-6xl mb-4">
                       {doc.imagePlaceholder || "👨‍⚕️"}
                     </div>
 
                     <h3 className="font-semibold">{doc.name}</h3>
 
-                    <p className="text-blue-400 text-sm font-medium mb-2">
-                      {doc.specialty}
-                    </p>
+                    <p className="text-blue-400 text-sm">{doc.specialty}</p>
 
-                    <div className="flex justify-center items-center gap-1 text-sm text-gray-400">
+                    <div className="flex justify-center gap-1 text-sm text-gray-400 mt-2">
                       <FaStar className="text-yellow-400" />
                       {doc.rating || 4.9}
                     </div>
@@ -219,6 +206,6 @@ export default function DepartmentDetail() {
       )}
 
       <AppointmentCTA className="my-16 mx-auto max-w-6xl" />
-    </div>
+    </main>
   );
 }

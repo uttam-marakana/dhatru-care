@@ -19,11 +19,13 @@ export default function Departments() {
 
     const fetchData = async () => {
       try {
-        setLoading(true);
         const data = await getAllDepartments();
+
         if (!mounted) return;
+
         setDepartments(data);
-      } catch {
+      } catch (err) {
+        console.error(err);
         if (mounted) setError("Failed to load departments");
       } finally {
         if (mounted) setLoading(false);
@@ -31,29 +33,50 @@ export default function Departments() {
     };
 
     fetchData();
+
     return () => (mounted = false);
   }, []);
 
   return (
-    <main className="min-h-screen bg-[var(--bg)] text-[var(--text)]">
+    <main
+      className="
+      min-h-screen
+      bg-gradient-to-b
+      from-gray-50 via-gray-100 to-gray-50
+      dark:from-gray-950 dark:via-gray-900 dark:to-gray-950
+      "
+    >
       <PageHero
         title="Our Specialities"
         subtitle="Comprehensive multispeciality care with expert teams."
       />
 
+      {/* SECTION */}
+
       <section className="py-20 relative">
-        <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-175 h-175 bg-[var(--glow-bg)] blur-[160px] rounded-full">
-          <div className="relative z-10">
-            {loading ? (
-              <p className="text-center py-20 text-[var(--text-secondary)]">
-                Loading departments...
-              </p>
-            ) : error ? (
-              <p className="text-center text-red-400 py-20">{error}</p>
-            ) : (
-              <DepartmentsGrid departments={departments} />
-            )}
-          </div>
+        {/* Glow background */}
+
+        <div
+          className="
+          absolute top-1/3 left-1/2 -translate-x-1/2
+          w-[700px] h-[700px]
+          bg-[var(--glow-bg)]
+          blur-[160px]
+          rounded-full
+          pointer-events-none
+          "
+        />
+
+        <div className="relative z-10 max-w-7xl mx-auto px-6">
+          {loading ? (
+            <p className="text-center py-20 text-gray-500">
+              Loading departments...
+            </p>
+          ) : error ? (
+            <p className="text-center text-red-500 py-20">{error}</p>
+          ) : (
+            <DepartmentsGrid departments={departments} />
+          )}
         </div>
       </section>
 
