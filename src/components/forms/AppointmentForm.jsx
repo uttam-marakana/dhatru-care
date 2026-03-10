@@ -9,7 +9,11 @@ import {
 import { getDepartments } from "../../api/departmentsApi";
 import { getDoctorsByDepartment } from "../../api/doctorsApi";
 
-import { generateSlots, filterAvailableSlots } from "../../utils/generateSlots";
+import {
+  generateSlots,
+  filterAvailableSlots,
+  isDoctorWorkingDay,
+} from "../../utils/generateSlots";
 
 import SlotGrid from "../common/SlotGrid";
 import DoctorAvailabilityCalendar from "../common/DoctorAvailabilityCalendar";
@@ -111,7 +115,16 @@ export default function AppointmentForm() {
   /* LOAD AVAILABLE SLOTS */
 
   useEffect(() => {
-    if (!form.doctorId || !form.date) return;
+    if (!form.doctorId || !form.date || !doctor) return;
+
+    /* validate doctor working day */
+
+    const working = isDoctorWorkingDay(doctor, form.date);
+
+    if (!working) {
+      setAvailableSlots([]);
+      return;
+    }
 
     const start = doctor?.startHour ?? 9;
     const end = doctor?.endHour ?? 17;
@@ -122,8 +135,9 @@ export default function AppointmentForm() {
     const unsubscribe = subscribeDoctorSlots(
       form.doctorId,
       form.date,
-      (booked) => {
-        const available = filterAvailableSlots(allSlots, booked);
+      (bookedSlots) => {
+        const available = filterAvailableSlots(allSlots, bookedSlots);
+
         setAvailableSlots(available);
       },
     );
@@ -252,7 +266,7 @@ export default function AppointmentForm() {
         </select>
       )}
 
-      {/* STEP 2 DOCTOR CARDS */}
+      {/* STEP 2 DOCTOR */}
 
       {step === 2 && (
         <div className="grid grid-cols-2 gap-3">
@@ -262,15 +276,14 @@ export default function AppointmentForm() {
               type="button"
               onClick={() => selectDoctor(doc)}
               className="
-border border-gray-200 dark:border-white/10
-p-4 rounded-lg
-text-left
-hover:border-blue-500
-transition
-"
+              border border-gray-200 dark:border-white/10
+              p-4 rounded-lg
+              text-left
+              hover:border-blue-500
+              transition
+              "
             >
               <div className="font-semibold">{doc.name}</div>
-
               <div className="text-sm text-gray-500">{doc.specialty}</div>
             </button>
           ))}
@@ -297,7 +310,7 @@ transition
         />
       )}
 
-      {/* STEP 5 PATIENT INFO */}
+      {/* STEP 5 DETAILS */}
 
       {step >= 5 && (
         <>
@@ -340,11 +353,11 @@ transition
           <button
             disabled={loading || !form.time}
             className="
-w-full py-3 rounded-lg
-bg-blue-500 hover:bg-blue-600
-text-white font-medium
-disabled:opacity-50
-"
+            w-full py-3 rounded-lg
+            bg-blue-500 hover:bg-blue-600
+            text-white font-medium
+            disabled:opacity-50
+            "
           >
             {loading ? "Booking..." : "Book Appointment"}
           </button>

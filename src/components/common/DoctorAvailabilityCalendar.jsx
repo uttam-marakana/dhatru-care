@@ -23,7 +23,11 @@ export default function DoctorAvailabilityCalendar({
 
     const disabled = !workingDays.includes(day);
 
-    days.push({ iso, label, disabled });
+    days.push({
+      iso,
+      label,
+      disabled,
+    });
   }
 
   return (
@@ -42,7 +46,7 @@ export default function DoctorAvailabilityCalendar({
 
             ${
               d.disabled
-                ? "opacity-30 cursor-not-allowed"
+                ? "opacity-30 cursor-not-allowed border-gray-200 dark:border-white/10"
                 : isSelected
                   ? "bg-blue-500 text-white border-blue-500"
                   : "border-gray-200 dark:border-white/10 hover:bg-blue-50 dark:hover:bg-white/10"
