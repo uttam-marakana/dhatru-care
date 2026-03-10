@@ -1,7 +1,7 @@
-import { lazy, Suspense } from "react";
+import { Suspense } from "react";
+import PropTypes from "prop-types";
+import Loader from "./Loader";
 import PageTransition from "./PageTransition";
-
-const Loader = lazy(() => import("./Loader"));
 
 export default function LazyWrapper({ children }) {
   return (
@@ -16,3 +16,7 @@ export default function LazyWrapper({ children }) {
     </Suspense>
   );
 }
+
+LazyWrapper.propTypes = {
+  children: PropTypes.node.isRequired,
+};

@@ -70,7 +70,7 @@ export default function MobileDrawer({
             </a>
 
             {/* MAIN NAVIGATION */}
-            <nav className="flex flex-col gap-6 text-lg font-medium">
+            <nav className="flex flex-col gap-4 text-lg font-medium">
               {navItems.map((item) => (
                 <NavLink
                   key={item.to}
