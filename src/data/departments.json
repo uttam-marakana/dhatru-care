@@ -3,8 +3,7 @@
     "slug": "cardiology",
     "name": "Cardiology",
     "icon": "❤️",
-    "description":
-      "Diagnosis and treatment of heart and vascular diseases with preventive and interventional care.",
+    "description": "Diagnosis and treatment of heart and vascular diseases with preventive and interventional care.",
     "services": [
       "ECG",
       "Echocardiography",
@@ -24,8 +23,7 @@
     "slug": "neurology",
     "name": "Neurology",
     "icon": "🧠",
-    "description":
-      "Comprehensive care for brain, spine, and nervous system disorders including stroke and epilepsy.",
+    "description": "Comprehensive care for brain, spine, and nervous system disorders including stroke and epilepsy.",
     "services": [
       "EEG",
       "Stroke Management",
@@ -41,8 +39,7 @@
     "slug": "orthopedics",
     "name": "Orthopedics",
     "icon": "🦴",
-    "description":
-      "Bone, joint, and musculoskeletal care including trauma and sports injury management.",
+    "description": "Bone, joint, and musculoskeletal care including trauma and sports injury management.",
     "services": [
       "Joint Replacement",
       "Arthroscopy",
@@ -62,8 +59,7 @@
     "slug": "dermatology",
     "name": "Dermatology",
     "icon": "✨",
-    "description":
-      "Medical and cosmetic skin care treatments for chronic and acute dermatological conditions.",
+    "description": "Medical and cosmetic skin care treatments for chronic and acute dermatological conditions.",
     "services": [
       "Acne Treatment",
       "Laser Therapy",
@@ -83,8 +79,7 @@
     "slug": "pediatrics",
     "name": "Pediatrics",
     "icon": "🧒",
-    "description":
-      "Healthcare services dedicated to infants, children, and adolescents with preventive focus.",
+    "description": "Healthcare services dedicated to infants, children, and adolescents with preventive focus.",
     "services": [
       "Child Vaccination",
       "Growth Monitoring",
@@ -104,8 +99,7 @@
     "slug": "gynecology",
     "name": "Gynecology",
     "icon": "🌸",
-    "description":
-      "Comprehensive women’s health services including reproductive care and maternity support.",
+    "description": "Comprehensive women’s health services including reproductive care and maternity support.",
     "services": [
       "Pregnancy Care",
       "Fertility Consultation",
@@ -125,8 +119,7 @@
     "slug": "urology",
     "name": "Urology",
     "icon": "💧",
-    "description":
-      "Diagnosis and treatment of urinary tract and male reproductive system disorders.",
+    "description": "Diagnosis and treatment of urinary tract and male reproductive system disorders.",
     "services": [
       "Kidney Stone Treatment",
       "Prostate Care",
@@ -146,8 +139,7 @@
     "slug": "ophthalmology",
     "name": "Ophthalmology",
     "icon": "👁️",
-    "description":
-      "Eye care services including vision correction, cataract surgery, and retinal treatment.",
+    "description": "Eye care services including vision correction, cataract surgery, and retinal treatment.",
     "services": [
       "Cataract Surgery",
       "Retina Care",
@@ -158,5 +150,103 @@
     "highlights": ["Modern Eye OT", "Retina Imaging", "Day-Care Eye Surgery"],
     "doctorsCount": 5,
     "bgGradient": "from-emerald-50 to-green-50 dark:from-emerald-950/30"
+  },
+  {
+    "slug": "psychiatry",
+    "name": "Psychiatry",
+    "icon": "🧠",
+    "description": "Mental health services for emotional, behavioral, and psychological conditions.",
+    "services": [
+      "Depression Treatment",
+      "Anxiety Disorder Care",
+      "Stress Management",
+      "Addiction Counseling",
+      "Sleep Disorder Treatment"
+    ],
+    "highlights": [
+      "Confidential Counseling",
+      "Psychotherapy Programs",
+      "Behavioral Therapy"
+    ],
+    "doctorsCount": 4,
+    "bgGradient": "from-emerald-50 to-green-50 dark:from-emerald-950/30"
+  },
+  {
+    "slug": "ent",
+    "name": "ENT",
+    "icon": "👂",
+    "description": "Diagnosis and treatment of ear, nose, and throat disorders.",
+    "services": [
+      "Hearing Tests",
+      "Sinus Surgery",
+      "Tonsil Treatment",
+      "Voice Disorder Care"
+    ],
+    "highlights": [
+      "Advanced Audiology Lab",
+      "Minimally Invasive Sinus Surgery"
+    ],
+    "doctorsCount": 4,
+    "bgGradient": "from-teal-50 to-emerald-50 dark:from-teal-950/30"
+  },
+  {
+    "slug": "general-medicine",
+    "name": "General Medicine",
+    "icon": "🩺",
+    "description": "Primary healthcare services focused on diagnosis, prevention, and treatment of common illnesses and chronic diseases.",
+    "services": [
+      "General Health Checkups",
+      "Fever & Infection Treatment",
+      "Diabetes Management",
+      "Hypertension Care",
+      "Preventive Health Screening"
+    ],
+    "highlights": [
+      "Primary Care Specialists",
+      "Preventive Health Programs",
+      "Chronic Disease Management"
+    ],
+    "doctorsCount": 6,
+    "bgGradient": "from-green-50 to-lime-50 dark:from-green-950/30"
+  },
+  {
+    "slug": "radiology",
+    "name": "Radiology & Imaging",
+    "icon": "🩻",
+    "description": "Advanced diagnostic imaging services supporting accurate medical diagnosis and treatment planning.",
+    "services": [
+      "X-Ray Imaging",
+      "MRI Scan",
+      "CT Scan",
+      "Ultrasound",
+      "Digital Mammography"
+    ],
+    "highlights": [
+      "High-Resolution Imaging",
+      "Fast Diagnostic Reports",
+      "Advanced Imaging Equipment"
+    ],
+    "doctorsCount": 4,
+    "bgGradient": "from-slate-50 to-gray-50 dark:from-slate-950/30"
+  },
+  {
+    "slug": "emergency",
+    "name": "Emergency & Trauma Care",
+    "icon": "🚑",
+    "description": "24×7 emergency medical services providing rapid response and critical care for accidents and life-threatening conditions.",
+    "services": [
+      "Accident & Trauma Care",
+      "Critical Care Stabilization",
+      "Emergency Surgery",
+      "Ambulance Support",
+      "Immediate Medical Response"
+    ],
+    "highlights": [
+      "24×7 Emergency Unit",
+      "Advanced Life Support",
+      "Rapid Response Team"
+    ],
+    "doctorsCount": 5,
+    "bgGradient": "from-red-50 to-orange-50 dark:from-red-950/30"
   }
 ]

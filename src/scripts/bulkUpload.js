@@ -16,17 +16,15 @@ const uploadCollection = async (name, data) => {
     });
   }
 
-  console.log(name, "done");
+  console.log(name, "Uploaded Successfully...");
 };
 
 export const runBulkUpload = async () => {
   try {
-    await uploadCollection("departments", departments);
     await uploadCollection("doctors", doctors);
+    await uploadCollection("departments", departments);
     await uploadCollection("packages", packages);
     await uploadCollection("blog_posts", blogs);
-
-    alert("ALL DATA UPLOADED SUCCESSFULLY 🚀");
   } catch (err) {
     console.error(err);
     alert("Upload failed");
