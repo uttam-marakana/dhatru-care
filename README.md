@@ -106,7 +106,6 @@ dhatrucare/
 │   │
 │   │   ├── common/                # Generic reusable UI components
 │   │   │   ├── AnimatedOutlet.jsx
-│   │   │   ├── AppointmentCalendar.jsx
 │   │   │   ├── Breadcrumb.jsx
 │   │   │   ├── Button.jsx
 │   │   │   ├── Card.jsx
@@ -252,6 +251,7 @@ dhatrucare/
 │   │   ├── departmentDoctorMap.js
 │   │   ├── formatDate.js
 │   │   ├── formatPhone.js
+│   │   ├── generateDoctorSlots.js
 │   │   ├── generateSlots.js
 │   │   └── specialtyKeywords.js
 │   │   └── validators.js
