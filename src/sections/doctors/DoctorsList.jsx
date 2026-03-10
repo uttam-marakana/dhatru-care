@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { FaStar } from "react-icons/fa";
 
 import Container from "../../components/layout/Container";
-const Card = lazy(() => import("../../components/common/Card"));
+import Card from "../../components/common/Card";
 import Button from "../../components/common/Button";
 
 const ITEMS_PER_PAGE = 12;

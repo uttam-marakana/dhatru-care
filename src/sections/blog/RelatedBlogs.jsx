@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { getRelatedBlogs } from "../../api/blogsApi";
 
 import Container from "../../components/layout/Container";
-const Card = lazy(() => import("../../components/common/Card"));
+import Card from "../../components/common/Card";
 
 export default function RelatedBlogs({
   category,

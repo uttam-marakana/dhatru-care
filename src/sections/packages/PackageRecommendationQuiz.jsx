@@ -1,7 +1,7 @@
 import { useState, lazy, useMemo } from "react";
 
 import Container from "../../components/layout/Container";
-const Card = lazy(() => import("../../components/common/Card"));
+import Card from "../../components/common/Card";
 import Button from "../../components/common/Button";
 
 export default function PackageRecommendationQuiz({
