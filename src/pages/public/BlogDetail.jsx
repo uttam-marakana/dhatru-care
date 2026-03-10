@@ -4,10 +4,10 @@ import { useState, useEffect, lazy } from "react";
 import { getBlogBySlug } from "../../api/blogsApi";
 
 import Container from "../../components/layout/Container";
+import Breadcrumb from "../../components/layout/Breadcrumb";
 const AppointmentCTA = lazy(
   () => import("../../sections/shared/AppointmentCTA"),
 );
-const Breadcrumb = lazy(() => import("../../components/common/Breadcrumb"));
 
 export default function BlogDetail() {
   const { slug } = useParams();

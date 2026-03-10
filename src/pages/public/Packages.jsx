@@ -7,7 +7,7 @@ const PageHero = lazy(() => import("../../sections/shared/PageHero"));
 const AppointmentCTA = lazy(
   () => import("../../sections/shared/AppointmentCTA"),
 );
-const Breadcrumb = lazy(() => import("../../components/common/Breadcrumb"));
+import Breadcrumb from "../../components/layout/Breadcrumb";
 
 export default function Packages() {
   const [packages, setPackages] = useState([]);

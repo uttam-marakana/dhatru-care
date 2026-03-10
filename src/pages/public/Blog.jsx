@@ -10,7 +10,7 @@ const LatestBlog = lazy(() => import("../../sections/home/LatestBlog"));
 const AppointmentCTA = lazy(
   () => import("../../sections/shared/AppointmentCTA"),
 );
-const Breadcrumb = lazy(() => import("../../components/common/Breadcrumb"));
+import Breadcrumb from "../../components/layout/Breadcrumb";
 
 export default function Blog() {
   const [searchParams, setSearchParams] = useSearchParams();

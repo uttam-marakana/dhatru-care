@@ -17,7 +17,7 @@ import Card from "../../components/common/Card";
 const AppointmentCTA = lazy(
   () => import("../../sections/shared/AppointmentCTA"),
 );
-const Breadcrumb = lazy(() => import("../../components/common/Breadcrumb"));
+import Breadcrumb from "../../components/layout/Breadcrumb";
 
 export default function DoctorDetail() {
   const { id } = useParams();
