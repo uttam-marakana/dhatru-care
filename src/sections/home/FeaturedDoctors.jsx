@@ -1,8 +1,8 @@
 import { lazy } from "react";
 import { Link } from "react-router-dom";
 
-const Container = lazy(() => import("../../components/layout/Container"));
-const Button = lazy(() => import("../../components/common/Button"));
+import Container from "../../components/layout/Container";
+import Button from "../../components/common/Button";
 
 export default function FeaturedDoctors({ doctors = [], loading }) {
   if (loading)
@@ -61,9 +61,7 @@ export default function FeaturedDoctors({ doctors = [], loading }) {
             >
               <div className="aspect-square overflow-hidden">
                 <img
-                  src={
-                    doctor.image || "/doctor-placeholder.png"
-                  }
+                  src={doctor.image || "/doctor-placeholder.png"}
                   alt={doctor.name}
                   className="w-full h-full object-cover group-hover:scale-105 transition duration-500"
                 />

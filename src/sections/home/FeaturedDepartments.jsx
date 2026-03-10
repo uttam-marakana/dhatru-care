@@ -1,8 +1,8 @@
 import { lazy } from "react";
 import { Link } from "react-router-dom";
 
-const Container = lazy(() => import("../../components/layout/Container"));
-const Button = lazy(() => import("../../components/common/Button"));
+import Container from "../../components/layout/Container";
+import Button from "../../components/common/Button";
 
 export default function FeaturedDepartments({
   departments = [],

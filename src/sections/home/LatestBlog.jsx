@@ -1,8 +1,8 @@
 import { Link } from "react-router-dom";
 import { lazy } from "react";
 
-const Container = lazy(() => import("../../components/layout/Container"));
-const Button = lazy(() => import("../../components/common/Button"));
+import Container from "../../components/layout/Container";
+import Button from "../../components/common/Button";
 
 export default function LatestBlog({ posts = [], loading }) {
   if (loading)

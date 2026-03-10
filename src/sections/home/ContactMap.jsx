@@ -1,7 +1,7 @@
 import { lazy } from "react";
 import { FaPhoneAlt, FaMapMarkerAlt, FaDirections } from "react-icons/fa";
 
-const Container = lazy(() => import("../../components/layout/Container"));
+import Container from "../../components/layout/Container";
 
 export default function ContactMap() {
   return (

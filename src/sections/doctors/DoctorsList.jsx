@@ -2,9 +2,9 @@ import { lazy, useState, useMemo } from "react";
 import { Link } from "react-router-dom";
 import { FaStar } from "react-icons/fa";
 
-const Container = lazy(() => import("../../components/layout/Container"));
+import Container from "../../components/layout/Container";
 const Card = lazy(() => import("../../components/common/Card"));
-const Button = lazy(() => import("../../components/common/Button"));
+import Button from "../../components/common/Button";
 
 const ITEMS_PER_PAGE = 12;
 

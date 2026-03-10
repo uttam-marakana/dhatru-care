@@ -1,7 +1,7 @@
 import { lazy } from "react";
 import Hospital_Img from "../../assets/images/hospital_img.png";
 
-const Container = lazy(() => import("../../components/layout/Container"));
+import Container from "../../components/layout/Container";
 
 export default function AboutHospital() {
   return (

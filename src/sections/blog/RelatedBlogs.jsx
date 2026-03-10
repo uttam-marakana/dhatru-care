@@ -2,7 +2,7 @@ import { useEffect, useState, lazy } from "react";
 import { Link } from "react-router-dom";
 import { getRelatedBlogs } from "../../api/blogsApi";
 
-const Container = lazy(() => import("../../components/layout/Container"));
+import Container from "../../components/layout/Container";
 const Card = lazy(() => import("../../components/common/Card"));
 
 export default function RelatedBlogs({

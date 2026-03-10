@@ -1,7 +1,7 @@
 import { lazy } from "react";
 import { FaStar } from "react-icons/fa";
 
-const Container = lazy(() => import("../../components/layout/Container"));
+import Container from "../../components/layout/Container";
 
 const fallbackTestimonials = [
   {

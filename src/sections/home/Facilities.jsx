@@ -1,6 +1,6 @@
 import { lazy } from "react";
 
-const Container = lazy(() => import("../../components/layout/Container"));
+import Container from "../../components/layout/Container";
 
 export default function Facilities({ facilities = [], loading, error }) {
   return (
