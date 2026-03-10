@@ -3,7 +3,7 @@ import { FaArrowLeft, FaCalendarAlt, FaUser } from "react-icons/fa";
 import { useState, useEffect, lazy } from "react";
 import { getBlogBySlug } from "../../api/blogsApi";
 
-const Container = lazy(() => import("../../components/layout/Container"));
+import Container from "../../components/layout/Container";
 const AppointmentCTA = lazy(
   () => import("../../sections/shared/AppointmentCTA"),
 );

@@ -3,7 +3,7 @@ import { lazy, useEffect, useState } from "react";
 import { FaSearch } from "react-icons/fa";
 import { getDoctors } from "../../api/doctorsApi";
 
-const Container = lazy(() => import("../../components/layout/Container"));
+import Container from "../../components/layout/Container";
 
 export default function Search() {
   const [searchParams] = useSearchParams();

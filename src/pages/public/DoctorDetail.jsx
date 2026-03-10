@@ -11,8 +11,8 @@ import {
   FaStar,
 } from "react-icons/fa";
 
-const Container = lazy(() => import("../../components/layout/Container"));
-const Button = lazy(() => import("../../components/common/Button"));
+import Container from "../../components/layout/Container";
+import Button from "../../components/common/Button";
 const Card = lazy(() => import("../../components/common/Card"));
 const AppointmentCTA = lazy(
   () => import("../../sections/shared/AppointmentCTA"),

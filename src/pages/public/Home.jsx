@@ -1,4 +1,5 @@
-import { lazy, useEffect, useState } from "react";
+import { lazy, useEffect, useState, Suspense } from "react";
+
 import HeroSlider from "../../sections/home/HeroSlider";
 import QuickActions from "../../sections/home/QuickActions";
 import AboutHospital from "../../sections/home/AboutHospital";
@@ -65,15 +66,29 @@ export default function Home() {
       <HeroSlider />
       <QuickActions />
       <AboutHospital />
-      <Facilities facilities={data.departments.slice(0, 4)} loading={loading} />
-      <FeaturedDepartments departments={data.departments} loading={loading} />
-      <FeaturedDoctors doctors={data.doctors} loading={loading} />
-      <HealthPackages packages={data.packages} loading={loading} />
-      <Testimonials />
-      <LatestBlog posts={data.blogs} loading={loading} />
-      <AppointmentCTA variant="large" />
-      <ContactMap />
-      <Newsletter />
+
+      <Suspense fallback={null}>
+        <Facilities
+          facilities={data.departments.slice(0, 4)}
+          loading={loading}
+        />
+
+        <FeaturedDepartments departments={data.departments} loading={loading} />
+
+        <FeaturedDoctors doctors={data.doctors} loading={loading} />
+
+        <HealthPackages packages={data.packages} loading={loading} />
+
+        <Testimonials />
+
+        <LatestBlog posts={data.blogs} loading={loading} />
+
+        <AppointmentCTA variant="large" />
+
+        <ContactMap />
+
+        <Newsletter />
+      </Suspense>
     </main>
   );
 }

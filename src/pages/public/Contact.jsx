@@ -5,7 +5,7 @@ const GoogleMapEmbed = lazy(
   () => import("../../sections/shared/GoogleMapEmbed"),
 );
 const PageHero = lazy(() => import("../../sections/shared/PageHero"));
-const Container = lazy(() => import("../../components/layout/Container"));
+import Container from "../../components/layout/Container";
 
 export default function Contact() {
   return (

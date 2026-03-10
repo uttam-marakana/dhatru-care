@@ -10,8 +10,8 @@ import {
 import { getDepartmentBySlug } from "../../api/departmentsApi";
 import { getDoctors } from "../../api/doctorsApi";
 
-const Container = lazy(() => import("../../components/layout/Container"));
-const Button = lazy(() => import("../../components/common/Button"));
+import Container from "../../components/layout/Container";
+import Button from "../../components/common/Button";
 const Card = lazy(() => import("../../components/common/Card"));
 const Breadcrumb = lazy(() => import("../../components/common/Breadcrumb"));
 const AppointmentCTA = lazy(
