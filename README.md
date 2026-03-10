@@ -205,7 +205,8 @@ dhatrucare/
 │
 │
 │   ├── scripts/                   # Utility scripts
-│   │   └── bulkUpload.js
+│   │   ├── bulkUpload.jsx
+│   │   └── generateAllDoctorSlots.js
 │
 │
 │   ├── sections/                  # Page specific UI sections
