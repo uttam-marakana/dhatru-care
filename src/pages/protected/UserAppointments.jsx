@@ -6,7 +6,7 @@ import {
 } from "../../api/appointmentsApi";
 import { useAuth } from "../../context/AuthContext";
 
-const Container = lazy(() => import("../../components/layout/Container"));
+import Container from "../../components/layout/Container";
 
 const statusStyles = {
   pending: "bg-yellow-500/20 text-yellow-400",
