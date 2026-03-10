@@ -27,8 +27,8 @@ export default function AppointmentForm() {
     patientName: "",
     phone: "",
     email: "",
-    department: departmentFromURL || "",
-    doctorId: doctorFromURL || "",
+    department: departmentFromURL ?? "",
+    doctorId: "",
     date: "",
     time: "",
     message: "",
@@ -40,6 +40,18 @@ export default function AppointmentForm() {
   const [availableSlots, setAvailableSlots] = useState([]);
 
   const [loading, setLoading] = useState(false);
+
+  /* INPUT STYLE */
+
+  const inputStyle = `
+  w-full px-4 py-3 rounded-xl
+  border border-gray-300 dark:border-white/10
+  bg-white dark:bg-gray-900
+  text-gray-900 dark:text-white
+  placeholder-gray-500 dark:placeholder-gray-400
+  focus:outline-none focus:ring-2 focus:ring-blue-500
+  transition
+  `;
 
   /* LOAD DEPARTMENTS */
 
@@ -62,7 +74,6 @@ export default function AppointmentForm() {
 
       setDoctors(data);
 
-      // if doctor came from URL → auto select
       if (doctorFromURL) {
         const match = data.find((d) => d.id === doctorFromURL);
 
@@ -71,16 +82,14 @@ export default function AppointmentForm() {
             ...prev,
             doctorId: match.id,
           }));
-
-          setDoctor(match);
         }
       }
     };
 
     loadDoctors();
-  }, [form.department, doctorFromURL]);
+  }, [form.department]);
 
-  /* SET SELECTED DOCTOR */
+  /* SET DOCTOR */
 
   useEffect(() => {
     const selected = doctors.find((d) => d.id === form.doctorId);
@@ -164,20 +173,8 @@ export default function AppointmentForm() {
     setLoading(false);
   };
 
-  console.log("URL doctor:", doctorFromURL);
-  console.log("Loaded doctors:", doctors);
-
-  const inputStyle = `
-  w-full p-3 rounded-lg
-  border border-gray-200 dark:border-white/10
-  bg-white dark:bg-white/5
-  text-gray-900 dark:text-white
-  focus:ring-2 focus:ring-blue-500
-  outline-none
-  `;
-
   return (
-    <form onSubmit={handleSubmit} className="space-y-6">
+    <form onSubmit={handleSubmit} className="space-y-5">
       <input
         name="patientName"
         placeholder="Full Name"
@@ -189,7 +186,7 @@ export default function AppointmentForm() {
 
       <input
         name="phone"
-        placeholder="Phone"
+        placeholder="Phone Number"
         value={form.phone}
         onChange={handleChange}
         required
@@ -207,39 +204,51 @@ export default function AppointmentForm() {
 
       {/* DEPARTMENT */}
 
-      <select
-        name="department"
-        value={form.department}
-        onChange={handleChange}
-        required
-        className={inputStyle}
-      >
-        <option value="">Select Department</option>
+      <div className="relative">
+        <select
+          name="department"
+          value={form.department}
+          onChange={handleChange}
+          required
+          className={`${inputStyle} appearance-none`}
+        >
+          <option value="">Select Department</option>
 
-        {departments.map((d) => (
-          <option key={d.id} value={d.id}>
-            {d.name}
-          </option>
-        ))}
-      </select>
+          {departments.map((d) => (
+            <option key={d.id} value={d.id}>
+              {d.name}
+            </option>
+          ))}
+        </select>
+
+        <span className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400">
+          ▼
+        </span>
+      </div>
 
       {/* DOCTOR */}
 
-      <select
-        name="doctorId"
-        value={form.doctorId}
-        onChange={handleChange}
-        required
-        className={inputStyle}
-      >
-        <option value="">Select Doctor</option>
+      <div className="relative">
+        <select
+          name="doctorId"
+          value={form.doctorId}
+          onChange={handleChange}
+          required
+          className={`${inputStyle} appearance-none`}
+        >
+          <option value="">Select Doctor</option>
 
-        {doctors.map((doc) => (
-          <option key={doc.id} value={doc.id}>
-            {doc.name}
-          </option>
-        ))}
-      </select>
+          {doctors.map((doc) => (
+            <option key={doc.id} value={doc.id}>
+              {doc.name}
+            </option>
+          ))}
+        </select>
+
+        <span className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400">
+          ▼
+        </span>
+      </div>
 
       {/* CALENDAR */}
 
@@ -251,7 +260,7 @@ export default function AppointmentForm() {
         />
       )}
 
-      {/* SLOTS */}
+      {/* TIME SLOTS */}
 
       {form.date && (
         <SlotGrid
@@ -273,10 +282,10 @@ export default function AppointmentForm() {
       <button
         disabled={loading || !form.time}
         className="
-        w-full py-3 rounded-lg
+        w-full py-3 rounded-xl
         bg-blue-500 hover:bg-blue-600
         text-white font-medium
-        shadow-blue-500/30
+        transition
         disabled:opacity-50
         "
       >
