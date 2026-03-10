@@ -61,7 +61,7 @@ export default function FeaturedDoctors({ doctors = [], loading }) {
             >
               <div className="aspect-square overflow-hidden">
                 <img
-                  src={doctor.image || "/doctor-placeholder.jpg"}
+                  src={doctor.image || "../../../public/doctor-placeholder.png"}
                   alt={doctor.name}
                   className="w-full h-full object-cover group-hover:scale-105 transition duration-500"
                 />
