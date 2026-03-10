@@ -13,7 +13,7 @@ import {
 
 import Container from "../../components/layout/Container";
 import Button from "../../components/common/Button";
-const Card = lazy(() => import("../../components/common/Card"));
+import Card from "../../components/common/Card";
 const AppointmentCTA = lazy(
   () => import("../../sections/shared/AppointmentCTA"),
 );

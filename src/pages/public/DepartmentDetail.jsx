@@ -12,7 +12,7 @@ import { getDoctors } from "../../api/doctorsApi";
 
 import Container from "../../components/layout/Container";
 import Button from "../../components/common/Button";
-const Card = lazy(() => import("../../components/common/Card"));
+import Card from "../../components/common/Card";
 const Breadcrumb = lazy(() => import("../../components/common/Breadcrumb"));
 const AppointmentCTA = lazy(
   () => import("../../sections/shared/AppointmentCTA"),
