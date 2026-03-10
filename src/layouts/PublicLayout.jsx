@@ -22,22 +22,20 @@ export default function PublicLayout() {
       dark:text-white
       "
     >
-      {/* Top navigation */}
       <Suspense fallback={null}>
+        {/* Top navigation */}
         <TopBar />
         <Header />
-      </Suspense>
 
-      {/* Page content */}
-      <main className="grow relative">
-        <AnimatedOutlet />
+        {/* Page content */}
+        <main className="grow relative">
+          <AnimatedOutlet />
 
-        {/* Floating CTA */}
-        <FloatingAppointmentButton />
-      </main>
+          {/* Floating CTA */}
+          <FloatingAppointmentButton />
+        </main>
 
-      {/* Footer */}
-      <Suspense fallback={null}>
+        {/* Footer */}
         <Footer />
       </Suspense>
     </div>
