@@ -51,7 +51,10 @@ export default function DepartmentDetail() {
         setRelatedDoctors(filteredDoctors.slice(0, 4));
       } catch (err) {
         console.error(err);
-        if (mounted) setError("Failed to load department");
+
+        if (mounted) {
+          setError("Failed to load department");
+        }
       } finally {
         if (mounted) setLoading(false);
       }
@@ -64,14 +67,14 @@ export default function DepartmentDetail() {
 
   if (loading)
     return (
-      <div className="min-h-screen flex items-center justify-center text-gray-400 bg-gray-950">
+      <div className="min-h-screen flex items-center justify-center">
         Loading department...
       </div>
     );
 
   if (error)
     return (
-      <div className="min-h-screen flex items-center justify-center text-red-500 bg-gray-950">
+      <div className="min-h-screen flex items-center justify-center text-red-500">
         {error}
       </div>
     );
@@ -85,8 +88,6 @@ export default function DepartmentDetail() {
       dark:from-gray-950 dark:via-gray-900 dark:to-gray-950
       "
     >
-      {/* Breadcrumb */}
-
       <Breadcrumb
         items={[
           { label: "Home", path: "/" },
@@ -98,8 +99,6 @@ export default function DepartmentDetail() {
       {/* HERO */}
 
       <section className="relative py-20 text-center">
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-blue-500/20 blur-[140px] rounded-full" />
-
         <Container>
           <div className="max-w-3xl mx-auto">
             <div className="text-7xl mb-6">{department.icon || "🏥"}</div>
@@ -108,7 +107,7 @@ export default function DepartmentDetail() {
               {department.name}
             </h1>
 
-            <p className="text-gray-500 dark:text-gray-400">
+            <p className="text-gray-600 dark:text-gray-400">
               {department.description ||
                 "Specialized care with advanced facilities."}
             </p>
@@ -151,7 +150,7 @@ export default function DepartmentDetail() {
               </ul>
             </Card>
 
-            {/* CTA */}
+            {/* BOOK CTA */}
 
             <Card className="bg-white dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-2xl p-8 hover:-translate-y-2 transition">
               <h2 className="text-xl font-bold mb-4">Why Choose Us?</h2>
@@ -162,7 +161,7 @@ export default function DepartmentDetail() {
 
               <Button
                 as={Link}
-                to={`/appointments?department=${department.slug}`}
+                to={`/appointments?department=${department.id}`}
                 className="w-full bg-blue-500 hover:bg-blue-600 text-white"
               >
                 Book Consultation

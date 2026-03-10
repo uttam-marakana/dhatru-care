@@ -142,7 +142,7 @@ export default function DoctorDetail() {
                     Book Appointment
                   </Button>
                 </Link>
-                
+
                 <Button className="mt-3" size="lg" variant="outline">
                   <FaPhoneAlt className="mr-2" />
                   Call Now
@@ -197,22 +197,21 @@ export default function DoctorDetail() {
       </div>
 
       {/* RELATED DOCTORS */}
-      {/* RELATED DOCTORS */}
       {relatedDoctors.length > 0 && (
         <section className="relative py-20 md:py-24 bg-[var(--section)] text-[var(--text)] overflow-hidden">
           {/* Background Glow */}
           <div
             className="
-      pointer-events-none
-      absolute -top-40 left-1/2 -translate-x-1/2
-      w-[700px] md:w-[900px]
-      h-[700px] md:h-[900px]
-      bg-[var(--glow-bg)]
-      blur-[140px]
-      rounded-full
-      opacity-70
-      z-0
-      "
+            pointer-events-none
+            absolute -top-40 left-1/2 -translate-x-1/2
+            w-[700px] md:w-[900px]
+            h-[700px] md:h-[900px]
+            bg-[var(--glow-bg)]
+            blur-[140px]
+            rounded-full
+            opacity-70
+            z-0
+            "
           />
 
           <Container className="relative z-10">
