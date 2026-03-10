@@ -1,4 +1,3 @@
-import { lazy } from "react";
 import {
   FaFacebookF,
   FaTwitter,
@@ -10,7 +9,7 @@ import {
 } from "react-icons/fa";
 import { Link } from "react-router-dom";
 
-const Container = lazy(() => import("./Container"));
+import Container from "./Container";
 
 import light_logo from "../../assets/images/light_logo.png";
 import dark_logo from "../../assets/images/dark_logo.png";
@@ -66,8 +65,9 @@ export default function Footer() {
 
               <div className="flex gap-4">
                 {socials.map((Icon, i) => (
-                  <div
+                  <a
                     key={i}
+                    href="#"
                     className="
                     w-9 h-9 flex items-center justify-center
                     rounded-full
@@ -75,11 +75,11 @@ export default function Footer() {
                     hover:border-[var(--color-primary)]/40
                     hover:text-[var(--color-primary)]
                     hover:shadow-[0_0_20px_var(--glow-soft)]
-                    transition cursor-pointer
+                    transition
                     "
                   >
                     <Icon size={14} />
-                  </div>
+                  </a>
                 ))}
               </div>
             </div>
@@ -92,13 +92,13 @@ export default function Footer() {
 
               <ul className="space-y-3 text-[var(--muted)]">
                 {["departments", "doctors", "packages", "blog", "contact"].map(
-                  (i) => (
-                    <li key={i}>
+                  (item) => (
+                    <li key={item}>
                       <Link
-                        to={`/${i}`}
+                        to={`/${item}`}
                         className="hover:text-[var(--color-primary)] transition-colors"
                       >
-                        {i.charAt(0).toUpperCase() + i.slice(1)}
+                        {item.charAt(0).toUpperCase() + item.slice(1)}
                       </Link>
                     </li>
                   ),

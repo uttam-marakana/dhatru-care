@@ -1,4 +1,5 @@
 import { FaPhoneAlt, FaWhatsapp } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 export default function TopBar() {
   return (
@@ -19,6 +20,7 @@ export default function TopBar() {
         <div className="flex items-center gap-8">
           <a
             href="tel:+919876543210"
+            aria-label="Call emergency number"
             className="
             flex items-center gap-2
             font-medium
@@ -54,19 +56,19 @@ export default function TopBar() {
 
         {/* RIGHT */}
         <div className="flex items-center gap-6 font-medium">
-          <a
-            href="/for-doctors"
+          <Link
+            to="/for-doctors"
             className="hover:text-[var(--color-primary)] transition"
           >
             For Doctors
-          </a>
+          </Link>
 
-          <a
-            href="/careers"
+          <Link
+            to="/careers"
             className="hover:text-[var(--color-primary)] transition"
           >
             Careers
-          </a>
+          </Link>
         </div>
       </div>
     </div>

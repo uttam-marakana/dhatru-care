@@ -12,7 +12,8 @@ import {
 
 import { useAuth } from "../../context/AuthContext";
 
-const Container = lazy(() => import("./Container"));
+import Container from "./Container";
+
 const ThemeToggle = lazy(() => import("../common/ThemeToggle"));
 const MobileDrawer = lazy(() => import("./MobileDrawer"));
 
@@ -150,56 +151,55 @@ export default function Header() {
         ${hidden ? "-translate-y-full" : "translate-y-0"}
       `}
       >
-        <Suspense fallback={null}>
-          <Container className="px-4 sm:px-6 lg:px-8">
-            <div className="flex h-16 sm:h-20 items-center justify-between">
-              {/* LOGO */}
+        <Container className="px-4 sm:px-6 lg:px-8">
+          <div className="flex h-16 sm:h-20 items-center justify-between">
+            {/* LOGO */}
 
-              <Link to="/" aria-label="Home">
-                <img
-                  src={isDarkMode ? dark_logo : light_logo}
-                  alt="Dhatru Care"
-                  className="h-10 sm:h-12"
-                />
-              </Link>
+            <Link to="/" aria-label="Home">
+              <img
+                src={isDarkMode ? dark_logo : light_logo}
+                alt="Dhatru Care"
+                className="h-10 sm:h-12"
+              />
+            </Link>
 
-              {/* DESKTOP NAV */}
+            {/* DESKTOP NAV */}
 
-              <nav className="hidden xl:flex gap-8 font-medium">
-                {navItems.map((item) => (
-                  <NavLink key={item.to} to={item.to}>
-                    {item.label}
-                  </NavLink>
-                ))}
-              </nav>
+            <nav className="hidden xl:flex gap-8 font-medium">
+              {navItems.map((item) => (
+                <NavLink key={item.to} to={item.to}>
+                  {item.label}
+                </NavLink>
+              ))}
+            </nav>
 
-              {/* DESKTOP ACTIONS */}
+            {/* DESKTOP ACTIONS */}
 
-              <div className="hidden xl:flex items-center gap-6">
-                {/* Emergency */}
+            <div className="hidden xl:flex items-center gap-6">
+              {/* Emergency */}
 
-                <a
-                  href="tel:+919876543210"
-                  className="flex items-center gap-2 text-sm font-medium text-[var(--color-primary)]"
+              <a
+                href="tel:+919876543210"
+                className="flex items-center gap-2 text-sm font-medium text-[var(--color-primary)]"
+              >
+                <FaPhoneAlt />
+                24×7 Emergency
+              </a>
+
+              {/* SEARCH */}
+
+              <div ref={searchRef} className="relative">
+                <button
+                  onClick={() => setIsSearchOpen((prev) => !prev)}
+                  aria-label="Search"
                 >
-                  <FaPhoneAlt />
-                  24×7 Emergency
-                </a>
+                  <FaSearch />
+                </button>
 
-                {/* SEARCH */}
-
-                <div ref={searchRef} className="relative">
-                  <button
-                    onClick={() => setIsSearchOpen((prev) => !prev)}
-                    aria-label="Search"
-                  >
-                    <FaSearch />
-                  </button>
-
-                  {isSearchOpen && (
-                    <form
-                      onSubmit={handleSearch}
-                      className="
+                {isSearchOpen && (
+                  <form
+                    onSubmit={handleSearch}
+                    className="
                       absolute right-0 top-full mt-3
                       w-72
                       bg-[var(--card)]
@@ -208,103 +208,104 @@ export default function Header() {
                       p-4
                       shadow-xl
                       "
-                    >
-                      <div className="flex items-center gap-3">
-                        <input
-                          type="search"
-                          value={searchQuery}
-                          onChange={(e) => setSearchQuery(e.target.value)}
-                          placeholder="Search doctors, departments..."
-                          autoFocus
-                          className="w-full bg-transparent outline-none"
-                        />
+                  >
+                    <div className="flex items-center gap-3">
+                      <input
+                        type="search"
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                        placeholder="Search doctors, departments..."
+                        autoFocus
+                        className="w-full bg-transparent outline-none"
+                      />
 
-                        {searchQuery && (
-                          <button
-                            type="button"
-                            onClick={() => setSearchQuery("")}
-                          >
-                            <FaTimesCircle />
-                          </button>
-                        )}
+                      {searchQuery && (
+                        <button
+                          type="button"
+                          onClick={() => setSearchQuery("")}
+                        >
+                          <FaTimesCircle />
+                        </button>
+                      )}
+                    </div>
+                  </form>
+                )}
+              </div>
+
+              {/* USER MENU */}
+
+              {user ? (
+                <div ref={userMenuRef} className="relative">
+                  <button onClick={() => setIsUserMenuOpen((prev) => !prev)}>
+                    <FaUser />
+                  </button>
+
+                  {isUserMenuOpen && (
+                    <div className="absolute right-0 mt-3 w-56 bg-[var(--card)] border rounded-xl shadow-lg">
+                      <div className="px-4 py-3 border-b text-sm">
+                        <p>Signed in as</p>
+                        <p className="font-medium truncate">{user.email}</p>
                       </div>
-                    </form>
+
+                      <Link
+                        to="/profile/appointments"
+                        className="block px-4 py-3"
+                      >
+                        My Appointments
+                      </Link>
+
+                      <Link to="/profile" className="block px-4 py-3">
+                        Profile
+                      </Link>
+
+                      <Link to="/settings" className="block px-4 py-3">
+                        Settings
+                      </Link>
+
+                      <button
+                        onClick={logout}
+                        className="w-full text-left px-4 py-3 text-red-500 flex gap-2"
+                      >
+                        <FaSignOutAlt />
+                        Logout
+                      </button>
+                    </div>
                   )}
                 </div>
+              ) : (
+                <Link to="/login">Login</Link>
+              )}
 
-                {/* USER MENU */}
-
-                {user ? (
-                  <div ref={userMenuRef} className="relative">
-                    <button onClick={() => setIsUserMenuOpen((prev) => !prev)}>
-                      <FaUser />
-                    </button>
-
-                    {isUserMenuOpen && (
-                      <div className="absolute right-0 mt-3 w-56 bg-[var(--card)] border rounded-xl shadow-lg">
-                        <div className="px-4 py-3 border-b text-sm">
-                          <p>Signed in as</p>
-                          <p className="font-medium truncate">{user.email}</p>
-                        </div>
-
-                        <Link
-                          to="/profile/appointments"
-                          className="block px-4 py-3"
-                        >
-                          My Appointments
-                        </Link>
-
-                        <Link to="/profile" className="block px-4 py-3">
-                          Profile
-                        </Link>
-
-                        <Link to="/settings" className="block px-4 py-3">
-                          Settings
-                        </Link>
-
-                        <button
-                          onClick={logout}
-                          className="w-full text-left px-4 py-3 text-red-500 flex gap-2"
-                        >
-                          <FaSignOutAlt />
-                          Logout
-                        </button>
-                      </div>
-                    )}
-                  </div>
-                ) : (
-                  <Link to="/login">Login</Link>
-                )}
-
+              <Suspense fallback={null}>
                 <ThemeToggle />
+              </Suspense>
 
-                <Link
-                  to="/appointments"
-                  className="bg-[var(--color-primary)] text-white px-6 py-2.5 rounded-full"
-                >
-                  Book Appointment
-                </Link>
-              </div>
-
-              {/* MOBILE ACTIONS */}
-
-              <div className="flex items-center gap-4 xl:hidden">
-                <button onClick={() => setIsSearchOpen((prev) => !prev)}>
-                  <FaSearch size={18} />
-                </button>
-
-                <button
-                  onClick={() => {
-                    setIsSearchOpen(false);
-                    setIsOpen(true);
-                  }}
-                >
-                  <FaBars size={20} />
-                </button>
-              </div>
+              <Link
+                to="/appointments"
+                className="bg-[var(--color-primary)] text-white px-6 py-2.5 rounded-full"
+              >
+                Book Appointment
+              </Link>
             </div>
-          </Container>
-        </Suspense>
+
+            {/* MOBILE ACTIONS */}
+
+            <div className="flex items-center gap-4 xl:hidden">
+              <button onClick={() => setIsSearchOpen((prev) => !prev)}>
+                <FaSearch size={18} />
+              </button>
+
+              <button
+                onClick={() => {
+                  setIsSearchOpen(false);
+                  setIsOpen(true);
+                }}
+              >
+                <FaBars size={20} />
+              </button>
+            </div>
+          </div>
+        </Container>
 
         {/* MOBILE SEARCH */}
 

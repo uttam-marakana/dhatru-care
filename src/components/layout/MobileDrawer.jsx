@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import PropTypes from "prop-types";
 import { Link, NavLink } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { FaTimes, FaPhoneAlt, FaSignOutAlt } from "react-icons/fa";
@@ -36,6 +37,7 @@ export default function MobileDrawer({
           animate={{ x: 0 }}
           exit={{ x: "100%" }}
           transition={{ duration: 0.3 }}
+          aria-hidden={!isOpen}
         >
           <div className="flex flex-col h-full px-6 py-6 backdrop-blur-xl">
             {/* HEADER */}
@@ -155,3 +157,13 @@ export default function MobileDrawer({
     </AnimatePresence>
   );
 }
+
+MobileDrawer.propTypes = {
+  isOpen: PropTypes.bool.isRequired,
+  onClose: PropTypes.func.isRequired,
+  navItems: PropTypes.array.isRequired,
+  user: PropTypes.object,
+  isDarkMode: PropTypes.bool,
+  light_logo: PropTypes.string,
+  dark_logo: PropTypes.string,
+};
