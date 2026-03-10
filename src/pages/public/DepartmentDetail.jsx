@@ -1,6 +1,7 @@
 import { useParams, Link } from "react-router-dom";
 import { useState, useEffect, lazy } from "react";
-import { FaStethoscope, FaChartLine, FaStar } from "react-icons/fa";
+import { FaStethoscope, FaChartLine, FaCalendarCheck, FaStar } from "react-icons/fa";
+
 
 import { getDepartmentBySlug } from "../../api/departmentsApi";
 import { getDoctors } from "../../api/doctorsApi";
@@ -159,13 +160,15 @@ export default function DepartmentDetail() {
                 Expert doctors and advanced medical technology for better care.
               </p>
 
-              <Button
-                as={Link}
-                to={`/appointments?department=${department.id}`}
-                className="w-full bg-blue-500 hover:bg-blue-600 text-white"
-              >
-                Book Consultation
-              </Button>
+              <Link to={`/appointments?department=${department.id}`}>
+                <Button
+                  size="lg"
+                  leftIcon={<FaCalendarCheck />}
+                  className="bg-blue-500 hover:bg-blue-600 text-white px-6 py-3"
+                >
+                  Book Consultation
+                </Button>
+              </Link>
             </Card>
           </div>
         </Container>
