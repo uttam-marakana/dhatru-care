@@ -62,12 +62,23 @@ export default function AppointmentForm() {
 
       setDoctors(data);
 
-      const selected = data.find((d) => d.id === form.doctorId);
-      if (selected) setDoctor(selected);
+      // if doctor came from URL → auto select
+      if (doctorFromURL) {
+        const match = data.find((d) => d.id === doctorFromURL);
+
+        if (match) {
+          setForm((prev) => ({
+            ...prev,
+            doctorId: match.id,
+          }));
+
+          setDoctor(match);
+        }
+      }
     };
 
     loadDoctors();
-  }, [form.department]);
+  }, [form.department, doctorFromURL]);
 
   /* SET SELECTED DOCTOR */
 
@@ -83,7 +94,7 @@ export default function AppointmentForm() {
 
     const start = doctor?.startHour ?? 9;
     const end = doctor?.endHour ?? 17;
-    const interval = doctor?.slotDuration ?? 30
+    const interval = doctor?.slotDuration ?? 30;
 
     const allSlots = generateSlots(start, end, interval);
 
@@ -152,6 +163,9 @@ export default function AppointmentForm() {
 
     setLoading(false);
   };
+
+  console.log("URL doctor:", doctorFromURL);
+  console.log("Loaded doctors:", doctors);
 
   const inputStyle = `
   w-full p-3 rounded-lg

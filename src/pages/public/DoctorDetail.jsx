@@ -131,16 +131,18 @@ export default function DoctorDetail() {
               </div>
 
               <div className="space-y-3 mt-6">
-                <Button
-                  as={Link}
+                <Link
                   to={`/appointments?department=${doctor.departmentId}&doctor=${doctor.id}`}
-                  size="lg"
-                  leftIcon={<FaCalendarCheck />}
-                  className="bg-blue-500 hover:bg-blue-600 text-white px-6 py-3"
                 >
-                  Book Appointment
-                </Button>
-
+                  <Button
+                    size="lg"
+                    leftIcon={<FaCalendarCheck />}
+                    className="bg-blue-500 hover:bg-blue-600 text-white px-6 py-3"
+                  >
+                    Book Appointment
+                  </Button>
+                </Link>
+                
                 <Button className="mt-3" size="lg" variant="outline">
                   <FaPhoneAlt className="mr-2" />
                   Call Now
