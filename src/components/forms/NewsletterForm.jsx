@@ -1,10 +1,10 @@
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
-import { useState, lazy } from "react";
+import { useState } from "react";
 import { subscribeNewsletter } from "../../api/newsletterApi";
 
-const Input = lazy(() => import("../common/Input"));
-const Button = lazy(() => import("../common/Button"));
+import Input from "../common/Input";
+import Button from "../common/Button";
 
 const validationSchema = Yup.object({
   email: Yup.string().email("Invalid email").required("Email required"),
@@ -21,16 +21,23 @@ export default function NewsletterForm() {
     setStatus({ loading: true, success: false, error: "" });
 
     try {
-      await subscribeNewsletter(values.email.trim(), "website-footer");
+      const email = values.email.trim();
 
-      setStatus({ loading: false, success: true, error: "" });
+      await subscribeNewsletter(email, "website-footer");
+
+      setStatus({
+        loading: false,
+        success: true,
+        error: "",
+      });
+
       resetForm();
     } catch (err) {
       setStatus({
         loading: false,
         success: false,
         error:
-          err.message === "Already subscribed"
+          err?.message === "Already subscribed"
             ? "You are already subscribed."
             : "Subscription failed. Try again.",
       });
@@ -55,13 +62,13 @@ export default function NewsletterForm() {
               disabled={isSubmitting || status.loading}
               loading={status.loading}
               className="
-              bg-[var(--color-primary)]
-              hover:bg-[var(--color-primary-hover)]
-              text-white
-              shadow-[0_0_15px_var(--glow-soft)]
+                bg-[var(--color-primary)]
+                hover:bg-[var(--color-primary-hover)]
+                text-white
+                shadow-[0_0_15px_var(--glow-soft)]
               "
             >
-              Subscribe
+              {status.loading ? "Subscribing..." : "Subscribe"}
             </Button>
           </Form>
         )}

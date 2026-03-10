@@ -1,11 +1,11 @@
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
-import { useState, lazy } from "react";
+import { useState } from "react";
 import { createContactMessage } from "../../api/contactApi";
 
-const Input = lazy(() => import("../common/Input"));
-const Textarea = lazy(() => import("../common/Textarea"));
-const Button = lazy(() => import("../common/Button"));
+import Input from "../common/Input";
+import Textarea from "../common/Textarea";
+import Button from "../common/Button";
 
 const validationSchema = Yup.object({
   name: Yup.string().required("Name is required"),
@@ -37,7 +37,12 @@ export default function ContactForm() {
         source: "contact-page",
       });
 
-      setStatus({ loading: false, success: true, error: "" });
+      setStatus({
+        loading: false,
+        success: true,
+        error: "",
+      });
+
       resetForm();
     } catch {
       setStatus({
@@ -52,7 +57,7 @@ export default function ContactForm() {
 
   return (
     <div className="relative overflow-hidden rounded-2xl">
-      {/* Glow */}
+      {/* Glow background */}
       <div
         className="
         pointer-events-none
@@ -62,10 +67,10 @@ export default function ContactForm() {
         blur-[120px]
         rounded-full
         opacity-60
-        "
+      "
       />
 
-      {/* Form Container */}
+      {/* Form container */}
       <div
         className="
         relative z-10
@@ -76,7 +81,7 @@ export default function ContactForm() {
         transition-all duration-500
         hover:border-[var(--color-primary)]/40
         hover:shadow-[0_0_40px_var(--glow-soft)]
-        "
+      "
       >
         <h2
           className="
@@ -85,13 +90,18 @@ export default function ContactForm() {
           from-[var(--heading-gradient-from)]
           to-[var(--heading-gradient-to)]
           bg-clip-text text-transparent
-          "
+        "
         >
           Get in Touch
         </h2>
 
         <Formik
-          initialValues={{ name: "", email: "", subject: "", message: "" }}
+          initialValues={{
+            name: "",
+            email: "",
+            subject: "",
+            message: "",
+          }}
           validationSchema={validationSchema}
           onSubmit={handleSubmit}
         >
@@ -123,7 +133,7 @@ export default function ContactForm() {
                 py-3 rounded-xl
                 shadow-[0_0_20px_var(--glow-soft)]
                 transition
-                "
+              "
               >
                 {status.loading ? "Sending..." : "Send Message"}
               </Button>
