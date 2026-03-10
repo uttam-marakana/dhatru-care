@@ -1,7 +1,7 @@
 import { lazy } from "react";
 import PropTypes from "prop-types";
 
-const Container = lazy(() => import("../../components/layout/Container"));
+import Container from "../../components/layout/Container";
 
 export default function PageHero({
   title,
