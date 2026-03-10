@@ -57,7 +57,7 @@ export default function LatestBlog({ posts = [], loading }) {
               {/* Image */}
               <div className="aspect-video overflow-hidden">
                 <img
-                  src={post.image || "../../../public/blog-placeholder.png"}
+                  src={post.image || "../../assets/images/blog-placeholder.png"}
                   alt={post.title}
                   className="w-full h-full object-cover group-hover:scale-105 transition duration-700"
                 />
