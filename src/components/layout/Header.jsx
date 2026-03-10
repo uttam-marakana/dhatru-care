@@ -1,5 +1,4 @@
 import { useEffect, useState, useRef, lazy, Suspense } from "react";
-
 import { Link, NavLink, useNavigate, useLocation } from "react-router-dom";
 
 import {
@@ -39,7 +38,6 @@ export default function Header() {
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
 
   const [isDarkMode, setIsDarkMode] = useState(false);
-
   const [scrolled, setScrolled] = useState(false);
   const [hidden, setHidden] = useState(false);
 
@@ -48,7 +46,7 @@ export default function Header() {
 
   const lastScrollY = useRef(0);
 
-  /* Dark mode observer */
+  /* Detect dark mode */
 
   useEffect(() => {
     const observer = new MutationObserver(() => {
@@ -65,21 +63,21 @@ export default function Header() {
     return () => observer.disconnect();
   }, []);
 
-  /* Smart scroll behavior */
+  /* Smart hide header on scroll */
 
   useEffect(() => {
     const handleScroll = () => {
-      const currentScroll = window.scrollY;
+      const current = window.scrollY;
 
-      setScrolled(currentScroll > 10);
+      setScrolled(current > 10);
 
-      if (currentScroll > lastScrollY.current && currentScroll > 80) {
+      if (current > lastScrollY.current && current > 80) {
         setHidden(true);
       } else {
         setHidden(false);
       }
 
-      lastScrollY.current = currentScroll;
+      lastScrollY.current = current;
     };
 
     window.addEventListener("scroll", handleScroll);
@@ -95,7 +93,7 @@ export default function Header() {
     setIsUserMenuOpen(false);
   }, [location.pathname]);
 
-  /* Outside click detection */
+  /* Outside click */
 
   useEffect(() => {
     const handleClickOutside = (e) => {
@@ -124,12 +122,16 @@ export default function Header() {
     };
   }, []);
 
+  /* Handle search */
+
   const handleSearch = (e) => {
     e.preventDefault();
 
-    if (!searchQuery.trim()) return;
+    const query = searchQuery.trim();
 
-    navigate(`/search?q=${encodeURIComponent(searchQuery.trim())}`);
+    if (!query) return;
+
+    navigate(`/search?q=${encodeURIComponent(query)}`);
 
     setSearchQuery("");
     setIsSearchOpen(false);
@@ -174,6 +176,8 @@ export default function Header() {
               {/* DESKTOP ACTIONS */}
 
               <div className="hidden xl:flex items-center gap-6">
+                {/* Emergency */}
+
                 <a
                   href="tel:+919876543210"
                   className="flex items-center gap-2 text-sm font-medium text-[var(--color-primary)]"
@@ -185,21 +189,32 @@ export default function Header() {
                 {/* SEARCH */}
 
                 <div ref={searchRef} className="relative">
-                  <button onClick={() => setIsSearchOpen((p) => !p)}>
+                  <button
+                    onClick={() => setIsSearchOpen((prev) => !prev)}
+                    aria-label="Search"
+                  >
                     <FaSearch />
                   </button>
 
                   {isSearchOpen && (
                     <form
                       onSubmit={handleSearch}
-                      className="absolute right-0 top-full mt-3 w-64 bg-[var(--card)] border rounded-xl p-4"
+                      className="
+                      absolute right-0 top-full mt-3
+                      w-72
+                      bg-[var(--card)]
+                      border border-[var(--border)]
+                      rounded-xl
+                      p-4
+                      shadow-xl
+                      "
                     >
-                      <div className="flex gap-3">
+                      <div className="flex items-center gap-3">
                         <input
                           type="search"
                           value={searchQuery}
                           onChange={(e) => setSearchQuery(e.target.value)}
-                          placeholder="Search..."
+                          placeholder="Search doctors, departments..."
                           autoFocus
                           className="w-full bg-transparent outline-none"
                         />
@@ -221,7 +236,7 @@ export default function Header() {
 
                 {user ? (
                   <div ref={userMenuRef} className="relative">
-                    <button onClick={() => setIsUserMenuOpen((p) => !p)}>
+                    <button onClick={() => setIsUserMenuOpen((prev) => !prev)}>
                       <FaUser />
                     </button>
 
@@ -274,7 +289,7 @@ export default function Header() {
               {/* MOBILE ACTIONS */}
 
               <div className="flex items-center gap-4 xl:hidden">
-                <button onClick={() => setIsSearchOpen((p) => !p)}>
+                <button onClick={() => setIsSearchOpen((prev) => !prev)}>
                   <FaSearch size={18} />
                 </button>
 
@@ -297,7 +312,13 @@ export default function Header() {
           <div className="xl:hidden px-4 pb-4">
             <form
               onSubmit={handleSearch}
-              className="w-full bg-[var(--card)] border border-[var(--border)] rounded-xl p-3"
+              className="
+              w-full
+              bg-[var(--card)]
+              border border-[var(--border)]
+              rounded-xl
+              p-3
+              "
             >
               <div className="flex items-center gap-3">
                 <input
