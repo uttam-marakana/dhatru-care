@@ -32,10 +32,13 @@ export default function Search() {
       try {
         const doctorsData = await getDoctors();
 
+        const q = query.toLowerCase();
+
         const filteredDoctors = doctorsData.filter(
           (doc) =>
-            doc.name?.toLowerCase().includes(query) ||
-            doc.specialty?.toLowerCase().includes(query),
+            doc.name?.toLowerCase().includes(q) ||
+            doc.specialty?.toLowerCase().includes(q) ||
+            doc.departmentName?.toLowerCase().includes(q),
         );
 
         setResults({ doctors: filteredDoctors });

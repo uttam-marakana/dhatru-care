@@ -17,7 +17,7 @@ export default function Doctors() {
 
   const [filters, setFilters] = useState({
     search: searchParams.get("search") || "",
-    specialty: searchParams.get("specialty") || "",
+    departmentId: searchParams.get("departmentId") || "",
     experience: searchParams.get("experience") || "",
   });
 
@@ -43,6 +43,7 @@ export default function Doctors() {
 
     if (filters.search) {
       const term = filters.search.toLowerCase();
+
       data = data.filter(
         (d) =>
           d.name?.toLowerCase().includes(term) ||
@@ -50,14 +51,15 @@ export default function Doctors() {
       );
     }
 
-    if (filters.specialty) {
-      data = data.filter(
-        (d) => d.specialty?.toLowerCase() === filters.specialty.toLowerCase(),
-      );
+    if (filters.departmentId) {
+      data = data.filter((d) => d.departmentId === filters.departmentId);
     }
 
     if (filters.experience) {
-      data = data.filter((d) => d.experience?.includes(filters.experience));
+      data = data.filter((d) => {
+        const exp = parseFloat(d.experience);
+        return exp >= Number(filters.experience);
+      });
     }
 
     return data;
@@ -66,7 +68,7 @@ export default function Doctors() {
   const clearFilters = () => {
     setFilters({
       search: "",
-      specialty: "",
+      departmentId: "",
       experience: "",
     });
   };
@@ -86,58 +88,19 @@ export default function Doctors() {
         FiltersComponent={DoctorFilters}
       />
 
-      {/* ACTIVE FILTERS */}
       {hasActiveFilters && (
         <div className="max-w-7xl mx-auto px-4 mt-6">
-          <div className="flex flex-wrap gap-3 items-center">
-            <button
-              onClick={clearFilters}
-              className="text-sm text-[var(--color-primary)] hover:underline"
-            >
-              Clear All
-            </button>
-
-            {Object.entries(filters).map(([key, value]) =>
-              value ? (
-                <div
-                  key={key}
-                  className="
-                  flex items-center gap-2
-                  bg-[var(--card)]
-                  border border-[var(--border)]
-                  text-sm text-[var(--text)]
-                  px-3 py-1.5 rounded-full
-                  "
-                >
-                  <span className="capitalize">
-                    {key}: {value}
-                  </span>
-
-                  <button
-                    onClick={() =>
-                      setFilters((prev) => ({
-                        ...prev,
-                        [key]: "",
-                      }))
-                    }
-                    className="text-[var(--muted)] hover:text-red-400"
-                  >
-                    ✕
-                  </button>
-                </div>
-              ) : null,
-            )}
-          </div>
+          <button
+            onClick={clearFilters}
+            className="text-sm text-[var(--color-primary)] hover:underline"
+          >
+            Clear All Filters
+          </button>
         </div>
       )}
 
       <section className="max-w-7xl mx-auto px-4 py-10">
-        <DoctorsList
-          doctors={doctors}
-          loading={loading}
-          error={error}
-          filters={filters}
-        />
+        <DoctorsList doctors={doctors} loading={loading} error={error} />
       </section>
 
       <AppointmentCTA variant="large" className="my-16" />

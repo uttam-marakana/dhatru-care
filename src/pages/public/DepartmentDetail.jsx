@@ -1,11 +1,14 @@
 import { useParams, Link } from "react-router-dom";
 import { useState, useEffect, lazy } from "react";
-import { FaStethoscope, FaChartLine, FaCalendarCheck, FaStar } from "react-icons/fa";
-
+import {
+  FaStethoscope,
+  FaChartLine,
+  FaCalendarCheck,
+  FaStar,
+} from "react-icons/fa";
 
 import { getDepartmentBySlug } from "../../api/departmentsApi";
 import { getDoctors } from "../../api/doctorsApi";
-import { getDoctorSpecialtiesFromDepartment } from "../../utils/departmentDoctorMap";
 
 const Container = lazy(() => import("../../components/layout/Container"));
 const Button = lazy(() => import("../../components/common/Button"));
@@ -39,14 +42,12 @@ export default function DepartmentDetail() {
 
         setDepartment(dept);
 
-        const specialties = getDoctorSpecialtiesFromDepartment(dept.slug);
-
         const allDoctors = await getDoctors();
 
-        const filteredDoctors = allDoctors.filter((doc) =>
-          specialties.some(
-            (s) => doc.specialty?.toLowerCase() === s.toLowerCase(),
-          ),
+        /* Filter doctors by departmentId */
+
+        const filteredDoctors = allDoctors.filter(
+          (doc) => doc.departmentId === dept.id,
         );
 
         setRelatedDoctors(filteredDoctors.slice(0, 4));
@@ -89,6 +90,8 @@ export default function DepartmentDetail() {
       dark:from-gray-950 dark:via-gray-900 dark:to-gray-950
       "
     >
+      {/* BREADCRUMB */}
+
       <Breadcrumb
         items={[
           { label: "Home", path: "/" },
@@ -154,7 +157,9 @@ export default function DepartmentDetail() {
             {/* BOOK CTA */}
 
             <Card className="bg-white dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-2xl p-8 hover:-translate-y-2 transition">
-              <h2 className="text-xl font-bold mb-4">Why Choose Us?</h2>
+              <h2 className="text-xl font-bold mb-4">
+                Why Choose {department.name}?
+              </h2>
 
               <p className="text-gray-600 dark:text-gray-400 mb-6">
                 Expert doctors and advanced medical technology for better care.
