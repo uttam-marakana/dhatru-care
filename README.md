@@ -71,6 +71,7 @@ dhatrucare/
 │   │   │   ├── BlogForm.jsx
 │   │   │   ├── DepartmentForm.jsx
 │   │   │   ├── DoctorForm.jsx
+│   │   │   ├── DoctorScheduleForm.jsx
 │   │   │   ├── FormCard.jsx       # UI wrapper card for admin forms
 │   │   │   └── PackageForm.jsx
 │   │
@@ -81,7 +82,6 @@ dhatrucare/
 │
 │
 │   ├── api/                       # API interaction layer
-│   │
 │   │   ├── appointmentsApi.js     # Appointment related API calls
 │   │   ├── blogsApi.js            # Blog APIs
 │   │   ├── contactApi.js          # Contact form API
@@ -97,7 +97,6 @@ dhatrucare/
 │
 │
 │   ├── auth/                      # Authentication module
-│   │
 │   │   ├── authApi.js             # Authentication API handlers
 │   │   ├── Login.jsx              # Login page
 │   │   └── Signup.jsx             # Signup page
@@ -106,7 +105,6 @@ dhatrucare/
 │   ├── components/                # Reusable UI components
 │   │
 │   │   ├── common/                # Generic reusable UI components
-│   │   │
 │   │   │   ├── AnimatedOutlet.jsx
 │   │   │   ├── AppointmentCalendar.jsx
 │   │   │   ├── Breadcrumb.jsx
@@ -115,7 +113,9 @@ dhatrucare/
 │   │   │   ├── CustomSelect.jsx
 │   │   │   ├── DepartmentDetailSkeleton.jsx
 │   │   │   ├── DepartmentSkeleton.jsx
+│   │   │   ├── DoctorAvailabilityCalender.jsx
 │   │   │   ├── DoctorSkeleton.jsx
+│   │   │   ├── FloatingAppointmentButton.jsx
 │   │   │   ├── Input.jsx
 │   │   │   ├── LazyWrapper.jsx    # Lazy loading wrapper
 │   │   │   ├── Loader.jsx
@@ -138,17 +138,19 @@ dhatrucare/
 │   │   │   └── NewsletterForm.jsx
 │
 │   │   └── layout/                # Layout UI elements
-│   │       ├── Container.jsx
-│   │       ├── Footer.jsx
-│   │       ├── Header.jsx
-│   │       ├── MobileDrawer.jsx
-│   │       └── TopBar.jsx
-│   │       └── UserMenu.jsx
+│   │   │   ├── Container.jsx
+│   │   │   ├── Footer.jsx
+│   │   │   ├── Header.jsx
+│   │   │   ├── MobileDrawer.jsx
+│   │   │   ├── TopBar.jsx
+│   │   │   └── UserMenu.jsx
 │
+│   │   └── config/                # config file
+│   │   │   ├── doctorFilterSchema.js
 │
 │   ├── context/                   # React Context state management
 │   │   ├── HomeDataContext.jsx
-│   │   └── ThemeContext.jsx
+│   │   ├── ThemeContext.jsx
 │   │   └── AuthContext.jsx
 │
 │   ├── data/                      # Local mock or static data
@@ -161,7 +163,8 @@ dhatrucare/
 │
 │   ├── hooks/                     # Custom React hooks
 │   │   ├── useDebounce.js
-│   │   └── useInView.js
+│   │   ├── useInView.js
+│   │   └── useSearchSuggestions.js
 │
 │
 │   ├── layouts/                   # Page layout wrappers
@@ -172,8 +175,12 @@ dhatrucare/
 │
 │   ├── pages/                     # Main route container
 │   │
+│   │   ├── protected/                # Main Protected route pages
+│   │   │   ├── Profile.jsx
+│   │   │   ├── Settings.jsx
+│   │   │   └── UserAppointments.jsx
+│   │   
 │   │   ├── public/                # Main Public route pages
-│   │   │
 │   │   │   ├── Appointments.jsx
 │   │   │   ├── Blog.jsx
 │   │   │   ├── BlogDetail.jsx
@@ -183,23 +190,19 @@ dhatrucare/
 │   │   │   ├── DoctorDetail.jsx
 │   │   │   ├── Doctors.jsx
 │   │   │   ├── Home.jsx
+│   │   │   ├── ManageAppointment.jsx
 │   │   │   ├── NotFound.jsx
 │   │   │   ├── Packages.jsx
 │   │   │   ├── PackagesCompare.jsx
 │   │   │   ├── Search.jsx
-│   │   │   ├── Services.jsx
-│   │   │
-│   │   ├── protected/                # Main Protected route pages
-│   │   │   ├── Profile.jsx
-│   │   │   ├── Settings.jsx
-│   │   │   └── UserAppointments.jsx
+│   │   │   └── Services.jsx
 │
 │
 │   ├── routes/                    # Route configuration
 │   │   ├── AdminRoute.jsx
 │   │   ├── AppRoutes.jsx
-│   │   └── ProtectedRoute.jsx
-│   │   ├── autoRoutes.js
+│   │   ├── ProtectedRoute.jsx
+│   │   └── autoRoutes.jsx
 │
 │
 │   ├── scripts/                   # Utility scripts
@@ -250,6 +253,7 @@ dhatrucare/
 │   │   ├── formatDate.js
 │   │   ├── formatPhone.js
 │   │   ├── generateSlots.js
+│   │   └── specialtyKeywords.js
 │   │   └── validators.js
 │
 │   ├── App.css                    # Global app styling
