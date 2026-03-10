@@ -6,7 +6,7 @@ export default function DoctorAvailabilityCalendar({
   const today = new Date();
   const days = [];
 
-  const workingDays = doctor?.workingDays || [1, 2, 3, 4, 5]; // Mon–Fri default
+  const workingDays = doctor?.workingDays || [1, 2, 3, 4, 5];
 
   for (let i = 0; i < 14; i++) {
     const date = new Date();
@@ -27,7 +27,7 @@ export default function DoctorAvailabilityCalendar({
   }
 
   return (
-    <div className="grid grid-cols-3 sm:grid-cols-5 gap-3">
+    <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-3">
       {days.map((d) => {
         const isSelected = selectedDate === d.iso;
 

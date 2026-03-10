@@ -1,14 +1,14 @@
 export default function SlotGrid({ slots, selected, onSelect }) {
   if (!slots.length) {
     return (
-      <p className="text-gray-500 dark:text-gray-400">
+      <p className="text-gray-500 dark:text-gray-400 text-sm">
         No slots available for this date.
       </p>
     );
   }
 
   return (
-    <div className="grid grid-cols-3 sm:grid-cols-4 gap-3">
+    <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-3">
       {slots.map((slot) => {
         const isSelected = selected === slot;
 
