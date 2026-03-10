@@ -1,7 +1,7 @@
 import { lazy } from "react";
 import { FaCog } from "react-icons/fa";
 
-const ThemeToggle = lazy(() => import("../components/common/ThemeToggle"));
+const ThemeToggle = lazy(() => import("../../components/common/ThemeToggle"));
 
 export default function Settings() {
   return (
