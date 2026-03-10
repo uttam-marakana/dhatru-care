@@ -8,12 +8,30 @@
     "experience": 9,
     "rating": 4.9,
     "reviews": 142,
-    "languages": ["English", "Hindi", "Gujarati"],
+    "languages": [
+      "English",
+      "Hindi",
+      "Gujarati"
+    ],
     "availability": "Mon–Sat: 9 AM–5 PM",
     "location": "Dhatru Care Hospital, Rajkot, India",
     "bio": "Senior cardiologist focused on preventive heart care.",
-    "achievements": ["Gold Medalist", "25+ papers"],
-    "imageUrl": "https://shorturl.at/cJtZ7"
+    "achievements": [
+      "Gold Medalist",
+      "25+ papers"
+    ],
+    "imageUrl": "https://shorturl.at/cJtZ7",
+    "workingDays": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "startHour": 8,
+    "endHour": 15,
+    "slotDuration": 15,
+    "leaveDates": []
   },
   {
     "name": "Dr. Meera Shah",
@@ -24,12 +42,29 @@
     "experience": 6,
     "rating": 4.7,
     "reviews": 96,
-    "languages": ["English", "Hindi"],
+    "languages": [
+      "English",
+      "Hindi"
+    ],
     "availability": "Mon–Fri: 10 AM–6 PM",
     "location": "Apollo Clinic, Ahmedabad, India",
     "bio": "Skin specialist with cosmetic expertise.",
-    "achievements": ["Best Dermatologist 2022"],
-    "imageUrl": "https://example.com/doc2.jpg"
+    "achievements": [
+      "Best Dermatologist 2022"
+    ],
+    "imageUrl": "https://example.com/doc2.jpg",
+    "workingDays": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ],
+    "startHour": 9,
+    "endHour": 16,
+    "slotDuration": 20,
+    "leaveDates": []
   },
   {
     "name": "Dr. Vikram Joshi",
@@ -40,12 +75,29 @@
     "experience": 8,
     "rating": 4.8,
     "reviews": 120,
-    "languages": ["English", "Hindi", "Marathi"],
+    "languages": [
+      "English",
+      "Hindi",
+      "Marathi"
+    ],
     "availability": "Mon–Sat: 9 AM–4 PM",
     "location": "Fortis Hospital, Mumbai, India",
     "bio": "Joint replacement expert.",
-    "achievements": ["5000+ surgeries"],
-    "imageUrl": "https://example.com/doc3.jpg"
+    "achievements": [
+      "5000+ surgeries"
+    ],
+    "imageUrl": "https://example.com/doc3.jpg",
+    "workingDays": [
+      2,
+      3,
+      4,
+      5,
+      6
+    ],
+    "startHour": 10,
+    "endHour": 17,
+    "slotDuration": 30,
+    "leaveDates": []
   },
   {
     "name": "Dr. Ananya Rao",
@@ -56,12 +108,28 @@
     "experience": 5,
     "rating": 4.8,
     "reviews": 88,
-    "languages": ["English", "Hindi", "Kannada"],
+    "languages": [
+      "English",
+      "Hindi",
+      "Kannada"
+    ],
     "availability": "Mon–Sat: 11 AM–7 PM",
     "location": "Manipal Hospital, Bengaluru, India",
     "bio": "Child care and neonatal specialist.",
-    "achievements": ["Child Health Award"],
-    "imageUrl": "https://example.com/doc4.jpg"
+    "achievements": [
+      "Child Health Award"
+    ],
+    "imageUrl": "https://example.com/doc4.jpg",
+    "workingDays": [
+      1,
+      3,
+      5,
+      6
+    ],
+    "startHour": 8,
+    "endHour": 15,
+    "slotDuration": 15,
+    "leaveDates": []
   },
   {
     "name": "Dr. Kunal Singh",
@@ -72,12 +140,28 @@
     "experience": 7,
     "rating": 4.9,
     "reviews": 110,
-    "languages": ["English", "Hindi"],
+    "languages": [
+      "English",
+      "Hindi"
+    ],
     "availability": "Mon–Fri: 9 AM–3 PM",
     "location": "AIIMS, Delhi, India",
     "bio": "Stroke and epilepsy specialist.",
-    "achievements": ["Research Excellence"],
-    "imageUrl": "https://example.com/doc5.jpg"
+    "achievements": [
+      "Research Excellence"
+    ],
+    "imageUrl": "https://example.com/doc5.jpg",
+    "workingDays": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "startHour": 9,
+    "endHour": 16,
+    "slotDuration": 20,
+    "leaveDates": []
   },
   {
     "name": "Dr. Priya Nair",
@@ -88,12 +172,30 @@
     "experience": 6,
     "rating": 4.6,
     "reviews": 90,
-    "languages": ["English", "Malayalam", "Hindi"],
+    "languages": [
+      "English",
+      "Malayalam",
+      "Hindi"
+    ],
     "availability": "Mon–Sat: 10 AM–5 PM",
     "location": "Aster Hospital, Kochi, India",
     "bio": "Women’s health expert.",
-    "achievements": ["1000+ deliveries"],
-    "imageUrl": "https://example.com/doc6.jpg"
+    "achievements": [
+      "1000+ deliveries"
+    ],
+    "imageUrl": "https://example.com/doc6.jpg",
+    "workingDays": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ],
+    "startHour": 10,
+    "endHour": 17,
+    "slotDuration": 30,
+    "leaveDates": []
   },
   {
     "name": "Dr. Sneha Kulkarni",
@@ -104,12 +206,29 @@
     "experience": 4,
     "rating": 4.8,
     "reviews": 65,
-    "languages": ["English", "Hindi", "Marathi"],
+    "languages": [
+      "English",
+      "Hindi",
+      "Marathi"
+    ],
     "availability": "Mon–Fri: 1 PM–7 PM",
     "location": "Ruby Hall Clinic, Pune, India",
     "bio": "Mental wellness specialist.",
-    "achievements": ["CBT Certified"],
-    "imageUrl": "https://example.com/doc8.jpg"
+    "achievements": [
+      "CBT Certified"
+    ],
+    "imageUrl": "https://example.com/doc8.jpg",
+    "workingDays": [
+      2,
+      3,
+      4,
+      5,
+      6
+    ],
+    "startHour": 8,
+    "endHour": 15,
+    "slotDuration": 15,
+    "leaveDates": []
   },
   {
     "name": "Dr. Arjun Desai",
@@ -120,12 +239,28 @@
     "experience": 5,
     "rating": 4.7,
     "reviews": 77,
-    "languages": ["English", "Hindi", "Gujarati"],
+    "languages": [
+      "English",
+      "Hindi",
+      "Gujarati"
+    ],
     "availability": "Mon–Sat: 9 AM–2 PM",
     "location": "Zydus Hospital, Ahmedabad, India",
     "bio": "Sinus and hearing specialist.",
-    "achievements": ["ENT Fellowship"],
-    "imageUrl": "https://example.com/doc7.jpg"
+    "achievements": [
+      "ENT Fellowship"
+    ],
+    "imageUrl": "https://example.com/doc7.jpg",
+    "workingDays": [
+      1,
+      3,
+      5,
+      6
+    ],
+    "startHour": 9,
+    "endHour": 16,
+    "slotDuration": 20,
+    "leaveDates": []
   },
   {
     "name": "Dr. Rohit Verma",
@@ -136,12 +271,28 @@
     "experience": 9,
     "rating": 4.9,
     "reviews": 134,
-    "languages": ["English", "Hindi"],
+    "languages": [
+      "English",
+      "Hindi"
+    ],
     "availability": "Mon–Sat: 8 AM–2 PM",
     "location": "Max Hospital, Delhi, India",
     "bio": "Kidney stone and prostate expert.",
-    "achievements": ["Robotic Surgery Expert"],
-    "imageUrl": "https://example.com/doc9.jpg"
+    "achievements": [
+      "Robotic Surgery Expert"
+    ],
+    "imageUrl": "https://example.com/doc9.jpg",
+    "workingDays": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "startHour": 10,
+    "endHour": 17,
+    "slotDuration": 30,
+    "leaveDates": []
   },
   {
     "name": "Dr. Nisha Kapoor",
@@ -152,12 +303,29 @@
     "experience": 4,
     "rating": 4.7,
     "reviews": 82,
-    "languages": ["English", "Hindi"],
+    "languages": [
+      "English",
+      "Hindi"
+    ],
     "availability": "Mon–Sat: 10 AM–6 PM",
     "location": "LV Prasad Eye Institute, Hyderabad, India",
     "bio": "Cataract and retina care.",
-    "achievements": ["5000+ eye surgeries"],
-    "imageUrl": "https://example.com/doc10.jpg"
+    "achievements": [
+      "5000+ eye surgeries"
+    ],
+    "imageUrl": "https://example.com/doc10.jpg",
+    "workingDays": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ],
+    "startHour": 8,
+    "endHour": 15,
+    "slotDuration": 15,
+    "leaveDates": []
   },
   {
     "name": "Dr. Amit Deshmukh",
@@ -168,12 +336,29 @@
     "experience": 10,
     "rating": 4.9,
     "reviews": 210,
-    "languages": ["English", "Hindi", "Marathi"],
+    "languages": [
+      "English",
+      "Hindi",
+      "Marathi"
+    ],
     "availability": "Mon–Fri: 9 AM–5 PM",
     "location": "Kokilaben Hospital, Mumbai, India",
     "bio": "Interventional cardiologist focused on complex heart procedures.",
-    "achievements": ["Top Cardiology Specialist Award"],
-    "imageUrl": "https://example.com/doc11.jpg"
+    "achievements": [
+      "Top Cardiology Specialist Award"
+    ],
+    "imageUrl": "https://example.com/doc11.jpg",
+    "workingDays": [
+      2,
+      3,
+      4,
+      5,
+      6
+    ],
+    "startHour": 9,
+    "endHour": 16,
+    "slotDuration": 20,
+    "leaveDates": []
   },
   {
     "name": "Dr. Riya Malhotra",
@@ -184,12 +369,27 @@
     "experience": 7,
     "rating": 4.8,
     "reviews": 175,
-    "languages": ["English", "Hindi"],
+    "languages": [
+      "English",
+      "Hindi"
+    ],
     "availability": "Mon–Fri: 10 AM–6 PM",
     "location": "Medanta Hospital, Gurgaon, India",
     "bio": "Specialist in clinical and cosmetic dermatology.",
-    "achievements": ["Indian Dermatology Association Member"],
-    "imageUrl": "https://example.com/doc12.jpg"
+    "achievements": [
+      "Indian Dermatology Association Member"
+    ],
+    "imageUrl": "https://example.com/doc12.jpg",
+    "workingDays": [
+      1,
+      3,
+      5,
+      6
+    ],
+    "startHour": 10,
+    "endHour": 17,
+    "slotDuration": 30,
+    "leaveDates": []
   },
   {
     "name": "Dr. Rohan Mehta",
@@ -200,12 +400,29 @@
     "experience": 9,
     "rating": 4.8,
     "reviews": 160,
-    "languages": ["English", "Hindi", "Gujarati"],
+    "languages": [
+      "English",
+      "Hindi",
+      "Gujarati"
+    ],
     "availability": "Mon–Sat: 8 AM–3 PM",
     "location": "Sterling Hospital, Ahmedabad, India",
     "bio": "Sports injury and joint reconstruction specialist.",
-    "achievements": ["National Orthopedic Excellence Award"],
-    "imageUrl": "https://example.com/doc13.jpg"
+    "achievements": [
+      "National Orthopedic Excellence Award"
+    ],
+    "imageUrl": "https://example.com/doc13.jpg",
+    "workingDays": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "startHour": 8,
+    "endHour": 15,
+    "slotDuration": 15,
+    "leaveDates": []
   },
   {
     "name": "Dr. Kavya Reddy",
@@ -216,12 +433,30 @@
     "experience": 6,
     "rating": 4.7,
     "reviews": 130,
-    "languages": ["English", "Hindi", "Telugu"],
+    "languages": [
+      "English",
+      "Hindi",
+      "Telugu"
+    ],
     "availability": "Mon–Fri: 9 AM–4 PM",
     "location": "Rainbow Children's Hospital, Hyderabad, India",
     "bio": "Specializes in child nutrition and preventive healthcare.",
-    "achievements": ["Pediatric Excellence Recognition"],
-    "imageUrl": "https://example.com/doc14.jpg"
+    "achievements": [
+      "Pediatric Excellence Recognition"
+    ],
+    "imageUrl": "https://example.com/doc14.jpg",
+    "workingDays": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ],
+    "startHour": 9,
+    "endHour": 16,
+    "slotDuration": 20,
+    "leaveDates": []
   },
   {
     "name": "Dr. Arvind Nair",
@@ -232,12 +467,29 @@
     "experience": 8,
     "rating": 4.9,
     "reviews": 188,
-    "languages": ["English", "Hindi", "Malayalam"],
+    "languages": [
+      "English",
+      "Hindi",
+      "Malayalam"
+    ],
     "availability": "Mon–Fri: 8 AM–2 PM",
     "location": "Apollo Hospital, Chennai, India",
     "bio": "Expert in neurodegenerative disorders and stroke care.",
-    "achievements": ["National Neurology Research Grant"],
-    "imageUrl": "https://example.com/doc15.jpg"
+    "achievements": [
+      "National Neurology Research Grant"
+    ],
+    "imageUrl": "https://example.com/doc15.jpg",
+    "workingDays": [
+      2,
+      3,
+      4,
+      5,
+      6
+    ],
+    "startHour": 10,
+    "endHour": 17,
+    "slotDuration": 30,
+    "leaveDates": []
   },
   {
     "name": "Dr. Shalini Verma",
@@ -248,12 +500,27 @@
     "experience": 7,
     "rating": 4.8,
     "reviews": 150,
-    "languages": ["English", "Hindi"],
+    "languages": [
+      "English",
+      "Hindi"
+    ],
     "availability": "Mon–Sat: 10 AM–5 PM",
     "location": "Cloudnine Hospital, Bengaluru, India",
     "bio": "Expert in reproductive health and prenatal care.",
-    "achievements": ["Best Gynecologist Award 2023"],
-    "imageUrl": "https://example.com/doc16.jpg"
+    "achievements": [
+      "Best Gynecologist Award 2023"
+    ],
+    "imageUrl": "https://example.com/doc16.jpg",
+    "workingDays": [
+      1,
+      3,
+      5,
+      6
+    ],
+    "startHour": 8,
+    "endHour": 15,
+    "slotDuration": 15,
+    "leaveDates": []
   },
   {
     "name": "Dr. Nikhil Shah",
@@ -264,12 +531,29 @@
     "experience": 5,
     "rating": 4.7,
     "reviews": 120,
-    "languages": ["English", "Hindi", "Gujarati"],
+    "languages": [
+      "English",
+      "Hindi",
+      "Gujarati"
+    ],
     "availability": "Mon–Fri: 9 AM–3 PM",
     "location": "HCG Hospital, Ahmedabad, India",
     "bio": "Specialist in sinus disorders and airway treatment.",
-    "achievements": ["ENT Society Membership"],
-    "imageUrl": "https://example.com/doc17.jpg"
+    "achievements": [
+      "ENT Society Membership"
+    ],
+    "imageUrl": "https://example.com/doc17.jpg",
+    "workingDays": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "startHour": 9,
+    "endHour": 16,
+    "slotDuration": 20,
+    "leaveDates": []
   },
   {
     "name": "Dr. Pooja Khanna",
@@ -280,12 +564,29 @@
     "experience": 6,
     "rating": 4.8,
     "reviews": 98,
-    "languages": ["English", "Hindi"],
+    "languages": [
+      "English",
+      "Hindi"
+    ],
     "availability": "Mon–Fri: 12 PM–7 PM",
     "location": "Fortis Hospital, Delhi, India",
     "bio": "Treats anxiety, depression, and mood disorders.",
-    "achievements": ["Mental Health Awareness Award"],
-    "imageUrl": "https://example.com/doc18.jpg"
+    "achievements": [
+      "Mental Health Awareness Award"
+    ],
+    "imageUrl": "https://example.com/doc18.jpg",
+    "workingDays": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ],
+    "startHour": 10,
+    "endHour": 17,
+    "slotDuration": 30,
+    "leaveDates": []
   },
   {
     "name": "Dr. Saurabh Kapoor",
@@ -296,12 +597,28 @@
     "experience": 8,
     "rating": 4.9,
     "reviews": 165,
-    "languages": ["English", "Hindi"],
+    "languages": [
+      "English",
+      "Hindi"
+    ],
     "availability": "Mon–Sat: 8 AM–1 PM",
     "location": "Medanta Hospital, Gurgaon, India",
     "bio": "Robotic and minimally invasive urologic surgery expert.",
-    "achievements": ["Advanced Robotic Surgery Certification"],
-    "imageUrl": "https://example.com/doc19.jpg"
+    "achievements": [
+      "Advanced Robotic Surgery Certification"
+    ],
+    "imageUrl": "https://example.com/doc19.jpg",
+    "workingDays": [
+      2,
+      3,
+      4,
+      5,
+      6
+    ],
+    "startHour": 8,
+    "endHour": 15,
+    "slotDuration": 15,
+    "leaveDates": []
   },
   {
     "name": "Dr. Isha Bansal",
@@ -312,12 +629,27 @@
     "experience": 4,
     "rating": 4.7,
     "reviews": 115,
-    "languages": ["English", "Hindi"],
+    "languages": [
+      "English",
+      "Hindi"
+    ],
     "availability": "Mon–Fri: 10 AM–6 PM",
     "location": "Dr. Agarwal Eye Hospital, Chennai, India",
     "bio": "Retina and cataract treatment specialist.",
-    "achievements": ["Young Ophthalmologist Award"],
-    "imageUrl": "https://example.com/doc20.jpg"
+    "achievements": [
+      "Young Ophthalmologist Award"
+    ],
+    "imageUrl": "https://example.com/doc20.jpg",
+    "workingDays": [
+      1,
+      3,
+      5,
+      6
+    ],
+    "startHour": 9,
+    "endHour": 16,
+    "slotDuration": 20,
+    "leaveDates": []
   },
   {
     "name": "Dr. Vivek Sharma",
@@ -328,12 +660,28 @@
     "experience": 8,
     "rating": 4.8,
     "reviews": 140,
-    "languages": ["English", "Hindi"],
+    "languages": [
+      "English",
+      "Hindi"
+    ],
     "availability": "Mon–Fri: 9 AM–4 PM",
     "location": "Apollo Hospital, Delhi, India",
     "bio": "Heart failure and preventive cardiology specialist.",
-    "achievements": ["National Cardiology Award"],
-    "imageUrl": "https://example.com/doc21.jpg"
+    "achievements": [
+      "National Cardiology Award"
+    ],
+    "imageUrl": "https://example.com/doc21.jpg",
+    "workingDays": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "startHour": 10,
+    "endHour": 17,
+    "slotDuration": 30,
+    "leaveDates": []
   },
   {
     "name": "Dr. Pooja Arora",
@@ -344,12 +692,29 @@
     "experience": 6,
     "rating": 4.7,
     "reviews": 95,
-    "languages": ["English", "Hindi"],
+    "languages": [
+      "English",
+      "Hindi"
+    ],
     "availability": "Mon–Sat: 10 AM–5 PM",
     "location": "Max Hospital, Delhi, India",
     "bio": "Clinical dermatology and skin care specialist.",
-    "achievements": ["Skin Research Publication"],
-    "imageUrl": "https://example.com/doc22.jpg"
+    "achievements": [
+      "Skin Research Publication"
+    ],
+    "imageUrl": "https://example.com/doc22.jpg",
+    "workingDays": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ],
+    "startHour": 8,
+    "endHour": 15,
+    "slotDuration": 15,
+    "leaveDates": []
   },
   {
     "name": "Dr. Karan Bhatia",
@@ -360,12 +725,28 @@
     "experience": 9,
     "rating": 4.8,
     "reviews": 122,
-    "languages": ["English", "Hindi"],
+    "languages": [
+      "English",
+      "Hindi"
+    ],
     "availability": "Mon–Fri: 8 AM–2 PM",
     "location": "Fortis Hospital, Chandigarh, India",
     "bio": "Trauma and fracture management specialist.",
-    "achievements": ["5000+ orthopedic procedures"],
-    "imageUrl": "https://example.com/doc23.jpg"
+    "achievements": [
+      "5000+ orthopedic procedures"
+    ],
+    "imageUrl": "https://example.com/doc23.jpg",
+    "workingDays": [
+      2,
+      3,
+      4,
+      5,
+      6
+    ],
+    "startHour": 9,
+    "endHour": 16,
+    "slotDuration": 20,
+    "leaveDates": []
   },
   {
     "name": "Dr. Neha Joshi",
@@ -376,12 +757,28 @@
     "experience": 5,
     "rating": 4.7,
     "reviews": 80,
-    "languages": ["English", "Hindi", "Gujarati"],
+    "languages": [
+      "English",
+      "Hindi",
+      "Gujarati"
+    ],
     "availability": "Mon–Sat: 9 AM–3 PM",
     "location": "Sterling Hospital, Ahmedabad, India",
     "bio": "Child nutrition and development specialist.",
-    "achievements": ["Child Care Award"],
-    "imageUrl": "https://example.com/doc24.jpg"
+    "achievements": [
+      "Child Care Award"
+    ],
+    "imageUrl": "https://example.com/doc24.jpg",
+    "workingDays": [
+      1,
+      3,
+      5,
+      6
+    ],
+    "startHour": 10,
+    "endHour": 17,
+    "slotDuration": 30,
+    "leaveDates": []
   },
   {
     "name": "Dr. Manish Gupta",
@@ -392,12 +789,28 @@
     "experience": 8,
     "rating": 4.9,
     "reviews": 133,
-    "languages": ["English", "Hindi"],
+    "languages": [
+      "English",
+      "Hindi"
+    ],
     "availability": "Mon–Fri: 9 AM–2 PM",
     "location": "Medanta Hospital, Gurgaon, India",
     "bio": "Epilepsy and stroke care specialist.",
-    "achievements": ["Neurology Research Lead"],
-    "imageUrl": "https://example.com/doc25.jpg"
+    "achievements": [
+      "Neurology Research Lead"
+    ],
+    "imageUrl": "https://example.com/doc25.jpg",
+    "workingDays": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "startHour": 8,
+    "endHour": 15,
+    "slotDuration": 15,
+    "leaveDates": []
   },
   {
     "name": "Dr. Ritu Sinha",
@@ -408,12 +821,29 @@
     "experience": 7,
     "rating": 4.6,
     "reviews": 90,
-    "languages": ["English", "Hindi"],
+    "languages": [
+      "English",
+      "Hindi"
+    ],
     "availability": "Mon–Sat: 10 AM–4 PM",
     "location": "Cloudnine Hospital, Mumbai, India",
     "bio": "Maternal care and reproductive health expert.",
-    "achievements": ["Women Health Award"],
-    "imageUrl": "https://example.com/doc26.jpg"
+    "achievements": [
+      "Women Health Award"
+    ],
+    "imageUrl": "https://example.com/doc26.jpg",
+    "workingDays": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ],
+    "startHour": 9,
+    "endHour": 16,
+    "slotDuration": 20,
+    "leaveDates": []
   },
   {
     "name": "Dr. Sandeep Khurana",
@@ -424,12 +854,28 @@
     "experience": 4,
     "rating": 4.7,
     "reviews": 70,
-    "languages": ["English", "Hindi"],
+    "languages": [
+      "English",
+      "Hindi"
+    ],
     "availability": "Mon–Fri: 9 AM–1 PM",
     "location": "BLK Hospital, Delhi, India",
     "bio": "Ear and sinus surgery specialist.",
-    "achievements": ["ENT Fellowship"],
-    "imageUrl": "https://example.com/doc27.jpg"
+    "achievements": [
+      "ENT Fellowship"
+    ],
+    "imageUrl": "https://example.com/doc27.jpg",
+    "workingDays": [
+      2,
+      3,
+      4,
+      5,
+      6
+    ],
+    "startHour": 10,
+    "endHour": 17,
+    "slotDuration": 30,
+    "leaveDates": []
   },
   {
     "name": "Dr. Radhika Mehta",
@@ -440,12 +886,28 @@
     "experience": 5,
     "rating": 4.8,
     "reviews": 66,
-    "languages": ["English", "Hindi", "Gujarati"],
+    "languages": [
+      "English",
+      "Hindi",
+      "Gujarati"
+    ],
     "availability": "Mon–Fri: 1 PM–6 PM",
     "location": "Sterling Hospital, Rajkot, India",
     "bio": "Behavioral therapy and mental wellness specialist.",
-    "achievements": ["CBT Specialist"],
-    "imageUrl": "https://example.com/doc28.jpg"
+    "achievements": [
+      "CBT Specialist"
+    ],
+    "imageUrl": "https://example.com/doc28.jpg",
+    "workingDays": [
+      1,
+      3,
+      5,
+      6
+    ],
+    "startHour": 8,
+    "endHour": 15,
+    "slotDuration": 15,
+    "leaveDates": []
   },
   {
     "name": "Dr. Aditya Kulkarni",
@@ -456,12 +918,29 @@
     "experience": 8,
     "rating": 4.8,
     "reviews": 102,
-    "languages": ["English", "Hindi", "Marathi"],
+    "languages": [
+      "English",
+      "Hindi",
+      "Marathi"
+    ],
     "availability": "Mon–Sat: 8 AM–12 PM",
     "location": "Ruby Hall Clinic, Pune, India",
     "bio": "Kidney surgery and urological disorders specialist.",
-    "achievements": ["Robotic Urology Certification"],
-    "imageUrl": "https://example.com/doc29.jpg"
+    "achievements": [
+      "Robotic Urology Certification"
+    ],
+    "imageUrl": "https://example.com/doc29.jpg",
+    "workingDays": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "startHour": 9,
+    "endHour": 16,
+    "slotDuration": 20,
+    "leaveDates": []
   },
   {
     "name": "Dr. Nidhi Tiwari",
@@ -472,12 +951,29 @@
     "experience": 4,
     "rating": 4.7,
     "reviews": 85,
-    "languages": ["English", "Hindi"],
+    "languages": [
+      "English",
+      "Hindi"
+    ],
     "availability": "Mon–Fri: 10 AM–5 PM",
     "location": "Dr. Agarwal Eye Hospital, Bengaluru, India",
     "bio": "Glaucoma and retina care specialist.",
-    "achievements": ["Eye Research Award"],
-    "imageUrl": "https://example.com/doc30.jpg"
+    "achievements": [
+      "Eye Research Award"
+    ],
+    "imageUrl": "https://example.com/doc30.jpg",
+    "workingDays": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ],
+    "startHour": 10,
+    "endHour": 17,
+    "slotDuration": 30,
+    "leaveDates": []
   },
   {
     "name": "Dr. Ankit Verma",
@@ -488,12 +984,28 @@
     "experience": 7,
     "rating": 4.9,
     "reviews": 170,
-    "languages": ["English", "Hindi"],
+    "languages": [
+      "English",
+      "Hindi"
+    ],
     "availability": "Mon–Fri: 9 AM–4 PM",
     "location": "Apollo Hospital, Delhi, India",
     "bio": "Interventional cardiologist specializing in coronary procedures.",
-    "achievements": ["National Medical Award"],
-    "imageUrl": "https://example.com/doc31.jpg"
+    "achievements": [
+      "National Medical Award"
+    ],
+    "imageUrl": "https://example.com/doc31.jpg",
+    "workingDays": [
+      2,
+      3,
+      4,
+      5,
+      6
+    ],
+    "startHour": 8,
+    "endHour": 15,
+    "slotDuration": 15,
+    "leaveDates": []
   },
   {
     "name": "Dr. Shruti Sharma",
@@ -504,12 +1016,27 @@
     "experience": 6,
     "rating": 4.7,
     "reviews": 98,
-    "languages": ["English", "Hindi"],
+    "languages": [
+      "English",
+      "Hindi"
+    ],
     "availability": "Mon–Sat: 10 AM–6 PM",
     "location": "SkinCare Clinic, Mumbai, India",
     "bio": "Acne, pigmentation and cosmetic dermatology specialist.",
-    "achievements": ["Dermatology Research"],
-    "imageUrl": "https://example.com/doc32.jpg"
+    "achievements": [
+      "Dermatology Research"
+    ],
+    "imageUrl": "https://example.com/doc32.jpg",
+    "workingDays": [
+      1,
+      3,
+      5,
+      6
+    ],
+    "startHour": 9,
+    "endHour": 16,
+    "slotDuration": 20,
+    "leaveDates": []
   },
   {
     "name": "Dr. Rakesh Yadav",
@@ -520,12 +1047,28 @@
     "experience": 8,
     "rating": 4.8,
     "reviews": 125,
-    "languages": ["English", "Hindi"],
+    "languages": [
+      "English",
+      "Hindi"
+    ],
     "availability": "Mon–Fri: 8 AM–2 PM",
     "location": "Fortis Hospital, Jaipur, India",
     "bio": "Spine and trauma orthopedic specialist.",
-    "achievements": ["Spine Surgery Expert"],
-    "imageUrl": "https://example.com/doc33.jpg"
+    "achievements": [
+      "Spine Surgery Expert"
+    ],
+    "imageUrl": "https://example.com/doc33.jpg",
+    "workingDays": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "startHour": 10,
+    "endHour": 17,
+    "slotDuration": 30,
+    "leaveDates": []
   },
   {
     "name": "Dr. Pooja Patel",
@@ -536,12 +1079,30 @@
     "experience": 5,
     "rating": 4.7,
     "reviews": 88,
-    "languages": ["English", "Hindi", "Gujarati"],
+    "languages": [
+      "English",
+      "Hindi",
+      "Gujarati"
+    ],
     "availability": "Mon–Sat: 9 AM–3 PM",
     "location": "Sterling Hospital, Rajkot, India",
     "bio": "Child development and vaccination specialist.",
-    "achievements": ["Pediatric Excellence"],
-    "imageUrl": "https://example.com/doc34.jpg"
+    "achievements": [
+      "Pediatric Excellence"
+    ],
+    "imageUrl": "https://example.com/doc34.jpg",
+    "workingDays": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ],
+    "startHour": 8,
+    "endHour": 15,
+    "slotDuration": 15,
+    "leaveDates": []
   },
   {
     "name": "Dr. Nitin Agarwal",
@@ -552,12 +1113,28 @@
     "experience": 9,
     "rating": 4.9,
     "reviews": 140,
-    "languages": ["English", "Hindi"],
+    "languages": [
+      "English",
+      "Hindi"
+    ],
     "availability": "Mon–Fri: 9 AM–2 PM",
     "location": "Medanta Hospital, Gurgaon, India",
     "bio": "Stroke and neurological disorder specialist.",
-    "achievements": ["Neuro Innovation Award"],
-    "imageUrl": "https://example.com/doc35.jpg"
+    "achievements": [
+      "Neuro Innovation Award"
+    ],
+    "imageUrl": "https://example.com/doc35.jpg",
+    "workingDays": [
+      2,
+      3,
+      4,
+      5,
+      6
+    ],
+    "startHour": 9,
+    "endHour": 16,
+    "slotDuration": 20,
+    "leaveDates": []
   },
   {
     "name": "Dr. Aditi Kapoor",
@@ -568,12 +1145,27 @@
     "experience": 6,
     "rating": 4.8,
     "reviews": 110,
-    "languages": ["English", "Hindi"],
+    "languages": [
+      "English",
+      "Hindi"
+    ],
     "availability": "Mon–Sat: 10 AM–5 PM",
     "location": "Cloudnine Hospital, Delhi, India",
     "bio": "Women’s reproductive health specialist.",
-    "achievements": ["Maternal Care Award"],
-    "imageUrl": "https://example.com/doc36.jpg"
+    "achievements": [
+      "Maternal Care Award"
+    ],
+    "imageUrl": "https://example.com/doc36.jpg",
+    "workingDays": [
+      1,
+      3,
+      5,
+      6
+    ],
+    "startHour": 10,
+    "endHour": 17,
+    "slotDuration": 30,
+    "leaveDates": []
   },
   {
     "name": "Dr. Saurabh Mishra",
@@ -584,12 +1176,28 @@
     "experience": 4,
     "rating": 4.7,
     "reviews": 76,
-    "languages": ["English", "Hindi"],
+    "languages": [
+      "English",
+      "Hindi"
+    ],
     "availability": "Mon–Fri: 9 AM–1 PM",
     "location": "Apollo Hospital, Lucknow, India",
     "bio": "Hearing disorder and sinus specialist.",
-    "achievements": ["ENT Fellowship"],
-    "imageUrl": "https://example.com/doc37.jpg"
+    "achievements": [
+      "ENT Fellowship"
+    ],
+    "imageUrl": "https://example.com/doc37.jpg",
+    "workingDays": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "startHour": 8,
+    "endHour": 15,
+    "slotDuration": 15,
+    "leaveDates": []
   },
   {
     "name": "Dr. Neha Gupta",
@@ -600,12 +1208,29 @@
     "experience": 5,
     "rating": 4.8,
     "reviews": 64,
-    "languages": ["English", "Hindi"],
+    "languages": [
+      "English",
+      "Hindi"
+    ],
     "availability": "Mon–Fri: 1 PM–6 PM",
     "location": "Fortis Hospital, Delhi, India",
     "bio": "Stress, anxiety and depression treatment specialist.",
-    "achievements": ["Mental Health Award"],
-    "imageUrl": "https://example.com/doc38.jpg"
+    "achievements": [
+      "Mental Health Award"
+    ],
+    "imageUrl": "https://example.com/doc38.jpg",
+    "workingDays": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ],
+    "startHour": 9,
+    "endHour": 16,
+    "slotDuration": 20,
+    "leaveDates": []
   },
   {
     "name": "Dr. Rahul Khanna",
@@ -616,12 +1241,28 @@
     "experience": 8,
     "rating": 4.9,
     "reviews": 132,
-    "languages": ["English", "Hindi"],
+    "languages": [
+      "English",
+      "Hindi"
+    ],
     "availability": "Mon–Sat: 8 AM–1 PM",
     "location": "Max Hospital, Delhi, India",
     "bio": "Minimally invasive urology and kidney stone specialist.",
-    "achievements": ["Robotic Surgery"],
-    "imageUrl": "https://example.com/doc39.jpg"
+    "achievements": [
+      "Robotic Surgery"
+    ],
+    "imageUrl": "https://example.com/doc39.jpg",
+    "workingDays": [
+      2,
+      3,
+      4,
+      5,
+      6
+    ],
+    "startHour": 10,
+    "endHour": 17,
+    "slotDuration": 30,
+    "leaveDates": []
   },
   {
     "name": "Dr. Anjali Mehta",
@@ -632,12 +1273,28 @@
     "experience": 4,
     "rating": 4.7,
     "reviews": 82,
-    "languages": ["English", "Hindi", "Gujarati"],
+    "languages": [
+      "English",
+      "Hindi",
+      "Gujarati"
+    ],
     "availability": "Mon–Fri: 10 AM–5 PM",
     "location": "Dr. Agarwal Eye Hospital, Ahmedabad, India",
     "bio": "Retina and cataract care specialist.",
-    "achievements": ["Eye Care Award"],
-    "imageUrl": "https://example.com/doc40.jpg"
+    "achievements": [
+      "Eye Care Award"
+    ],
+    "imageUrl": "https://example.com/doc40.jpg",
+    "workingDays": [
+      1,
+      3,
+      5,
+      6
+    ],
+    "startHour": 8,
+    "endHour": 15,
+    "slotDuration": 15,
+    "leaveDates": []
   },
   {
     "name": "Dr. Rohan Kulkarni",
@@ -648,12 +1305,29 @@
     "experience": 10,
     "rating": 4.9,
     "reviews": 190,
-    "languages": ["English", "Hindi", "Marathi"],
+    "languages": [
+      "English",
+      "Hindi",
+      "Marathi"
+    ],
     "availability": "Mon–Fri: 9 AM–4 PM",
     "location": "Ruby Hall Clinic, Pune, India",
     "bio": "Cardiologist specializing in heart rhythm disorders.",
-    "achievements": ["Indian Cardiology Award"],
-    "imageUrl": "https://example.com/doc41.jpg"
+    "achievements": [
+      "Indian Cardiology Award"
+    ],
+    "imageUrl": "https://example.com/doc41.jpg",
+    "workingDays": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "startHour": 9,
+    "endHour": 16,
+    "slotDuration": 20,
+    "leaveDates": []
   },
   {
     "name": "Dr. Shweta Bansal",
@@ -664,12 +1338,29 @@
     "experience": 7,
     "rating": 4.8,
     "reviews": 105,
-    "languages": ["English", "Hindi"],
+    "languages": [
+      "English",
+      "Hindi"
+    ],
     "availability": "Mon–Sat: 10 AM–6 PM",
     "location": "SkinCare Clinic, Delhi, India",
     "bio": "Clinical dermatology and cosmetic skin treatment expert.",
-    "achievements": ["Derm Research Recognition"],
-    "imageUrl": "https://example.com/doc42.jpg"
+    "achievements": [
+      "Derm Research Recognition"
+    ],
+    "imageUrl": "https://example.com/doc42.jpg",
+    "workingDays": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ],
+    "startHour": 10,
+    "endHour": 17,
+    "slotDuration": 30,
+    "leaveDates": []
   },
   {
     "name": "Dr. Ajay Singh",
@@ -680,12 +1371,28 @@
     "experience": 9,
     "rating": 4.8,
     "reviews": 130,
-    "languages": ["English", "Hindi"],
+    "languages": [
+      "English",
+      "Hindi"
+    ],
     "availability": "Mon–Fri: 8 AM–2 PM",
     "location": "Fortis Hospital, Delhi, India",
     "bio": "Sports injury and orthopedic surgery specialist.",
-    "achievements": ["Orthopedic Excellence Award"],
-    "imageUrl": "https://example.com/doc43.jpg"
+    "achievements": [
+      "Orthopedic Excellence Award"
+    ],
+    "imageUrl": "https://example.com/doc43.jpg",
+    "workingDays": [
+      2,
+      3,
+      4,
+      5,
+      6
+    ],
+    "startHour": 8,
+    "endHour": 15,
+    "slotDuration": 15,
+    "leaveDates": []
   },
   {
     "name": "Dr. Nisha Desai",
@@ -696,12 +1403,28 @@
     "experience": 6,
     "rating": 4.7,
     "reviews": 90,
-    "languages": ["English", "Hindi", "Gujarati"],
+    "languages": [
+      "English",
+      "Hindi",
+      "Gujarati"
+    ],
     "availability": "Mon–Sat: 9 AM–3 PM",
     "location": "Sterling Hospital, Ahmedabad, India",
     "bio": "Neonatal and child healthcare specialist.",
-    "achievements": ["Child Health Award"],
-    "imageUrl": "https://example.com/doc44.jpg"
+    "achievements": [
+      "Child Health Award"
+    ],
+    "imageUrl": "https://example.com/doc44.jpg",
+    "workingDays": [
+      1,
+      3,
+      5,
+      6
+    ],
+    "startHour": 9,
+    "endHour": 16,
+    "slotDuration": 20,
+    "leaveDates": []
   },
   {
     "name": "Dr. Prakash Nair",
@@ -712,12 +1435,29 @@
     "experience": 8,
     "rating": 4.9,
     "reviews": 145,
-    "languages": ["English", "Hindi", "Malayalam"],
+    "languages": [
+      "English",
+      "Hindi",
+      "Malayalam"
+    ],
     "availability": "Mon–Fri: 9 AM–2 PM",
     "location": "Aster Hospital, Kochi, India",
     "bio": "Parkinson’s disease and neurological disorder expert.",
-    "achievements": ["Neuro Research Prize"],
-    "imageUrl": "https://example.com/doc45.jpg"
+    "achievements": [
+      "Neuro Research Prize"
+    ],
+    "imageUrl": "https://example.com/doc45.jpg",
+    "workingDays": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "startHour": 10,
+    "endHour": 17,
+    "slotDuration": 30,
+    "leaveDates": []
   },
   {
     "name": "Dr. Kavita Sharma",
@@ -728,12 +1468,29 @@
     "experience": 7,
     "rating": 4.8,
     "reviews": 112,
-    "languages": ["English", "Hindi"],
+    "languages": [
+      "English",
+      "Hindi"
+    ],
     "availability": "Mon–Sat: 10 AM–5 PM",
     "location": "Cloudnine Hospital, Bengaluru, India",
     "bio": "Maternal care and reproductive health specialist.",
-    "achievements": ["Women Health Award"],
-    "imageUrl": "https://example.com/doc46.jpg"
+    "achievements": [
+      "Women Health Award"
+    ],
+    "imageUrl": "https://example.com/doc46.jpg",
+    "workingDays": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ],
+    "startHour": 8,
+    "endHour": 15,
+    "slotDuration": 15,
+    "leaveDates": []
   },
   {
     "name": "Dr. Nitin Patel",
@@ -744,12 +1501,29 @@
     "experience": 5,
     "rating": 4.7,
     "reviews": 72,
-    "languages": ["English", "Hindi", "Gujarati"],
+    "languages": [
+      "English",
+      "Hindi",
+      "Gujarati"
+    ],
     "availability": "Mon–Fri: 9 AM–1 PM",
     "location": "Zydus Hospital, Ahmedabad, India",
     "bio": "Sinus surgery and ear disorder specialist.",
-    "achievements": ["ENT Fellowship"],
-    "imageUrl": "https://example.com/doc47.jpg"
+    "achievements": [
+      "ENT Fellowship"
+    ],
+    "imageUrl": "https://example.com/doc47.jpg",
+    "workingDays": [
+      2,
+      3,
+      4,
+      5,
+      6
+    ],
+    "startHour": 9,
+    "endHour": 16,
+    "slotDuration": 20,
+    "leaveDates": []
   },
   {
     "name": "Dr. Ritu Agarwal",
@@ -760,12 +1534,27 @@
     "experience": 4,
     "rating": 4.8,
     "reviews": 68,
-    "languages": ["English", "Hindi"],
+    "languages": [
+      "English",
+      "Hindi"
+    ],
     "availability": "Mon–Fri: 1 PM–6 PM",
     "location": "Fortis Hospital, Mumbai, India",
     "bio": "Stress management and behavioral therapy specialist.",
-    "achievements": ["CBT Specialist"],
-    "imageUrl": "https://example.com/doc48.jpg"
+    "achievements": [
+      "CBT Specialist"
+    ],
+    "imageUrl": "https://example.com/doc48.jpg",
+    "workingDays": [
+      1,
+      3,
+      5,
+      6
+    ],
+    "startHour": 10,
+    "endHour": 17,
+    "slotDuration": 30,
+    "leaveDates": []
   },
   {
     "name": "Dr. Arvind Reddy",
@@ -776,12 +1565,29 @@
     "experience": 8,
     "rating": 4.9,
     "reviews": 125,
-    "languages": ["English", "Hindi", "Telugu"],
+    "languages": [
+      "English",
+      "Hindi",
+      "Telugu"
+    ],
     "availability": "Mon–Sat: 8 AM–1 PM",
     "location": "Apollo Hospital, Hyderabad, India",
     "bio": "Endoscopic and robotic urology specialist.",
-    "achievements": ["Robotic Urology Certification"],
-    "imageUrl": "https://example.com/doc49.jpg"
+    "achievements": [
+      "Robotic Urology Certification"
+    ],
+    "imageUrl": "https://example.com/doc49.jpg",
+    "workingDays": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "startHour": 8,
+    "endHour": 15,
+    "slotDuration": 15,
+    "leaveDates": []
   },
   {
     "name": "Dr. Aditi Kapoor",
@@ -792,12 +1598,29 @@
     "experience": 4,
     "rating": 4.7,
     "reviews": 84,
-    "languages": ["English", "Hindi"],
+    "languages": [
+      "English",
+      "Hindi"
+    ],
     "availability": "Mon–Fri: 10 AM–5 PM",
     "location": "Dr. Agarwal Eye Hospital, Chennai, India",
     "bio": "Retina and vision care specialist.",
-    "achievements": ["Eye Innovation Award"],
-    "imageUrl": "https://example.com/doc50.jpg"
+    "achievements": [
+      "Eye Innovation Award"
+    ],
+    "imageUrl": "https://example.com/doc50.jpg",
+    "workingDays": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ],
+    "startHour": 9,
+    "endHour": 16,
+    "slotDuration": 20,
+    "leaveDates": []
   },
   {
     "name": "Dr. Amit Trivedi",
@@ -808,12 +1631,29 @@
     "experience": 6,
     "rating": 4.6,
     "reviews": 52,
-    "languages": ["English", "Hindi", "Gujarati"],
+    "languages": [
+      "English",
+      "Hindi",
+      "Gujarati"
+    ],
     "availability": "Mon–Sat: 9 AM–4 PM",
     "location": "Sterling Hospital, Ahmedabad, India",
     "bio": "Primary care physician specializing in chronic disease management.",
-    "achievements": ["Internal Medicine Fellowship"],
-    "imageUrl": "https://example.com/doc51.jpg"
+    "achievements": [
+      "Internal Medicine Fellowship"
+    ],
+    "imageUrl": "https://example.com/doc51.jpg",
+    "workingDays": [
+      2,
+      3,
+      4,
+      5,
+      6
+    ],
+    "startHour": 10,
+    "endHour": 17,
+    "slotDuration": 30,
+    "leaveDates": []
   },
   {
     "name": "Dr. Neha Bhatt",
@@ -824,12 +1664,27 @@
     "experience": 4,
     "rating": 4.7,
     "reviews": 40,
-    "languages": ["English", "Hindi"],
+    "languages": [
+      "English",
+      "Hindi"
+    ],
     "availability": "Mon–Fri: 10 AM–5 PM",
     "location": "Apollo Hospital, Ahmedabad, India",
     "bio": "Focuses on preventive care and lifestyle diseases.",
-    "achievements": ["Preventive Medicine Certification"],
-    "imageUrl": "https://example.com/doc52.jpg"
+    "achievements": [
+      "Preventive Medicine Certification"
+    ],
+    "imageUrl": "https://example.com/doc52.jpg",
+    "workingDays": [
+      1,
+      3,
+      5,
+      6
+    ],
+    "startHour": 8,
+    "endHour": 15,
+    "slotDuration": 15,
+    "leaveDates": []
   },
   {
     "name": "Dr. Rahul Iyer",
@@ -840,12 +1695,29 @@
     "experience": 7,
     "rating": 4.8,
     "reviews": 61,
-    "languages": ["English", "Hindi", "Tamil"],
+    "languages": [
+      "English",
+      "Hindi",
+      "Tamil"
+    ],
     "availability": "Mon–Sat: 8 AM–2 PM",
     "location": "Fortis Hospital, Bengaluru, India",
     "bio": "Specialist in diabetes and metabolic disorders.",
-    "achievements": ["Diabetes Care Excellence"],
-    "imageUrl": "https://example.com/doc53.jpg"
+    "achievements": [
+      "Diabetes Care Excellence"
+    ],
+    "imageUrl": "https://example.com/doc53.jpg",
+    "workingDays": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "startHour": 9,
+    "endHour": 16,
+    "slotDuration": 20,
+    "leaveDates": []
   },
   {
     "name": "Dr. Kavita Sharma",
@@ -856,12 +1728,29 @@
     "experience": 5,
     "rating": 4.6,
     "reviews": 47,
-    "languages": ["English", "Hindi"],
+    "languages": [
+      "English",
+      "Hindi"
+    ],
     "availability": "Mon–Fri: 9 AM–3 PM",
     "location": "Max Hospital, Delhi, India",
     "bio": "Experienced in preventive medicine and infection treatment.",
-    "achievements": ["Clinical Excellence Award"],
-    "imageUrl": "https://example.com/doc54.jpg"
+    "achievements": [
+      "Clinical Excellence Award"
+    ],
+    "imageUrl": "https://example.com/doc54.jpg",
+    "workingDays": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ],
+    "startHour": 10,
+    "endHour": 17,
+    "slotDuration": 30,
+    "leaveDates": []
   },
   {
     "name": "Dr. Pratik Shah",
@@ -872,14 +1761,30 @@
     "experience": 3,
     "rating": 4.5,
     "reviews": 29,
-    "languages": ["English", "Hindi", "Gujarati"],
+    "languages": [
+      "English",
+      "Hindi",
+      "Gujarati"
+    ],
     "availability": "Mon–Sat: 11 AM–6 PM",
     "location": "HCG Hospital, Rajkot, India",
     "bio": "Treats common illnesses and provides preventive care.",
-    "achievements": ["Young Physician Award"],
-    "imageUrl": "https://example.com/doc55.jpg"
+    "achievements": [
+      "Young Physician Award"
+    ],
+    "imageUrl": "https://example.com/doc55.jpg",
+    "workingDays": [
+      2,
+      3,
+      4,
+      5,
+      6
+    ],
+    "startHour": 8,
+    "endHour": 15,
+    "slotDuration": 15,
+    "leaveDates": []
   },
-
   {
     "name": "Dr. Ritu Agarwal",
     "gender": "Female",
@@ -889,12 +1794,27 @@
     "experience": 8,
     "rating": 4.8,
     "reviews": 72,
-    "languages": ["English", "Hindi"],
+    "languages": [
+      "English",
+      "Hindi"
+    ],
     "availability": "Mon–Fri: 9 AM–5 PM",
     "location": "AIIMS, Delhi, India",
     "bio": "Diagnostic radiologist specializing in MRI and CT imaging.",
-    "achievements": ["Radiology Research Award"],
-    "imageUrl": "https://example.com/doc56.jpg"
+    "achievements": [
+      "Radiology Research Award"
+    ],
+    "imageUrl": "https://example.com/doc56.jpg",
+    "workingDays": [
+      1,
+      3,
+      5,
+      6
+    ],
+    "startHour": 9,
+    "endHour": 16,
+    "slotDuration": 20,
+    "leaveDates": []
   },
   {
     "name": "Dr. Sandeep Mehta",
@@ -905,12 +1825,29 @@
     "experience": 6,
     "rating": 4.7,
     "reviews": 54,
-    "languages": ["English", "Hindi", "Gujarati"],
+    "languages": [
+      "English",
+      "Hindi",
+      "Gujarati"
+    ],
     "availability": "Mon–Sat: 9 AM–2 PM",
     "location": "Zydus Hospital, Ahmedabad, India",
     "bio": "Expert in digital imaging diagnostics.",
-    "achievements": ["Advanced Imaging Specialist"],
-    "imageUrl": "https://example.com/doc57.jpg"
+    "achievements": [
+      "Advanced Imaging Specialist"
+    ],
+    "imageUrl": "https://example.com/doc57.jpg",
+    "workingDays": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "startHour": 10,
+    "endHour": 17,
+    "slotDuration": 30,
+    "leaveDates": []
   },
   {
     "name": "Dr. Tanvi Kulkarni",
@@ -921,12 +1858,30 @@
     "experience": 5,
     "rating": 4.6,
     "reviews": 43,
-    "languages": ["English", "Hindi", "Marathi"],
+    "languages": [
+      "English",
+      "Hindi",
+      "Marathi"
+    ],
     "availability": "Mon–Fri: 10 AM–6 PM",
     "location": "Ruby Hall Clinic, Pune, India",
     "bio": "Specializes in ultrasound and diagnostic imaging.",
-    "achievements": ["Ultrasound Certification"],
-    "imageUrl": "https://example.com/doc58.jpg"
+    "achievements": [
+      "Ultrasound Certification"
+    ],
+    "imageUrl": "https://example.com/doc58.jpg",
+    "workingDays": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ],
+    "startHour": 8,
+    "endHour": 15,
+    "slotDuration": 15,
+    "leaveDates": []
   },
   {
     "name": "Dr. Vikash Kumar",
@@ -937,12 +1892,28 @@
     "experience": 4,
     "rating": 4.6,
     "reviews": 38,
-    "languages": ["English", "Hindi"],
+    "languages": [
+      "English",
+      "Hindi"
+    ],
     "availability": "Mon–Sat: 8 AM–1 PM",
     "location": "Medanta Hospital, Gurgaon, India",
     "bio": "Diagnostic imaging expert focusing on CT scans.",
-    "achievements": ["Radiology Fellowship"],
-    "imageUrl": "https://example.com/doc59.jpg"
+    "achievements": [
+      "Radiology Fellowship"
+    ],
+    "imageUrl": "https://example.com/doc59.jpg",
+    "workingDays": [
+      2,
+      3,
+      4,
+      5,
+      6
+    ],
+    "startHour": 9,
+    "endHour": 16,
+    "slotDuration": 20,
+    "leaveDates": []
   },
   {
     "name": "Dr. Ayesha Khan",
@@ -953,14 +1924,28 @@
     "experience": 7,
     "rating": 4.7,
     "reviews": 60,
-    "languages": ["English", "Hindi"],
+    "languages": [
+      "English",
+      "Hindi"
+    ],
     "availability": "Mon–Fri: 9 AM–4 PM",
     "location": "Care Hospitals, Hyderabad, India",
     "bio": "Radiologist experienced in MRI and digital mammography.",
-    "achievements": ["Imaging Excellence Award"],
-    "imageUrl": "https://example.com/doc60.jpg"
+    "achievements": [
+      "Imaging Excellence Award"
+    ],
+    "imageUrl": "https://example.com/doc60.jpg",
+    "workingDays": [
+      1,
+      3,
+      5,
+      6
+    ],
+    "startHour": 10,
+    "endHour": 17,
+    "slotDuration": 30,
+    "leaveDates": []
   },
-
   {
     "name": "Dr. Arvind Rana",
     "gender": "Male",
@@ -970,12 +1955,28 @@
     "experience": 9,
     "rating": 4.8,
     "reviews": 88,
-    "languages": ["English", "Hindi"],
+    "languages": [
+      "English",
+      "Hindi"
+    ],
     "availability": "24×7 Shift Rotation",
     "location": "AIIMS Trauma Center, Delhi, India",
     "bio": "Emergency physician skilled in trauma stabilization.",
-    "achievements": ["Advanced Trauma Life Support"],
-    "imageUrl": "https://example.com/doc61.jpg"
+    "achievements": [
+      "Advanced Trauma Life Support"
+    ],
+    "imageUrl": "https://example.com/doc61.jpg",
+    "workingDays": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "startHour": 8,
+    "endHour": 15,
+    "slotDuration": 15,
+    "leaveDates": []
   },
   {
     "name": "Dr. Pooja Menon",
@@ -986,12 +1987,30 @@
     "experience": 6,
     "rating": 4.7,
     "reviews": 64,
-    "languages": ["English", "Hindi", "Malayalam"],
+    "languages": [
+      "English",
+      "Hindi",
+      "Malayalam"
+    ],
     "availability": "24×7 Shift Rotation",
     "location": "Aster Hospital, Kochi, India",
     "bio": "Handles critical care and rapid emergency response.",
-    "achievements": ["Emergency Care Excellence"],
-    "imageUrl": "https://example.com/doc62.jpg"
+    "achievements": [
+      "Emergency Care Excellence"
+    ],
+    "imageUrl": "https://example.com/doc62.jpg",
+    "workingDays": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ],
+    "startHour": 9,
+    "endHour": 16,
+    "slotDuration": 20,
+    "leaveDates": []
   },
   {
     "name": "Dr. Rakesh Chauhan",
@@ -1002,12 +2021,28 @@
     "experience": 7,
     "rating": 4.6,
     "reviews": 59,
-    "languages": ["English", "Hindi"],
+    "languages": [
+      "English",
+      "Hindi"
+    ],
     "availability": "24×7 Shift Rotation",
     "location": "Fortis Hospital, Jaipur, India",
     "bio": "Emergency specialist in trauma and accident care.",
-    "achievements": ["Critical Care Certification"],
-    "imageUrl": "https://example.com/doc63.jpg"
+    "achievements": [
+      "Critical Care Certification"
+    ],
+    "imageUrl": "https://example.com/doc63.jpg",
+    "workingDays": [
+      2,
+      3,
+      4,
+      5,
+      6
+    ],
+    "startHour": 10,
+    "endHour": 17,
+    "slotDuration": 30,
+    "leaveDates": []
   },
   {
     "name": "Dr. Snehal Patel",
@@ -1018,12 +2053,28 @@
     "experience": 5,
     "rating": 4.6,
     "reviews": 46,
-    "languages": ["English", "Hindi", "Gujarati"],
+    "languages": [
+      "English",
+      "Hindi",
+      "Gujarati"
+    ],
     "availability": "24×7 Shift Rotation",
     "location": "Sterling Hospital, Rajkot, India",
     "bio": "Rapid response emergency physician.",
-    "achievements": ["Trauma Response Specialist"],
-    "imageUrl": "https://example.com/doc64.jpg"
+    "achievements": [
+      "Trauma Response Specialist"
+    ],
+    "imageUrl": "https://example.com/doc64.jpg",
+    "workingDays": [
+      1,
+      3,
+      5,
+      6
+    ],
+    "startHour": 8,
+    "endHour": 15,
+    "slotDuration": 15,
+    "leaveDates": []
   },
   {
     "name": "Dr. Karthik Reddy",
@@ -1034,11 +2085,28 @@
     "experience": 8,
     "rating": 4.8,
     "reviews": 70,
-    "languages": ["English", "Hindi", "Telugu"],
+    "languages": [
+      "English",
+      "Hindi",
+      "Telugu"
+    ],
     "availability": "24×7 Shift Rotation",
     "location": "Apollo Hospital, Hyderabad, India",
     "bio": "Critical care and trauma management expert.",
-    "achievements": ["Emergency Medicine Fellowship"],
-    "imageUrl": "https://example.com/doc65.jpg"
+    "achievements": [
+      "Emergency Medicine Fellowship"
+    ],
+    "imageUrl": "https://example.com/doc65.jpg",
+    "workingDays": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "startHour": 9,
+    "endHour": 16,
+    "slotDuration": 20,
+    "leaveDates": []
   }
 ]
