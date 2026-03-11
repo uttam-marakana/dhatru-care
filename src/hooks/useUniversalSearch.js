@@ -5,7 +5,7 @@ import { getDepartments } from "../api/departmentsApi";
 import { getPackages } from "../api/packagesApi";
 import { getBlogs } from "../api/blogsApi";
 
-import useDebounce from "./useDebounce";
+import useDebounce from "../hooks/useDebounce";
 import { rankResults } from "../utils/searchRanking";
 
 export default function useUniversalSearch(query) {

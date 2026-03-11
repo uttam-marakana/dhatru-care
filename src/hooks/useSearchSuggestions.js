@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { getDoctors } from "../api/doctorsApi";
-import useDebounce from "./useDebounce";
+import useDebounce from "../hooks/";
 
 export default function useSearchSuggestions(query) {
   const [results, setResults] = useState({ doctors: [] });
