@@ -1,0 +1,136 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    /* ---------------- AUTH HELPERS ---------------- */
+
+    function isLoggedIn() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return isLoggedIn() && request.auth.uid == userId;
+    }
+
+    function isAdmin() {
+      return isLoggedIn() &&
+        get(/databases/$(database)/documents/users/$(request.auth.uid))
+        .data.role == "admin";
+    }
+
+    /* ---------------- USERS ---------------- */
+
+    match /users/{userId} {
+
+      // user can read their own profile
+      allow read: if isOwner(userId);
+
+      // user can create their own profile
+      allow create: if isOwner(userId);
+
+      // prevent users from modifying their role
+      allow update: if (
+        isOwner(userId) &&
+        request.resource.data.role == resource.data.role
+      ) || isAdmin();
+
+      // deletion disabled
+      allow delete: if false;
+    }
+
+    /* ---------------- PUBLIC CONTENT ---------------- */
+
+    match /doctors/{docId} {
+
+      // public read access
+      allow read: if true;
+
+      // only admin can modify
+      allow create, update, delete: if isAdmin();
+    }
+
+    match /departments/{docId} {
+
+      allow read: if true;
+
+      allow create, update, delete: if isAdmin();
+    }
+
+    match /packages/{docId} {
+
+      allow read: if true;
+
+      allow create, update, delete: if isAdmin();
+    }
+
+    match /blog_posts/{docId} {
+
+      allow read: if true;
+
+      allow create, update, delete: if isAdmin();
+    }
+
+    /* ---------------- CONTACT / NEWSLETTER ---------------- */
+
+    match /contacts/{docId} {
+
+      // public contact form
+      allow create: if true;
+
+      // only admin can read/delete
+      allow read, delete: if isAdmin();
+    }
+
+    match /newsletter/{docId} {
+
+      allow create: if true;
+
+      allow read, delete: if isAdmin();
+    }
+
+    /* ---------------- APPOINTMENT SLOTS ---------------- */
+
+    match /appointmentSlots/{slotId} {
+
+      // logged in users can see slots
+      allow read: if isLoggedIn();
+
+      // slot booking
+      allow create: if isLoggedIn();
+
+      // user can only update slot they booked
+      allow update: if isLoggedIn() &&
+        request.resource.data.userId == request.auth.uid;
+
+      // admin slot control
+      allow delete: if isAdmin();
+    }
+
+    /* ---------------- APPOINTMENTS ---------------- */
+
+    match /appointments/{appointmentId} {
+
+      // create appointment
+      allow create: if isLoggedIn() &&
+        request.resource.data.userId == request.auth.uid;
+
+      // list appointments (needed for queries)
+      allow list: if isLoggedIn();
+
+      // read appointment
+      allow get: if
+        isOwner(resource.data.userId) ||
+        isAdmin();
+
+      // update appointment (cannot change owner)
+      allow update: if (
+        isOwner(resource.data.userId) &&
+        request.resource.data.userId == resource.data.userId
+      ) || isAdmin();
+
+      // only admin can delete
+      allow delete: if isAdmin();
+    }
+
+  }
+}
