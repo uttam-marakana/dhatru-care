@@ -9,7 +9,7 @@
 
 ### Built by **Uttam Marakana (Shadow)**
 
-React & Shopify Developer • System Builder • Product Architect
+React & Shopify Developer 
 
 A modern **hospital website + admin dashboard** built with **React + Firebase**, designed for scalable healthcare platforms with secure role-based access, responsive UI, and production-grade architecture.
 
@@ -26,22 +26,9 @@ https://dhatrucare.vercel.app
 Admin Dashboard
 
 ```
-https://dhatrucare.vercel.app/admin
+https://dhatrucare.vercel.app/admin/upload
 ```
 
----
-
-# 📸 UI Preview
-
-*(Add screenshots in the `/docs/screenshots` folder if needed)*
-
-Example:
-
-```
-docs/screenshots/home.png
-docs/screenshots/doctors.png
-docs/screenshots/admin-dashboard.png
-```
 
 ---
 
@@ -91,31 +78,31 @@ The project demonstrates **real-world SaaS style architecture using React + Fire
 # 🏗 System Architecture
 
 ```
-                ┌──────────────────────┐
-                │      User Browser     │
-                └──────────┬───────────┘
+                ┌────────────────────────┐
+                │      User Browser      │
+                └──────────┬─────────────┘
                            │
                            ▼
-                ┌──────────────────────┐
-                │   React Frontend     │
-                │      (Vite)          │
-                └──────────┬───────────┘
+                ┌────────────────────────┐
+                │   React Frontend       │
+                │      (Vite)            │
+                └──────────┬─────────────┘
                            │
                            ▼
-                ┌──────────────────────┐
+                ┌────────────────────────┐
                 │ Firebase Authentication│
-                └──────────┬───────────┘
+                └──────────┬─────────────┘
                            │
                            ▼
-                ┌──────────────────────┐
-                │   Firestore Database  │
-                └──────────┬───────────┘
+                ┌────────────────────────┐
+                │   Firestore Database   │
+                └──────────┬─────────────┘
                            │
                            ▼
-                ┌──────────────────────┐
-                │   Admin Dashboard     │
-                │ Data & Content Mgmt   │
-                └──────────────────────┘
+                ┌────────────────────────┐
+                │   Admin Dashboard      │
+                │ Data & Content Mgmt    │
+                └──────────┬─────────────┘
 ```
 
 Benefits of this architecture:
@@ -316,6 +303,26 @@ VITE_FIREBASE_APP_ID=your_app_id
 
 ---
 
+# ⚠️ Environment Variable Security
+
+Do **not commit `.env` files** to GitHub.
+
+Ensure `.gitignore` contains:
+
+```
+.env
+.env.local
+.env.production
+```
+
+Only commit:
+
+```
+.env.example
+```
+
+---
+
 # 🛡 Firestore Security Rules
 
 Example rule structure:
@@ -436,21 +443,58 @@ Build Command: yarn build
 Output Directory: dist
 ```
 
-Add environment variables
+---
+
+# ⚙️ Configure Environment Variables in Vercel
+
+Open **Vercel Dashboard**
+
+Navigate to:
 
 ```
-VITE_FIREBASE_API_KEY
-VITE_FIREBASE_AUTH_DOMAIN
-VITE_FIREBASE_PROJECT_ID
-VITE_FIREBASE_STORAGE_BUCKET
-VITE_FIREBASE_MESSAGING_SENDER_ID
-VITE_FIREBASE_APP_ID
+Project Settings → Environment Variables
 ```
 
-Deploy
+Add the following variables:
+
+| Key                               | Value                        |
+| --------------------------------- | ---------------------------- |
+| VITE_FIREBASE_API_KEY             | Firebase API key             |
+| VITE_FIREBASE_AUTH_DOMAIN         | your_project.firebaseapp.com |
+| VITE_FIREBASE_PROJECT_ID          | Firebase project id          |
+| VITE_FIREBASE_STORAGE_BUCKET      | your_project.appspot.com     |
+| VITE_FIREBASE_MESSAGING_SENDER_ID | Firebase sender id           |
+| VITE_FIREBASE_APP_ID              | Firebase app id              |
+
+After adding the variables:
 
 ```
+Redeploy the project
+```
+
 https://dhatrucare.vercel.app
+```
+
+---
+
+
+# 📌 How Environment Variables Are Used
+
+Inside `src/firebase.js`
+
+```javascript
+import { initializeApp } from "firebase/app"
+
+const firebaseConfig = {
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_FIREBASE_APP_ID
+}
+
+export const app = initializeApp(firebaseConfig)
 ```
 
 ---
