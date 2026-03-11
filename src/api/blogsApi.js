@@ -113,3 +113,5 @@ export const updateBlogPost = async (id, data) => {
 export const deleteBlogPost = async (id) => {
   return await deleteDoc(doc(db, "blog_posts", id));
 };
+
+export const getBlogs = getBlogPosts;
