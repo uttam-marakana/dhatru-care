@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { updateDoctor } from "../../api/doctorsApi";
+import FormCard from "./FormCard";
 
 export default function DoctorScheduleForm({ doctor }) {
   const [form, setForm] = useState({
@@ -7,7 +8,10 @@ export default function DoctorScheduleForm({ doctor }) {
     startHour: doctor?.startHour || 9,
     endHour: doctor?.endHour || 17,
     slotDuration: doctor?.slotDuration || 30,
+    leaveDates: doctor?.leaveDates?.join(", ") || "",
   });
+
+  const [loading, setLoading] = useState(false);
 
   const days = [
     { label: "Sun", value: 0 },
@@ -41,13 +45,36 @@ export default function DoctorScheduleForm({ doctor }) {
     }));
   };
 
+  const handleLeaveDates = (e) => {
+    setForm((prev) => ({
+      ...prev,
+      leaveDates: e.target.value,
+    }));
+  };
+
   const saveSchedule = async () => {
+    setLoading(true);
+
     try {
-      await updateDoctor(doctor.id, form);
-      alert("Doctor schedule updated");
+      const payload = {
+        workingDays: form.workingDays,
+        startHour: form.startHour,
+        endHour: form.endHour,
+        slotDuration: form.slotDuration,
+        leaveDates: form.leaveDates
+          ? form.leaveDates.split(",").map((d) => d.trim())
+          : [],
+      };
+
+      await updateDoctor(doctor.id, payload);
+
+      alert("Schedule updated");
     } catch (err) {
-      alert(err.message);
+      console.error(err);
+      alert("Failed to update schedule");
     }
+
+    setLoading(false);
   };
 
   const inputStyle = `
@@ -58,36 +85,38 @@ export default function DoctorScheduleForm({ doctor }) {
   `;
 
   return (
-    <div className="space-y-6">
-      <h2 className="text-xl font-semibold">Doctor Schedule</h2>
-
+    <FormCard title="Doctor Schedule">
       {/* WORKING DAYS */}
 
-      <div className="grid grid-cols-7 gap-2">
-        {days.map((d) => {
-          const active = form.workingDays.includes(d.value);
+      <div className="md:col-span-2">
+        <label className="block mb-2 font-medium">Working Days</label>
 
-          return (
-            <button
-              key={d.value}
-              type="button"
-              onClick={() => toggleDay(d.value)}
-              className={`
-              py-2 rounded-lg border text-sm
-              ${
-                active
-                  ? "bg-blue-500 text-white border-blue-500"
-                  : "border-gray-200 dark:border-white/10"
-              }
-              `}
-            >
-              {d.label}
-            </button>
-          );
-        })}
+        <div className="grid grid-cols-7 gap-2">
+          {days.map((d) => {
+            const active = form.workingDays.includes(d.value);
+
+            return (
+              <button
+                key={d.value}
+                type="button"
+                onClick={() => toggleDay(d.value)}
+                className={`
+                py-2 rounded-lg border text-sm
+                ${
+                  active
+                    ? "bg-primary text-white border-primary"
+                    : "border-gray-200 dark:border-white/10"
+                }
+                `}
+              >
+                {d.label}
+              </button>
+            );
+          })}
+        </div>
       </div>
 
-      {/* START TIME */}
+      {/* START HOUR */}
 
       <div>
         <label className="text-sm block mb-1">Start Hour</label>
@@ -103,7 +132,7 @@ export default function DoctorScheduleForm({ doctor }) {
         />
       </div>
 
-      {/* END TIME */}
+      {/* END HOUR */}
 
       <div>
         <label className="text-sm block mb-1">End Hour</label>
@@ -129,21 +158,40 @@ export default function DoctorScheduleForm({ doctor }) {
           name="slotDuration"
           value={form.slotDuration}
           onChange={handleChange}
-          min="10"
+          min="5"
           step="5"
           className={inputStyle}
         />
       </div>
 
-      <button
-        onClick={saveSchedule}
-        className="
-        bg-blue-500 hover:bg-blue-600
-        text-white px-6 py-3 rounded-lg
-        "
-      >
-        Save Schedule
-      </button>
-    </div>
+      {/* LEAVE DATES */}
+
+      <div>
+        <label className="text-sm block mb-1">Leave Dates</label>
+
+        <input
+          type="text"
+          value={form.leaveDates}
+          onChange={handleLeaveDates}
+          placeholder="2025-04-10, 2025-04-11"
+          className={inputStyle}
+        />
+      </div>
+
+      {/* SAVE BUTTON */}
+
+      <div className="md:col-span-2">
+        <button
+          onClick={saveSchedule}
+          disabled={loading}
+          className="
+          bg-primary hover:opacity-90
+          text-white px-6 py-3 rounded-lg
+          "
+        >
+          {loading ? "Saving..." : "Save Schedule"}
+        </button>
+      </div>
+    </FormCard>
   );
 }

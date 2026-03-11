@@ -1,29 +1,47 @@
 import { useState } from "react";
-import { createDoctor } from "../../api/doctorsApi";
+import { createDoctor, updateDoctor } from "../../api/doctorsApi";
 
 const initialState = {
   name: "",
+  gender: "",
   specialty: "",
   qualification: "",
+  departmentId: "",
   experience: "",
   rating: "",
   reviews: "",
   languages: "",
-  availability: "",
   location: "",
   bio: "",
   achievements: "",
   imageUrl: "",
+  workingDays: "1,2,3,4,5",
+  startHour: "",
+  endHour: "",
+  slotDuration: "",
+  leaveDates: "",
 };
 
-export default function DoctorForm() {
-  const [form, setForm] = useState(initialState);
+export default function DoctorForm({ initialData }) {
+  const [form, setForm] = useState(
+    initialData
+      ? {
+          ...initialData,
+          languages: initialData.languages?.join(", "),
+          achievements: initialData.achievements?.join(", "),
+          workingDays: initialData.workingDays?.join(", "),
+          leaveDates: initialData.leaveDates?.join(", "),
+        }
+      : initialState,
+  );
+
   const [loading, setLoading] = useState(false);
 
-  const handleChange = (e) =>
+  const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
+  };
 
-  const normalizeArray = (v) =>
+  const toArray = (v) =>
     v
       ? v
           .split(",")
@@ -31,90 +49,208 @@ export default function DoctorForm() {
           .filter(Boolean)
       : [];
 
+  const toNumberArray = (v) =>
+    v
+      ? v
+          .split(",")
+          .map((i) => Number(i.trim()))
+          .filter(Boolean)
+      : [];
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
 
+    const payload = {
+      ...form,
+      experience: Number(form.experience) || 0,
+      rating: Number(form.rating) || 0,
+      reviews: Number(form.reviews) || 0,
+      startHour: Number(form.startHour),
+      endHour: Number(form.endHour),
+      slotDuration: Number(form.slotDuration),
+      languages: toArray(form.languages),
+      achievements: toArray(form.achievements),
+      workingDays: toNumberArray(form.workingDays),
+      leaveDates: toArray(form.leaveDates),
+    };
+
     try {
-      const payload = {
-        ...form,
-        rating: Number(form.rating) || 0,
-        reviews: Number(form.reviews) || 0,
-        languages: normalizeArray(form.languages),
-        achievements: normalizeArray(form.achievements),
-      };
-
-      if (!payload.name || !payload.specialty)
-        throw new Error("Required fields missing");
-
-      await createDoctor(payload);
-      alert("Doctor added successfully!");
-      setForm(initialState);
+      if (initialData) {
+        await updateDoctor(initialData.id, payload);
+        alert("Doctor updated");
+      } else {
+        await createDoctor(payload);
+        alert("Doctor created");
+        setForm(initialState);
+      }
     } catch (err) {
       console.error(err);
-      alert("Upload failed");
+      alert("Failed");
     }
+
     setLoading(false);
   };
 
   const input = "w-full border rounded-lg p-3";
 
   return (
-    <div className="max-w-5xl mx-auto my-10">
-      <div className="bg-white dark:bg-gray-900 rounded-2xl shadow border p-8">
-        <h2 className="text-2xl font-bold mb-6">Add Doctor</h2>
+    <form onSubmit={handleSubmit} className="grid md:grid-cols-2 gap-4">
+      <input
+        name="name"
+        value={form.name}
+        onChange={handleChange}
+        placeholder="Doctor Name"
+        className={input}
+        required
+      />
 
-        <form
-          onSubmit={handleSubmit}
-          className="grid grid-cols-1 md:grid-cols-2 gap-5"
-        >
-          {[
-            "name",
-            "specialty",
-            "qualification",
-            "experience",
-            "rating",
-            "reviews",
-            "languages",
-            "availability",
-            "location",
-            "imageUrl",
-          ].map((f) => (
-            <input
-              key={f}
-              name={f}
-              value={form[f]}
-              onChange={handleChange}
-              placeholder={f}
-              className={input}
-            />
-          ))}
+      <select
+        name="gender"
+        value={form.gender}
+        onChange={handleChange}
+        className={input}
+      >
+        <option value="">Gender</option>
+        <option>Male</option>
+        <option>Female</option>
+      </select>
 
-          <textarea
-            name="bio"
-            value={form.bio}
-            onChange={handleChange}
-            placeholder="Bio"
-            className={`md:col-span-2 ${input}`}
-            rows={4}
-          />
+      <input
+        name="specialty"
+        value={form.specialty}
+        onChange={handleChange}
+        placeholder="Specialty"
+        className={input}
+      />
 
-          <input
-            name="achievements"
-            value={form.achievements}
-            onChange={handleChange}
-            placeholder="Achievement1, Achievement2"
-            className={`md:col-span-2 ${input}`}
-          />
+      <input
+        name="qualification"
+        value={form.qualification}
+        onChange={handleChange}
+        placeholder="Qualification"
+        className={input}
+      />
 
-          <button
-            disabled={loading}
-            className="md:col-span-2 bg-primary text-white py-3 rounded-lg"
-          >
-            {loading ? "Uploading..." : "Add Doctor"}
-          </button>
-        </form>
-      </div>
-    </div>
+      <input
+        name="departmentId"
+        value={form.departmentId}
+        onChange={handleChange}
+        placeholder="Department ID"
+        className={input}
+      />
+
+      <input
+        name="experience"
+        value={form.experience}
+        onChange={handleChange}
+        placeholder="Experience Years"
+        className={input}
+      />
+
+      <input
+        name="rating"
+        value={form.rating}
+        onChange={handleChange}
+        placeholder="Rating"
+        className={input}
+      />
+
+      <input
+        name="reviews"
+        value={form.reviews}
+        onChange={handleChange}
+        placeholder="Reviews Count"
+        className={input}
+      />
+
+      <input
+        name="languages"
+        value={form.languages}
+        onChange={handleChange}
+        placeholder="Languages (comma separated)"
+        className={input}
+      />
+
+      <input
+        name="location"
+        value={form.location}
+        onChange={handleChange}
+        placeholder="Hospital Location"
+        className={input}
+      />
+
+      <input
+        name="imageUrl"
+        value={form.imageUrl}
+        onChange={handleChange}
+        placeholder="Image URL"
+        className={input}
+      />
+
+      <input
+        name="workingDays"
+        value={form.workingDays}
+        onChange={handleChange}
+        placeholder="Working Days (1,2,3,4,5)"
+        className={input}
+      />
+
+      <input
+        name="startHour"
+        value={form.startHour}
+        onChange={handleChange}
+        placeholder="Start Hour (0-23)"
+        className={input}
+      />
+
+      <input
+        name="endHour"
+        value={form.endHour}
+        onChange={handleChange}
+        placeholder="End Hour (0-23)"
+        className={input}
+      />
+
+      <input
+        name="slotDuration"
+        value={form.slotDuration}
+        onChange={handleChange}
+        placeholder="Slot Duration Minutes"
+        className={input}
+      />
+
+      <input
+        name="leaveDates"
+        value={form.leaveDates}
+        onChange={handleChange}
+        placeholder="Leave Dates YYYY-MM-DD"
+        className={input}
+      />
+
+      <textarea
+        name="bio"
+        value={form.bio}
+        onChange={handleChange}
+        placeholder="Doctor Bio"
+        className={`${input} md:col-span-2`}
+        rows={4}
+      />
+
+      <input
+        name="achievements"
+        value={form.achievements}
+        onChange={handleChange}
+        placeholder="Achievements (comma separated)"
+        className={`${input} md:col-span-2`}
+      />
+
+      <button
+        disabled={loading}
+        className="bg-primary text-white py-3 rounded md:col-span-2"
+      >
+        {loading ? "Saving..." : "Save Doctor"}
+      </button>
+    </form>
   );
 }
