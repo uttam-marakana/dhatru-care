@@ -120,11 +120,14 @@ dhatrucare/
 │   │   │   ├── Loader.jsx
 │   │   │   ├── Modal.jsx
 │   │   │   ├── PageTransition.jsx
+│   │   │   ├── SearchDropdown.jsx
 │   │   │   ├── Select.jsx
 │   │   │   ├── SkeletonCard.jsx
 │   │   │   ├── SlotGrid.jsx
 │   │   │   ├── Textarea.jsx
-│   │   │   └── ThemeToggle.jsx
+│   │   │   ├── ThemeToggle.jsx
+│   │   │   └── UniversalSearchDropdown.jsx
+
 │    
 │
 │   │   ├── filters/               # Filter UI components
