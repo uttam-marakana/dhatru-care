@@ -163,6 +163,7 @@ dhatrucare/
 │   ├── hooks/                     # Custom React hooks
 │   │   ├── useDebounce.js
 │   │   ├── useInView.js
+│   │   ├── useUniversalSearch.js
 │   │   └── useSearchSuggestions.js
 │
 │
@@ -254,7 +255,8 @@ dhatrucare/
 │   │   ├── formatPhone.js
 │   │   ├── generateDoctorSlots.js
 │   │   ├── generateSlots.js
-│   │   └── specialtyKeywords.js
+│   │   ├── searchRanking.js
+│   │   ├── specialtyKeywords.js
 │   │   └── validators.js
 │
 │   ├── App.css                    # Global app styling
