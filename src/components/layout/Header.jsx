@@ -14,6 +14,9 @@ import { useAuth } from "../../context/AuthContext";
 
 import Container from "./Container";
 
+import useSearchSuggestions from "../../hooks/useSearchSuggestions";
+import SearchDropdown from "../common/SearchDropdown";
+
 const ThemeToggle = lazy(() => import("../common/ThemeToggle"));
 const MobileDrawer = lazy(() => import("./MobileDrawer"));
 
@@ -36,6 +39,7 @@ export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+  const [activeIndex, setActiveIndex] = useState(-1);
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
 
   const [isDarkMode, setIsDarkMode] = useState(false);
@@ -44,8 +48,9 @@ export default function Header() {
 
   const searchRef = useRef(null);
   const userMenuRef = useRef(null);
-
   const lastScrollY = useRef(0);
+
+  const { results, loading } = useSearchSuggestions(searchQuery);
 
   /* Detect dark mode */
 
@@ -123,7 +128,7 @@ export default function Header() {
     };
   }, []);
 
-  /* Handle search */
+  /* Handle search submit */
 
   const handleSearch = (e) => {
     e.preventDefault();
@@ -136,6 +141,36 @@ export default function Header() {
 
     setSearchQuery("");
     setIsSearchOpen(false);
+  };
+
+  /* Keyboard navigation for suggestions */
+
+  const handleKeyDown = (e) => {
+    if (!results.doctors.length) return;
+
+    if (e.key === "ArrowDown") {
+      e.preventDefault();
+      setActiveIndex((prev) =>
+        prev < results.doctors.length - 1 ? prev + 1 : 0,
+      );
+    }
+
+    if (e.key === "ArrowUp") {
+      e.preventDefault();
+      setActiveIndex((prev) =>
+        prev > 0 ? prev - 1 : results.doctors.length - 1,
+      );
+    }
+
+    if (e.key === "Enter" && activeIndex >= 0) {
+      navigate(`/doctors/${results.doctors[activeIndex].id}`);
+      setIsSearchOpen(false);
+      setSearchQuery("");
+    }
+
+    if (e.key === "Escape") {
+      setIsSearchOpen(false);
+    }
   };
 
   return (
@@ -197,38 +232,56 @@ export default function Header() {
                 </button>
 
                 {isSearchOpen && (
-                  <form
-                    onSubmit={handleSearch}
-                    className="
-                      absolute right-0 top-full mt-3
-                      w-72
+                  <div
+                    className="absolute right-0 top-full mt-3 w-80"
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    <form
+                      onSubmit={handleSearch}
+                      className="
                       bg-[var(--card)]
                       border border-[var(--border)]
                       rounded-xl
-                      p-4
+                      p-3
                       shadow-xl
                       "
-                  >
-                    <div className="flex items-center gap-3">
-                      <input
-                        type="search"
-                        value={searchQuery}
-                        onChange={(e) => setSearchQuery(e.target.value)}
-                        placeholder="Search doctors, departments..."
-                        autoFocus
-                        className="w-full bg-transparent outline-none"
-                      />
+                    >
+                      <div className="flex items-center gap-2">
+                        <input
+                          type="search"
+                          value={searchQuery}
+                          onChange={(e) => {
+                            setSearchQuery(e.target.value);
+                            setActiveIndex(-1);
+                          }}
+                          onKeyDown={handleKeyDown}
+                          placeholder="Search doctors..."
+                          autoFocus
+                          className="w-full bg-transparent outline-none"
+                        />
 
-                      {searchQuery && (
-                        <button
-                          type="button"
-                          onClick={() => setSearchQuery("")}
-                        >
-                          <FaTimesCircle />
-                        </button>
-                      )}
-                    </div>
-                  </form>
+                        {searchQuery && (
+                          <button
+                            type="button"
+                            onClick={() => {
+                              setSearchQuery("");
+                              setActiveIndex(-1);
+                            }}
+                            aria-label="Clear search"
+                          >
+                            <FaTimesCircle />
+                          </button>
+                        )}
+                      </div>
+                    </form>
+
+                    <SearchDropdown
+                      results={results}
+                      query={searchQuery}
+                      loading={loading}
+                      activeIndex={activeIndex}
+                    />
+                  </div>
                 )}
               </div>
 
@@ -306,40 +359,6 @@ export default function Header() {
             </div>
           </div>
         </Container>
-
-        {/* MOBILE SEARCH */}
-
-        {isSearchOpen && (
-          <div className="xl:hidden px-4 pb-4">
-            <form
-              onSubmit={handleSearch}
-              className="
-              w-full
-              bg-[var(--card)]
-              border border-[var(--border)]
-              rounded-xl
-              p-3
-              "
-            >
-              <div className="flex items-center gap-3">
-                <input
-                  type="search"
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  placeholder="Search doctors, departments..."
-                  autoFocus
-                  className="w-full bg-transparent outline-none"
-                />
-
-                {searchQuery && (
-                  <button type="button" onClick={() => setSearchQuery("")}>
-                    <FaTimesCircle />
-                  </button>
-                )}
-              </div>
-            </form>
-          </div>
-        )}
       </header>
 
       <Suspense fallback={null}>
