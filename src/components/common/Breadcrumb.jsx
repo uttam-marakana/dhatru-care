@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { FaChevronRight } from "react-icons/fa";
 
 export default function Breadcrumb({ items = [] }) {
-  if (!items.length) return null;
+  if (!items?.length) return null;
 
   return (
     <nav className="border-b bg-[var(--surface)] border-[var(--border)]">
@@ -12,7 +12,7 @@ export default function Breadcrumb({ items = [] }) {
             const last = i === items.length - 1;
 
             return (
-              <li key={i} className="flex items-center gap-2">
+              <li key={item.label} className="flex items-center gap-2">
                 {!last ? (
                   <>
                     <Link
@@ -21,7 +21,6 @@ export default function Breadcrumb({ items = [] }) {
                     >
                       {item.label}
                     </Link>
-
                     <FaChevronRight className="text-xs text-[var(--muted)]" />
                   </>
                 ) : (
