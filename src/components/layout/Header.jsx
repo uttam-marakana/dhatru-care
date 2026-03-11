@@ -11,11 +11,10 @@ import {
 } from "react-icons/fa";
 
 import { useAuth } from "../../context/AuthContext";
-
 import Container from "./Container";
 
-import useSearchSuggestions from "../../hooks/useSearchSuggestions";
-import SearchDropdown from "../common/SearchDropdown";
+import useUniversalSearch from "../../hooks/useUniversalSearch";
+import UniversalSearchDropdown from "../common/UniversalSearchDropdown";
 
 const ThemeToggle = lazy(() => import("../common/ThemeToggle"));
 const MobileDrawer = lazy(() => import("./MobileDrawer"));
@@ -43,16 +42,12 @@ export default function Header() {
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
 
   const [isDarkMode, setIsDarkMode] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
-  const [hidden, setHidden] = useState(false);
 
   const searchRef = useRef(null);
+  const mobileSearchRef = useRef(null);
   const userMenuRef = useRef(null);
-  const lastScrollY = useRef(0);
 
-  const { results, loading } = useSearchSuggestions(searchQuery);
-
-  /* Detect dark mode */
+  const { results, loading } = useUniversalSearch(searchQuery);
 
   useEffect(() => {
     const observer = new MutationObserver(() => {
@@ -69,66 +64,11 @@ export default function Header() {
     return () => observer.disconnect();
   }, []);
 
-  /* Smart hide header on scroll */
-
-  useEffect(() => {
-    const handleScroll = () => {
-      const current = window.scrollY;
-
-      setScrolled(current > 10);
-
-      if (current > lastScrollY.current && current > 80) {
-        setHidden(true);
-      } else {
-        setHidden(false);
-      }
-
-      lastScrollY.current = current;
-    };
-
-    window.addEventListener("scroll", handleScroll);
-
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
-  /* Close menus on route change */
-
   useEffect(() => {
     setIsOpen(false);
     setIsSearchOpen(false);
     setIsUserMenuOpen(false);
   }, [location.pathname]);
-
-  /* Outside click */
-
-  useEffect(() => {
-    const handleClickOutside = (e) => {
-      if (searchRef.current && !searchRef.current.contains(e.target)) {
-        setIsSearchOpen(false);
-      }
-
-      if (userMenuRef.current && !userMenuRef.current.contains(e.target)) {
-        setIsUserMenuOpen(false);
-      }
-    };
-
-    const esc = (e) => {
-      if (e.key === "Escape") {
-        setIsSearchOpen(false);
-        setIsUserMenuOpen(false);
-      }
-    };
-
-    document.addEventListener("mousedown", handleClickOutside);
-    document.addEventListener("keydown", esc);
-
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-      document.removeEventListener("keydown", esc);
-    };
-  }, []);
-
-  /* Handle search submit */
 
   const handleSearch = (e) => {
     e.preventDefault();
@@ -142,8 +82,6 @@ export default function Header() {
     setSearchQuery("");
     setIsSearchOpen(false);
   };
-
-  /* Keyboard navigation for suggestions */
 
   const handleKeyDown = (e) => {
     if (!results.doctors.length) return;
@@ -167,42 +105,40 @@ export default function Header() {
       setIsSearchOpen(false);
       setSearchQuery("");
     }
-
-    if (e.key === "Escape") {
-      setIsSearchOpen(false);
-    }
   };
 
   return (
     <>
       <header
-        className={`
+        className="
         fixed top-0 left-0 right-0 z-50
-        transition-all duration-300
         backdrop-blur-xl
-        bg-[var(--surface)]/90
+        bg-[var(--surface)]/95
         border-b border-[var(--border)]
-        ${scrolled ? "shadow-[0_0_40px_var(--glow-bg)]" : ""}
-        ${hidden ? "-translate-y-full" : "translate-y-0"}
-      `}
+        shadow-md
+        "
       >
-        <Container className="px-4 sm:px-6 lg:px-8">
-          <div className="flex h-16 sm:h-20 items-center justify-between">
+        <Container className="px-6 lg:px-10">
+          <div className="flex items-center justify-between h-20 lg:h-24">
             {/* LOGO */}
 
-            <Link to="/" aria-label="Home">
+            <Link to="/" className="flex items-center">
               <img
                 src={isDarkMode ? dark_logo : light_logo}
                 alt="Dhatru Care"
-                className="h-10 sm:h-12"
+                className="h-14 lg:h-16 w-auto"
               />
             </Link>
 
-            {/* DESKTOP NAV */}
+            {/* NAVIGATION */}
 
-            <nav className="hidden xl:flex gap-8 font-medium">
+            <nav className="hidden xl:flex items-center gap-10 text-[15px] font-medium">
               {navItems.map((item) => (
-                <NavLink key={item.to} to={item.to}>
+                <NavLink
+                  key={item.to}
+                  to={item.to}
+                  className="hover:text-[var(--color-primary)] transition"
+                >
                   {item.label}
                 </NavLink>
               ))}
@@ -218,33 +154,24 @@ export default function Header() {
                 className="flex items-center gap-2 text-sm font-medium text-[var(--color-primary)]"
               >
                 <FaPhoneAlt />
-                24×7 Emergency
+                Emergency
               </a>
 
               {/* SEARCH */}
 
               <div ref={searchRef} className="relative">
                 <button
-                  onClick={() => setIsSearchOpen((prev) => !prev)}
-                  aria-label="Search"
+                  onClick={() => setIsSearchOpen((p) => !p)}
+                  className="text-lg"
                 >
                   <FaSearch />
                 </button>
 
                 {isSearchOpen && (
-                  <div
-                    className="absolute right-0 top-full mt-3 w-80"
-                    onClick={(e) => e.stopPropagation()}
-                  >
+                  <div className="absolute right-0 top-full mt-4 w-80">
                     <form
                       onSubmit={handleSearch}
-                      className="
-                      bg-[var(--card)]
-                      border border-[var(--border)]
-                      rounded-xl
-                      p-3
-                      shadow-xl
-                      "
+                      className="bg-[var(--card)] border border-[var(--border)] rounded-xl p-3 shadow-xl"
                     >
                       <div className="flex items-center gap-2">
                         <input
@@ -256,18 +183,14 @@ export default function Header() {
                           }}
                           onKeyDown={handleKeyDown}
                           placeholder="Search doctors..."
-                          autoFocus
                           className="w-full bg-transparent outline-none"
+                          autoFocus
                         />
 
                         {searchQuery && (
                           <button
                             type="button"
-                            onClick={() => {
-                              setSearchQuery("");
-                              setActiveIndex(-1);
-                            }}
-                            aria-label="Clear search"
+                            onClick={() => setSearchQuery("")}
                           >
                             <FaTimesCircle />
                           </button>
@@ -275,7 +198,7 @@ export default function Header() {
                       </div>
                     </form>
 
-                    <SearchDropdown
+                    <UniversalSearchDropdown
                       results={results}
                       query={searchQuery}
                       loading={loading}
@@ -285,39 +208,30 @@ export default function Header() {
                 )}
               </div>
 
-              {/* USER MENU */}
+              {/* USER */}
 
               {user ? (
                 <div ref={userMenuRef} className="relative">
-                  <button onClick={() => setIsUserMenuOpen((prev) => !prev)}>
+                  <button
+                    onClick={() => setIsUserMenuOpen((p) => !p)}
+                    className="flex items-center gap-2"
+                  >
                     <FaUser />
+                    <span className="text-sm">Account</span>
                   </button>
 
                   {isUserMenuOpen && (
                     <div className="absolute right-0 mt-3 w-56 bg-[var(--card)] border rounded-xl shadow-lg">
-                      <div className="px-4 py-3 border-b text-sm">
-                        <p>Signed in as</p>
-                        <p className="font-medium truncate">{user.email}</p>
-                      </div>
-
                       <Link
-                        to="/profile/appointments"
-                        className="block px-4 py-3"
+                        to="/profile"
+                        className="block px-4 py-3 hover:bg-[var(--surface)]"
                       >
-                        My Appointments
-                      </Link>
-
-                      <Link to="/profile" className="block px-4 py-3">
                         Profile
-                      </Link>
-
-                      <Link to="/settings" className="block px-4 py-3">
-                        Settings
                       </Link>
 
                       <button
                         onClick={logout}
-                        className="w-full text-left px-4 py-3 text-red-500 flex gap-2"
+                        className="w-full text-left px-4 py-3 flex items-center gap-2 text-red-500"
                       >
                         <FaSignOutAlt />
                         Logout
@@ -326,7 +240,13 @@ export default function Header() {
                   )}
                 </div>
               ) : (
-                <Link to="/login">Login</Link>
+                <Link
+                  to="/login"
+                  className="flex items-center gap-2 text-sm font-medium"
+                >
+                  <FaUser />
+                  Login
+                </Link>
               )}
 
               <Suspense fallback={null}>
@@ -335,7 +255,7 @@ export default function Header() {
 
               <Link
                 to="/appointments"
-                className="bg-[var(--color-primary)] text-white px-6 py-2.5 rounded-full"
+                className="bg-[var(--color-primary)] text-white px-6 py-2.5 rounded-full text-sm font-medium"
               >
                 Book Appointment
               </Link>
@@ -343,22 +263,58 @@ export default function Header() {
 
             {/* MOBILE ACTIONS */}
 
-            <div className="flex items-center gap-4 xl:hidden">
-              <button onClick={() => setIsSearchOpen((prev) => !prev)}>
-                <FaSearch size={18} />
+            <div className="flex items-center gap-5 xl:hidden">
+              <button
+                onClick={() => setIsSearchOpen((p) => !p)}
+                className="text-lg"
+              >
+                <FaSearch />
               </button>
 
-              <button
-                onClick={() => {
-                  setIsSearchOpen(false);
-                  setIsOpen(true);
-                }}
-              >
-                <FaBars size={20} />
+              <button onClick={() => setIsOpen(true)} className="text-lg">
+                <FaBars />
               </button>
             </div>
           </div>
         </Container>
+
+        {/* MOBILE SEARCH */}
+
+        {isSearchOpen && (
+          <div ref={mobileSearchRef} className="xl:hidden px-6 pb-4">
+            <form
+              onSubmit={handleSearch}
+              className="w-full bg-[var(--card)] border border-[var(--border)] rounded-xl p-3 shadow-lg"
+            >
+              <div className="flex items-center gap-2">
+                <input
+                  type="search"
+                  value={searchQuery}
+                  onChange={(e) => {
+                    setSearchQuery(e.target.value);
+                    setActiveIndex(-1);
+                  }}
+                  placeholder="Search doctors..."
+                  className="w-full bg-transparent outline-none"
+                  autoFocus
+                />
+
+                {searchQuery && (
+                  <button type="button" onClick={() => setSearchQuery("")}>
+                    <FaTimesCircle />
+                  </button>
+                )}
+              </div>
+
+              <SearchDropdown
+                results={results}
+                query={searchQuery}
+                loading={loading}
+                activeIndex={activeIndex}
+              />
+            </form>
+          </div>
+        )}
       </header>
 
       <Suspense fallback={null}>
@@ -373,7 +329,7 @@ export default function Header() {
         />
       </Suspense>
 
-      <div className="h-16 sm:h-20" />
+      <div className="h-20 lg:h-24" />
     </>
   );
 }
