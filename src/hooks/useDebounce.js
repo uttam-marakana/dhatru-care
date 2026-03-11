@@ -1,20 +1,20 @@
 import { useEffect, useState } from "react";
 
+/**
+ * Debounce hook
+ * Delays updating the returned value until after
+ * the specified delay has passed since the last change.
+ */
 export const useDebounce = (value, delay = 300) => {
-  const [debounced, setDebounced] = useState(value);
+  const [debouncedValue, setDebouncedValue] = useState(value);
 
   useEffect(() => {
-    if (!value) {
-      setDebounced(value);
-      return;
-    }
-
     const timer = setTimeout(() => {
-      setDebounced(value);
+      setDebouncedValue(value);
     }, delay);
 
     return () => clearTimeout(timer);
   }, [value, delay]);
 
-  return debounced;
+  return debouncedValue;
 };
