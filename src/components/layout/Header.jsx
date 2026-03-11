@@ -13,8 +13,8 @@ import {
 import { useAuth } from "../../context/AuthContext";
 import Container from "./Container";
 
-import useUniversalSearch from "../../hooks/useUniversalSearch";
 import UniversalSearchDropdown from "../common/UniversalSearchDropdown";
+import useUniversalSearch from "../../hooks/useUniversalSearch";
 
 const ThemeToggle = lazy(() => import("../common/ThemeToggle"));
 const MobileDrawer = lazy(() => import("./MobileDrawer"));
