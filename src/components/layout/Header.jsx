@@ -120,8 +120,8 @@ export default function Header() {
       >
         <Container className="px-6 lg:px-10">
           <div className="flex items-center justify-between h-20 lg:h-24">
-            {/* LOGO */}
 
+            {/* LOGO */}
             <Link to="/" className="flex items-center">
               <img
                 src={isDarkMode ? dark_logo : light_logo}
