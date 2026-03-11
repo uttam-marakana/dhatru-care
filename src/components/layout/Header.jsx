@@ -13,8 +13,8 @@ import {
 import { useAuth } from "../../context/AuthContext";
 import Container from "./Container";
 
-import UniversalSearchDropdown from "../common/UniversalSearchDropdown";
 import useUniversalSearch from "../../hooks/useUniversalSearch";
+import UniversalSearchDropdown from "../common/UniversalSearchDropdown.jsx";
 
 const ThemeToggle = lazy(() => import("../common/ThemeToggle"));
 const MobileDrawer = lazy(() => import("./MobileDrawer"));
@@ -306,7 +306,7 @@ export default function Header() {
                 )}
               </div>
 
-              <SearchDropdown
+              <UniversalSearchDropdown
                 results={results}
                 query={searchQuery}
                 loading={loading}
