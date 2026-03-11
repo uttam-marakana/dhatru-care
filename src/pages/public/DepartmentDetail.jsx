@@ -13,7 +13,7 @@ import { getDoctors } from "../../api/doctorsApi";
 import Container from "../../components/layout/Container";
 import Button from "../../components/common/Button";
 import Card from "../../components/common/Card";
-import Breadcrumb from "../../components/layout/Breadcrumb";
+import Breadcrumb from "../../components/common/Breadcrumb";
 const AppointmentCTA = lazy(
   () => import("../../sections/shared/AppointmentCTA"),
 );

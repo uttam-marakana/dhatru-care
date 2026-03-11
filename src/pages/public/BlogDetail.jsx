@@ -4,7 +4,7 @@ import { useState, useEffect, lazy } from "react";
 import { getBlogBySlug } from "../../api/blogsApi";
 
 import Container from "../../components/layout/Container";
-import Breadcrumb from "../../components/layout/Breadcrumb";
+import Breadcrumb from "../../components/common/Breadcrumb";
 const AppointmentCTA = lazy(
   () => import("../../sections/shared/AppointmentCTA"),
 );

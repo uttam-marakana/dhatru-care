@@ -5,7 +5,7 @@ const PageHero = lazy(() => import("../../sections/shared/PageHero"));
 const AppointmentCTA = lazy(
   () => import("../../sections/shared/AppointmentCTA"),
 );
-import Breadcrumb from "../../components/layout/Breadcrumb";
+import Breadcrumb from "../../components/common/Breadcrumb";
 
 const PackagesCompareTable = lazy(
   () => import("../../sections/packages/PackagesCompareTable"),
