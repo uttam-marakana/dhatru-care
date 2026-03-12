@@ -1,17 +1,25 @@
-import { doc, setDoc } from "firebase/firestore";
+import { doc, writeBatch } from "firebase/firestore";
+
 import { db } from "../firebase";
-import { generateSlots } from "./generateSlots";
+import { generateSlots, isLeaveDate } from "./generateSlots";
+
+const BATCH_LIMIT = 450;
 
 export const generateDoctorSlots = async (doctor, daysAhead = 30) => {
   const today = new Date();
 
+  let batch = writeBatch(db);
+  let operationCount = 0;
+
   for (let i = 0; i < daysAhead; i++) {
-    const date = new Date();
+    const date = new Date(today);
     date.setDate(today.getDate() + i);
 
     const day = date.getDay();
 
-    if (!doctor.workingDays.includes(day)) continue;
+    if (!doctor?.workingDays?.includes(day)) continue;
+
+    if (isLeaveDate(doctor, date)) continue;
 
     const dateString = date.toISOString().split("T")[0];
 
@@ -24,8 +32,10 @@ export const generateDoctorSlots = async (doctor, daysAhead = 30) => {
     for (const slot of slots) {
       const slotId = `${doctor.id}_${dateString}_${slot}`;
 
-      await setDoc(
-        doc(db, "appointmentSlots", slotId),
+      const ref = doc(db, "appointmentSlots", slotId);
+
+      batch.set(
+        ref,
         {
           doctorId: doctor.id,
           date: dateString,
@@ -34,6 +44,19 @@ export const generateDoctorSlots = async (doctor, daysAhead = 30) => {
         },
         { merge: true },
       );
+
+      operationCount++;
+
+      if (operationCount >= BATCH_LIMIT) {
+        await batch.commit();
+
+        batch = writeBatch(db);
+        operationCount = 0;
+      }
     }
+  }
+
+  if (operationCount > 0) {
+    await batch.commit();
   }
 };
