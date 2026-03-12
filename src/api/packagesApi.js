@@ -1,52 +1,14 @@
 import {
-  collection,
-  getDocs,
-  addDoc,
-  updateDoc,
-  deleteDoc,
-  doc,
-  serverTimestamp,
-  orderBy,
-  query,
-} from "firebase/firestore";
-import { db } from "../firebase";
+  fetchPackages,
+  insertPackage,
+  modifyPackage,
+  removePackage,
+} from "../services/packageService";
 
-const ref = collection(db, "packages");
+export const getPackages = () => fetchPackages();
 
-/* ------------ GET ALL PACKAGES ---------------------------------------------- */
-export const getPackages = async () => {
-  try {
-    const q = query(ref, orderBy("createdAt", "desc"));
-    const snap = await getDocs(q);
+export const createPackage = (data) => insertPackage(data);
 
-    return snap.docs.map((d) => ({
-      id: d.id,
-      ...d.data(),
-    }));
-  } catch (err) {
-    console.error("Packages fetch error:", err);
-    throw err;
-  }
-};
+export const updatePackage = (id, data) => modifyPackage(id, data);
 
-/* ------------ CREATE ---------------------------------------------- */
-export const createPackage = async (data) => {
-  return await addDoc(ref, {
-    ...data,
-    createdAt: serverTimestamp(),
-    updatedAt: serverTimestamp(),
-  });
-};
-
-/* ------------ UPDATE ---------------------------------------------- */
-export const updatePackage = async (id, data) => {
-  return await updateDoc(doc(db, "packages", id), {
-    ...data,
-    updatedAt: serverTimestamp(),
-  });
-};
-
-/* ------------ DELETE ---------------------------------------------- */
-export const deletePackage = async (id) => {
-  return await deleteDoc(doc(db, "packages", id));
-};
+export const deletePackage = (id) => removePackage(id);

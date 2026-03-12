@@ -1,16 +1,3 @@
-import { collection, addDoc, serverTimestamp } from "firebase/firestore";
-import { db } from "../firebase";
+import { insertContactMessage } from "../services/contactService";
 
-const ref = collection(db, "contact_messages");
-
-export const createContactMessage = async (data) => {
-  try {
-    return await addDoc(ref, {
-      ...data,
-      createdAt: serverTimestamp(),
-    });
-  } catch (err) {
-    console.error("Contact API Error:", err);
-    throw err;
-  }
-};
+export const createContactMessage = (data) => insertContactMessage(data);
