@@ -6,7 +6,7 @@ import {
   subscribeDoctorSlots,
 } from "../../api/appointmentsApi";
 
-import { getDepartments } from "../../api/departmentsApi";
+import { getAllDepartments } from "../../api/departmentsApi";
 import { getDoctorsByDepartment } from "../../api/doctorsApi";
 
 import {
@@ -60,7 +60,7 @@ export default function AppointmentForm() {
 
   useEffect(() => {
     const loadDepartments = async () => {
-      const data = await getDepartments();
+      const data = await getAllDepartments();
       setDepartments(data);
 
       if (departmentParam) {
