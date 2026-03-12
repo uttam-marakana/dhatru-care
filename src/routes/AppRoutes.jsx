@@ -23,7 +23,7 @@ const BlogDetail = lazy(() => import("../pages/public/BlogDetail"));
 const Login = lazy(() => import("../auth/Login"));
 const Signup = lazy(() => import("../auth/Signup"));
 
-/* ---------------- PROTECTED ---------------- */
+/* ---------------- PROTECTED USER ---------------- */
 
 const Profile = lazy(() => import("../pages/protected/Profile"));
 const Settings = lazy(() => import("../pages/protected/Settings"));
@@ -34,12 +34,18 @@ const UserAppointments = lazy(
 /* ---------------- ADMIN ---------------- */
 
 const AdminDashboard = lazy(() => import("../admin/pages/AdminDashboard"));
-const DataUpload = lazy(() => import("../admin/pages/DataUpload"));
-const BulkUpload = lazy(() => import("../admin/pages/BulkUpload"));
+const ManageDoctors = lazy(() => import("../admin/pages/ManageDoctors"));
+const DoctorSchedule = lazy(() => import("../admin/pages/DoctorSchedule"));
 const ManageAppointments = lazy(
   () => import("../admin/pages/ManageAppointments"),
 );
-const ManageDoctors = lazy(() => import("../admin/pages/ManageDoctors"));
+const ManageBlogs = lazy(() => import("../admin/pages/ManageBlogs"));
+const ManageDepartments = lazy(
+  () => import("../admin/pages/ManageDepartments"),
+);
+const ManagePackages = lazy(() => import("../admin/pages/ManagePackages"));
+const DataUpload = lazy(() => import("../admin/pages/DataUpload"));
+const BulkUpload = lazy(() => import("../admin/pages/BulkUpload"));
 
 /* ---------------- 404 ---------------- */
 
@@ -160,7 +166,7 @@ export default function AppRoutes() {
           </AdminRoute>
         }
       >
-        {/* Dashboard (Default Admin Page) */}
+        {/* Dashboard */}
 
         <Route
           index
@@ -181,10 +187,46 @@ export default function AppRoutes() {
         />
 
         <Route
-          path="appointment"
+          path="doctors/:doctorId/schedule"
+          element={
+            <LazyWrapper>
+              <DoctorSchedule />
+            </LazyWrapper>
+          }
+        />
+
+        <Route
+          path="appointments"
           element={
             <LazyWrapper>
               <ManageAppointments />
+            </LazyWrapper>
+          }
+        />
+
+        <Route
+          path="blogs"
+          element={
+            <LazyWrapper>
+              <ManageBlogs />
+            </LazyWrapper>
+          }
+        />
+
+        <Route
+          path="departments"
+          element={
+            <LazyWrapper>
+              <ManageDepartments />
+            </LazyWrapper>
+          }
+        />
+
+        <Route
+          path="packages"
+          element={
+            <LazyWrapper>
+              <ManagePackages />
             </LazyWrapper>
           }
         />

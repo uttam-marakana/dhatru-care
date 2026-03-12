@@ -1,7 +1,7 @@
 import { lazy } from "react";
 
 /*
-Auto import ONLY public pages
+Auto import public pages
 */
 
 const publicPages = import.meta.glob("../pages/public/**/*.jsx");
@@ -17,16 +17,24 @@ function getRoutePath(file) {
     .toLowerCase();
 
   if (path === "/home") return "/";
-  if (path.endsWith("/index")) path = path.replace("/index", "");
+
+  if (path.endsWith("/index")) {
+    path = path.replace("/index", "");
+  }
 
   return path || "/";
 }
 
 /*
-Exclude pages handled manually (dynamic routes)
+Exclude dynamic routes handled manually
 */
 
-const excludedRoutes = ["/blogdetail", "/departmentdetail", "/doctordetail"];
+const excludedRoutes = [
+  "/blogdetail",
+  "/departmentdetail",
+  "/doctordetail",
+  "/notfound",
+];
 
 /*
 Generate routes
