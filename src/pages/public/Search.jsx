@@ -4,9 +4,9 @@ import { useEffect, useState } from "react";
 import Container from "../../components/layout/Container";
 
 import { getDoctors } from "../../api/doctorsApi";
-import { getDepartments } from "../../api/departmentsApi";
+import { getAllDepartments } from "../../api/departmentsApi";
 import { getPackages } from "../../api/packagesApi";
-import { getBlogs } from "../../api/blogsApi";
+import { getBlogPosts } from "../../api/blogsApi";
 
 import { rankResults } from "../../utils/searchRanking";
 
@@ -36,9 +36,9 @@ export default function Search() {
       try {
         const [doctors, departments, packages, blogs] = await Promise.all([
           getDoctors(),
-          getDepartments(),
+          getAllDepartments(),
           getPackages(),
-          getBlogs(),
+          getBlogPosts(),
         ]);
 
         setResults({
