@@ -1,15 +1,25 @@
+import AdminHeader from "../components/layout/AdminHeader";
 import { runBulkUpload } from "../../scripts/bulkUpload";
 
 export default function BulkUpload() {
   return (
-    <div className="max-w-xl">
-      <h1 className="text-2xl font-bold mb-4">Bulk JSON Upload</h1>
+    <div className="space-y-6">
+      <AdminHeader
+        title="Bulk Upload"
+        description="Upload entire dataset from JSON"
+      />
 
       <button
         onClick={runBulkUpload}
-        className="bg-primary text-white px-6 py-3 rounded-lg"
+        className="
+        px-6 py-3
+        bg-[var(--color-primary)]
+        text-white
+        rounded-lg
+        hover:opacity-90
+        "
       >
-        Upload All Data
+        Upload JSON Data
       </button>
     </div>
   );
