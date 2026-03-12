@@ -15,6 +15,7 @@ export default function AdminLayout() {
   return (
     <div className="min-h-screen flex bg-[var(--bg)]">
       {/* MOBILE OVERLAY */}
+
       {open && (
         <div
           className="fixed inset-0 bg-[var(--bg)]/50 backdrop-blur-sm z-30 lg:hidden"
@@ -23,6 +24,7 @@ export default function AdminLayout() {
       )}
 
       {/* SIDEBAR */}
+
       <aside
         className={`
         fixed lg:sticky top-0 left-0 h-screen w-64 z-40
@@ -33,8 +35,9 @@ export default function AdminLayout() {
         `}
       >
         {/* MOBILE HEADER */}
+
         <div className="p-4 flex justify-between items-center lg:hidden border-b border-[var(--border)]">
-          <h2 className="font-bold text-[var(--text)]">Admin</h2>
+          <h2 className="font-bold text-[var(--text)]">Dhatru Care Admin</h2>
 
           <button
             onClick={() => setOpen(false)}
@@ -44,8 +47,41 @@ export default function AdminLayout() {
           </button>
         </div>
 
-        {/* NAV */}
+        {/* NAVIGATION */}
+
         <nav className="p-4 space-y-2">
+          <p className="text-xs text-[var(--text-secondary)] uppercase px-2 pt-2">
+            Management
+          </p>
+
+          <NavLink to="/admin" end className={linkStyle}>
+            Dashboard
+          </NavLink>
+
+          <NavLink to="/admin/doctors" className={linkStyle}>
+            Doctors
+          </NavLink>
+
+          <NavLink to="/admin/appointment" className={linkStyle}>
+            Appointments
+          </NavLink>
+
+          <NavLink to="/admin/departments" className={linkStyle}>
+            Departments
+          </NavLink>
+
+          <NavLink to="/admin/blogs" className={linkStyle}>
+            Blogs
+          </NavLink>
+
+          <NavLink to="/admin/packages" className={linkStyle}>
+            Packages
+          </NavLink>
+
+          <p className="text-xs text-[var(--text-secondary)] uppercase px-2 pt-6">
+            Tools
+          </p>
+
           <NavLink to="/admin/upload" className={linkStyle}>
             Data Upload
           </NavLink>
@@ -56,9 +92,11 @@ export default function AdminLayout() {
         </nav>
       </aside>
 
-      {/* CONTENT */}
+      {/* CONTENT AREA */}
+
       <main className="flex-1 lg:ml-0 p-4 sm:p-6 lg:p-8 overflow-x-hidden">
         {/* MOBILE MENU BUTTON */}
+
         <button
           onClick={() => setOpen(true)}
           className="
