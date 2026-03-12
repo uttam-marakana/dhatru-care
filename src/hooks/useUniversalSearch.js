@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 
 import { getDoctors } from "../api/doctorsApi";
-import { getDepartments } from "../api/departmentsApi";
+import { getAllDepartments } from "../api/departmentsApi";
 import { getPackages } from "../api/packagesApi";
-import { getBlogs } from "../api/blogsApi";
+import { getBlogPosts } from "../api/blogsApi";
 
 import { useDebounce } from "../hooks/useDebounce";
 import { rankResults } from "../utils/searchRanking";
@@ -37,9 +37,9 @@ export default function useUniversalSearch(query) {
       try {
         const [doctors, departments, packages, blogs] = await Promise.all([
           getDoctors(),
-          getDepartments(),
+          getAllDepartments(),
           getPackages(),
-          getBlogs(),
+          getBlogPosts(),
         ]);
 
         const rankedDoctors = rankResults(doctors, debouncedQuery, [

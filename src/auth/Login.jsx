@@ -13,9 +13,9 @@ export default function Login() {
     e.preventDefault();
 
     try {
-      const res = await login(email, password);
+      const user = await login(email, password);
 
-      if (res.user.email?.toLowerCase() === ADMIN_EMAIL.toLowerCase()) {
+      if (user.email?.toLowerCase() === ADMIN_EMAIL.toLowerCase()) {
         nav("/admin/bulk-upload");
       } else {
         nav("/");
