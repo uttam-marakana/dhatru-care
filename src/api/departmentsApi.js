@@ -5,7 +5,7 @@ import {
   removeDepartment,
 } from "../services/departmentService";
 
-export const getDepartments = (filters) => fetchDepartments(filters);
+export const getAllDepartments = (filters) => fetchDepartments(filters);
 
 export const createDepartment = (data) => insertDepartment(data);
 
