@@ -62,7 +62,7 @@ export default function AdminLayout() {
             Doctors
           </NavLink>
 
-          <NavLink to="/admin/appointment" className={linkStyle}>
+          <NavLink to="/admin/appointments" className={linkStyle}>
             Appointments
           </NavLink>
 
