@@ -26,7 +26,7 @@ export const fetchDoctors = async (filters = {}) => {
   }
 
   if (filters.department) {
-    constraints.push(where("department", "==", filters.department));
+    constraints.push(where("departmentId", "==", filters.department));
   }
 
   constraints.push(limit(50));
