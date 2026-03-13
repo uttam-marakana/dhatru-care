@@ -16,7 +16,7 @@ const appointmentsRef = collection(db, "appointments");
 const slotsRef = collection(db, "appointmentSlots");
 
 /* =========================================================
-   CREATE APPOINTMENT (WITH SLOT LOCKING)
+   CREATE APPOINTMENT (WITH SLOT LOCK + SNAPSHOT DATA)
 ========================================================= */
 
 export const createAppointmentTransaction = async (data) => {
@@ -32,7 +32,7 @@ export const createAppointmentTransaction = async (data) => {
       throw new Error("This slot is already booked");
     }
 
-    /* lock slot */
+    /* LOCK SLOT */
 
     transaction.set(
       slotRef,
@@ -46,12 +46,28 @@ export const createAppointmentTransaction = async (data) => {
       { merge: true },
     );
 
-    /* create appointment */
+    /* CREATE APPOINTMENT */
 
     transaction.set(appointmentRef, {
-      ...data,
+      userId: data.userId,
+      patientName: data.patientName,
+      phone: data.phone,
+      email: data.email,
+      message: data.message || "",
+
+      doctorId: data.doctorId,
+      doctorName: data.doctorName,
+      doctorSpecialty: data.doctorSpecialty,
+
+      department: data.department,
+      departmentName: data.departmentName,
+
+      date: data.date,
+      time: data.time,
+
       slotId,
       status: "pending",
+
       createdAt: serverTimestamp(),
       updatedAt: serverTimestamp(),
     });
@@ -121,7 +137,7 @@ export const rescheduleAppointmentService = async (
       throw new Error("Selected slot is already booked");
     }
 
-    /* free old slot */
+    /* FREE OLD SLOT */
 
     const oldSlotDoc = await transaction.get(oldSlotRef);
 
@@ -132,7 +148,7 @@ export const rescheduleAppointmentService = async (
       });
     }
 
-    /* lock new slot */
+    /* LOCK NEW SLOT */
 
     transaction.set(
       newSlotRef,
@@ -146,7 +162,7 @@ export const rescheduleAppointmentService = async (
       { merge: true },
     );
 
-    /* update appointment */
+    /* UPDATE APPOINTMENT */
 
     transaction.update(appointmentRef, {
       date: newDate,
