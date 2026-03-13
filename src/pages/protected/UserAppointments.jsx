@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import {
   subscribeUserAppointments,
   cancelAppointment,
@@ -8,7 +8,7 @@ import {
 import { useAuth } from "../../context/AuthContext";
 import Container from "../../components/layout/Container";
 
-/* STATUS STYLES */
+/* STATUS BADGE STYLES */
 
 const statusStyles = {
   pending: "bg-yellow-500/20 text-yellow-400",
@@ -19,11 +19,10 @@ const statusStyles = {
   rescheduled: "bg-purple-500/20 text-purple-400",
 };
 
-/* APPOINTMENT EDIT RULE */
+/* EDIT RULE */
 
-const isAppointmentEditable = (status) => {
-  return ["pending", "confirmed", "rescheduled"].includes(status);
-};
+const isEditable = (status) =>
+  ["pending", "confirmed", "rescheduled"].includes(status);
 
 export default function UserAppointments() {
   const { user } = useAuth();
@@ -31,14 +30,20 @@ export default function UserAppointments() {
   const [appointments, setAppointments] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  const [tab, setTab] = useState("all");
+
+  const [cancelModal, setCancelModal] = useState(false);
+  const [rescheduleModal, setRescheduleModal] = useState(false);
+
+  const [selectedAppointment, setSelectedAppointment] = useState(null);
+
+  const [newDate, setNewDate] = useState("");
+  const [newTime, setNewTime] = useState("");
+
   /* SUBSCRIBE USER APPOINTMENTS */
 
   useEffect(() => {
-    if (!user) {
-      setAppointments([]);
-      setLoading(false);
-      return;
-    }
+    if (!user) return;
 
     const unsub = subscribeUserAppointments(user.uid, (data) => {
       setAppointments(data);
@@ -48,22 +53,65 @@ export default function UserAppointments() {
     return () => unsub();
   }, [user]);
 
-  /* RESCHEDULE HANDLER */
+  const now = new Date();
 
-  const handleReschedule = async (appointment) => {
-    const newDate = prompt("Enter new date (YYYY-MM-DD)");
-    const newTime = prompt("Enter new time (HH:MM)");
+  /* FILTER GROUPS */
 
-    if (!newDate || !newTime) return;
+  const upcoming = useMemo(
+    () =>
+      appointments.filter(
+        (a) =>
+          new Date(`${a.date} ${a.time}`) >= now && a.status !== "cancelled",
+      ),
+    [appointments],
+  );
 
-    try {
-      await rescheduleAppointment(appointment, newDate, newTime);
-    } catch (err) {
-      alert(err.message);
-    }
+  const past = useMemo(
+    () =>
+      appointments.filter(
+        (a) =>
+          new Date(`${a.date} ${a.time}`) < now && a.status !== "cancelled",
+      ),
+    [appointments],
+  );
+
+  const cancelled = useMemo(
+    () => appointments.filter((a) => a.status === "cancelled"),
+    [appointments],
+  );
+
+  const visible = {
+    all: appointments,
+    upcoming,
+    past,
+    cancelled,
+  }[tab];
+
+  /* OPEN CANCEL MODAL */
+
+  const openCancel = (appt) => {
+    setSelectedAppointment(appt);
+    setCancelModal(true);
   };
 
-  /* LOADING UI */
+  const confirmCancel = async () => {
+    await cancelAppointment(selectedAppointment.id, selectedAppointment.slotId);
+    setCancelModal(false);
+  };
+
+  /* OPEN RESCHEDULE MODAL */
+
+  const openReschedule = (appt) => {
+    setSelectedAppointment(appt);
+    setNewDate(appt.date);
+    setNewTime(appt.time);
+    setRescheduleModal(true);
+  };
+
+  const confirmReschedule = async () => {
+    await rescheduleAppointment(selectedAppointment, newDate, newTime);
+    setRescheduleModal(false);
+  };
 
   if (loading) {
     return (
@@ -80,39 +128,36 @@ export default function UserAppointments() {
           My Appointments
         </h1>
 
-        {appointments.length === 0 ? (
+        {/* TABS */}
+
+        <div className="flex flex-wrap justify-center gap-4 mb-10">
+          {["all", "upcoming", "past", "cancelled"].map((t) => (
+            <button
+              key={t}
+              onClick={() => setTab(t)}
+              className={`px-4 py-2 rounded-lg capitalize transition ${
+                tab === t
+                  ? "bg-blue-500 text-white"
+                  : "bg-gray-800 text-gray-300 hover:bg-gray-700"
+              }`}
+            >
+              {t}
+            </button>
+          ))}
+        </div>
+
+        {/* APPOINTMENT LIST */}
+
+        {visible.length === 0 ? (
           <p className="text-center text-gray-400">No appointments found.</p>
         ) : (
           <div className="grid gap-6 md:grid-cols-2">
-            {appointments.map((a) => (
+            {visible.map((a) => (
               <div
                 key={a.id}
-                className="
-                relative
-                p-6
-                rounded-2xl
-                bg-gray-900
-                border border-white/10
-                transition
-                hover:border-blue-400/40
-                hover:shadow-[0_0_40px_rgba(59,130,246,0.25)]
-                "
+                className="p-6 rounded-2xl bg-gray-900 border border-white/10"
               >
-                {/* glow overlay */}
-                <div
-                  className="
-                  absolute inset-0 rounded-2xl
-                  bg-gradient-to-br
-                  from-blue-500/10
-                  via-transparent
-                  to-transparent
-                  opacity-0 hover:opacity-100
-                  transition
-                  pointer-events-none
-                  "
-                />
-
-                <div className="relative space-y-2 text-gray-200">
+                <div className="space-y-2 text-gray-200">
                   <p>
                     <span className="text-gray-400">Patient:</span>{" "}
                     {a.patientName}
@@ -133,46 +178,28 @@ export default function UserAppointments() {
 
                   {/* STATUS BADGE */}
 
-                  <div className="pt-3">
-                    <span
-                      className={`px-3 py-1 text-sm rounded-full ${
-                        statusStyles[a.status] || "bg-gray-500/20 text-gray-400"
-                      }`}
-                    >
-                      {a.status}
-                    </span>
-                  </div>
+                  <span
+                    className={`px-3 py-1 text-sm rounded-full ${
+                      statusStyles[a.status]
+                    }`}
+                  >
+                    {a.status}
+                  </span>
 
                   {/* ACTION BUTTONS */}
 
-                  {isAppointmentEditable(a.status) && (
-                    <div className="flex gap-3 pt-5">
+                  {isEditable(a.status) && (
+                    <div className="flex gap-3 pt-4">
                       <button
-                        onClick={() => cancelAppointment(a.id, a.slotId)}
-                        className="
-                        text-sm
-                        px-4 py-1.5
-                        rounded-lg
-                        bg-red-500/90
-                        hover:bg-red-500
-                        text-white
-                        transition
-                        "
+                        onClick={() => openCancel(a)}
+                        className="px-4 py-1.5 bg-red-500 text-white rounded-lg hover:bg-red-400"
                       >
                         Cancel
                       </button>
 
                       <button
-                        onClick={() => handleReschedule(a)}
-                        className="
-                        text-sm
-                        px-4 py-1.5
-                        rounded-lg
-                        bg-blue-500
-                        hover:bg-blue-400
-                        text-white
-                        transition
-                        "
+                        onClick={() => openReschedule(a)}
+                        className="px-4 py-1.5 bg-blue-500 text-white rounded-lg hover:bg-blue-400"
                       >
                         Reschedule
                       </button>
@@ -181,6 +208,72 @@ export default function UserAppointments() {
                 </div>
               </div>
             ))}
+          </div>
+        )}
+
+        {/* CANCEL MODAL */}
+
+        {cancelModal && (
+          <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50">
+            <div className="bg-gray-900 p-6 rounded-xl w-full max-w-md">
+              <h3 className="text-lg text-white mb-4">Cancel Appointment?</h3>
+
+              <div className="flex justify-end gap-3">
+                <button
+                  onClick={() => setCancelModal(false)}
+                  className="px-4 py-2 border border-gray-600 rounded"
+                >
+                  No
+                </button>
+
+                <button
+                  onClick={confirmCancel}
+                  className="px-4 py-2 bg-red-500 text-white rounded"
+                >
+                  Yes Cancel
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* RESCHEDULE MODAL */}
+
+        {rescheduleModal && (
+          <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50">
+            <div className="bg-gray-900 p-6 rounded-xl w-full max-w-md">
+              <h3 className="text-white mb-4">Reschedule Appointment</h3>
+
+              <input
+                type="date"
+                value={newDate}
+                onChange={(e) => setNewDate(e.target.value)}
+                className="w-full p-3 mb-3 bg-gray-800 rounded"
+              />
+
+              <input
+                type="time"
+                value={newTime}
+                onChange={(e) => setNewTime(e.target.value)}
+                className="w-full p-3 mb-4 bg-gray-800 rounded"
+              />
+
+              <div className="flex justify-end gap-3">
+                <button
+                  onClick={() => setRescheduleModal(false)}
+                  className="px-4 py-2 border border-gray-600 rounded"
+                >
+                  Cancel
+                </button>
+
+                <button
+                  onClick={confirmReschedule}
+                  className="px-4 py-2 bg-blue-500 text-white rounded"
+                >
+                  Confirm
+                </button>
+              </div>
+            </div>
           </div>
         )}
       </Container>
