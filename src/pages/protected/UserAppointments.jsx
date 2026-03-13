@@ -24,6 +24,10 @@ const statusStyles = {
 const isEditable = (status) =>
   ["pending", "confirmed", "rescheduled"].includes(status);
 
+/* PAGINATION */
+
+const PAGE_SIZE = 10;
+
 export default function UserAppointments() {
   const { user } = useAuth();
 
@@ -40,6 +44,8 @@ export default function UserAppointments() {
   const [newDate, setNewDate] = useState("");
   const [newTime, setNewTime] = useState("");
 
+  const [page, setPage] = useState(1);
+
   /* SUBSCRIBE USER APPOINTMENTS */
 
   useEffect(() => {
@@ -52,6 +58,12 @@ export default function UserAppointments() {
 
     return () => unsub();
   }, [user]);
+
+  /* RESET PAGE WHEN TAB CHANGES */
+
+  useEffect(() => {
+    setPage(1);
+  }, [tab]);
 
   /* DATE HELPERS */
 
@@ -73,6 +85,8 @@ export default function UserAppointments() {
     [appointments],
   );
 
+  /* UPCOMING (ONLY CONFIRMED / RESCHEDULED) */
+
   const upcoming = useMemo(
     () =>
       appointments.filter((a) => {
@@ -81,9 +95,16 @@ export default function UserAppointments() {
         return (
           appointmentDate > now &&
           a.date !== todayString &&
-          !["cancelled", "rejected", "completed"].includes(a.status)
+          ["confirmed", "rescheduled"].includes(a.status)
         );
       }),
+    [appointments],
+  );
+
+  /* AWAITING APPROVAL (PENDING) */
+
+  const awaiting = useMemo(
+    () => appointments.filter((a) => a.status === "pending"),
     [appointments],
   );
 
@@ -111,10 +132,21 @@ export default function UserAppointments() {
     all: appointments,
     today,
     upcoming,
+    awaiting,
     past,
     cancelled,
     rejected,
   }[tab];
+
+  /* PAGINATION */
+
+  const totalPages = Math.ceil(visible.length / PAGE_SIZE);
+
+  const paginatedAppointments = useMemo(() => {
+    const start = (page - 1) * PAGE_SIZE;
+    const end = start + PAGE_SIZE;
+    return visible.slice(start, end);
+  }, [visible, page]);
 
   /* OPEN CANCEL MODAL */
 
@@ -144,16 +176,16 @@ export default function UserAppointments() {
 
   if (loading) {
     return (
-      <div className="min-h-[60vh] flex items-center justify-center text-gray-400">
+      <div className="min-h-[60vh] flex items-center justify-center text-[var(--muted)]">
         Loading appointments...
       </div>
     );
   }
 
   return (
-    <section className="py-16 bg-gradient-to-b from-gray-950 via-gray-900 to-gray-950">
+    <section className="section-padding">
       <Container>
-        <h1 className="text-3xl font-bold mb-10 text-center text-white">
+        <h1 className="text-3xl font-bold mb-10 text-center gradient-heading">
           My Appointments
         </h1>
 
@@ -164,6 +196,11 @@ export default function UserAppointments() {
             { key: "all", label: "All", count: appointments.length },
             { key: "today", label: "Today", count: today.length },
             { key: "upcoming", label: "Upcoming", count: upcoming.length },
+            {
+              key: "awaiting",
+              label: "Awaiting Approval",
+              count: awaiting.length,
+            },
             { key: "past", label: "Past", count: past.length },
             { key: "cancelled", label: "Cancelled", count: cancelled.length },
             { key: "rejected", label: "Rejected", count: rejected.length },
@@ -173,15 +210,15 @@ export default function UserAppointments() {
               onClick={() => setTab(t.key)}
               className={`px-4 py-2 rounded-lg flex items-center gap-2 transition ${
                 tab === t.key
-                  ? "bg-blue-500 text-white"
-                  : "bg-gray-800 text-gray-300 hover:bg-gray-700"
+                  ? "bg-[var(--color-primary)] text-white"
+                  : "bg-[var(--surface)] text-[var(--text-secondary)] hover:bg-[var(--card)]"
               }`}
             >
               {t.label}
 
               <span
                 className={`text-xs px-2 py-0.5 rounded-full ${
-                  tab === t.key ? "bg-white/20" : "bg-gray-700"
+                  tab === t.key ? "bg-white/20" : "bg-[var(--border)]"
                 }`}
               >
                 {t.count}
@@ -190,64 +227,54 @@ export default function UserAppointments() {
           ))}
         </div>
 
-        {/* APPOINTMENT LIST */}
+        {/* APPOINTMENT CARDS */}
 
-        {visible.length === 0 ? (
-          <p className="text-center text-gray-400">No appointments found.</p>
+        {paginatedAppointments.length === 0 ? (
+          <p className="text-center text-[var(--muted)]">
+            No appointments found.
+          </p>
         ) : (
           <div className="grid gap-6 md:grid-cols-2">
-            {visible.map((a) => (
+            {paginatedAppointments.map((a) => (
               <div
                 key={a.id}
-                className="p-6 rounded-2xl bg-gray-900 border border-white/10"
+                className="p-6 rounded-2xl bg-[var(--card)] border border-[var(--border)] hover-lift"
               >
-                <div className="space-y-2 text-gray-200">
-                  {/* PATIENT */}
-
+                <div className="space-y-2 text-[var(--text)]">
                   <p>
-                    <span className="text-gray-400">Patient:</span>{" "}
+                    <span className="text-[var(--muted)]">Patient:</span>{" "}
                     {a.patientName}
                   </p>
 
-                  {/* DOCTOR */}
-
                   <div className="flex flex-col gap-3">
-                    <div className="w-10 h-10 rounded-full bg-blue-500/20 flex items-center justify-center">
+                    <div className="w-10 h-10 rounded-full bg-[var(--glow-bg)] flex items-center justify-center">
                       {a.doctorName?.charAt(0) || "D"}
                     </div>
 
                     <div>
                       <p>
-                        <span className="text-gray-400">Doctor:</span>{" "}
+                        <span className="text-[var(--muted)]">Doctor:</span>{" "}
                         {a.doctorName || "Doctor not available"}
                       </p>
 
-                      <p className="text-xs text-gray-400">
+                      <p className="text-xs text-[var(--muted)]">
                         {a.doctorSpecialty || ""}
                       </p>
                     </div>
                   </div>
 
-                  {/* DEPARTMENT */}
-
                   <p>
-                    <span className="text-gray-400">Department:</span>{" "}
+                    <span className="text-[var(--muted)]">Department:</span>{" "}
                     {a.departmentName || a.department}
                   </p>
 
-                  {/* DATE */}
-
                   <p>
-                    <span className="text-gray-400">Date:</span> {a.date}
+                    <span className="text-[var(--muted)]">Date:</span> {a.date}
                   </p>
 
-                  {/* TIME */}
-
                   <p>
-                    <span className="text-gray-400">Time:</span> {a.time}
+                    <span className="text-[var(--muted)]">Time:</span> {a.time}
                   </p>
-
-                  {/* STATUS */}
 
                   <span
                     className={`px-3 py-1 text-sm rounded-full ${
@@ -256,8 +283,6 @@ export default function UserAppointments() {
                   >
                     {a.status}
                   </span>
-
-                  {/* ACTION BUTTONS */}
 
                   {isEditable(a.status) && (
                     <div className="flex gap-3 pt-4">
@@ -270,7 +295,7 @@ export default function UserAppointments() {
 
                       <button
                         onClick={() => openReschedule(a)}
-                        className="px-4 py-1.5 bg-blue-500 text-white rounded-lg hover:bg-blue-400"
+                        className="px-4 py-1.5 bg-[var(--color-primary)] text-white rounded-lg hover:opacity-90"
                       >
                         Reschedule
                       </button>
@@ -282,17 +307,45 @@ export default function UserAppointments() {
           </div>
         )}
 
+        {/* PAGINATION */}
+
+        {visible.length > PAGE_SIZE && (
+          <div className="flex justify-center gap-4 mt-12">
+            <button
+              disabled={page === 1}
+              onClick={() => setPage((p) => p - 1)}
+              className="px-4 py-2 rounded-lg border border-[var(--border)] disabled:opacity-40"
+            >
+              Previous
+            </button>
+
+            <span className="flex items-center text-[var(--muted)]">
+              Page {page} of {totalPages}
+            </span>
+
+            <button
+              disabled={page === totalPages}
+              onClick={() => setPage((p) => p + 1)}
+              className="px-4 py-2 rounded-lg border border-[var(--border)] disabled:opacity-40"
+            >
+              Next
+            </button>
+          </div>
+        )}
+
         {/* CANCEL MODAL */}
 
         {cancelModal && (
           <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50">
-            <div className="bg-gray-900 p-6 rounded-xl w-full max-w-md">
-              <h3 className="text-lg text-white mb-4">Cancel Appointment?</h3>
+            <div className="bg-[var(--card)] p-6 rounded-xl w-full max-w-md border border-[var(--border)]">
+              <h3 className="text-lg text-[var(--text)] mb-4">
+                Cancel Appointment?
+              </h3>
 
               <div className="flex justify-end gap-3">
                 <button
                   onClick={() => setCancelModal(false)}
-                  className="px-4 py-2 border border-gray-600 rounded"
+                  className="px-4 py-2 border border-[var(--border)] rounded"
                 >
                   No
                 </button>
@@ -312,34 +365,36 @@ export default function UserAppointments() {
 
         {rescheduleModal && (
           <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50">
-            <div className="bg-gray-900 p-6 rounded-xl w-full max-w-md">
-              <h3 className="text-white mb-4">Reschedule Appointment</h3>
+            <div className="bg-[var(--card)] p-6 rounded-xl w-full max-w-md border border-[var(--border)]">
+              <h3 className="text-[var(--text)] mb-4">
+                Reschedule Appointment
+              </h3>
 
               <input
                 type="date"
                 value={newDate}
                 onChange={(e) => setNewDate(e.target.value)}
-                className="w-full p-3 mb-3 bg-gray-800 rounded"
+                className="ui-input mb-3"
               />
 
               <input
                 type="time"
                 value={newTime}
                 onChange={(e) => setNewTime(e.target.value)}
-                className="w-full p-3 mb-4 bg-gray-800 rounded"
+                className="ui-input mb-4"
               />
 
               <div className="flex justify-end gap-3">
                 <button
                   onClick={() => setRescheduleModal(false)}
-                  className="px-4 py-2 border border-gray-600 rounded"
+                  className="px-4 py-2 border border-[var(--border)] rounded"
                 >
                   Cancel
                 </button>
 
                 <button
                   onClick={confirmReschedule}
-                  className="px-4 py-2 bg-blue-500 text-white rounded"
+                  className="px-4 py-2 bg-[var(--color-primary)] text-white rounded"
                 >
                   Confirm
                 </button>
