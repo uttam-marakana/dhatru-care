@@ -252,6 +252,12 @@ export default function AppointmentForm() {
       await createAppointment({
         ...form,
         userId: user.uid,
+
+        doctorName: doctor.name,
+        doctorSpecialty: doctor.specialty,
+
+        departmentName:
+          departments.find((d) => d.id === form.department)?.name || "",
       });
 
       const name = form.patientName.split(" ")[0];
