@@ -27,6 +27,9 @@ export default function AppointmentForm() {
   const departmentParam = searchParams.get("department");
   const doctorParam = searchParams.get("doctor");
 
+  const fromDepartmentPage = !!departmentParam && !doctorParam;
+  const fromDoctorPage = !!doctorParam;
+
   const [step, setStep] = useState(1);
 
   const [form, setForm] = useState({
@@ -56,7 +59,7 @@ export default function AppointmentForm() {
   outline-none
   `;
 
-  /* LOAD DEPARTMENTS */
+  /* ---------------- LOAD DEPARTMENTS ---------------- */
 
   useEffect(() => {
     const loadDepartments = async () => {
@@ -76,7 +79,7 @@ export default function AppointmentForm() {
     loadDepartments();
   }, []);
 
-  /* LOAD DOCTORS */
+  /* ---------------- LOAD DOCTORS ---------------- */
 
   useEffect(() => {
     if (!form.department) {
@@ -94,6 +97,7 @@ export default function AppointmentForm() {
         if (found) {
           setForm((prev) => ({
             ...prev,
+            department: found.departmentId,
             doctorId: found.id,
           }));
 
@@ -105,14 +109,14 @@ export default function AppointmentForm() {
     loadDoctors();
   }, [form.department]);
 
-  /* SELECTED DOCTOR */
+  /* ---------------- SELECTED DOCTOR ---------------- */
 
   useEffect(() => {
     const selected = doctors.find((d) => d.id === form.doctorId);
     setDoctor(selected || null);
   }, [form.doctorId, doctors]);
 
-  /* GENERATE ALL POSSIBLE SLOTS */
+  /* ---------------- GENERATE SLOT LIST ---------------- */
 
   const allSlots = useMemo(() => {
     if (!doctor) return [];
@@ -124,7 +128,7 @@ export default function AppointmentForm() {
     return generateSlots(start, end, interval);
   }, [doctor]);
 
-  /* LOAD AVAILABLE SLOTS */
+  /* ---------------- LOAD AVAILABLE SLOTS ---------------- */
 
   useEffect(() => {
     if (!form.doctorId || !form.date || !doctor) return;
@@ -147,6 +151,40 @@ export default function AppointmentForm() {
 
     return () => unsubscribe();
   }, [form.doctorId, form.date, doctor, allSlots]);
+
+  /* ---------------- STEP VALIDATION ---------------- */
+
+  const canGoNext = () => {
+    switch (step) {
+      case 1:
+        return form.department !== "";
+      case 2:
+        return form.doctorId !== "";
+      case 3:
+        return form.date !== "";
+      case 4:
+        return form.time !== "";
+      case 5:
+        return form.patientName && form.phone && form.email;
+      default:
+        return true;
+    }
+  };
+
+  /* ---------------- NAVIGATION ---------------- */
+
+  const nextStep = () => {
+    if (step < 5 && canGoNext()) setStep((s) => s + 1);
+  };
+
+  const prevStep = () => {
+    if (fromDoctorPage && step <= 3) return;
+    if (fromDepartmentPage && step <= 2) return;
+
+    if (step > 1) setStep((s) => s - 1);
+  };
+
+  /* ---------------- INPUT HANDLER ---------------- */
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -196,6 +234,8 @@ export default function AppointmentForm() {
     setStep(5);
   };
 
+  /* ---------------- SUBMIT ---------------- */
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -206,17 +246,21 @@ export default function AppointmentForm() {
       return;
     }
 
-    setLoading(true);
-
     try {
+      setLoading(true);
+
       await createAppointment({
         ...form,
         userId: user.uid,
       });
 
-      alert("Appointment booked successfully!");
+      const name = form.patientName.split(" ")[0];
 
-      navigate("/profile/appointments");
+      alert(`Thank you ${name}! Your appointment has been booked.`);
+
+      setTimeout(() => {
+        navigate("/profile/appointments");
+      }, 1500);
     } catch (err) {
       alert(err.message);
     }
@@ -224,26 +268,21 @@ export default function AppointmentForm() {
     setLoading(false);
   };
 
+  /* ---------------- UI ---------------- */
+
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
       {/* PROGRESS BAR */}
 
-      <div className="flex justify-between text-sm">
-        <span className={step >= 1 ? "text-blue-500 font-semibold" : ""}>
-          Department
-        </span>
-        <span className={step >= 2 ? "text-blue-500 font-semibold" : ""}>
-          Doctor
-        </span>
-        <span className={step >= 3 ? "text-blue-500 font-semibold" : ""}>
-          Date
-        </span>
-        <span className={step >= 4 ? "text-blue-500 font-semibold" : ""}>
-          Time
-        </span>
-        <span className={step >= 5 ? "text-blue-500 font-semibold" : ""}>
-          Details
-        </span>
+      <div className="flex justify-between text-sm font-medium">
+        {["Department", "Doctor", "Date", "Time", "Details"].map((label, i) => (
+          <span
+            key={label}
+            className={step >= i + 1 ? "text-blue-500 font-semibold" : ""}
+          >
+            {label}
+          </span>
+        ))}
       </div>
 
       {/* STEP 1 */}
@@ -252,11 +291,11 @@ export default function AppointmentForm() {
         <select
           name="department"
           value={form.department}
+          disabled={fromDepartmentPage || fromDoctorPage}
           onChange={(e) => {
             handleChange(e);
-            setStep(2);
+            nextStep();
           }}
-          required
           className={inputStyle}
         >
           <option value="">Select Department</option>
@@ -269,21 +308,21 @@ export default function AppointmentForm() {
         </select>
       )}
 
-      {/* STEP 2 DOCTOR */}
+      {/* STEP 2 */}
 
       {step === 2 && (
-        <div className="grid grid-cols-2 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           {doctors.map((doc) => (
             <button
               key={doc.id}
               type="button"
+              disabled={fromDoctorPage}
               onClick={() => selectDoctor(doc)}
               className="
               border border-gray-200 dark:border-white/10
-              p-4 rounded-lg
-              text-left
+              p-4 rounded-lg text-left
               hover:border-blue-500
-              transition
+              disabled:opacity-40
               "
             >
               <div className="font-semibold">{doc.name}</div>
@@ -293,9 +332,9 @@ export default function AppointmentForm() {
         </div>
       )}
 
-      {/* STEP 3 CALENDAR */}
+      {/* STEP 3 */}
 
-      {step >= 3 && doctor && (
+      {step === 3 && doctor && (
         <DoctorAvailabilityCalendar
           selectedDate={form.date}
           onSelect={selectDate}
@@ -303,9 +342,9 @@ export default function AppointmentForm() {
         />
       )}
 
-      {/* STEP 4 SLOTS */}
+      {/* STEP 4 */}
 
-      {step >= 4 && (
+      {step === 4 && (
         <SlotGrid
           slots={availableSlots}
           selected={form.time}
@@ -313,9 +352,9 @@ export default function AppointmentForm() {
         />
       )}
 
-      {/* STEP 5 DETAILS */}
+      {/* STEP 5 */}
 
-      {step >= 5 && (
+      {step === 5 && (
         <>
           <input
             name="patientName"
@@ -354,7 +393,7 @@ export default function AppointmentForm() {
           />
 
           <button
-            disabled={loading || !form.time}
+            disabled={!canGoNext() || loading}
             className="
             w-full py-3 rounded-lg
             bg-blue-500 hover:bg-blue-600
@@ -366,6 +405,40 @@ export default function AppointmentForm() {
           </button>
         </>
       )}
+
+      {/* NAVIGATION */}
+
+      <div className="flex justify-between pt-4">
+        <button
+          type="button"
+          onClick={prevStep}
+          disabled={step === 1}
+          className="
+          px-4 py-2 rounded-lg
+          border border-gray-300
+          hover:bg-gray-100
+          disabled:opacity-40
+          "
+        >
+          ← Previous
+        </button>
+
+        {step !== 5 && (
+          <button
+            type="button"
+            onClick={nextStep}
+            disabled={!canGoNext()}
+            className="
+            px-4 py-2 rounded-lg
+            bg-blue-500 hover:bg-blue-600
+            text-white
+            disabled:opacity-40
+            "
+          >
+            Next →
+          </button>
+        )}
+      </div>
     </form>
   );
 }
