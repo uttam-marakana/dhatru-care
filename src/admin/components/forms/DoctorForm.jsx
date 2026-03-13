@@ -244,7 +244,7 @@ export default function DoctorForm({ initialData }) {
         className={`${input} md:col-span-2`}
       />
 
-      <button disabled={loading} className={`${button} md:col-span-2`}>
+      <button disabled={loading} className="ui-button md:col-span-2">
         {loading ? "Saving..." : "Save Doctor"}
       </button>
     </form>
