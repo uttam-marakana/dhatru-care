@@ -120,7 +120,6 @@ export default function Header() {
       >
         <Container className="px-6 lg:px-10">
           <div className="flex items-center justify-between h-20 lg:h-24">
-
             {/* LOGO */}
             <Link to="/" className="flex items-center">
               <img
@@ -221,17 +220,49 @@ export default function Header() {
                   </button>
 
                   {isUserMenuOpen && (
-                    <div className="absolute right-0 mt-3 w-56 bg-[var(--card)] border rounded-xl shadow-lg">
+                    <div
+                      className="
+    absolute right-0 mt-3 w-64
+    bg-[var(--card)]
+    border border-[var(--border)]
+    rounded-xl
+    shadow-xl
+    overflow-hidden
+    "
+                    >
                       <Link
                         to="/profile"
-                        className="block px-4 py-3 hover:bg-[var(--surface)]"
+                        className="block px-5 py-3 hover:bg-[var(--surface)] transition"
                       >
                         Profile
                       </Link>
 
+                      <Link
+                        to="/profile/appointments"
+                        className="block px-5 py-3 hover:bg-[var(--surface)] transition"
+                      >
+                        My Appointments
+                      </Link>
+
+                      <Link
+                        to="/settings"
+                        className="block px-5 py-3 hover:bg-[var(--surface)] transition"
+                      >
+                        Settings
+                      </Link>
+
+                      <div className="border-t border-[var(--border)]" />
+
                       <button
                         onClick={logout}
-                        className="w-full text-left px-4 py-3 flex items-center gap-2 text-red-500"
+                        className="
+                        w-full
+                        flex items-center gap-2
+                        px-5 py-3
+                        text-red-500
+                        hover:bg-[var(--surface)]
+                        transition
+                        "
                       >
                         <FaSignOutAlt />
                         Logout
