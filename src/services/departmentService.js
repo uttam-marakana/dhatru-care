@@ -14,6 +14,8 @@ import { db } from "../firebase";
 
 const ref = collection(db, "departments");
 
+/* FETCH ALL DEPARTMENTS */
+
 export const fetchDepartments = async (filters = {}) => {
   const constraints = [];
 
@@ -31,6 +33,25 @@ export const fetchDepartments = async (filters = {}) => {
   }));
 };
 
+/* FETCH DEPARTMENT BY SLUG */
+
+export const fetchDepartmentBySlug = async (slug) => {
+  const q = query(ref, where("slug", "==", slug));
+
+  const snap = await getDocs(q);
+
+  if (snap.empty) return null;
+
+  const d = snap.docs[0];
+
+  return {
+    id: d.id,
+    ...d.data(),
+  };
+};
+
+/* CREATE */
+
 export const insertDepartment = async (data) =>
   addDoc(ref, {
     ...data,
@@ -38,11 +59,15 @@ export const insertDepartment = async (data) =>
     updatedAt: serverTimestamp(),
   });
 
+/* UPDATE */
+
 export const modifyDepartment = async (id, data) =>
   updateDoc(doc(db, "departments", id), {
     ...data,
     updatedAt: serverTimestamp(),
   });
+
+/* DELETE */
 
 export const removeDepartment = async (id) =>
   deleteDoc(doc(db, "departments", id));
