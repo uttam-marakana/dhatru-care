@@ -53,25 +53,47 @@ export default function UserAppointments() {
     return () => unsub();
   }, [user]);
 
+  /* DATE HELPERS */
+
   const now = new Date();
+
+  const getAppointmentDate = (a) => new Date(`${a.date}T${a.time}`);
+
+  const todayString = new Date().toISOString().split("T")[0];
 
   /* FILTER GROUPS */
 
-  const upcoming = useMemo(
+  const today = useMemo(
     () =>
       appointments.filter(
         (a) =>
-          new Date(`${a.date} ${a.time}`) >= now && a.status !== "cancelled",
+          a.date === todayString &&
+          !["cancelled", "rejected"].includes(a.status),
       ),
+    [appointments],
+  );
+
+  const upcoming = useMemo(
+    () =>
+      appointments.filter((a) => {
+        const appointmentDate = getAppointmentDate(a);
+
+        return (
+          appointmentDate > now &&
+          a.date !== todayString &&
+          !["cancelled", "rejected", "completed"].includes(a.status)
+        );
+      }),
     [appointments],
   );
 
   const past = useMemo(
     () =>
-      appointments.filter(
-        (a) =>
-          new Date(`${a.date} ${a.time}`) < now && a.status !== "cancelled",
-      ),
+      appointments.filter((a) => {
+        const appointmentDate = getAppointmentDate(a);
+
+        return appointmentDate < now || a.status === "completed";
+      }),
     [appointments],
   );
 
@@ -80,11 +102,18 @@ export default function UserAppointments() {
     [appointments],
   );
 
+  const rejected = useMemo(
+    () => appointments.filter((a) => a.status === "rejected"),
+    [appointments],
+  );
+
   const visible = {
     all: appointments,
+    today,
     upcoming,
     past,
     cancelled,
+    rejected,
   }[tab];
 
   /* OPEN CANCEL MODAL */
@@ -131,17 +160,32 @@ export default function UserAppointments() {
         {/* TABS */}
 
         <div className="flex flex-wrap justify-center gap-4 mb-10">
-          {["all", "upcoming", "past", "cancelled"].map((t) => (
+          {[
+            { key: "all", label: "All", count: appointments.length },
+            { key: "today", label: "Today", count: today.length },
+            { key: "upcoming", label: "Upcoming", count: upcoming.length },
+            { key: "past", label: "Past", count: past.length },
+            { key: "cancelled", label: "Cancelled", count: cancelled.length },
+            { key: "rejected", label: "Rejected", count: rejected.length },
+          ].map((t) => (
             <button
-              key={t}
-              onClick={() => setTab(t)}
-              className={`px-4 py-2 rounded-lg capitalize transition ${
-                tab === t
+              key={t.key}
+              onClick={() => setTab(t.key)}
+              className={`px-4 py-2 rounded-lg flex items-center gap-2 transition ${
+                tab === t.key
                   ? "bg-blue-500 text-white"
                   : "bg-gray-800 text-gray-300 hover:bg-gray-700"
               }`}
             >
-              {t}
+              {t.label}
+
+              <span
+                className={`text-xs px-2 py-0.5 rounded-full ${
+                  tab === t.key ? "bg-white/20" : "bg-gray-700"
+                }`}
+              >
+                {t.count}
+              </span>
             </button>
           ))}
         </div>
@@ -158,25 +202,52 @@ export default function UserAppointments() {
                 className="p-6 rounded-2xl bg-gray-900 border border-white/10"
               >
                 <div className="space-y-2 text-gray-200">
+                  {/* PATIENT */}
+
                   <p>
                     <span className="text-gray-400">Patient:</span>{" "}
                     {a.patientName}
                   </p>
 
+                  {/* DOCTOR */}
+
+                  <div className="flex flex-col gap-3">
+                    <div className="w-10 h-10 rounded-full bg-blue-500/20 flex items-center justify-center">
+                      {a.doctorName?.charAt(0) || "D"}
+                    </div>
+
+                    <div>
+                      <p>
+                        <span className="text-gray-400">Doctor:</span>{" "}
+                        {a.doctorName || "Doctor not available"}
+                      </p>
+
+                      <p className="text-xs text-gray-400">
+                        {a.doctorSpecialty || ""}
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* DEPARTMENT */}
+
                   <p>
                     <span className="text-gray-400">Department:</span>{" "}
-                    {a.department}
+                    {a.departmentName || a.department}
                   </p>
+
+                  {/* DATE */}
 
                   <p>
                     <span className="text-gray-400">Date:</span> {a.date}
                   </p>
 
+                  {/* TIME */}
+
                   <p>
                     <span className="text-gray-400">Time:</span> {a.time}
                   </p>
 
-                  {/* STATUS BADGE */}
+                  {/* STATUS */}
 
                   <span
                     className={`px-3 py-1 text-sm rounded-full ${
