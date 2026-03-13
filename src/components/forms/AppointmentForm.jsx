@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 
 import {
@@ -105,19 +105,29 @@ export default function AppointmentForm() {
     loadDoctors();
   }, [form.department]);
 
-  /* SET SELECTED DOCTOR */
+  /* SELECTED DOCTOR */
 
   useEffect(() => {
     const selected = doctors.find((d) => d.id === form.doctorId);
     setDoctor(selected || null);
   }, [form.doctorId, doctors]);
 
+  /* GENERATE ALL POSSIBLE SLOTS */
+
+  const allSlots = useMemo(() => {
+    if (!doctor) return [];
+
+    const start = doctor?.startHour ?? 9;
+    const end = doctor?.endHour ?? 17;
+    const interval = doctor?.slotDuration ?? 30;
+
+    return generateSlots(start, end, interval);
+  }, [doctor]);
+
   /* LOAD AVAILABLE SLOTS */
 
   useEffect(() => {
     if (!form.doctorId || !form.date || !doctor) return;
-
-    /* validate doctor working day */
 
     const working = isDoctorWorkingDay(doctor, form.date);
 
@@ -126,24 +136,17 @@ export default function AppointmentForm() {
       return;
     }
 
-    const start = doctor?.startHour ?? 9;
-    const end = doctor?.endHour ?? 17;
-    const interval = doctor?.slotDuration ?? 30;
-
-    const allSlots = generateSlots(start, end, interval);
-
     const unsubscribe = subscribeDoctorSlots(
       form.doctorId,
       form.date,
       (bookedSlots) => {
         const available = filterAvailableSlots(allSlots, bookedSlots);
-
         setAvailableSlots(available);
       },
     );
 
     return () => unsubscribe();
-  }, [form.doctorId, form.date, doctor]);
+  }, [form.doctorId, form.date, doctor, allSlots]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
