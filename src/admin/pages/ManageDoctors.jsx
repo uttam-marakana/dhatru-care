@@ -6,6 +6,7 @@ import DoctorsTable from "../components/tables/DoctorsTable";
 import DoctorFormModal from "../components/modals/DoctorFormModal";
 
 import AdminHeader from "../components/layout/AdminHeader";
+import { Link } from "react-router-dom";
 
 export default function ManageDoctors() {
   const [doctors, setDoctors] = useState([]);
@@ -31,15 +32,17 @@ export default function ManageDoctors() {
       <AdminHeader
         title="Doctors"
         action={
-          <button
-            onClick={() => {
-              setSelectedDoctor(null);
-              setModal(true);
-            }}
-            className="px-4 py-2 bg-[var(--color-primary)] text-white rounded-lg"
-          >
-            Add Doctor
-          </button>
+          <Link to="/admin/upload">
+            <button
+              onClick={() => {
+                setSelectedDoctor(null);
+                setModal(true);
+              }}
+              className="px-4 py-3 bg-[var(--color-primary)] text-white rounded-lg"
+            >
+              Add Doctor
+            </button>
+          </Link>
         }
       />
 
