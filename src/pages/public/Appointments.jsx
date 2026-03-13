@@ -5,32 +5,57 @@ export default function Appointments() {
   return (
     <section
       className="
-      min-h-screen py-24
-      bg-gradient-to-b
-      from-gray-50 via-gray-100 to-gray-50
-      dark:from-gray-950 dark:via-gray-900 dark:to-gray-950
+      min-h-screen
+      py-20 md:py-24
+      bg-[var(--section)]
       "
     >
-      <Container>
-        <div className="max-w-2xl mx-auto text-center mb-10">
-          <h1 className="text-4xl font-bold text-gray-900 dark:text-white">
-            Book an Appointment
-          </h1>
-
-          <p className="mt-3 text-gray-600 dark:text-gray-400">
-            Fill out the form below to schedule your visit.
-          </p>
-        </div>
+      <Container className="container-system">
+        {/* PAGE HEADER */}
 
         <div
           className="
-          max-w-2xl mx-auto
-          bg-white dark:bg-white/5
-          backdrop-blur-md
-          border border-gray-200 dark:border-white/10
+          max-w-3xl
+          mx-auto
+          text-center
+          mb-10 md:mb-14
+          animate-fade-in-up
+          "
+        >
+          <h1
+            className="
+            text-3xl md:text-4xl lg:text-5xl
+            font-bold
+            gradient-heading
+            "
+          >
+            Book an Appointment
+          </h1>
+
+          <p
+            className="
+            mt-3
+            text-sm md:text-base
+            text-[var(--text-secondary)]
+            "
+          >
+            Select department, doctor, date and time to schedule your visit.
+          </p>
+        </div>
+
+        {/* APPOINTMENT CARD */}
+
+        <div
+          className="
+          max-w-4xl
+          mx-auto
+          bg-[var(--card)]
+          border border-[var(--border)]
           rounded-2xl
-          p-8
-          shadow-[0_0_40px_rgba(59,130,246,0.18)]
+          p-6 md:p-8 lg:p-10
+          shadow-lg
+          hover-lift
+          animate-fade-in-up
           "
         >
           <AppointmentForm />
