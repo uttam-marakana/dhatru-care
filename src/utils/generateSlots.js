@@ -24,3 +24,11 @@ export const isDoctorWorkingDay = (doctor, date) => {
 
   return doctor.workingDays.includes(day);
 };
+
+export const isLeaveDate = (doctor, date) => {
+  if (!doctor?.leaveDates) return false;
+
+  const dateString = new Date(date).toISOString().split("T")[0];
+
+  return doctor.leaveDates.includes(dateString);
+};
