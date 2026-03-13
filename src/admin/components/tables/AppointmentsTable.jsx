@@ -30,15 +30,13 @@ export default function AppointmentsTable({ appointments, onStatusChange }) {
                 <select
                   value={a.status}
                   onChange={(e) => onStatusChange(a.id, e.target.value)}
-                  className="
-                  p-2 rounded
-                  border border-[var(--border)]
-                  bg-[var(--card)]
-                  "
+                  className="p-2 rounded border border-[var(--border)] bg-[var(--card)]"
                 >
                   <option value="pending">Pending</option>
-                  <option value="approved">Approved</option>
+                  <option value="confirmed">Confirm</option>
+                  <option value="completed">Completed</option>
                   <option value="rejected">Rejected</option>
+                  <option value="cancelled">Cancelled</option>
                 </select>
               </td>
             </tr>

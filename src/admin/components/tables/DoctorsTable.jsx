@@ -35,7 +35,7 @@ export default function DoctorsTable({ doctors, onEdit, onDelete }) {
                 </button>
 
                 <button
-                  onClick={() => onDelete(doctor.id)}
+                  onClick={() => onDelete(doctor)}
                   className="text-[var(--color-error)]"
                 >
                   Delete
