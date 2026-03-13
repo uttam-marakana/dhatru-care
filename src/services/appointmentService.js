@@ -13,8 +13,11 @@ import {
 import { db } from "../firebase";
 
 const appointmentsRef = collection(db, "appointments");
+const slotsRef = collection(db, "appointmentSlots");
 
-/* CREATE APPOINTMENT */
+/* =========================================================
+   CREATE APPOINTMENT (WITH SLOT LOCKING)
+========================================================= */
 
 export const createAppointmentTransaction = async (data) => {
   const slotId = `${data.doctorId}_${data.date}_${data.time}`;
@@ -29,6 +32,8 @@ export const createAppointmentTransaction = async (data) => {
       throw new Error("This slot is already booked");
     }
 
+    /* lock slot */
+
     transaction.set(
       slotRef,
       {
@@ -40,6 +45,8 @@ export const createAppointmentTransaction = async (data) => {
       },
       { merge: true },
     );
+
+    /* create appointment */
 
     transaction.set(appointmentRef, {
       ...data,
@@ -53,26 +60,36 @@ export const createAppointmentTransaction = async (data) => {
   return appointmentRef.id;
 };
 
-/* UPDATE STATUS */
+/* =========================================================
+   ADMIN STATUS UPDATE
+========================================================= */
 
 export const updateAppointmentStatusService = async (appointmentId, status) => {
-  await updateDoc(doc(db, "appointments", appointmentId), {
+  const appointmentRef = doc(db, "appointments", appointmentId);
+
+  await updateDoc(appointmentRef, {
     status,
     updatedAt: serverTimestamp(),
   });
 };
 
-/* CANCEL APPOINTMENT */
+/* =========================================================
+   CANCEL APPOINTMENT
+========================================================= */
 
 export const cancelAppointmentService = async (appointmentId, slotId) => {
   const slotRef = doc(db, "appointmentSlots", slotId);
   const appointmentRef = doc(db, "appointments", appointmentId);
 
   await runTransaction(db, async (transaction) => {
-    transaction.update(slotRef, {
-      booked: false,
-      updatedAt: serverTimestamp(),
-    });
+    const slotDoc = await transaction.get(slotRef);
+
+    if (slotDoc.exists()) {
+      transaction.update(slotRef, {
+        booked: false,
+        updatedAt: serverTimestamp(),
+      });
+    }
 
     transaction.update(appointmentRef, {
       status: "cancelled",
@@ -81,7 +98,9 @@ export const cancelAppointmentService = async (appointmentId, slotId) => {
   });
 };
 
-/* RESCHEDULE APPOINTMENT */
+/* =========================================================
+   RESCHEDULE APPOINTMENT
+========================================================= */
 
 export const rescheduleAppointmentService = async (
   appointment,
@@ -99,17 +118,21 @@ export const rescheduleAppointmentService = async (
     const newSlotDoc = await transaction.get(newSlotRef);
 
     if (newSlotDoc.exists() && newSlotDoc.data().booked) {
-      throw new Error("New slot already booked");
+      throw new Error("Selected slot is already booked");
     }
 
     /* free old slot */
 
-    transaction.update(oldSlotRef, {
-      booked: false,
-      updatedAt: serverTimestamp(),
-    });
+    const oldSlotDoc = await transaction.get(oldSlotRef);
 
-    /* book new slot */
+    if (oldSlotDoc.exists()) {
+      transaction.update(oldSlotRef, {
+        booked: false,
+        updatedAt: serverTimestamp(),
+      });
+    }
+
+    /* lock new slot */
 
     transaction.set(
       newSlotRef,
@@ -135,22 +158,26 @@ export const rescheduleAppointmentService = async (
   });
 };
 
-/* ADMIN APPOINTMENTS SUBSCRIBE */
+/* =========================================================
+   ADMIN APPOINTMENTS REALTIME
+========================================================= */
 
 export const subscribeAppointmentsService = (callback) => {
   const q = query(appointmentsRef, orderBy("createdAt", "desc"));
 
   return onSnapshot(q, (snap) => {
-    callback(
-      snap.docs.map((d) => ({
-        id: d.id,
-        ...d.data(),
-      })),
-    );
+    const data = snap.docs.map((d) => ({
+      id: d.id,
+      ...d.data(),
+    }));
+
+    callback(data);
   });
 };
 
-/* USER APPOINTMENTS */
+/* =========================================================
+   USER APPOINTMENTS REALTIME
+========================================================= */
 
 export const subscribeUserAppointmentsService = (userId, callback) => {
   const q = query(
@@ -160,27 +187,29 @@ export const subscribeUserAppointmentsService = (userId, callback) => {
   );
 
   return onSnapshot(q, (snap) => {
-    callback(
-      snap.docs.map((d) => ({
-        id: d.id,
-        ...d.data(),
-      })),
-    );
+    const data = snap.docs.map((d) => ({
+      id: d.id,
+      ...d.data(),
+    }));
+
+    callback(data);
   });
 };
 
-/* DOCTOR SLOT SUBSCRIBE */
+/* =========================================================
+   DOCTOR SLOT LISTENER
+========================================================= */
 
 export const subscribeDoctorSlotsService = (doctorId, date, callback) => {
   const q = query(
-    collection(db, "appointmentSlots"),
+    slotsRef,
     where("doctorId", "==", doctorId),
     where("date", "==", date),
     where("booked", "==", true),
   );
 
   return onSnapshot(q, (snap) => {
-    const booked = snap.docs.map((d) => d.data().time);
-    callback(booked);
+    const bookedSlots = snap.docs.map((d) => d.data().time);
+    callback(bookedSlots);
   });
 };
