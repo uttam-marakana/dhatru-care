@@ -1,19 +1,28 @@
-import { useEffect, useState, lazy } from "react";
+import { useEffect, useState } from "react";
 import {
   subscribeUserAppointments,
   cancelAppointment,
   rescheduleAppointment,
 } from "../../api/appointmentsApi";
-import { useAuth } from "../../context/AuthContext";
 
+import { useAuth } from "../../context/AuthContext";
 import Container from "../../components/layout/Container";
+
+/* STATUS STYLES */
 
 const statusStyles = {
   pending: "bg-yellow-500/20 text-yellow-400",
   confirmed: "bg-green-500/20 text-green-400",
   completed: "bg-blue-500/20 text-blue-400",
   cancelled: "bg-red-500/20 text-red-400",
+  rejected: "bg-red-500/20 text-red-400",
   rescheduled: "bg-purple-500/20 text-purple-400",
+};
+
+/* APPOINTMENT EDIT RULE */
+
+const isAppointmentEditable = (status) => {
+  return ["pending", "confirmed", "rescheduled"].includes(status);
 };
 
 export default function UserAppointments() {
@@ -21,6 +30,8 @@ export default function UserAppointments() {
 
   const [appointments, setAppointments] = useState([]);
   const [loading, setLoading] = useState(true);
+
+  /* SUBSCRIBE USER APPOINTMENTS */
 
   useEffect(() => {
     if (!user) {
@@ -37,6 +48,8 @@ export default function UserAppointments() {
     return () => unsub();
   }, [user]);
 
+  /* RESCHEDULE HANDLER */
+
   const handleReschedule = async (appointment) => {
     const newDate = prompt("Enter new date (YYYY-MM-DD)");
     const newTime = prompt("Enter new time (HH:MM)");
@@ -49,6 +62,8 @@ export default function UserAppointments() {
       alert(err.message);
     }
   };
+
+  /* LOADING UI */
 
   if (loading) {
     return (
@@ -83,18 +98,18 @@ export default function UserAppointments() {
                 hover:shadow-[0_0_40px_rgba(59,130,246,0.25)]
                 "
               >
-                {/* subtle glow overlay */}
+                {/* glow overlay */}
                 <div
                   className="
-                absolute inset-0 rounded-2xl
-                bg-gradient-to-br
-                from-blue-500/10
-                via-transparent
-                to-transparent
-                opacity-0 hover:opacity-100
-                transition
-                pointer-events-none
-                "
+                  absolute inset-0 rounded-2xl
+                  bg-gradient-to-br
+                  from-blue-500/10
+                  via-transparent
+                  to-transparent
+                  opacity-0 hover:opacity-100
+                  transition
+                  pointer-events-none
+                  "
                 />
 
                 <div className="relative space-y-2 text-gray-200">
@@ -116,18 +131,22 @@ export default function UserAppointments() {
                     <span className="text-gray-400">Time:</span> {a.time}
                   </p>
 
-                  {/* status */}
+                  {/* STATUS BADGE */}
+
                   <div className="pt-3">
                     <span
-                      className={`px-3 py-1 text-sm rounded-full ${statusStyles[a.status]}`}
+                      className={`px-3 py-1 text-sm rounded-full ${
+                        statusStyles[a.status] || "bg-gray-500/20 text-gray-400"
+                      }`}
                     >
                       {a.status}
                     </span>
                   </div>
 
-                  {/* actions */}
-                  <div className="flex gap-3 pt-5">
-                    {a.status !== "cancelled" && (
+                  {/* ACTION BUTTONS */}
+
+                  {isAppointmentEditable(a.status) && (
+                    <div className="flex gap-3 pt-5">
                       <button
                         onClick={() => cancelAppointment(a.id, a.slotId)}
                         className="
@@ -142,9 +161,7 @@ export default function UserAppointments() {
                       >
                         Cancel
                       </button>
-                    )}
 
-                    {a.status !== "cancelled" && (
                       <button
                         onClick={() => handleReschedule(a)}
                         className="
@@ -159,8 +176,8 @@ export default function UserAppointments() {
                       >
                         Reschedule
                       </button>
-                    )}
-                  </div>
+                    </div>
+                  )}
                 </div>
               </div>
             ))}
