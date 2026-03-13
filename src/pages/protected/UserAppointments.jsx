@@ -129,7 +129,7 @@ export default function UserAppointments() {
                   <div className="flex gap-3 pt-5">
                     {a.status !== "cancelled" && (
                       <button
-                        onClick={() => cancelAppointment(a)}
+                        onClick={() => cancelAppointment(a.id, a.slotId)}
                         className="
                         text-sm
                         px-4 py-1.5
