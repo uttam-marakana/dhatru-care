@@ -4,6 +4,7 @@ export const routePrefetchMap = {
   "/departments": () => import("../pages/public/Departments"),
   "/doctors": () => import("../pages/public/Doctors"),
   "/packages": () => import("../pages/public/Packages"),
+  "/packages/compare": () => import("../pages/public/PackagesCompare"),
   "/blog": () => import("../pages/public/Blog"),
   "/contact": () => import("../pages/public/Contact"),
   "/login": () => import("../auth/Login"),
