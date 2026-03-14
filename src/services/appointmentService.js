@@ -15,9 +15,7 @@ import { db } from "../firebase";
 const appointmentsRef = collection(db, "appointments");
 const slotsRef = collection(db, "appointmentSlots");
 
-/* =========================================================
-   CREATE APPOINTMENT (WITH SLOT LOCK + SNAPSHOT DATA)
-========================================================= */
+/* CREATE APPOINTMENT */
 
 export const createAppointmentTransaction = async (data) => {
   const slotId = `${data.doctorId}_${data.date}_${data.time}`;
@@ -50,6 +48,7 @@ export const createAppointmentTransaction = async (data) => {
 
     transaction.set(appointmentRef, {
       userId: data.userId,
+
       patientName: data.patientName,
       phone: data.phone,
       email: data.email,
@@ -59,7 +58,7 @@ export const createAppointmentTransaction = async (data) => {
       doctorName: data.doctorName,
       doctorSpecialty: data.doctorSpecialty,
 
-      department: data.department,
+      departmentId: data.departmentId,
       departmentName: data.departmentName,
 
       date: data.date,
@@ -76,22 +75,18 @@ export const createAppointmentTransaction = async (data) => {
   return appointmentRef.id;
 };
 
-/* =========================================================
-   ADMIN STATUS UPDATE
-========================================================= */
+/* UPDATE STATUS */
 
 export const updateAppointmentStatusService = async (appointmentId, status) => {
-  const appointmentRef = doc(db, "appointments", appointmentId);
+  const ref = doc(db, "appointments", appointmentId);
 
-  await updateDoc(appointmentRef, {
+  await updateDoc(ref, {
     status,
     updatedAt: serverTimestamp(),
   });
 };
 
-/* =========================================================
-   CANCEL APPOINTMENT
-========================================================= */
+/* CANCEL */
 
 export const cancelAppointmentService = async (appointmentId, slotId) => {
   const slotRef = doc(db, "appointmentSlots", slotId);
@@ -114,9 +109,7 @@ export const cancelAppointmentService = async (appointmentId, slotId) => {
   });
 };
 
-/* =========================================================
-   RESCHEDULE APPOINTMENT
-========================================================= */
+/* RESCHEDULE */
 
 export const rescheduleAppointmentService = async (
   appointment,
@@ -137,8 +130,6 @@ export const rescheduleAppointmentService = async (
       throw new Error("Selected slot is already booked");
     }
 
-    /* FREE OLD SLOT */
-
     const oldSlotDoc = await transaction.get(oldSlotRef);
 
     if (oldSlotDoc.exists()) {
@@ -147,8 +138,6 @@ export const rescheduleAppointmentService = async (
         updatedAt: serverTimestamp(),
       });
     }
-
-    /* LOCK NEW SLOT */
 
     transaction.set(
       newSlotRef,
@@ -162,8 +151,6 @@ export const rescheduleAppointmentService = async (
       { merge: true },
     );
 
-    /* UPDATE APPOINTMENT */
-
     transaction.update(appointmentRef, {
       date: newDate,
       time: newTime,
@@ -174,9 +161,7 @@ export const rescheduleAppointmentService = async (
   });
 };
 
-/* =========================================================
-   ADMIN APPOINTMENTS REALTIME
-========================================================= */
+/* ADMIN REALTIME */
 
 export const subscribeAppointmentsService = (callback) => {
   const q = query(appointmentsRef, orderBy("createdAt", "desc"));
@@ -191,9 +176,7 @@ export const subscribeAppointmentsService = (callback) => {
   });
 };
 
-/* =========================================================
-   USER APPOINTMENTS REALTIME
-========================================================= */
+/* USER REALTIME */
 
 export const subscribeUserAppointmentsService = (userId, callback) => {
   const q = query(
@@ -212,9 +195,7 @@ export const subscribeUserAppointmentsService = (userId, callback) => {
   });
 };
 
-/* =========================================================
-   DOCTOR SLOT LISTENER
-========================================================= */
+/* DOCTOR SLOT LISTENER */
 
 export const subscribeDoctorSlotsService = (doctorId, date, callback) => {
   const q = query(
