@@ -71,7 +71,7 @@ export default function ManageDoctors() {
       {/* PAGINATION */}
 
       {doctors.length > PAGE_SIZE && (
-        <div className="flex justify-center gap-4 mt-6">
+        <div className="flex items-center justify-end gap-4 mt-6">
           <button
             disabled={page === 1}
             onClick={() => setPage((p) => p - 1)}
