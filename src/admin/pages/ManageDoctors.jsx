@@ -16,14 +16,22 @@ export default function ManageDoctors() {
 
   const [page, setPage] = useState(1);
 
+  /* FILTERS */
+
+  const [filters, setFilters] = useState({
+    specialty: "",
+    department: "",
+  });
+
   const load = async () => {
-    const data = await getDoctors();
+    const data = await getDoctors(filters);
     setDoctors(data);
+    setPage(1);
   };
 
   useEffect(() => {
     load();
-  }, []);
+  }, [filters]);
 
   const handleDelete = async (doctor) => {
     if (!confirm("Delete doctor?")) return;
@@ -59,6 +67,44 @@ export default function ManageDoctors() {
         }
       />
 
+      {/* FILTER BAR */}
+
+      <div className="glass p-4 flex flex-wrap gap-4 items-center">
+        <input
+          type="text"
+          placeholder="Filter by specialty"
+          value={filters.specialty}
+          onChange={(e) =>
+            setFilters((f) => ({ ...f, specialty: e.target.value }))
+          }
+          className="ui-input max-w-xs"
+        />
+
+        <input
+          type="text"
+          placeholder="Filter by department ID"
+          value={filters.department}
+          onChange={(e) =>
+            setFilters((f) => ({ ...f, department: e.target.value }))
+          }
+          className="ui-input max-w-xs"
+        />
+
+        <button
+          onClick={() =>
+            setFilters({
+              specialty: "",
+              department: "",
+            })
+          }
+          className="px-4 py-2 border border-[var(--border)] rounded-lg"
+        >
+          Reset
+        </button>
+      </div>
+
+      {/* TABLE */}
+
       <DoctorsTable
         doctors={paginatedDoctors}
         onEdit={(doc) => {
@@ -93,6 +139,8 @@ export default function ManageDoctors() {
           </button>
         </div>
       )}
+
+      {/* MODAL */}
 
       {modal && (
         <DoctorFormModal
