@@ -19,6 +19,11 @@ import SlotGrid from "../common/SlotGrid";
 import DoctorAvailabilityCalendar from "../common/DoctorAvailabilityCalendar";
 
 import { auth } from "../../firebase";
+import { db } from "../../firebase";
+
+import { doc, runTransaction, serverTimestamp } from "firebase/firestore";
+
+import { notifyPromise, notifyError } from "../../utils/toast";
 
 export default function AppointmentForm() {
   const navigate = useNavigate();
@@ -50,16 +55,28 @@ export default function AppointmentForm() {
 
   const [loading, setLoading] = useState(false);
 
-  const inputStyle = `
-  w-full p-3 rounded-lg
-  border border-gray-200 dark:border-white/10
-  bg-white dark:bg-gray-900
-  text-gray-900 dark:text-white
-  focus:ring-2 focus:ring-blue-500
-  outline-none
-  `;
+  /* SLOT LOCKING */
 
-  /* ---------------- LOAD DEPARTMENTS ---------------- */
+  const lockSlot = async (doctorId, date, time) => {
+    const slotRef = doc(db, "slotLocks", `${doctorId}_${date}_${time}`);
+
+    await runTransaction(db, async (transaction) => {
+      const snap = await transaction.get(slotRef);
+
+      if (snap.exists()) {
+        throw new Error("This slot was just booked. Please choose another.");
+      }
+
+      transaction.set(slotRef, {
+        doctorId,
+        date,
+        time,
+        createdAt: serverTimestamp(),
+      });
+    });
+  };
+
+  /* LOAD DEPARTMENTS */
 
   useEffect(() => {
     const loadDepartments = async () => {
@@ -67,11 +84,7 @@ export default function AppointmentForm() {
       setDepartments(data);
 
       if (departmentParam) {
-        setForm((prev) => ({
-          ...prev,
-          department: departmentParam,
-        }));
-
+        setForm((p) => ({ ...p, department: departmentParam }));
         setStep(2);
       }
     };
@@ -79,13 +92,10 @@ export default function AppointmentForm() {
     loadDepartments();
   }, []);
 
-  /* ---------------- LOAD DOCTORS ---------------- */
+  /* LOAD DOCTORS */
 
   useEffect(() => {
-    if (!form.department) {
-      setDoctors([]);
-      return;
-    }
+    if (!form.department) return;
 
     const loadDoctors = async () => {
       const data = await getDoctorsByDepartment(form.department);
@@ -95,8 +105,8 @@ export default function AppointmentForm() {
         const found = data.find((d) => d.id === doctorParam);
 
         if (found) {
-          setForm((prev) => ({
-            ...prev,
+          setForm((p) => ({
+            ...p,
             department: found.departmentId,
             doctorId: found.id,
           }));
@@ -109,26 +119,20 @@ export default function AppointmentForm() {
     loadDoctors();
   }, [form.department]);
 
-  /* ---------------- SELECTED DOCTOR ---------------- */
-
   useEffect(() => {
     const selected = doctors.find((d) => d.id === form.doctorId);
     setDoctor(selected || null);
   }, [form.doctorId, doctors]);
 
-  /* ---------------- GENERATE SLOT LIST ---------------- */
-
   const allSlots = useMemo(() => {
     if (!doctor) return [];
 
-    const start = doctor?.startHour ?? 9;
-    const end = doctor?.endHour ?? 17;
-    const interval = doctor?.slotDuration ?? 30;
-
-    return generateSlots(start, end, interval);
+    return generateSlots(
+      doctor.startHour ?? 9,
+      doctor.endHour ?? 17,
+      doctor.slotDuration ?? 30,
+    );
   }, [doctor]);
-
-  /* ---------------- LOAD AVAILABLE SLOTS ---------------- */
 
   useEffect(() => {
     if (!form.doctorId || !form.date || !doctor) return;
@@ -140,7 +144,7 @@ export default function AppointmentForm() {
       return;
     }
 
-    const unsubscribe = subscribeDoctorSlots(
+    const unsub = subscribeDoctorSlots(
       form.doctorId,
       form.date,
       (bookedSlots) => {
@@ -149,92 +153,10 @@ export default function AppointmentForm() {
       },
     );
 
-    return () => unsubscribe();
+    return () => unsub();
   }, [form.doctorId, form.date, doctor, allSlots]);
 
-  /* ---------------- STEP VALIDATION ---------------- */
-
-  const canGoNext = () => {
-    switch (step) {
-      case 1:
-        return form.department !== "";
-      case 2:
-        return form.doctorId !== "";
-      case 3:
-        return form.date !== "";
-      case 4:
-        return form.time !== "";
-      case 5:
-        return form.patientName && form.phone && form.email;
-      default:
-        return true;
-    }
-  };
-
-  /* ---------------- NAVIGATION ---------------- */
-
-  const nextStep = () => {
-    if (step < 5 && canGoNext()) setStep((s) => s + 1);
-  };
-
-  const prevStep = () => {
-    if (fromDoctorPage && step <= 3) return;
-    if (fromDepartmentPage && step <= 2) return;
-
-    if (step > 1) setStep((s) => s - 1);
-  };
-
-  /* ---------------- INPUT HANDLER ---------------- */
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-
-    setForm((prev) => ({
-      ...prev,
-      [name]: value,
-
-      ...(name === "department" && {
-        doctorId: "",
-        date: "",
-        time: "",
-      }),
-
-      ...(name === "doctorId" && {
-        date: "",
-        time: "",
-      }),
-    }));
-  };
-
-  const selectDoctor = (doc) => {
-    setForm((prev) => ({
-      ...prev,
-      doctorId: doc.id,
-    }));
-
-    setStep(3);
-  };
-
-  const selectDate = (date) => {
-    setForm((prev) => ({
-      ...prev,
-      date,
-      time: "",
-    }));
-
-    setStep(4);
-  };
-
-  const selectSlot = (slot) => {
-    setForm((prev) => ({
-      ...prev,
-      time: slot,
-    }));
-
-    setStep(5);
-  };
-
-  /* ---------------- SUBMIT ---------------- */
+  /* SUBMIT */
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -242,40 +164,55 @@ export default function AppointmentForm() {
     const user = auth.currentUser;
 
     if (!user) {
+      notifyError("Please login to book an appointment");
       navigate("/login");
+      return;
+    }
+
+    if (!form.date || !form.time) {
+      notifyError("Please select a date and time slot");
       return;
     }
 
     try {
       setLoading(true);
 
-      await createAppointment({
+      /* LOCK SLOT */
+
+      try {
+        await lockSlot(form.doctorId, form.date, form.time);
+      } catch (err) {
+        notifyError(err.message || "This slot was just booked.");
+        setLoading(false);
+        return;
+      }
+
+      const payload = {
         ...form,
         userId: user.uid,
-
         doctorName: doctor.name,
         doctorSpecialty: doctor.specialty,
-
         departmentId: form.department,
         departmentName:
           departments.find((d) => d.id === form.department)?.name || "",
+      };
+
+      /* CREATE APPOINTMENT */
+
+      await notifyPromise(createAppointment(payload), {
+        loading: "Booking appointment...",
+        success: "Appointment booked successfully!",
+        error: "Failed to book appointment",
       });
 
-      const name = form.patientName.split(" ")[0];
-
-      alert(`Thank you ${name}! Your appointment has been booked.`);
-
-      setTimeout(() => {
-        navigate("/profile/appointments");
-      }, 1500);
+      navigate("/profile/appointments");
     } catch (err) {
-      alert(err.message);
+      console.error(err);
+      notifyError(err.message || "Something went wrong");
+    } finally {
+      setLoading(false);
     }
-
-    setLoading(false);
   };
-
-  /* ---------------- UI ---------------- */
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
