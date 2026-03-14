@@ -5,6 +5,8 @@ import AdminTable from "../components/common/AdminTable";
 import DoctorFormModal from "../components/modals/DoctorFormModal";
 import AdminHeader from "../components/layout/AdminHeader";
 
+import { notifySuccess, notifyError } from "../../utils/toast";
+
 export default function ManageDoctors() {
   const [doctors, setDoctors] = useState([]);
   const [modal, setModal] = useState(false);
@@ -21,8 +23,14 @@ export default function ManageDoctors() {
 
   const handleDelete = async (doc) => {
     if (!confirm("Delete doctor?")) return;
-    await deleteDoctor(doc.id);
-    load();
+
+    try {
+      await deleteDoctor(doc.id);
+      notifySuccess("Doctor deleted");
+      load();
+    } catch {
+      notifyError("Failed to delete doctor");
+    }
   };
 
   return (

@@ -4,14 +4,18 @@ import { getAllDepartments, deleteDepartment } from "../../api/departmentsApi";
 
 import AdminHeader from "../components/layout/AdminHeader";
 import ConfirmDeleteModal from "../components/modals/ConfirmDeleteModal";
-import DepartmentForm from "../components/forms/DepartmentForm";
+import DepartmentFormModal from "../components/modals/DepartmentFormModal";
 
 import AdminTable from "../components/common/AdminTable";
+
+import { notifySuccess, notifyError } from "../../utils/toast";
 
 export default function ManageDepartments() {
   const [departments, setDepartments] = useState([]);
   const [deleteItem, setDeleteItem] = useState(null);
+
   const [modal, setModal] = useState(false);
+  const [selectedDepartment, setSelectedDepartment] = useState(null);
 
   const load = async () => {
     const data = await getAllDepartments();
@@ -23,9 +27,14 @@ export default function ManageDepartments() {
   }, []);
 
   const confirmDelete = async () => {
-    await deleteDepartment(deleteItem.id);
-    setDeleteItem(null);
-    load();
+    try {
+      await deleteDepartment(deleteItem.id);
+      notifySuccess("Department deleted");
+      setDeleteItem(null);
+      load();
+    } catch {
+      notifyError("Failed to delete department");
+    }
   };
 
   return (
@@ -35,7 +44,10 @@ export default function ManageDepartments() {
         description="Manage hospital departments"
         action={
           <button
-            onClick={() => setModal(true)}
+            onClick={() => {
+              setSelectedDepartment(null);
+              setModal(true);
+            }}
             className="px-4 py-3 bg-[var(--color-primary)] text-white rounded-lg"
           >
             Add Department
@@ -56,7 +68,10 @@ export default function ManageDepartments() {
 
             <td className="p-4 flex gap-3">
               <button
-                onClick={() => setModal(true)}
+                onClick={() => {
+                  setSelectedDepartment(d);
+                  setModal(true);
+                }}
                 className="text-[var(--color-primary)]"
               >
                 Edit
@@ -73,11 +88,18 @@ export default function ManageDepartments() {
         )}
       />
 
+      {/* FORM MODAL */}
+
       {modal && (
-        <div className="glass p-6">
-          <DepartmentForm />
-        </div>
+        <DepartmentFormModal
+          open={modal}
+          department={selectedDepartment}
+          onClose={() => setModal(false)}
+          onSaved={load}
+        />
       )}
+
+      {/* DELETE MODAL */}
 
       <ConfirmDeleteModal
         open={!!deleteItem}

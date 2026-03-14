@@ -1,21 +1,16 @@
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useState } from "react";
+import { notifySuccess, notifyError } from "../../utils/toast";
 
 import { getBlogPosts, deleteBlogPost } from "../../api/blogsApi";
 
-import BlogsTable from "../components/tables/BlogsTable";
-import BlogForm from "../components/forms/BlogForm";
-
+import AdminTable from "../components/common/AdminTable";
+import BlogFormModal from "../components/modals/BlogFormModal";
 import AdminHeader from "../components/layout/AdminHeader";
-import ConfirmDeleteModal from "../components/modals/ConfirmDeleteModal";
-
-const PAGE_SIZE = 10;
 
 export default function ManageBlogs() {
   const [blogs, setBlogs] = useState([]);
-  const [editingBlog, setEditingBlog] = useState(null);
-  const [deleteBlog, setDeleteBlog] = useState(null);
-
-  const [page, setPage] = useState(1);
+  const [modal, setModal] = useState(false);
+  const [selectedBlog, setSelectedBlog] = useState(null);
 
   const load = async () => {
     const data = await getBlogPosts();
@@ -26,77 +21,78 @@ export default function ManageBlogs() {
     load();
   }, []);
 
-  const confirmDelete = async () => {
-    await deleteBlogPost(deleteBlog.id);
-    setDeleteBlog(null);
-    load();
+  const handleDelete = async (blog) => {
+    if (!confirm("Delete blog?")) return;
+
+    try {
+      await deleteBlogPost(blog.id);
+      notifySuccess("Blog deleted");
+      load();
+    } catch {
+      notifyError("Failed to delete blog");
+    }
   };
-
-  /* PAGINATION */
-
-  const totalPages = Math.ceil(blogs.length / PAGE_SIZE);
-
-  const paginatedBlogs = useMemo(() => {
-    const start = (page - 1) * PAGE_SIZE;
-    return blogs.slice(start, start + PAGE_SIZE);
-  }, [blogs, page]);
 
   return (
     <div className="space-y-6">
       <AdminHeader
-        title="Manage Blogs"
-        description="Create and manage blog posts"
+        title="Blogs"
+        action={
+          <button
+            onClick={() => {
+              setSelectedBlog(null);
+              setModal(true);
+            }}
+            className="px-4 py-3 bg-[var(--color-primary)] text-white rounded-lg"
+          >
+            Add Blog
+          </button>
+        }
       />
 
-      {/* FORM */}
+      <AdminTable
+        data={blogs}
+        columns={["Title", "Category", "Author", "Date", "Actions"]}
+        renderRow={(blog) => (
+          <tr
+            key={blog.id}
+            className="border-b border-[var(--border)] hover:bg-[var(--card)]"
+          >
+            <td className="p-4 font-medium">{blog.title}</td>
+            <td className="p-4">{blog.category}</td>
+            <td className="p-4">{blog.author}</td>
+            <td className="p-4">{blog.date}</td>
 
-      <div className="glass p-6">
-        <BlogForm initialData={editingBlog} />
-      </div>
+            <td className="p-4 flex gap-3">
+              <button
+                onClick={() => {
+                  setSelectedBlog(blog);
+                  setModal(true);
+                }}
+                className="text-[var(--color-primary)]"
+              >
+                Edit
+              </button>
 
-      {/* TABLE */}
-
-      <BlogsTable
-        blogs={paginatedBlogs}
-        onEdit={(b) => setEditingBlog(b)}
-        onDelete={(b) => setDeleteBlog(b)}
+              <button
+                onClick={() => handleDelete(blog)}
+                className="text-[var(--color-error)]"
+              >
+                Delete
+              </button>
+            </td>
+          </tr>
+        )}
       />
 
-      {/* PAGINATION */}
-
-      {blogs.length > PAGE_SIZE && (
-        <div className="flex justify-end gap-4">
-          <button
-            disabled={page === 1}
-            onClick={() => setPage((p) => p - 1)}
-            className="px-4 py-2 border border-[var(--border)] rounded-lg"
-          >
-            Previous
-          </button>
-
-          <span className="text-[var(--muted)]">
-            Page {page} of {totalPages}
-          </span>
-
-          <button
-            disabled={page === totalPages}
-            onClick={() => setPage((p) => p + 1)}
-            className="px-4 py-2 border border-[var(--border)] rounded-lg"
-          >
-            Next
-          </button>
-        </div>
+      {modal && (
+        <BlogFormModal
+          open={modal}
+          blog={selectedBlog}
+          onClose={() => setModal(false)}
+          onSaved={load}
+        />
       )}
-
-      {/* DELETE MODAL */}
-
-      <ConfirmDeleteModal
-        open={!!deleteBlog}
-        title="Delete Blog"
-        description="Are you sure you want to delete this blog?"
-        onConfirm={confirmDelete}
-        onClose={() => setDeleteBlog(null)}
-      />
     </div>
   );
 }
