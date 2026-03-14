@@ -8,12 +8,16 @@ import {
   orderBy,
   onSnapshot,
   runTransaction,
+  Timestamp,
 } from "firebase/firestore";
 
 import { db } from "../firebase";
 
 const appointmentsRef = collection(db, "appointments");
 const slotsRef = collection(db, "appointmentSlots");
+
+/* NEW: lock duration */
+const SLOT_LOCK_MINUTES = 5;
 
 /* CREATE APPOINTMENT */
 
@@ -26,9 +30,24 @@ export const createAppointmentTransaction = async (data) => {
   await runTransaction(db, async (transaction) => {
     const slotDoc = await transaction.get(slotRef);
 
-    if (slotDoc.exists() && slotDoc.data().booked) {
-      throw new Error("This slot is already booked");
+    const now = Timestamp.now();
+
+    if (slotDoc.exists()) {
+      const slot = slotDoc.data();
+
+      const expired =
+        slot.lockedUntil && slot.lockedUntil.toMillis() < now.toMillis();
+
+      if (slot.booked && !expired) {
+        throw new Error("This slot is already booked");
+      }
     }
+
+    /* NEW: slot expiration lock */
+
+    const lockedUntil = Timestamp.fromMillis(
+      now.toMillis() + SLOT_LOCK_MINUTES * 60 * 1000,
+    );
 
     /* LOCK SLOT */
 
@@ -39,6 +58,7 @@ export const createAppointmentTransaction = async (data) => {
         date: data.date,
         time: data.time,
         booked: true,
+        lockedUntil,
         updatedAt: serverTimestamp(),
       },
       { merge: true },
@@ -98,6 +118,7 @@ export const cancelAppointmentService = async (appointmentId, slotId) => {
     if (slotDoc.exists()) {
       transaction.update(slotRef, {
         booked: false,
+        lockedUntil: null,
         updatedAt: serverTimestamp(),
       });
     }
@@ -135,6 +156,7 @@ export const rescheduleAppointmentService = async (
     if (oldSlotDoc.exists()) {
       transaction.update(oldSlotRef, {
         booked: false,
+        lockedUntil: null,
         updatedAt: serverTimestamp(),
       });
     }
@@ -207,6 +229,7 @@ export const subscribeDoctorSlotsService = (doctorId, date, callback) => {
 
   return onSnapshot(q, (snap) => {
     const bookedSlots = snap.docs.map((d) => d.data().time);
+
     callback(bookedSlots);
   });
 };
