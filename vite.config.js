@@ -13,10 +13,20 @@ export default defineConfig({
   },
 
   build: {
-    sourcemap: false, // enable only when debugging production
+    sourcemap: false,
     target: "es2018",
     cssCodeSplit: true,
     chunkSizeWarningLimit: 1000,
+
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          react: ["react", "react-dom"],
+          router: ["react-router-dom"],
+          firebase: ["firebase/app", "firebase/auth", "firebase/firestore"],
+        },
+      },
+    },
   },
 
   resolve: {
