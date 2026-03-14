@@ -14,7 +14,7 @@ export default defineConfig({
 
   build: {
     sourcemap: false, // enable only when debugging production
-    target: "esnext",
+    target: "es2018",
     cssCodeSplit: true,
     chunkSizeWarningLimit: 1000,
   },
