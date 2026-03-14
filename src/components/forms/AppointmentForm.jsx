@@ -256,6 +256,7 @@ export default function AppointmentForm() {
         doctorName: doctor.name,
         doctorSpecialty: doctor.specialty,
 
+        departmentId: form.department,
         departmentName:
           departments.find((d) => d.id === form.department)?.name || "",
       });
