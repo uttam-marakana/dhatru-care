@@ -2,6 +2,8 @@ import { useState } from "react";
 import { updateDoctor } from "../../../api/doctorsApi";
 import FormCard from "../common/FormCard";
 
+import { notifySuccess, notifyError } from "../../../utils/toast";
+
 export default function DoctorScheduleForm({ doctor }) {
   const [form, setForm] = useState({
     workingDays: doctor?.workingDays || [1, 2, 3, 4, 5],
@@ -68,10 +70,10 @@ export default function DoctorScheduleForm({ doctor }) {
 
       await updateDoctor(doctor.id, payload);
 
-      alert("Schedule updated");
+      notifySuccess("Schedule updated successfully");
     } catch (err) {
       console.error(err);
-      alert("Failed to update schedule");
+      notifyError("Failed to update schedule");
     }
 
     setLoading(false);
