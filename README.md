@@ -214,7 +214,7 @@ dhatrucare/
 │
 │   ├── components/                         # Global reusable components
 │   │
-│   │   ├── common/                         # Generic UI primitives
+│   │   ├── common/                         # Generic-UI primitives
 │   │   │   ├── Breadcrumb.jsx
 │   │   │   ├── Button.jsx
 │   │   │   ├── Card.jsx
