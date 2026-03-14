@@ -128,7 +128,7 @@ export default function Header() {
                 alt="Dhatru Care"
                 className="h-14 lg:h-16 w-auto"
               />
-            </ PrefetchLink>
+            </PrefetchLink>
 
             {/* NAVIGATION */}
 
@@ -235,21 +235,21 @@ export default function Header() {
                         className="block px-5 py-3 hover:bg-[var(--surface)] transition"
                       >
                         Profile
-                      </ PrefetchLink>
+                      </PrefetchLink>
 
                       <PrefetchLink
                         to="/profile/appointments"
                         className="block px-5 py-3 hover:bg-[var(--surface)] transition"
                       >
                         My Appointments
-                      </ PrefetchLink>
+                      </PrefetchLink>
 
                       <PrefetchLink
                         to="/settings"
                         className="block px-5 py-3 hover:bg-[var(--surface)] transition"
                       >
                         Settings
-                      </ PrefetchLink>
+                      </PrefetchLink>
 
                       <div className="border-t border-[var(--border)]" />
 
@@ -276,7 +276,7 @@ export default function Header() {
                   className="flex items-center gap-2 text-sm font-medium"
                 >
                   <FaUser />
-                </ PrefetchLink>
+                </PrefetchLink>
               )}
 
               <Suspense fallback={null}>
@@ -288,7 +288,7 @@ export default function Header() {
                 className="bg-[var(--color-primary)] text-white px-6 py-2.5 rounded-full text-sm font-medium"
               >
                 Book Appointment
-              </ PrefetchLink>
+              </PrefetchLink>
             </div>
 
             {/* MOBILE ACTIONS */}
