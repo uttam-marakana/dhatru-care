@@ -1,5 +1,5 @@
 import { useState, useEffect, lazy, useMemo } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useSearchParams, useLocation } from "react-router-dom";
 import { getDoctors } from "../../api/doctorsApi";
 import UniversalFilterLayout from "../../components/filters/UniversalFilterLayout";
 
@@ -14,6 +14,7 @@ const AppointmentCTA = lazy(
 
 export default function Doctors() {
   const [searchParams, setSearchParams] = useSearchParams();
+  const location = useLocation();
 
   const [filters, setFilters] = useState({
     search: searchParams.get("search") || "",
@@ -25,18 +26,48 @@ export default function Doctors() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  /* FETCH DOCTORS (runs on route navigation) */
+
   useEffect(() => {
-    getDoctors()
-      .then(setAllDoctors)
-      .catch(() => setError("Failed to load doctors."))
-      .finally(() => setLoading(false));
-  }, []);
+    let mounted = true;
+
+    const fetchDoctors = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+
+        const data = await getDoctors();
+
+        if (!mounted) return;
+
+        setAllDoctors(data);
+      } catch {
+        if (mounted) setError("Failed to load doctors.");
+      } finally {
+        if (mounted) setLoading(false);
+      }
+    };
+
+    fetchDoctors();
+
+    return () => {
+      mounted = false;
+    };
+  }, [location.key]);
+
+  /* Sync filters → URL */
 
   useEffect(() => {
     const params = {};
-    Object.entries(filters).forEach(([k, v]) => v && (params[k] = v));
+
+    Object.entries(filters).forEach(([k, v]) => {
+      if (v) params[k] = v;
+    });
+
     setSearchParams(params);
-  }, [filters]);
+  }, [filters, setSearchParams]);
+
+  /* Filter doctors */
 
   const doctors = useMemo(() => {
     let data = [...allDoctors];

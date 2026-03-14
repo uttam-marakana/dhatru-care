@@ -1,4 +1,5 @@
 import { useState, useEffect, lazy } from "react";
+import { useLocation } from "react-router-dom";
 import { getPackages } from "../../api/packagesApi";
 import LazyWrapper from "../../components/common/LazyWrapper";
 
@@ -7,15 +8,18 @@ const PageHero = lazy(() => import("../../sections/shared/PageHero"));
 const AppointmentCTA = lazy(
   () => import("../../sections/shared/AppointmentCTA"),
 );
+
 import Breadcrumb from "../../components/common/Breadcrumb";
 
 export default function Packages() {
+  const location = useLocation();
+
   const [packages, setPackages] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    let mounted = true;
+    let active = true;
 
     const fetchPackages = async () => {
       try {
@@ -24,20 +28,24 @@ export default function Packages() {
 
         const data = await getPackages();
 
-        if (!mounted) return;
-        setPackages(data);
+        if (!active) return;
+
+        setPackages(data || []);
       } catch (err) {
         console.error(err);
-        if (mounted) setError("Failed to load packages.");
+
+        if (active) setError("Failed to load packages.");
       } finally {
-        if (mounted) setLoading(false);
+        if (active) setLoading(false);
       }
     };
 
     fetchPackages();
 
-    return () => (mounted = false);
-  }, []);
+    return () => {
+      active = false;
+    };
+  }, [location.pathname]); // important change
 
   return (
     <main className="min-h-screen bg-[var(--bg)]">

@@ -1,5 +1,5 @@
 import { useState, useEffect, lazy } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useSearchParams, useLocation } from "react-router-dom";
 import { getBlogPosts } from "../../api/blogsApi";
 
 import UniversalFilterLayout from "../../components/filters/UniversalFilterLayout";
@@ -10,10 +10,12 @@ const LatestBlog = lazy(() => import("../../sections/home/LatestBlog"));
 const AppointmentCTA = lazy(
   () => import("../../sections/shared/AppointmentCTA"),
 );
+
 import Breadcrumb from "../../components/common/Breadcrumb";
 
 export default function Blog() {
   const [searchParams, setSearchParams] = useSearchParams();
+  const location = useLocation();
 
   const [filters, setFilters] = useState({
     search: searchParams.get("search") || "",
@@ -26,6 +28,8 @@ export default function Blog() {
 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
+  /* FETCH BLOG POSTS */
 
   useEffect(() => {
     let mounted = true;
@@ -43,6 +47,7 @@ export default function Blog() {
         setPosts(data);
       } catch (err) {
         console.error(err);
+
         if (mounted) setError("Failed to load blogs.");
       } finally {
         if (mounted) setLoading(false);
@@ -51,8 +56,12 @@ export default function Blog() {
 
     fetchPosts();
 
-    return () => (mounted = false);
-  }, []);
+    return () => {
+      mounted = false;
+    };
+  }, [location.key]);
+
+  /* Sync filters with URL */
 
   useEffect(() => {
     const params = {};
@@ -63,6 +72,8 @@ export default function Blog() {
 
     setSearchParams(params);
   }, [filters, setSearchParams]);
+
+  /* Apply filters */
 
   useEffect(() => {
     let data = [...allPosts];
@@ -99,12 +110,7 @@ export default function Blog() {
   }, [filters, allPosts]);
 
   return (
-    <main
-      className="
-      min-h-screen
-      bg-[var(--bg)]
-      "
-    >
+    <main className="min-h-screen bg-[var(--bg)]">
       <Breadcrumb items={[{ label: "Home", path: "/" }, { label: "Blog" }]} />
 
       <PageHero

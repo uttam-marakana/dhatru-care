@@ -1,4 +1,5 @@
 import { useState, useEffect, lazy } from "react";
+import { useLocation } from "react-router-dom";
 import { getAllDepartments } from "../../api/departmentsApi";
 
 const PageHero = lazy(() => import("../../sections/shared/PageHero"));
@@ -10,6 +11,8 @@ const AppointmentCTA = lazy(
 );
 
 export default function Departments() {
+  const location = useLocation();
+
   const [departments, setDepartments] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -18,6 +21,8 @@ export default function Departments() {
     let mounted = true;
 
     const fetchData = async () => {
+      setLoading(true);
+
       try {
         const data = await getAllDepartments();
 
@@ -26,6 +31,7 @@ export default function Departments() {
         setDepartments(data);
       } catch (err) {
         console.error(err);
+
         if (mounted) setError("Failed to load departments");
       } finally {
         if (mounted) setLoading(false);
@@ -34,8 +40,10 @@ export default function Departments() {
 
     fetchData();
 
-    return () => (mounted = false);
-  }, []);
+    return () => {
+      mounted = false;
+    };
+  }, [location.key]); // important
 
   return (
     <main
@@ -51,11 +59,7 @@ export default function Departments() {
         subtitle="Comprehensive multispeciality care with expert teams."
       />
 
-      {/* SECTION */}
-
       <section className="py-20 relative">
-        {/* Glow background */}
-
         <div
           className="
           absolute top-1/3 left-1/2 -translate-x-1/2
