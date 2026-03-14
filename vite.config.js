@@ -1,6 +1,8 @@
-export default defineConfig({
-  base: "/", // ← ADD THIS
+import { defineConfig } from "vite";
+import react from "@vitejs/plugin-react";
+import tailwindcss from "@tailwindcss/vite";
 
+export default defineConfig({
   plugins: [react(), tailwindcss()],
 
   server: {
@@ -9,7 +11,7 @@ export default defineConfig({
   },
 
   build: {
-    sourcemap: false,
+    sourcemap: false, // enable only when debugging production
     target: "esnext",
     cssCodeSplit: true,
     chunkSizeWarningLimit: 1000,
