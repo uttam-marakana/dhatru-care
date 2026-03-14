@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { notifyError } from "../../utils/toast";
 
 export default function RescheduleModal({
   open,
@@ -6,32 +7,36 @@ export default function RescheduleModal({
   onClose,
   onConfirm,
 }) {
-  const [date, setDate] = useState(appointment?.date || "");
-  const [time, setTime] = useState(appointment?.time || "");
+  const [date, setDate] = useState("");
+  const [time, setTime] = useState("");
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    if (appointment) {
+      setDate(appointment.date || "");
+      setTime(appointment.time || "");
+    }
+  }, [appointment]);
 
   if (!open) return null;
 
   const submit = async () => {
     if (!date || !time) {
-      alert("Please select date and time");
+      notifyError("Please select date and time");
       return;
     }
 
     try {
       setLoading(true);
 
-      await onConfirm({
-        date,
-        time,
-      });
+      await onConfirm({ date, time });
 
       onClose();
     } catch (err) {
-      alert(err.message);
-    } finally {
-      setLoading(false);
+      notifyError(err.message);
     }
+
+    setLoading(false);
   };
 
   return (
