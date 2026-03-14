@@ -22,21 +22,16 @@ const ref = collection(db, "doctors");
 export const fetchDoctors = async (filters = {}) => {
   const constraints = [];
 
-  if (filters.specialty) {
-    constraints.push(where("specialty", "==", filters.specialty));
+  if (filters.specialtyExact) {
+    constraints.push(where("specialty", "==", filters.specialtyExact));
   }
 
   if (filters.department) {
     constraints.push(where("departmentId", "==", filters.department));
   }
 
-  /* ensure stable pagination ordering */
-
   constraints.push(orderBy("createdAt", "desc"));
-
-  /* safety limit */
-
-  constraints.push(limit(100));
+  constraints.push(limit(200));
 
   const q = query(ref, ...constraints);
 
@@ -52,11 +47,10 @@ export const fetchDoctors = async (filters = {}) => {
 
 export const fetchDoctorById = async (id) => {
   const snap = await getDoc(doc(db, "doctors", id));
-
   return snap.exists() ? { id: snap.id, ...snap.data() } : null;
 };
 
-/* CREATE DOCTOR */
+/* CREATE */
 
 export const insertDoctor = async (data) =>
   addDoc(ref, {
@@ -65,7 +59,7 @@ export const insertDoctor = async (data) =>
     updatedAt: serverTimestamp(),
   });
 
-/* UPDATE DOCTOR */
+/* UPDATE */
 
 export const modifyDoctor = async (id, data) =>
   updateDoc(doc(db, "doctors", id), {
@@ -73,6 +67,6 @@ export const modifyDoctor = async (id, data) =>
     updatedAt: serverTimestamp(),
   });
 
-/* DELETE DOCTOR */
+/* DELETE */
 
 export const removeDoctor = async (id) => deleteDoc(doc(db, "doctors", id));
