@@ -162,9 +162,11 @@ dhatrucare/
 │   │   │   │   └── AdminNavbar.jsx
 │   │   │
 │   │   │   ├── modals/                     # Admin modal dialogs
+│   │   │   │   ├── BlogFormModal.jsx
 │   │   │   │   ├── ConfirmDeleteModal.jsx
 │   │   │   │   ├── DepartmentFormModal.jsx
-│   │   │   │   └── DoctorFormModal.jsx
+│   │   │   │   ├── DoctorFormModal.jsx
+│   │   │   │   └── PackageFormModal.jsx
 │   │   │
 │   │   │   └── tables/                     # Admin tables for entities
 │   │   │       ├── AppointmentsTable.jsx
@@ -383,6 +385,7 @@ dhatrucare/
 │   │   ├── prefetchRoutes.js
 │   │   ├── searchRanking.js
 │   │   ├── specialtyKeywords.js
+│   │   ├── toast.js
 │   │   └── validators.js
 │
 │

@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { FaTimes } from "react-icons/fa";
 import DoctorForm from "../forms/DoctorForm";
 
-export default function DoctorFormModal({ open, onClose, doctor }) {
+export default function DoctorFormModal({ open, onClose, doctor, onSaved }) {
   useEffect(() => {
     const esc = (e) => {
       if (e.key === "Escape") onClose();
@@ -56,7 +56,7 @@ export default function DoctorFormModal({ open, onClose, doctor }) {
 
         {/* FORM */}
 
-        <DoctorForm initialData={doctor} />
+        <DoctorForm initialData={doctor} onSaved={onSaved} onClose={onClose} />
       </div>
     </div>
   );
