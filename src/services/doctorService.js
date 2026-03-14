@@ -9,6 +9,7 @@ import {
   query,
   where,
   limit,
+  orderBy,
   serverTimestamp,
 } from "firebase/firestore";
 
@@ -29,9 +30,15 @@ export const fetchDoctors = async (filters = {}) => {
     constraints.push(where("departmentId", "==", filters.department));
   }
 
-  constraints.push(limit(50));
+  /* ensure stable pagination ordering */
 
-  const q = constraints.length ? query(ref, ...constraints) : ref;
+  constraints.push(orderBy("createdAt", "desc"));
+
+  /* safety limit */
+
+  constraints.push(limit(100));
+
+  const q = query(ref, ...constraints);
 
   const snap = await getDocs(q);
 
