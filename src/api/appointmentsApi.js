@@ -8,13 +8,13 @@ import {
   rescheduleAppointmentService,
 } from "../services/appointmentService";
 
-/* CREATE APPOINTMENT */
+/* CREATE */
 
 export const createAppointment = async (data) => {
   return createAppointmentTransaction(data);
 };
 
-/* ADMIN STATUS UPDATE */
+/* ADMIN STATUS */
 
 export const updateAppointmentStatus = (id, status) =>
   updateAppointmentStatusService(id, status);
@@ -29,17 +29,17 @@ export const cancelAppointment = (appointmentId, slotId) =>
 export const rescheduleAppointment = (appointment, newDate, newTime) =>
   rescheduleAppointmentService(appointment, newDate, newTime);
 
-/* ADMIN APPOINTMENTS */
+/* ADMIN LISTENER */
 
 export const subscribeAppointments = (callback) =>
   subscribeAppointmentsService(callback);
 
-/* USER APPOINTMENTS */
+/* USER LISTENER */
 
 export const subscribeUserAppointments = (userId, callback) =>
   subscribeUserAppointmentsService(userId, callback);
 
-/* DOCTOR SLOT LISTENER */
+/* SLOT LISTENER */
 
 export const subscribeDoctorSlots = (doctorId, date, callback) =>
   subscribeDoctorSlotsService(doctorId, date, callback);
