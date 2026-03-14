@@ -107,6 +107,10 @@ body {
     sans-serif;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 /* ---- UI Form Components ---- */
 
 @layer components {
