@@ -2,7 +2,7 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
 
-    /* ---------------- AUTH HELPERS ---------------- */
+    /* ---------------- AUTH CHECKS ---------------- */
 
     function isLoggedIn() {
       return request.auth != null;
@@ -22,48 +22,39 @@ service cloud.firestore {
 
     match /users/{userId} {
 
-      // user can read their own profile
       allow read: if isOwner(userId);
 
-      // user can create their own profile
       allow create: if isOwner(userId);
 
-      // prevent users from modifying their role
-      allow update: if (
-        isOwner(userId) &&
-        request.resource.data.role == resource.data.role
-      ) || isAdmin();
+      allow update: if isOwner(userId) || isAdmin();
 
-      // deletion disabled
       allow delete: if false;
     }
 
-    /* ---------------- PUBLIC CONTENT ---------------- */
+    /* ---------------- PUBLIC DATA ---------------- */
 
-    match /doctors/{docId} {
-
-      // public read access
-      allow read: if true;
-
-      // only admin can modify
-      allow create, update, delete: if isAdmin();
-    }
-
-    match /departments/{docId} {
+    match /doctors/{doc} {
 
       allow read: if true;
 
       allow create, update, delete: if isAdmin();
     }
 
-    match /packages/{docId} {
+    match /departments/{doc} {
 
       allow read: if true;
 
       allow create, update, delete: if isAdmin();
     }
 
-    match /blog_posts/{docId} {
+    match /packages/{doc} {
+
+      allow read: if true;
+
+      allow create, update, delete: if isAdmin();
+    }
+
+    match /blog_posts/{doc} {
 
       allow read: if true;
 
@@ -72,16 +63,14 @@ service cloud.firestore {
 
     /* ---------------- CONTACT / NEWSLETTER ---------------- */
 
-    match /contacts/{docId} {
+    match /contacts/{doc} {
 
-      // public contact form
       allow create: if true;
 
-      // only admin can read/delete
       allow read, delete: if isAdmin();
     }
 
-    match /newsletter/{docId} {
+    match /newsletter/{doc} {
 
       allow create: if true;
 
@@ -92,17 +81,16 @@ service cloud.firestore {
 
     match /appointmentSlots/{slotId} {
 
-      // logged in users can see slots
-      allow read: if isLoggedIn();
+      /* slot lookup */
 
-      // slot booking
-      allow create: if isLoggedIn();
+      allow read: if true;
 
-      // user can only update slot they booked
-      allow update: if isLoggedIn() &&
-        request.resource.data.userId == request.auth.uid;
+      /* booking transaction */
 
-      // admin slot control
+      allow create, update: if isLoggedIn();
+
+      /* deletion restricted */
+
       allow delete: if isAdmin();
     }
 
@@ -110,25 +98,27 @@ service cloud.firestore {
 
     match /appointments/{appointmentId} {
 
-      // create appointment
+      /* create booking */
+
       allow create: if isLoggedIn() &&
         request.resource.data.userId == request.auth.uid;
 
-      // list appointments (needed for queries)
+      /* slot availability queries */
+
       allow list: if isLoggedIn();
 
-      // read appointment
-      allow get: if
+      /* patient reads own appointment */
+
+      allow get: if isOwner(resource.data.userId) || isAdmin();
+
+      /* update */
+
+      allow update: if
         isOwner(resource.data.userId) ||
         isAdmin();
 
-      // update appointment (cannot change owner)
-      allow update: if (
-        isOwner(resource.data.userId) &&
-        request.resource.data.userId == resource.data.userId
-      ) || isAdmin();
+      /* delete */
 
-      // only admin can delete
       allow delete: if isAdmin();
     }
 
