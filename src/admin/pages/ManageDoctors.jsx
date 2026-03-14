@@ -1,146 +1,81 @@
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useState } from "react";
 import { getDoctors, deleteDoctor } from "../../api/doctorsApi";
 
-import DoctorsTable from "../components/tables/DoctorsTable";
+import AdminTable from "../components/common/AdminTable";
 import DoctorFormModal from "../components/modals/DoctorFormModal";
-
 import AdminHeader from "../components/layout/AdminHeader";
-import { Link } from "react-router-dom";
-
-const PAGE_SIZE = 10;
 
 export default function ManageDoctors() {
   const [doctors, setDoctors] = useState([]);
-  const [selectedDoctor, setSelectedDoctor] = useState(null);
   const [modal, setModal] = useState(false);
-
-  const [page, setPage] = useState(1);
-
-  /* FILTERS */
-
-  const [filters, setFilters] = useState({
-    specialty: "",
-    department: "",
-  });
+  const [selectedDoctor, setSelectedDoctor] = useState(null);
 
   const load = async () => {
-    const data = await getDoctors(filters);
+    const data = await getDoctors();
     setDoctors(data);
-    setPage(1);
   };
 
   useEffect(() => {
     load();
-  }, [filters]);
+  }, []);
 
-  const handleDelete = async (doctor) => {
+  const handleDelete = async (doc) => {
     if (!confirm("Delete doctor?")) return;
-    await deleteDoctor(doctor.id);
+    await deleteDoctor(doc.id);
     load();
   };
-
-  /* PAGINATION */
-
-  const totalPages = Math.ceil(doctors.length / PAGE_SIZE);
-
-  const paginatedDoctors = useMemo(() => {
-    const start = (page - 1) * PAGE_SIZE;
-    return doctors.slice(start, start + PAGE_SIZE);
-  }, [doctors, page]);
 
   return (
     <div className="space-y-6">
       <AdminHeader
         title="Doctors"
         action={
-          <Link to="/admin/upload">
-            <button
-              onClick={() => {
-                setSelectedDoctor(null);
-                setModal(true);
-              }}
-              className="px-4 py-3 bg-[var(--color-primary)] text-white rounded-lg"
-            >
-              Add Doctor
-            </button>
-          </Link>
+          <button
+            onClick={() => {
+              setSelectedDoctor(null);
+              setModal(true);
+            }}
+            className="px-4 py-3 bg-[var(--color-primary)] text-white rounded-lg"
+          >
+            Add Doctor
+          </button>
         }
       />
 
-      {/* FILTER BAR */}
+      <AdminTable
+        data={doctors}
+        columns={["Name", "Specialty", "Department", "Experience", "Actions"]}
+        renderRow={(doc) => (
+          <tr
+            key={doc.id}
+            className="border-b border-[var(--border)] hover:bg-[var(--card)]"
+          >
+            <td className="p-4 font-medium">{doc.name}</td>
+            <td className="p-4">{doc.specialty}</td>
+            <td className="p-4">{doc.departmentId}</td>
+            <td className="p-4">{doc.experience} yrs</td>
 
-      <div className="glass p-4 flex flex-wrap gap-4 items-center">
-        <input
-          type="text"
-          placeholder="Filter by specialty"
-          value={filters.specialty}
-          onChange={(e) =>
-            setFilters((f) => ({ ...f, specialty: e.target.value }))
-          }
-          className="ui-input max-w-xs"
-        />
+            <td className="p-4 flex gap-3">
+              <button
+                onClick={() => {
+                  setSelectedDoctor(doc);
+                  setModal(true);
+                }}
+                className="text-[var(--color-primary)]"
+              >
+                Edit
+              </button>
 
-        <input
-          type="text"
-          placeholder="Filter by department ID"
-          value={filters.department}
-          onChange={(e) =>
-            setFilters((f) => ({ ...f, department: e.target.value }))
-          }
-          className="ui-input max-w-xs"
-        />
-
-        <button
-          onClick={() =>
-            setFilters({
-              specialty: "",
-              department: "",
-            })
-          }
-          className="px-4 py-2 border border-[var(--border)] rounded-lg"
-        >
-          Reset
-        </button>
-      </div>
-
-      {/* TABLE */}
-
-      <DoctorsTable
-        doctors={paginatedDoctors}
-        onEdit={(doc) => {
-          setSelectedDoctor(doc);
-          setModal(true);
-        }}
-        onDelete={handleDelete}
+              <button
+                onClick={() => handleDelete(doc)}
+                className="text-[var(--color-error)]"
+              >
+                Delete
+              </button>
+            </td>
+          </tr>
+        )}
       />
-
-      {/* PAGINATION */}
-
-      {doctors.length > PAGE_SIZE && (
-        <div className="flex items-center justify-end gap-4 mt-6">
-          <button
-            disabled={page === 1}
-            onClick={() => setPage((p) => p - 1)}
-            className="px-4 py-2 border border-[var(--border)] rounded-lg disabled:opacity-40"
-          >
-            Previous
-          </button>
-
-          <span className="flex items-center text-[var(--muted)]">
-            Page {page} of {totalPages}
-          </span>
-
-          <button
-            disabled={page === totalPages}
-            onClick={() => setPage((p) => p + 1)}
-            className="px-4 py-2 border border-[var(--border)] rounded-lg disabled:opacity-40"
-          >
-            Next
-          </button>
-        </div>
-      )}
-
-      {/* MODAL */}
 
       {modal && (
         <DoctorFormModal

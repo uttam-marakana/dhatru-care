@@ -1,24 +1,17 @@
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useState } from "react";
 
 import { getAllDepartments, deleteDepartment } from "../../api/departmentsApi";
 
-import DepartmentsTable from "../components/tables/DepartmentsTable";
-import DepartmentFormModal from "../components/modals/DepartmentFormModal";
-import ConfirmDeleteModal from "../components/modals/ConfirmDeleteModal";
-
 import AdminHeader from "../components/layout/AdminHeader";
+import ConfirmDeleteModal from "../components/modals/ConfirmDeleteModal";
+import DepartmentForm from "../components/forms/DepartmentForm";
 
-const PAGE_SIZE = 10;
+import AdminTable from "../components/common/AdminTable";
 
 export default function ManageDepartments() {
   const [departments, setDepartments] = useState([]);
-
-  const [selectedDepartment, setSelectedDepartment] = useState(null);
-  const [modal, setModal] = useState(false);
-
   const [deleteItem, setDeleteItem] = useState(null);
-
-  const [page, setPage] = useState(1);
+  const [modal, setModal] = useState(false);
 
   const load = async () => {
     const data = await getAllDepartments();
@@ -29,22 +22,11 @@ export default function ManageDepartments() {
     load();
   }, []);
 
-  /* DELETE */
-
   const confirmDelete = async () => {
     await deleteDepartment(deleteItem.id);
     setDeleteItem(null);
     load();
   };
-
-  /* PAGINATION */
-
-  const totalPages = Math.ceil(departments.length / PAGE_SIZE);
-
-  const paginatedDepartments = useMemo(() => {
-    const start = (page - 1) * PAGE_SIZE;
-    return departments.slice(start, start + PAGE_SIZE);
-  }, [departments, page]);
 
   return (
     <div className="space-y-6">
@@ -53,10 +35,7 @@ export default function ManageDepartments() {
         description="Manage hospital departments"
         action={
           <button
-            onClick={() => {
-              setSelectedDepartment(null);
-              setModal(true);
-            }}
+            onClick={() => setModal(true)}
             className="px-4 py-3 bg-[var(--color-primary)] text-white rounded-lg"
           >
             Add Department
@@ -64,55 +43,41 @@ export default function ManageDepartments() {
         }
       />
 
-      {/* TABLE */}
+      <AdminTable
+        data={departments}
+        columns={["Name", "Description", "Actions"]}
+        renderRow={(d) => (
+          <tr
+            key={d.id}
+            className="border-b border-[var(--border)] hover:bg-[var(--card)]"
+          >
+            <td className="p-4 font-medium">{d.name}</td>
+            <td className="p-4">{d.description}</td>
 
-      <DepartmentsTable
-        departments={paginatedDepartments}
-        onEdit={(d) => {
-          setSelectedDepartment(d);
-          setModal(true);
-        }}
-        onDelete={(d) => setDeleteItem(d)}
+            <td className="p-4 flex gap-3">
+              <button
+                onClick={() => setModal(true)}
+                className="text-[var(--color-primary)]"
+              >
+                Edit
+              </button>
+
+              <button
+                onClick={() => setDeleteItem(d)}
+                className="text-[var(--color-error)]"
+              >
+                Delete
+              </button>
+            </td>
+          </tr>
+        )}
       />
 
-      {/* PAGINATION */}
-
-      {departments.length > PAGE_SIZE && (
-        <div className="flex items-center justify-end gap-4 mt-6">
-          <button
-            disabled={page === 1}
-            onClick={() => setPage((p) => p - 1)}
-            className="px-4 py-2 border border-[var(--border)] rounded-lg disabled:opacity-40"
-          >
-            Previous
-          </button>
-
-          <span className="flex items-center text-[var(--muted)]">
-            Page {page} of {totalPages}
-          </span>
-
-          <button
-            disabled={page === totalPages}
-            onClick={() => setPage((p) => p + 1)}
-            className="px-4 py-2 border border-[var(--border)] rounded-lg disabled:opacity-40"
-          >
-            Next
-          </button>
+      {modal && (
+        <div className="glass p-6">
+          <DepartmentForm />
         </div>
       )}
-
-      {/* FORM MODAL */}
-
-      {modal && (
-        <DepartmentFormModal
-          open={modal}
-          department={selectedDepartment}
-          onClose={() => setModal(false)}
-          onSaved={load}
-        />
-      )}
-
-      {/* DELETE MODAL */}
 
       <ConfirmDeleteModal
         open={!!deleteItem}
