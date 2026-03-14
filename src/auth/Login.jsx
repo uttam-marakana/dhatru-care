@@ -2,17 +2,23 @@ import { useState } from "react";
 import { login } from "./authApi";
 import { useNavigate, Link } from "react-router-dom";
 
+import { notifyError } from "../../utils/toast";
+
 const ADMIN_EMAIL = "uttamrootways@gmail.com";
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+
   const nav = useNavigate();
 
   const submit = async (e) => {
     e.preventDefault();
 
     try {
+      setLoading(true);
+
       const user = await login(email, password);
 
       if (user.email?.toLowerCase() === ADMIN_EMAIL.toLowerCase()) {
@@ -22,7 +28,9 @@ export default function Login() {
       }
     } catch (err) {
       console.error(err);
-      alert("Login failed");
+      notifyError("Login failed");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -81,6 +89,7 @@ export default function Login() {
         />
 
         <button
+          disabled={loading}
           className="
           w-full p-3 rounded-lg
           bg-[var(--color-primary)]
@@ -89,9 +98,10 @@ export default function Login() {
           font-semibold
           transition
           shadow-[0_0_15px_var(--glow-soft)]
+          disabled:opacity-50
           "
         >
-          Login
+          {loading ? "Logging in..." : "Login"}
         </button>
 
         <p className="text-sm text-center text-[var(--text-secondary)]">

@@ -2,8 +2,12 @@ import { useState } from "react";
 import { signup } from "./authApi";
 import { useNavigate, Link } from "react-router-dom";
 
+import { notifyError, notifySuccess } from "../../utils/toast";
+
 export default function Signup() {
   const navigate = useNavigate();
+
+  const [loading, setLoading] = useState(false);
 
   const [form, setForm] = useState({
     name: "",
@@ -27,16 +31,23 @@ export default function Signup() {
     e.preventDefault();
 
     if (form.password !== form.confirmPassword) {
-      alert("Passwords do not match");
+      notifyError("Passwords do not match");
       return;
     }
 
     try {
+      setLoading(true);
+
       await signup(form);
+
+      notifySuccess("Registration successful. Please login.");
+
       navigate("/login");
     } catch (err) {
       console.error(err);
-      alert(err.message || "Signup failed");
+      notifyError(err.message || "Signup failed");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -138,6 +149,7 @@ export default function Signup() {
         />
 
         <button
+          disabled={loading}
           className="
           w-full p-3 rounded-lg
           bg-[var(--color-primary)]
@@ -146,9 +158,10 @@ export default function Signup() {
           font-semibold
           transition
           shadow-[0_0_15px_var(--glow-soft)]
+          disabled:opacity-50
           "
         >
-          Register
+          {loading ? "Registering..." : "Register"}
         </button>
 
         <p className="text-sm text-center text-[var(--text-secondary)]">
