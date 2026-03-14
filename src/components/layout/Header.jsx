@@ -222,13 +222,13 @@ export default function Header() {
                   {isUserMenuOpen && (
                     <div
                       className="
-    absolute right-0 mt-3 w-64
-    bg-[var(--card)]
-    border border-[var(--border)]
-    rounded-xl
-    shadow-xl
-    overflow-hidden
-    "
+                      absolute right-0 mt-3 w-64
+                      bg-[var(--card)]
+                      border border-[var(--border)]
+                      rounded-xl
+                      shadow-xl
+                      overflow-hidden
+                      "
                     >
                       <PrefetchLink
                         to="/profile"
@@ -276,7 +276,6 @@ export default function Header() {
                   className="flex items-center gap-2 text-sm font-medium"
                 >
                   <FaUser />
-                  Login
                 </ PrefetchLink>
               )}
 
