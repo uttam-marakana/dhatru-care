@@ -6,6 +6,8 @@ import doctors from "../data/doctors.json";
 // import packages from "../data/packages.json";
 // import blogs from "../data/blog_posts.json";
 
+import { notifySuccess, notifyError } from "../utils/toast";
+
 const uploadCollection = async (name, data) => {
   console.log("Uploading:", name);
 
@@ -25,8 +27,10 @@ export const runBulkUpload = async () => {
     // await uploadCollection("departments", departments);
     // await uploadCollection("packages", packages);
     // await uploadCollection("blog_posts", blogs);
+
+    notifySuccess("Bulk upload completed successfully");
   } catch (err) {
     console.error(err);
-    alert("Upload failed");
+    notifyError("Upload failed");
   }
 };
