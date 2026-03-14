@@ -81,15 +81,9 @@ service cloud.firestore {
 
     match /appointmentSlots/{slotId} {
 
-      /* slot lookup */
-
       allow read: if true;
 
-      /* booking transaction */
-
       allow create, update: if isLoggedIn();
-
-      /* deletion restricted */
 
       allow delete: if isAdmin();
     }
@@ -98,26 +92,17 @@ service cloud.firestore {
 
     match /appointments/{appointmentId} {
 
-      /* create booking */
-
       allow create: if isLoggedIn() &&
         request.resource.data.userId == request.auth.uid;
 
-      /* slot availability queries */
-
-      allow list: if isLoggedIn();
-
-      /* patient reads own appointment */
-
       allow get: if isOwner(resource.data.userId) || isAdmin();
 
-      /* update */
+      /* FIX: prevent all users listing every appointment */
+      allow list: if isAdmin();
 
       allow update: if
         isOwner(resource.data.userId) ||
         isAdmin();
-
-      /* delete */
 
       allow delete: if isAdmin();
     }
