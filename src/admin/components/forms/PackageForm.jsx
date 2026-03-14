@@ -1,5 +1,7 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+
 import { createPackage, updatePackage } from "../../../api/packagesApi";
+import { notifyPromise } from "../../../utils/toast";
 
 const initialState = {
   name: "",
@@ -11,12 +13,19 @@ const initialState = {
   isFeatured: false,
 };
 
-export default function PackageForm({ initialData }) {
-  const [form, setForm] = useState(
-    initialData
-      ? { ...initialData, includes: initialData.includes?.join(", ") }
-      : initialState,
-  );
+export default function PackageForm({ initialData, onSaved }) {
+  const [form, setForm] = useState(initialState);
+
+  useEffect(() => {
+    if (initialData) {
+      setForm({
+        ...initialData,
+        includes: initialData.includes?.join(", ") || "",
+      });
+    } else {
+      setForm(initialState);
+    }
+  }, [initialData]);
 
   const toArray = (v) =>
     v
@@ -46,15 +55,23 @@ export default function PackageForm({ initialData }) {
 
     try {
       if (initialData) {
-        await updatePackage(initialData.id, payload);
+        await notifyPromise(updatePackage(initialData.id, payload), {
+          loading: "Updating package...",
+          success: "Package updated successfully",
+          error: "Failed to update package",
+        });
       } else {
-        await createPackage(payload);
+        await notifyPromise(createPackage(payload), {
+          loading: "Creating package...",
+          success: "Package created successfully",
+          error: "Failed to create package",
+        });
       }
 
-      alert("Package saved successfully");
+      onSaved?.();
+      setForm(initialState);
     } catch (err) {
       console.error(err);
-      alert("Failed to save package");
     }
   };
 

@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { createDoctor, updateDoctor } from "../../../api/doctorsApi";
 
+import { notifyPromise } from "../../../utils/toast";
+
 const initialState = {
   name: "",
   gender: "",
@@ -22,7 +24,7 @@ const initialState = {
   leaveDates: "",
 };
 
-export default function DoctorForm({ initialData }) {
+export default function DoctorForm({ initialData, onSaved, onClose }) {
   const [form, setForm] = useState(
     initialData
       ? {
@@ -76,16 +78,25 @@ export default function DoctorForm({ initialData }) {
 
     try {
       if (initialData) {
-        await updateDoctor(initialData.id, payload);
-        alert("Doctor updated");
+        await notifyPromise(updateDoctor(initialData.id, payload), {
+          loading: "Updating doctor...",
+          success: "Doctor updated successfully",
+          error: "Failed to update doctor",
+        });
       } else {
-        await createDoctor(payload);
-        alert("Doctor created");
-        setForm(initialState);
+        await notifyPromise(createDoctor(payload), {
+          loading: "Creating doctor...",
+          success: "Doctor created successfully",
+          error: "Failed to create doctor",
+        });
       }
+
+      onSaved?.();
+      onClose?.();
+
+      setForm(initialState);
     } catch (err) {
       console.error(err);
-      alert("Failed");
     }
 
     setLoading(false);

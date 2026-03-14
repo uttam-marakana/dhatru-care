@@ -1,5 +1,7 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { createBlogPost, updateBlogPost } from "../../../api/blogsApi";
+
+import { notifyPromise } from "../../../utils/toast";
 
 const initialState = {
   slug: "",
@@ -14,12 +16,29 @@ const initialState = {
   tags: "",
 };
 
-export default function BlogForm({ initialData }) {
-  const [form, setForm] = useState(
-    initialData
-      ? { ...initialData, tags: initialData.tags?.join(", ") }
-      : initialState,
-  );
+export default function BlogForm({ initialData, onSaved, onClose }) {
+  const [form, setForm] = useState(initialState);
+  const [loading, setLoading] = useState(false);
+
+  /* LOAD DATA FOR EDIT */
+
+  useEffect(() => {
+    if (initialData) {
+      setForm({
+        ...initialData,
+        tags: initialData.tags?.join(", ") || "",
+      });
+    } else {
+      setForm(initialState);
+    }
+  }, [initialData]);
+
+  /* INPUT HANDLER */
+
+  const handleChange = (e) =>
+    setForm({ ...form, [e.target.name]: e.target.value });
+
+  /* HELPERS */
 
   const toArray = (v) =>
     v
@@ -29,21 +48,40 @@ export default function BlogForm({ initialData }) {
           .filter(Boolean)
       : [];
 
-  const handleChange = (e) =>
-    setForm({ ...form, [e.target.name]: e.target.value });
+  /* SUBMIT */
 
   const submit = async (e) => {
     e.preventDefault();
+    setLoading(true);
 
     const payload = {
       ...form,
       tags: toArray(form.tags),
     };
 
-    if (initialData) await updateBlogPost(initialData.id, payload);
-    else await createBlogPost(payload);
+    try {
+      if (initialData) {
+        await notifyPromise(updateBlogPost(initialData.id, payload), {
+          loading: "Updating blog...",
+          success: "Blog updated successfully",
+          error: "Failed to update blog",
+        });
+      } else {
+        await notifyPromise(createBlogPost(payload), {
+          loading: "Creating blog...",
+          success: "Blog created successfully",
+          error: "Failed to create blog",
+        });
+      }
 
-    alert("Saved");
+      onSaved?.();
+      onClose?.();
+      setForm(initialState);
+    } catch (err) {
+      console.error(err);
+    }
+
+    setLoading(false);
   };
 
   const input =
@@ -111,7 +149,7 @@ export default function BlogForm({ initialData }) {
         name="tags"
         value={form.tags}
         onChange={handleChange}
-        placeholder="Tags comma separated"
+        placeholder="Tags (comma separated)"
         className={`${input} md:col-span-2`}
       />
 
@@ -120,6 +158,7 @@ export default function BlogForm({ initialData }) {
         value={form.excerpt}
         onChange={handleChange}
         rows={2}
+        placeholder="Short excerpt"
         className={`${input} md:col-span-2`}
       />
 
@@ -128,11 +167,15 @@ export default function BlogForm({ initialData }) {
         value={form.content}
         onChange={handleChange}
         rows={6}
+        placeholder="Blog content"
         className={`${input} md:col-span-2`}
       />
 
-      <button className="bg-[var(--color-primary)] hover:bg-[var(--color-primary-hover)] text-white py-3 rounded-lg md:col-span-2">
-        Save Blog
+      <button
+        disabled={loading}
+        className="bg-[var(--color-primary)] hover:bg-[var(--color-primary-hover)] text-white py-3 rounded-lg md:col-span-2"
+      >
+        {loading ? "Saving..." : "Save Blog"}
       </button>
     </form>
   );

@@ -1,8 +1,11 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+
 import {
   createDepartment,
   updateDepartment,
 } from "../../../api/departmentsApi";
+
+import { notifyPromise } from "../../../utils/toast";
 
 const initialState = {
   slug: "",
@@ -14,16 +17,20 @@ const initialState = {
   bgGradient: "",
 };
 
-export default function DepartmentForm({ initialData }) {
-  const [form, setForm] = useState(
-    initialData
-      ? {
-          ...initialData,
-          services: initialData.services?.join(", "),
-          highlights: initialData.highlights?.join(", "),
-        }
-      : initialState,
-  );
+export default function DepartmentForm({ initialData, onSaved }) {
+  const [form, setForm] = useState(initialState);
+
+  useEffect(() => {
+    if (initialData) {
+      setForm({
+        ...initialData,
+        services: initialData.services?.join(", ") || "",
+        highlights: initialData.highlights?.join(", ") || "",
+      });
+    } else {
+      setForm(initialState);
+    }
+  }, [initialData]);
 
   const toArray = (v) =>
     v
@@ -50,15 +57,23 @@ export default function DepartmentForm({ initialData }) {
 
     try {
       if (initialData) {
-        await updateDepartment(initialData.id, payload);
+        await notifyPromise(updateDepartment(initialData.id, payload), {
+          loading: "Updating department...",
+          success: "Department updated successfully",
+          error: "Failed to update department",
+        });
       } else {
-        await createDepartment(payload);
+        await notifyPromise(createDepartment(payload), {
+          loading: "Creating department...",
+          success: "Department created successfully",
+          error: "Failed to create department",
+        });
       }
 
-      alert("Department saved successfully");
+      onSaved?.();
+      setForm(initialState);
     } catch (err) {
       console.error(err);
-      alert("Failed to save department");
     }
   };
 
