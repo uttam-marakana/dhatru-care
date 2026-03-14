@@ -5,7 +5,7 @@ export default function TopBar() {
   return (
     <div
       className="
-      relative hidden md:block
+      relative z-40 hidden md:block
       bg-[var(--surface)]
       border-b border-[var(--border)]
       text-[var(--text-secondary)]

@@ -7,8 +7,8 @@ import {
   FaEnvelope,
   FaMapMarkerAlt,
 } from "react-icons/fa";
-import { Link } from "react-router-dom";
 
+import PrefetchLink from "../common/PrefetchLink";
 import Container from "./Container";
 
 import light_logo from "../../assets/images/light_logo.png";
@@ -16,6 +16,31 @@ import dark_logo from "../../assets/images/dark_logo.png";
 
 export default function Footer() {
   const socials = [FaFacebookF, FaTwitter, FaInstagram, FaLinkedinIn];
+
+  const quickLinks = ["departments", "doctors", "packages", "blog", "contact"];
+
+  const specialities = [
+    {
+      label: "Cardiology & Heart Care",
+      url: "/departments/cardiology",
+    },
+    {
+      label: "Neurology & Neurosurgery",
+      url: "/departments/neurology",
+    },
+    {
+      label: "Orthopaedics",
+      url: "/departments/orthopaedics",
+    },
+    {
+      label: "Pediatrics",
+      url: "/departments/pediatrics",
+    },
+    {
+      label: "Emergency & Trauma Care",
+      url: "/departments/emergency",
+    },
+  ];
 
   return (
     <footer
@@ -31,7 +56,6 @@ export default function Footer() {
       <div className="absolute -top-40 left-1/2 -translate-x-1/2 w-[700px] h-[700px] bg-[var(--glow-bg)] blur-[140px] rounded-full"></div>
 
       <Container className="py-20 relative z-10">
-        {/* Glass Panel */}
         <div
           className="
           backdrop-blur-xl
@@ -45,7 +69,7 @@ export default function Footer() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
             {/* Brand */}
             <div className="space-y-6">
-              <Link to="/" aria-label="Dhatru Care">
+              <PrefetchLink to="/" aria-label="Dhatru Care">
                 <img
                   src={light_logo}
                   className="block dark:hidden h-16 object-contain"
@@ -56,7 +80,7 @@ export default function Footer() {
                   className="hidden dark:block h-16 object-contain"
                   alt="Dhatru Care"
                 />
-              </Link>
+              </PrefetchLink>
 
               <p className="text-[var(--muted)] leading-relaxed">
                 Dhatru Care Multispeciality Hospital delivers compassionate,
@@ -91,18 +115,16 @@ export default function Footer() {
               </h4>
 
               <ul className="space-y-3 text-[var(--muted)]">
-                {["departments", "doctors", "packages", "blog", "contact"].map(
-                  (item) => (
-                    <li key={item}>
-                      <Link
-                        to={`/${item}`}
-                        className="hover:text-[var(--color-primary)] transition-colors"
-                      >
-                        {item.charAt(0).toUpperCase() + item.slice(1)}
-                      </Link>
-                    </li>
-                  ),
-                )}
+                {quickLinks.map((item) => (
+                  <li key={item}>
+                    <PrefetchLink
+                      to={`/${item}`}
+                      className="hover:text-[var(--color-primary)] transition-colors"
+                    >
+                      {item.charAt(0).toUpperCase() + item.slice(1)}
+                    </PrefetchLink>
+                  </li>
+                ))}
               </ul>
             </div>
 
@@ -113,11 +135,16 @@ export default function Footer() {
               </h4>
 
               <ul className="space-y-3 text-[var(--muted)]">
-                <li>Cardiology & Heart Care</li>
-                <li>Neurology & Neurosurgery</li>
-                <li>Orthopaedics</li>
-                <li>Pediatrics</li>
-                <li>Emergency & Trauma Care</li>
+                {specialities.map((item) => (
+                  <li key={item.url}>
+                    <PrefetchLink
+                      to={item.url}
+                      className="hover:text-[var(--color-primary)] transition-colors"
+                    >
+                      {item.label}
+                    </PrefetchLink>
+                  </li>
+                ))}
               </ul>
             </div>
 
@@ -173,13 +200,19 @@ export default function Footer() {
             </p>
 
             <div className="flex justify-center gap-6">
-              <Link to="/privacy" className="hover:text-[var(--color-primary)]">
+              <PrefetchLink
+                to="/privacy"
+                className="hover:text-[var(--color-primary)]"
+              >
                 Privacy Policy
-              </Link>
+              </PrefetchLink>
 
-              <Link to="/terms" className="hover:text-[var(--color-primary)]">
+              <PrefetchLink
+                to="/terms"
+                className="hover:text-[var(--color-primary)]"
+              >
                 Terms & Conditions
-              </Link>
+              </PrefetchLink>
             </div>
           </div>
         </div>

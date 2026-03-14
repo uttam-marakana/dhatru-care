@@ -1,5 +1,6 @@
 import { useEffect, useState, useRef, lazy, Suspense } from "react";
-import { Link, NavLink, useNavigate, useLocation } from "react-router-dom";
+import { NavLink, useNavigate, useLocation } from "react-router-dom";
+import PrefetchLink from "../common/PrefetchLink";
 
 import {
   FaBars,
@@ -111,7 +112,7 @@ export default function Header() {
     <>
       <header
         className="
-        fixed top-0 left-0 right-0 z-50
+        relative z-30
         backdrop-blur-xl
         bg-[var(--surface)]/95
         border-b border-[var(--border)]
@@ -121,25 +122,25 @@ export default function Header() {
         <Container className="px-6 lg:px-10">
           <div className="flex items-center justify-between h-20 lg:h-24">
             {/* LOGO */}
-            <Link to="/" className="flex items-center">
+            <PrefetchLink to="/" className="flex items-center">
               <img
                 src={isDarkMode ? dark_logo : light_logo}
                 alt="Dhatru Care"
                 className="h-14 lg:h-16 w-auto"
               />
-            </Link>
+            </ PrefetchLink>
 
             {/* NAVIGATION */}
 
             <nav className="hidden xl:flex items-center gap-10 text-[15px] font-medium">
               {navItems.map((item) => (
-                <NavLink
+                <PrefetchLink
                   key={item.to}
                   to={item.to}
                   className="hover:text-[var(--color-primary)] transition"
                 >
                   {item.label}
-                </NavLink>
+                </PrefetchLink>
               ))}
             </nav>
 
@@ -216,7 +217,6 @@ export default function Header() {
                     className="flex items-center gap-2"
                   >
                     <FaUser />
-                    <span className="text-sm">Account</span>
                   </button>
 
                   {isUserMenuOpen && (
@@ -230,26 +230,26 @@ export default function Header() {
     overflow-hidden
     "
                     >
-                      <Link
+                      <PrefetchLink
                         to="/profile"
                         className="block px-5 py-3 hover:bg-[var(--surface)] transition"
                       >
                         Profile
-                      </Link>
+                      </ PrefetchLink>
 
-                      <Link
+                      <PrefetchLink
                         to="/profile/appointments"
                         className="block px-5 py-3 hover:bg-[var(--surface)] transition"
                       >
                         My Appointments
-                      </Link>
+                      </ PrefetchLink>
 
-                      <Link
+                      <PrefetchLink
                         to="/settings"
                         className="block px-5 py-3 hover:bg-[var(--surface)] transition"
                       >
                         Settings
-                      </Link>
+                      </ PrefetchLink>
 
                       <div className="border-t border-[var(--border)]" />
 
@@ -271,25 +271,25 @@ export default function Header() {
                   )}
                 </div>
               ) : (
-                <Link
+                <PrefetchLink
                   to="/login"
                   className="flex items-center gap-2 text-sm font-medium"
                 >
                   <FaUser />
                   Login
-                </Link>
+                </ PrefetchLink>
               )}
 
               <Suspense fallback={null}>
                 <ThemeToggle />
               </Suspense>
 
-              <Link
+              <PrefetchLink
                 to="/appointments"
                 className="bg-[var(--color-primary)] text-white px-6 py-2.5 rounded-full text-sm font-medium"
               >
                 Book Appointment
-              </Link>
+              </ PrefetchLink>
             </div>
 
             {/* MOBILE ACTIONS */}
@@ -360,7 +360,7 @@ export default function Header() {
         />
       </Suspense>
 
-      <div className="h-20 lg:h-24" />
+      {/* <div className="h-20 lg:h-24" /> */}
     </>
   );
 }

@@ -1,9 +1,12 @@
 import { useEffect } from "react";
 import PropTypes from "prop-types";
-import { Link, NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { FaTimes, FaPhoneAlt, FaSignOutAlt } from "react-icons/fa";
+
+import PrefetchLink from "../common/PrefetchLink";
 import ThemeToggle from "../common/ThemeToggle";
+
 import { useAuth } from "../../context/AuthContext";
 
 export default function MobileDrawer({
@@ -42,13 +45,13 @@ export default function MobileDrawer({
           <div className="flex flex-col h-full px-6 py-6 backdrop-blur-xl">
             {/* HEADER */}
             <div className="flex items-center justify-between mb-10">
-              <Link to="/" onClick={onClose}>
+              <PrefetchLink to="/" onClick={onClose}>
                 <img
                   src={isDarkMode ? dark_logo : light_logo}
                   alt="Dhatru Care"
                   className="h-10"
                 />
-              </Link>
+              </PrefetchLink>
 
               <button onClick={onClose} aria-label="Close menu">
                 <FaTimes size={20} />
@@ -74,20 +77,14 @@ export default function MobileDrawer({
             {/* MAIN NAVIGATION */}
             <nav className="flex flex-col gap-4 text-lg font-medium">
               {navItems.map((item) => (
-                <NavLink
+                <PrefetchLink
                   key={item.to}
                   to={item.to}
                   onClick={onClose}
-                  className={({ isActive }) =>
-                    `transition ${
-                      isActive
-                        ? "text-[var(--color-primary)] font-semibold"
-                        : "text-[var(--text-secondary)] hover:text-[var(--color-primary)]"
-                    }`
-                  }
+                  className="transition text-[var(--text-secondary)] hover:text-[var(--color-primary)]"
                 >
                   {item.label}
-                </NavLink>
+                </PrefetchLink>
               ))}
             </nav>
 
@@ -97,29 +94,29 @@ export default function MobileDrawer({
             <div className="border-t border-[var(--border)] pt-6 mb-6">
               {user ? (
                 <div className="flex flex-col gap-4">
-                  <Link
+                  <PrefetchLink 
                     to="/profile"
                     onClick={onClose}
                     className="hover:text-[var(--color-primary)]"
                   >
                     Profile
-                  </Link>
+                  </ PrefetchLink>
 
-                  <Link
+                  <PrefetchLink 
                     to="/profile/appointments"
                     onClick={onClose}
                     className="hover:text-[var(--color-primary)]"
                   >
                     My Appointments
-                  </Link>
+                  </ PrefetchLink>
 
-                  <Link
+                  <PrefetchLink 
                     to="/settings"
                     onClick={onClose}
                     className="hover:text-[var(--color-primary)]"
                   >
                     Settings
-                  </Link>
+                  </ PrefetchLink>
 
                   <button
                     onClick={() => {
@@ -137,13 +134,13 @@ export default function MobileDrawer({
                   </button>
                 </div>
               ) : (
-                <Link
+                <PrefetchLink 
                   to="/login"
                   onClick={onClose}
                   className="hover:text-[var(--color-primary)]"
                 >
                   Login
-                </Link>
+                </ PrefetchLink>
               )}
             </div>
 
