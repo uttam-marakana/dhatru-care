@@ -25,12 +25,19 @@ import { doc, runTransaction, serverTimestamp } from "firebase/firestore";
 
 import { notifyPromise, notifyError } from "../../utils/toast";
 
+/* ---------------- UI STYLES ---------------- */
+
+const inputStyle = "ui-input";
+const selectStyle = "ui-select";
+const textareaStyle = "ui-textarea";
+
 export default function AppointmentForm() {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
 
   const departmentParam = searchParams.get("department");
   const doctorParam = searchParams.get("doctor");
+  const packageParam = searchParams.get("package");
 
   const fromDepartmentPage = !!departmentParam && !doctorParam;
   const fromDoctorPage = !!doctorParam;
@@ -46,16 +53,54 @@ export default function AppointmentForm() {
     date: "",
     time: "",
     message: "",
+    packageId: packageParam || "",
   });
 
   const [departments, setDepartments] = useState([]);
   const [doctors, setDoctors] = useState([]);
   const [doctor, setDoctor] = useState(null);
   const [availableSlots, setAvailableSlots] = useState([]);
-
   const [loading, setLoading] = useState(false);
 
-  /* SLOT LOCKING */
+  /* ---------------- HELPERS ---------------- */
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+
+    setForm((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const nextStep = () => setStep((s) => Math.min(s + 1, 5));
+  const prevStep = () => setStep((s) => Math.max(s - 1, 1));
+
+  const selectDoctor = (doc) => {
+    setForm((p) => ({ ...p, doctorId: doc.id }));
+    setStep(3);
+  };
+
+  const selectDate = (date) => {
+    setForm((p) => ({ ...p, date }));
+    setStep(4);
+  };
+
+  const selectSlot = (time) => {
+    setForm((p) => ({ ...p, time }));
+    setStep(5);
+  };
+
+  const canGoNext = () => {
+    if (step === 1) return form.department;
+    if (step === 2) return form.doctorId;
+    if (step === 3) return form.date;
+    if (step === 4) return form.time;
+    if (step === 5) return form.patientName && form.phone && form.email;
+    return false;
+  };
+
+  /* ---------------- SLOT LOCKING ---------------- */
 
   const lockSlot = async (doctorId, date, time) => {
     const slotRef = doc(db, "slotLocks", `${doctorId}_${date}_${time}`);
@@ -76,12 +121,12 @@ export default function AppointmentForm() {
     });
   };
 
-  /* LOAD DEPARTMENTS */
+  /* ---------------- LOAD DEPARTMENTS ---------------- */
 
   useEffect(() => {
     const loadDepartments = async () => {
       const data = await getAllDepartments();
-      setDepartments(data);
+      setDepartments(data || []);
 
       if (departmentParam) {
         setForm((p) => ({ ...p, department: departmentParam }));
@@ -92,14 +137,14 @@ export default function AppointmentForm() {
     loadDepartments();
   }, []);
 
-  /* LOAD DOCTORS */
+  /* ---------------- LOAD DOCTORS ---------------- */
 
   useEffect(() => {
     if (!form.department) return;
 
     const loadDoctors = async () => {
       const data = await getDoctorsByDepartment(form.department);
-      setDoctors(data);
+      setDoctors(data || []);
 
       if (doctorParam) {
         const found = data.find((d) => d.id === doctorParam);
@@ -123,6 +168,8 @@ export default function AppointmentForm() {
     const selected = doctors.find((d) => d.id === form.doctorId);
     setDoctor(selected || null);
   }, [form.doctorId, doctors]);
+
+  /* ---------------- SLOT GENERATION ---------------- */
 
   const allSlots = useMemo(() => {
     if (!doctor) return [];
@@ -156,7 +203,7 @@ export default function AppointmentForm() {
     return () => unsub();
   }, [form.doctorId, form.date, doctor, allSlots]);
 
-  /* SUBMIT */
+  /* ---------------- SUBMIT ---------------- */
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -177,15 +224,7 @@ export default function AppointmentForm() {
     try {
       setLoading(true);
 
-      /* LOCK SLOT */
-
-      try {
-        await lockSlot(form.doctorId, form.date, form.time);
-      } catch (err) {
-        notifyError(err.message || "This slot was just booked.");
-        setLoading(false);
-        return;
-      }
+      await lockSlot(form.doctorId, form.date, form.time);
 
       const payload = {
         ...form,
@@ -196,8 +235,6 @@ export default function AppointmentForm() {
         departmentName:
           departments.find((d) => d.id === form.department)?.name || "",
       };
-
-      /* CREATE APPOINTMENT */
 
       await notifyPromise(createAppointment(payload), {
         loading: "Booking appointment...",
@@ -214,9 +251,17 @@ export default function AppointmentForm() {
     }
   };
 
+  /* ---------------- UI ---------------- */
+
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
-      {/* PROGRESS BAR */}
+      {packageParam && (
+        <div className="p-3 rounded-lg bg-blue-50 text-sm text-blue-700">
+          Booking from selected health package
+        </div>
+      )}
+
+      {/* STEP INDICATOR */}
 
       <div className="flex justify-between text-sm font-medium">
         {["Department", "Doctor", "Date", "Time", "Details"].map((label, i) => (
@@ -240,7 +285,7 @@ export default function AppointmentForm() {
             handleChange(e);
             nextStep();
           }}
-          className={inputStyle}
+          className={selectStyle}
         >
           <option value="">Select Department</option>
 
@@ -262,12 +307,7 @@ export default function AppointmentForm() {
               type="button"
               disabled={fromDoctorPage}
               onClick={() => selectDoctor(doc)}
-              className="
-              border border-gray-200 dark:border-white/10
-              p-4 rounded-lg text-left
-              hover:border-blue-500
-              disabled:opacity-40
-              "
+              className="border border-gray-200 p-4 rounded-lg text-left hover:border-blue-500 disabled:opacity-40"
             >
               <div className="font-semibold">{doc.name}</div>
               <div className="text-sm text-gray-500">{doc.specialty}</div>
@@ -333,17 +373,12 @@ export default function AppointmentForm() {
             value={form.message}
             onChange={handleChange}
             rows="4"
-            className={inputStyle}
+            className={textareaStyle}
           />
 
           <button
             disabled={!canGoNext() || loading}
-            className="
-            w-full py-3 rounded-lg
-            bg-blue-500 hover:bg-blue-600
-            text-white font-medium
-            disabled:opacity-50
-            "
+            className="ui-button disabled:opacity-50"
           >
             {loading ? "Booking..." : "Book Appointment"}
           </button>
@@ -357,12 +392,7 @@ export default function AppointmentForm() {
           type="button"
           onClick={prevStep}
           disabled={step === 1}
-          className="
-          px-4 py-2 rounded-lg
-          border border-gray-300
-          hover:bg-gray-100
-          disabled:opacity-40
-          "
+          className="px-4 py-2 rounded-lg border border-gray-300 hover:bg-gray-100 disabled:opacity-40"
         >
           ← Previous
         </button>
@@ -372,12 +402,7 @@ export default function AppointmentForm() {
             type="button"
             onClick={nextStep}
             disabled={!canGoNext()}
-            className="
-            px-4 py-2 rounded-lg
-            bg-blue-500 hover:bg-blue-600
-            text-white
-            disabled:opacity-40
-            "
+            className="px-4 py-2 rounded-lg bg-blue-500 hover:bg-blue-600 text-white disabled:opacity-40"
           >
             Next →
           </button>
