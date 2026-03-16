@@ -19,13 +19,9 @@ export default function Login() {
     try {
       setLoading(true);
 
-      const user = await login(email, password);
+      await login(email, password);
 
-      if (user.email?.toLowerCase() === ADMIN_EMAIL.toLowerCase()) {
-        nav("/admin/bulk-upload");
-      } else {
-        nav("/");
-      }
+      nav("/"); // Public homepage
     } catch (err) {
       console.error(err);
       notifyError("Login failed");
