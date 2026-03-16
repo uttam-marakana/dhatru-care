@@ -2,7 +2,7 @@ import { useState } from "react";
 import { signup } from "./authApi";
 import { useNavigate, Link } from "react-router-dom";
 
-import { notifyError, notifySuccess } from "../../utils/toast";
+import { notifyError } from "../utils/toast";
 
 export default function Signup() {
   const navigate = useNavigate();

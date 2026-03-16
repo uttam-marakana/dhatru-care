@@ -2,7 +2,7 @@ import { useState } from "react";
 import { login } from "./authApi";
 import { useNavigate, Link } from "react-router-dom";
 
-import { notifyError } from "../../utils/toast";
+import { notifyError } from "../utils/toast";
 
 const ADMIN_EMAIL = "uttamrootways@gmail.com";
 
