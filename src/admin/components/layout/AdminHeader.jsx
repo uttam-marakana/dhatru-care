@@ -3,12 +3,15 @@ export default function AdminHeader({ title, description, action }) {
     <div
       className="
       glass
-      flex flex-col md:flex-row
-      md:items-center md:justify-between
+      flex
+      flex-col
+      md:flex-row
+      md:items-center
+      md:justify-between
       gap-4
-      px-5 sm:px-6
+      px-5
+      sm:px-6
       py-5
-      mb-6
       "
     >
       {/* TITLE AREA */}
