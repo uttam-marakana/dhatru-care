@@ -1,4 +1,4 @@
-import { lazy, useMemo } from "react";
+import { useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import Container from "../../components/layout/Container";
@@ -11,6 +11,7 @@ export default function PackagesCompareTable({
   recommendedPackage,
 }) {
   const navigate = useNavigate();
+  const [activeColumn, setActiveColumn] = useState(null);
 
   const parsePrice = (price) => {
     if (typeof price === "number") return price;
@@ -18,7 +19,7 @@ export default function PackagesCompareTable({
     return 0;
   };
 
-  /* ---------- BEST VALUE (MOST TESTS) ---------- */
+  /* ---------------- BEST VALUE ---------------- */
 
   const bestValueId = useMemo(() => {
     if (!packages.length) return null;
@@ -27,10 +28,10 @@ export default function PackagesCompareTable({
     let maxTests = -1;
 
     packages.forEach((pkg) => {
-      const testCount = pkg.includes?.length || 0;
+      const count = pkg.includes?.length || 0;
 
-      if (testCount > maxTests) {
-        maxTests = testCount;
+      if (count > maxTests) {
+        maxTests = count;
         best = pkg.id;
       }
     });
@@ -38,15 +39,15 @@ export default function PackagesCompareTable({
     return best;
   }, [packages]);
 
-  /* ---------- AUTO RECOMMENDED ---------- */
+  /* ---------------- AI RECOMMENDED ---------------- */
 
   const autoRecommendedId = useMemo(() => {
     if (!packages.length) return null;
 
     const prices = packages.map((p) => parsePrice(p.price));
 
-    const maxPrice = Math.max(...prices);
-    const minPrice = Math.min(...prices);
+    const max = Math.max(...prices);
+    const min = Math.min(...prices);
 
     let bestScore = -1;
     let best = null;
@@ -55,10 +56,7 @@ export default function PackagesCompareTable({
       const tests = pkg.includes?.length || 0;
       const price = parsePrice(pkg.price);
 
-      const affordability =
-        maxPrice === minPrice
-          ? 1
-          : 1 - (price - minPrice) / (maxPrice - minPrice);
+      const affordability = max === min ? 1 : 1 - (price - min) / (max - min);
 
       const score = tests * 0.6 + affordability * 0.4;
 
@@ -71,8 +69,6 @@ export default function PackagesCompareTable({
     return best;
   }, [packages]);
 
-  /* ---------- FINAL RECOMMENDED ---------- */
-
   const isRecommended = (pkg) =>
     recommendedPackage
       ? pkg.id === recommendedPackage.id
@@ -80,7 +76,21 @@ export default function PackagesCompareTable({
 
   const isBestValue = (pkg) => pkg.id === bestValueId;
 
-  /* ---------- LOADING ---------- */
+  /* ---------------- FEATURE MATRIX ---------------- */
+
+  const features = useMemo(() => {
+    const set = new Set();
+
+    packages.forEach((pkg) => {
+      (pkg.includes || []).forEach((feature) => {
+        set.add(feature);
+      });
+    });
+
+    return Array.from(set);
+  }, [packages]);
+
+  /* ---------------- STATES ---------------- */
 
   if (loading) {
     return (
@@ -90,15 +100,11 @@ export default function PackagesCompareTable({
     );
   }
 
-  /* ---------- ERROR ---------- */
-
   if (error) {
     return (
       <Container className="py-16 text-center text-red-500">{error}</Container>
     );
   }
-
-  /* ---------- EMPTY STATE ---------- */
 
   if (!packages.length) {
     return (
@@ -111,38 +117,80 @@ export default function PackagesCompareTable({
   return (
     <section className="py-16">
       <Container>
-        <div className="overflow-x-auto border rounded-xl bg-[var(--card)]">
-          <table className="min-w-237.5 w-full">
-            {/* ---------- HEADER ---------- */}
+        {/* ---------- MOBILE CARD VIEW ---------- */}
 
-            <thead>
+        <div className="lg:hidden space-y-6">
+          {packages.map((pkg) => (
+            <div
+              key={pkg.id}
+              className="border border-[var(--border)] rounded-xl p-6 bg-[var(--card)]"
+            >
+              <div className="flex justify-between items-start mb-4">
+                <div>
+                  <h3 className="font-bold text-lg">{pkg.name}</h3>
+                  <div className="text-[var(--color-primary)] text-xl font-bold">
+                    ₹{parsePrice(pkg.price)}
+                  </div>
+                </div>
+
+                {isRecommended(pkg) && (
+                  <span className="text-xs bg-[var(--color-primary)] text-white px-2 py-1 rounded-full">
+                    Recommended
+                  </span>
+                )}
+              </div>
+
+              <ul className="space-y-2 text-sm text-[var(--text-secondary)] mb-4">
+                {(pkg.includes || []).map((item, i) => (
+                  <li key={i}>✔ {item}</li>
+                ))}
+              </ul>
+
+              <Button
+                className="w-full"
+                onClick={() => navigate(`/appointment?package=${pkg.id}`)}
+              >
+                Book Now
+              </Button>
+            </div>
+          ))}
+        </div>
+
+        {/* ---------- DESKTOP TABLE ---------- */}
+
+        <div className="hidden lg:block overflow-x-auto border rounded-xl bg-[var(--card)]">
+          <table className="min-w-[1000px] w-full text-sm">
+            {/* HEADER */}
+
+            <thead className="sticky top-0 z-20 bg-[var(--card)]">
               <tr>
-                <th className="sticky left-0 bg-[var(--card)] p-6 font-bold z-10">
+                <th className="sticky left-0 bg-[var(--card)] p-6 z-30 font-bold">
                   Features
                 </th>
 
                 {packages.map((pkg) => (
                   <th
                     key={pkg.id}
-                    className={`p-6 min-w-60 text-center relative
-                    ${
-                      isRecommended(pkg)
-                        ? "bg-[var(--color-primary)]/10 border-x-2 border-[var(--color-primary)]"
-                        : ""
-                    }`}
+                    onMouseEnter={() => setActiveColumn(pkg.id)}
+                    onMouseLeave={() => setActiveColumn(null)}
+                    className={`
+                      p-6 min-w-[240px] text-center relative transition
+                      ${activeColumn === pkg.id ? "bg-[var(--surface)]" : ""}
+                      ${
+                        isRecommended(pkg)
+                          ? "bg-[var(--color-primary)]/10 border-x-2 border-[var(--color-primary)]"
+                          : ""
+                      }
+                    `}
                   >
-                    {/* Recommended Badge */}
-
                     {isRecommended(pkg) && (
-                      <span className="absolute top-2 right-2 bg-primary text-white text-xs px-2 py-1 rounded-full">
+                      <span className="absolute top-3 right-3 bg-[var(--color-primary)] text-white text-xs px-2 py-1 rounded-full">
                         ⭐ Recommended
                       </span>
                     )}
 
-                    {/* Best Value Badge */}
-
                     {!isRecommended(pkg) && isBestValue(pkg) && (
-                      <span className="absolute top-2 right-2 bg-green-600 text-white text-xs px-2 py-1 rounded-full">
+                      <span className="absolute top-3 right-3 bg-green-600 text-white text-xs px-2 py-1 rounded-full">
                         🔥 Best Value
                       </span>
                     )}
@@ -157,42 +205,46 @@ export default function PackagesCompareTable({
               </tr>
             </thead>
 
-            {/* ---------- BODY ---------- */}
+            {/* BODY */}
 
             <tbody>
-              {/* Tests */}
-
-              <tr className="border-t border-[var(--border)]">
-                <td className="sticky left-0 bg-[var(--card)] p-6 font-semibold">
-                  Tests Included
-                </td>
-
-                {packages.map((pkg) => (
-                  <td key={pkg.id} className="p-6 align-top">
-                    <ul className="space-y-2 text-sm text-[var(--text-secondary)]">
-                      {(pkg.includes || []).map((item, i) => (
-                        <li key={i} className="flex gap-2">
-                          <span className="text-green-500">✔</span>
-                          {item}
-                        </li>
-                      ))}
-                    </ul>
+              {features.map((feature, index) => (
+                <tr key={index} className="border-t border-[var(--border)]">
+                  <td className="sticky left-0 bg-[var(--card)] p-6 font-semibold z-10">
+                    {feature}
                   </td>
-                ))}
-              </tr>
 
-              {/* Action */}
+                  {packages.map((pkg) => (
+                    <td
+                      key={pkg.id}
+                      className={`p-6 text-center ${
+                        activeColumn === pkg.id ? "bg-[var(--surface)]" : ""
+                      }`}
+                    >
+                      {(pkg.includes || []).includes(feature) ? (
+                        <span className="text-green-500 font-bold">✔</span>
+                      ) : (
+                        <span className="text-[var(--muted)]">—</span>
+                      )}
+                    </td>
+                  ))}
+                </tr>
+              ))}
+
+              {/* ACTION */}
 
               <tr className="border-t border-[var(--border)]">
-                <td className="sticky left-0 bg-[var(--card)] p-6 font-semibold">
-                  Action
+                <td className="sticky left-0 bg-[var(--card)] p-6 font-semibold z-10">
+                  Book
                 </td>
 
                 {packages.map((pkg) => (
                   <td key={pkg.id} className="p-6 text-center">
                     <Button
                       className={`w-full ${
-                        isRecommended(pkg) ? "bg-primary text-white" : ""
+                        isRecommended(pkg)
+                          ? "bg-[var(--color-primary)] text-white"
+                          : ""
                       }`}
                       onClick={() => navigate(`/appointment?package=${pkg.id}`)}
                     >
