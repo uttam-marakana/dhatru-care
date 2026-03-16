@@ -1,5 +1,6 @@
 import { Outlet, NavLink, useNavigate } from "react-router-dom";
 import { useState, useRef, useEffect } from "react";
+import { useAuth } from "../context/AuthContext";
 
 import {
   FaBars,
@@ -16,6 +17,8 @@ export default function AdminLayout() {
 
   const dropdownRef = useRef(null);
   const navigate = useNavigate();
+
+  const { logout } = useAuth(); // ✅ added
 
   const adminName = localStorage.getItem("adminName") || "Admin";
 
@@ -51,9 +54,16 @@ export default function AdminLayout() {
 
   /* LOGOUT */
 
-  const handleLogout = () => {
-    localStorage.removeItem("adminToken");
-    navigate("/login");
+  const handleLogout = async () => {
+    try {
+      await logout(); // ✅ Firebase logout
+      localStorage.removeItem("adminToken");
+      localStorage.removeItem("adminName");
+
+      navigate("/login");
+    } catch (err) {
+      console.error("Logout failed:", err);
+    }
   };
 
   return (
