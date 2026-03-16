@@ -10,14 +10,17 @@ export default function DashboardCard({
       glass
       hover-lift
       p-5
-      flex items-center
+      flex
+      items-center
       justify-between
       gap-4
+      min-h-[90px]
+      transition
       "
     >
       {/* TEXT */}
 
-      <div>
+      <div className="flex flex-col">
         <p className="text-sm text-[var(--text-secondary)]">{title}</p>
 
         <p className="text-2xl font-bold text-[var(--text)] mt-1">{value}</p>
@@ -26,7 +29,21 @@ export default function DashboardCard({
       {/* ICON */}
 
       {icon && (
-        <div className="text-2xl" style={{ color }}>
+        <div
+          className="
+          flex
+          items-center
+          justify-center
+          w-11
+          h-11
+          rounded-lg
+          text-lg
+          "
+          style={{
+            backgroundColor: `${color}20`,
+            color: color,
+          }}
+        >
           {icon}
         </div>
       )}
