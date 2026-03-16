@@ -1,10 +1,12 @@
-import { lazy } from "react";
+import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 
 import Container from "../../components/layout/Container";
 import Button from "../../components/common/Button";
 
 export default function HealthPackages({ packages = [], loading, error }) {
+  const navigate = useNavigate();
+
   if (loading)
     return (
       <div className="text-center py-24 text-[var(--text-secondary)] bg-[var(--section)]">
@@ -21,7 +23,6 @@ export default function HealthPackages({ packages = [], loading, error }) {
 
   return (
     <section className="relative py-20 md:py-24 bg-[var(--section)] text-[var(--text)] overflow-hidden">
-      {/* Background Glow */}
       <div
         className="
         pointer-events-none
@@ -37,14 +38,12 @@ export default function HealthPackages({ packages = [], loading, error }) {
       />
 
       <Container className="relative z-10">
-        {/* Header */}
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-bold text-[var(--color-primary)]">
             Comprehensive Health Packages
           </h2>
         </div>
 
-        {/* Packages Grid */}
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
           {packages.map((pkg) => (
             <div
@@ -76,12 +75,16 @@ export default function HealthPackages({ packages = [], loading, error }) {
                 ))}
               </ul>
 
-              <Button className="mt-auto w-full">Book Now</Button>
+              <Button
+                className="mt-auto w-full"
+                onClick={() => navigate(`/appointment?package=${pkg.id}`)}
+              >
+                Book Now
+              </Button>
             </div>
           ))}
         </div>
 
-        {/* CTA */}
         <div className="text-center mt-14">
           <Link to="/packages/compare">
             <Button variant="ghost" size="lg">
