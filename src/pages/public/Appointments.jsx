@@ -1,7 +1,13 @@
+import { useSearchParams } from "react-router-dom";
+
 import AppointmentForm from "../../components/forms/AppointmentForm";
 import Container from "../../components/layout/Container";
 
 export default function Appointments() {
+  const [params] = useSearchParams();
+
+  const packageId = params.get("package");
+
   return (
     <section
       className="
@@ -58,7 +64,7 @@ export default function Appointments() {
           animate-fade-in-up
           "
         >
-          <AppointmentForm />
+          <AppointmentForm selectedPackage={packageId} />
         </div>
       </Container>
     </section>
