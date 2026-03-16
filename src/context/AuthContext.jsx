@@ -13,35 +13,39 @@ export function AuthProvider({ children }) {
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
-      if (!firebaseUser) {
-        setUser(null);
-        setRole(null);
-        setLoading(false);
-        return;
-      }
-
-      setUser(firebaseUser);
-
       try {
-        const snap = await getDoc(doc(db, "users", firebaseUser.uid));
+        if (!firebaseUser) {
+          setUser(null);
+          setRole(null);
+          setLoading(false);
+          return;
+        }
+
+        setUser(firebaseUser);
+
+        const userRef = doc(db, "users", firebaseUser.uid);
+        const snap = await getDoc(userRef);
 
         if (snap.exists()) {
-          setRole(snap.data().role || "user");
+          const data = snap.data();
+          setRole(data.role || "user");
         } else {
           setRole("user");
         }
-      } catch (error) {
-        console.error("Role fetch error:", error);
+      } catch (err) {
+        console.error("Auth role fetch error:", err);
         setRole("user");
+      } finally {
+        setLoading(false);
       }
-
-      setLoading(false);
     });
 
     return () => unsubscribe();
   }, []);
 
-  const logout = () => signOut(auth);
+  const logout = async () => {
+    await signOut(auth);
+  };
 
   return (
     <AuthContext.Provider value={{ user, role, loading, logout }}>
