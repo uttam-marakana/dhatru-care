@@ -1,4 +1,6 @@
 import { lazy, useEffect, useState, Suspense } from "react";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
 
 import HeroSlider from "../../sections/home/HeroSlider";
 import QuickActions from "../../sections/home/QuickActions";
@@ -26,6 +28,9 @@ import { getPackages } from "../../api/packagesApi";
 import { getBlogPosts } from "../../api/blogsApi";
 
 export default function Home() {
+  const { role, loading: authLoading } = useAuth();
+  const navigate = useNavigate();
+
   const [data, setData] = useState({
     departments: [],
     doctors: [],
@@ -34,6 +39,16 @@ export default function Home() {
   });
 
   const [loading, setLoading] = useState(true);
+
+  /* REDIRECT ADMIN TO DASHBOARD */
+
+  useEffect(() => {
+    if (!authLoading && role === "admin") {
+      navigate("/admin");
+    }
+  }, [role, authLoading, navigate]);
+
+  /* LOAD HOME DATA */
 
   useEffect(() => {
     const load = async () => {
