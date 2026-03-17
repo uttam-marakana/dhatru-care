@@ -1,4 +1,4 @@
-import { useState, lazy, useMemo } from "react";
+import { useState, useMemo } from "react";
 
 import Container from "../../components/layout/Container";
 import Card from "../../components/common/Card";
