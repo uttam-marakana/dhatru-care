@@ -77,7 +77,11 @@ export default function HealthPackages({ packages = [], loading, error }) {
 
               <Button
                 className="mt-auto w-full"
-                onClick={() => navigate(`/appointment?package=${pkg.id}`)}
+                onClick={() =>
+                  navigate(
+                    `/appointment?package=${pkg.id}&packageName=${pkg.name}`,
+                  )
+                }
               >
                 Book Now
               </Button>
