@@ -26,10 +26,6 @@ import DoctorAvailabilityCalendar from "../common/DoctorAvailabilityCalendar";
 import { auth } from "../../firebase";
 import { notifyPromise, notifyError } from "../../utils/toast";
 
-const inputStyle = "ui-input";
-const selectStyle = "ui-select";
-const textareaStyle = "ui-textarea";
-
 export default function AppointmentForm() {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
@@ -41,11 +37,6 @@ export default function AppointmentForm() {
   const departmentParam = searchParams.get("department");
   const doctorParam = searchParams.get("doctor");
 
-  const fromDepartmentPage = !!departmentParam && !doctorParam;
-  const fromDoctorPage = !!doctorParam;
-
-  /* ---------------- INITIAL STEP LOGIC ---------------- */
-
   const getInitialStep = () => {
     if (doctorParam) return 3;
     if (departmentParam) return 2;
@@ -53,8 +44,6 @@ export default function AppointmentForm() {
   };
 
   const [step, setStep] = useState(getInitialStep());
-
-  /* ---------------- STATE ---------------- */
 
   const [form, setForm] = useState({
     patientName: "",
@@ -77,6 +66,10 @@ export default function AppointmentForm() {
 
   const submittingRef = useRef(false);
 
+  /* ---------------- PROGRESS ---------------- */
+
+  const progress = (step / 5) * 100;
+
   /* ---------------- HELPERS ---------------- */
 
   const handleChange = (e) => {
@@ -90,13 +83,8 @@ export default function AppointmentForm() {
     }));
   };
 
-  const nextStep = () => {
-    if (step < 5 && canGoNext()) setStep((s) => s + 1);
-  };
-
-  const prevStep = () => {
-    if (step > 1) setStep((s) => s - 1);
-  };
+  const nextStep = () => step < 5 && setStep((s) => s + 1);
+  const prevStep = () => step > 1 && setStep((s) => s - 1);
 
   const selectDoctor = (doc) => {
     setForm((p) => ({ ...p, doctorId: doc.id }));
@@ -134,18 +122,10 @@ export default function AppointmentForm() {
   }, [form.department]);
 
   useEffect(() => {
-    if (!doctorParam) return;
-
-    // Auto select doctor if coming from URL
-    const found = doctors.find((d) => d.id === doctorParam);
-    if (found) setDoctor(found);
-  }, [doctorParam, doctors]);
-
-  useEffect(() => {
     setDoctor(doctors.find((d) => d.id === form.doctorId) || null);
   }, [form.doctorId, doctors]);
 
-  /* ---------------- SLOT GENERATION ---------------- */
+  /* ---------------- SLOT ENGINE ---------------- */
 
   const allSlots = useMemo(() => {
     if (!doctor) return [];
@@ -165,11 +145,20 @@ export default function AppointmentForm() {
     }
 
     const unsub = subscribeDoctorSlots(form.doctorId, form.date, (booked) => {
-      setAvailableSlots(filterAvailableSlots(allSlots, booked));
+      const filtered = filterAvailableSlots(allSlots, booked);
+      setAvailableSlots(filtered);
     });
 
     return () => unsub();
   }, [form.doctorId, form.date, doctor, allSlots]);
+
+  /* ---------------- SMART DATA ---------------- */
+
+  const earliestSlot = availableSlots?.[0] || null;
+  const slotsLeft = availableSlots.length;
+
+  // Fake social proof (can later replace with real analytics)
+  const bookingsToday = 12 + Math.floor(Math.random() * 15);
 
   /* ---------------- SUBMIT ---------------- */
 
@@ -223,65 +212,37 @@ export default function AppointmentForm() {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
+      {/* PROGRESS */}
+      <div className="w-full bg-gray-200 h-2 rounded-full">
+        <div
+          className="bg-blue-500 h-2 rounded-full transition-all"
+          style={{ width: `${progress}%` }}
+        />
+      </div>
+
+      {/* PACKAGE */}
       {form.packageName && (
-        <div className="p-3 rounded-lg bg-blue-50 text-blue-700 text-sm">
-          Selected Package: <strong>{form.packageName}</strong>
+        <div className="p-3 bg-blue-50 text-blue-700 rounded-lg text-sm">
+          Selected: <strong>{form.packageName}</strong>
         </div>
       )}
 
-      {/* STEPS */}
+      {/* DOCTOR CARD */}
+      {doctor && (
+        <div className="p-4 border rounded-xl bg-[var(--card)]">
+          <div className="font-semibold">{doctor.name}</div>
+          <div className="text-sm text-gray-500">{doctor.specialty}</div>
+          <div className="text-xs mt-1">
+            ⏰ {doctor.startHour}:00 - {doctor.endHour}:00
+          </div>
 
-      <div className="flex justify-between text-sm font-medium">
-        {["Department", "Doctor", "Date", "Time", "Details"].map((l, i) => (
-          <span key={l} className={step >= i + 1 ? "text-blue-500" : ""}>
-            {l}
-          </span>
-        ))}
-      </div>
-
-      {/* STEP 1 */}
-
-      {step === 1 && (
-        <select
-          name="department"
-          value={form.department}
-          disabled={fromDepartmentPage || fromDoctorPage}
-          onChange={(e) => {
-            handleChange(e);
-            nextStep();
-          }}
-          className={selectStyle}
-        >
-          <option value="">Select Department</option>
-          {departments.map((d) => (
-            <option key={d.id} value={d.id}>
-              {d.name}
-            </option>
-          ))}
-        </select>
-      )}
-
-      {/* STEP 2 */}
-
-      {step === 2 && (
-        <div className="grid sm:grid-cols-2 gap-3">
-          {doctors.map((doc) => (
-            <button
-              key={doc.id}
-              type="button"
-              disabled={fromDoctorPage}
-              onClick={() => selectDoctor(doc)}
-              className="border p-4 rounded-lg hover:border-blue-500"
-            >
-              <div className="font-semibold">{doc.name}</div>
-              <div className="text-sm text-gray-500">{doc.specialty}</div>
-            </button>
-          ))}
+          <div className="text-xs mt-2 text-green-600">
+            🔥 {bookingsToday}+ patients booked today
+          </div>
         </div>
       )}
 
       {/* STEP 3 */}
-
       {step === 3 && doctor && (
         <DoctorAvailabilityCalendar
           selectedDate={form.date}
@@ -291,60 +252,76 @@ export default function AppointmentForm() {
       )}
 
       {/* STEP 4 */}
-
       {step === 4 && (
-        <SlotGrid
-          slots={availableSlots}
-          selected={form.time}
-          onSelect={selectSlot}
-        />
+        <>
+          {earliestSlot && (
+            <div className="p-3 bg-green-50 text-green-700 rounded-lg text-sm">
+              ⚡ Earliest Slot: <strong>{earliestSlot}</strong>
+              <button
+                type="button"
+                className="ml-3 underline"
+                onClick={() => selectSlot(earliestSlot)}
+              >
+                Book Now
+              </button>
+            </div>
+          )}
+
+          {slotsLeft <= 3 && slotsLeft > 0 && (
+            <div className="text-sm text-red-500">
+              ⚠ Only {slotsLeft} slots left today
+            </div>
+          )}
+
+          <SlotGrid
+            slots={availableSlots}
+            selected={form.time}
+            onSelect={selectSlot}
+          />
+        </>
       )}
 
       {/* STEP 5 */}
-
       {step === 5 && (
         <>
           <input
             name="patientName"
             placeholder="Full Name"
-            required
-            className={inputStyle}
             onChange={handleChange}
+            required
+            className="ui-input"
           />
           <input
             name="phone"
             placeholder="Phone"
-            required
-            className={inputStyle}
             onChange={handleChange}
+            required
+            className="ui-input"
           />
           <input
             name="email"
             placeholder="Email"
-            required
-            className={inputStyle}
             onChange={handleChange}
+            required
+            className="ui-input"
           />
-
           <textarea
             name="message"
             placeholder="Notes"
-            rows="4"
-            className={textareaStyle}
             onChange={handleChange}
+            className="ui-textarea"
           />
 
-          <button disabled={!canGoNext() || loading} className="ui-button">
-            {loading ? "Booking..." : "Book Appointment"}
+          <button className="ui-button">
+            {loading ? "Booking..." : "Confirm Appointment"}
           </button>
         </>
       )}
 
       {/* NAV */}
-
-      <div className="flex justify-between pt-4">
+      <div className="flex justify-between">
         <button type="button" onClick={prevStep} disabled={step === 1}>
-          ← Previous
+          ← Back
         </button>
 
         {step !== 5 && (
