@@ -16,6 +16,25 @@ export default function PackagesCompareTable({
   const [activeColumn, setActiveColumn] = useState(null);
   const [spotlight, setSpotlight] = useState(true);
   const [search, setSearch] = useState("");
+  const [selected, setSelected] = useState([]);
+
+  /* ---------------- SELECT LOGIC ---------------- */
+
+  const toggleSelect = (pkg) => {
+    setSelected((prev) => {
+      const exists = prev.find((p) => p.id === pkg.id);
+
+      if (exists) return prev.filter((p) => p.id !== pkg.id);
+
+      if (prev.length >= 4) return prev;
+
+      return [...prev, pkg];
+    });
+  };
+
+  const displayPackages = selected.length ? selected : packages;
+
+  /* ---------------- HELPERS ---------------- */
 
   const parsePrice = (price) => {
     if (typeof price === "number") return price;
@@ -23,7 +42,7 @@ export default function PackagesCompareTable({
     return 0;
   };
 
-  /* ---------------- AI RECOMMENDATION ENGINE ---------------- */
+  /* ---------------- RECOMMENDATION ---------------- */
 
   const recommendedId = useMemo(() => {
     if (recommendedPackage?.id) return recommendedPackage.id;
@@ -35,7 +54,7 @@ export default function PackagesCompareTable({
       const tests = pkg.includes?.length || 0;
       const price = parsePrice(pkg.price);
 
-      const score = tests * 0.7 + (1 / price) * 0.3;
+      const score = tests * 0.7 + (1 / (price || 1)) * 0.3;
 
       if (score > bestScore) {
         bestScore = score;
@@ -48,29 +67,22 @@ export default function PackagesCompareTable({
 
   const isRecommended = (pkg) => pkg.id === recommendedId;
 
-  /* ---------------- FEATURE MATRIX ---------------- */
+  /* ---------------- FEATURES ---------------- */
 
   const features = useMemo(() => {
     const set = new Set();
-
     packages.forEach((pkg) => {
       (pkg.includes || []).forEach((f) => set.add(f));
     });
-
     return Array.from(set);
   }, [packages]);
 
-  /* ---------------- FEATURE SEARCH ---------------- */
-
   const filteredFeatures = useMemo(() => {
     if (!search) return features;
-
     return features.filter((f) =>
       f.toLowerCase().includes(search.toLowerCase()),
     );
   }, [features, search]);
-
-  /* ---------------- FEATURE GROUPING ---------------- */
 
   const groupedFeatures = useMemo(() => {
     const groups = {
@@ -119,7 +131,7 @@ export default function PackagesCompareTable({
   return (
     <section className="py-20">
       <Container>
-        {/* SEARCH */}
+        {/* SEARCH + CONTROLS */}
 
         <div className="flex justify-between mb-8 flex-wrap gap-4">
           <input
@@ -130,23 +142,33 @@ export default function PackagesCompareTable({
             className="ui-input max-w-xs"
           />
 
-          <button
-            onClick={() => setSpotlight(!spotlight)}
-            className="border px-4 py-2 rounded-lg"
-          >
-            {spotlight ? "Disable" : "Enable"} Spotlight
-          </button>
+          <div className="flex gap-3">
+            <button
+              onClick={() => setSpotlight(!spotlight)}
+              className="border px-4 py-2 rounded-lg"
+            >
+              {spotlight ? "Disable" : "Enable"} Spotlight
+            </button>
+
+            {selected.length > 0 && (
+              <button
+                onClick={() => setSelected([])}
+                className="border px-4 py-2 rounded-lg text-red-500"
+              >
+                Clear Compare
+              </button>
+            )}
+          </div>
         </div>
 
-        {/* MOBILE SLIDER */}
+        {/* MOBILE VIEW */}
 
         <div className="lg:hidden flex gap-4 overflow-x-auto pb-4">
-          {packages.map((pkg) => (
+          {displayPackages.map((pkg) => (
             <div
               key={pkg.id}
               className={`min-w-[260px] border rounded-xl p-6 bg-[var(--card)]
-                ${isRecommended(pkg) ? "ring-2 ring-[var(--color-primary)]" : ""}
-              `}
+              ${isRecommended(pkg) ? "ring-2 ring-[var(--color-primary)]" : ""}`}
             >
               {isRecommended(pkg) && (
                 <span className="text-xs bg-[var(--color-primary)] text-white px-2 py-1 rounded">
@@ -170,10 +192,21 @@ export default function PackagesCompareTable({
 
               <Button
                 className="w-full mt-4"
-                onClick={() => navigate(`/appointment?package=${pkg.id}`)}
+                onClick={() =>
+                  navigate(
+                    `/appointment?package=${pkg.id}&packageName=${pkg.name}`,
+                  )
+                }
               >
                 Book Now
               </Button>
+
+              <button
+                onClick={() => toggleSelect(pkg)}
+                className="text-xs underline mt-2 w-full"
+              >
+                {selected.find((p) => p.id === pkg.id) ? "Remove" : "Compare"}
+              </button>
             </div>
           ))}
         </div>
@@ -182,46 +215,39 @@ export default function PackagesCompareTable({
 
         <div className="hidden lg:block overflow-x-auto border rounded-xl bg-[var(--card)]">
           <table className="min-w-[1200px] w-full text-sm">
-            <thead className="sticky top-0 bg-[var(--card)] z-20">
+            <thead>
               <tr>
-                <th className="sticky left-0 bg-[var(--card)] p-6 z-30 min-w-[260px] text-left">
-                  Features
-                </th>
+                <th className="p-6 text-left min-w-[260px]">Features</th>
 
-                {packages.map((pkg) => (
-                  <th
-                    key={pkg.id}
-                    onMouseEnter={() => setActiveColumn(pkg.id)}
-                    onMouseLeave={() => setActiveColumn(null)}
-                    className={`
-                      p-6 min-w-[240px] text-center transition-all duration-300
-                      ${activeColumn === pkg.id ? "bg-[var(--surface)] scale-[1.02]" : ""}
-                      ${
-                        spotlight && isRecommended(pkg)
-                          ? "bg-[var(--color-primary)]/10 border-x-2 border-[var(--color-primary)] shadow-[0_0_30px_var(--glow-soft)]"
-                          : ""
-                      }
-                    `}
-                  >
-                    {isRecommended(pkg) && (
-                      <span className="text-xs bg-[var(--color-primary)] text-white px-2 py-1 rounded-full">
-                        Recommended
-                      </span>
-                    )}
+                {displayPackages.map((pkg) => (
+                  <th key={pkg.id} className="p-6 text-center min-w-[240px]">
+                    <div className="space-y-2">
+                      <div className="font-semibold">{pkg.name}</div>
 
-                    <div className="font-semibold text-lg mt-2">{pkg.name}</div>
+                      <div className="text-xl font-bold text-[var(--color-primary)]">
+                        ₹{parsePrice(pkg.price)}
+                      </div>
 
-                    <div className="text-2xl font-bold text-[var(--color-primary)] mt-1">
-                      ₹{parsePrice(pkg.price)}
+                      <Button
+                        size="sm"
+                        onClick={() =>
+                          navigate(
+                            `/appointment?package=${pkg.id}&packageName=${pkg.name}`,
+                          )
+                        }
+                      >
+                        Book
+                      </Button>
+
+                      <button
+                        onClick={() => toggleSelect(pkg)}
+                        className="text-xs underline"
+                      >
+                        {selected.find((p) => p.id === pkg.id)
+                          ? "Remove"
+                          : "Compare"}
+                      </button>
                     </div>
-
-                    <Button
-                      size="sm"
-                      className="mt-2"
-                      onClick={() => navigate(`/appointment?package=${pkg.id}`)}
-                    >
-                      Book
-                    </Button>
                   </th>
                 ))}
               </tr>
@@ -233,8 +259,8 @@ export default function PackagesCompareTable({
                   {items.length > 0 && (
                     <tr className="bg-[var(--surface)]">
                       <td
-                        colSpan={packages.length + 1}
-                        className="text-xs uppercase font-bold px-6 py-3"
+                        colSpan={displayPackages.length + 1}
+                        className="px-6 py-3 font-bold text-xs uppercase"
                       >
                         {group}
                       </td>
@@ -242,21 +268,11 @@ export default function PackagesCompareTable({
                   )}
 
                   {items.map((feature) => (
-                    <tr
-                      key={feature}
-                      className="border-t border-[var(--border)]"
-                    >
-                      <td className="sticky left-0 bg-[var(--card)] p-6 font-semibold">
-                        {feature}
-                      </td>
+                    <tr key={feature}>
+                      <td className="p-4 font-medium">{feature}</td>
 
-                      {packages.map((pkg) => (
-                        <td
-                          key={pkg.id}
-                          className={`text-center p-6 ${
-                            activeColumn === pkg.id ? "bg-[var(--surface)]" : ""
-                          }`}
-                        >
+                      {displayPackages.map((pkg) => (
+                        <td key={pkg.id} className="text-center">
                           {(pkg.includes || []).includes(feature) ? (
                             <FaCheckCircle className="text-green-500 mx-auto" />
                           ) : (
