@@ -1,11 +1,12 @@
 import { useEffect, useState, lazy, useRef } from "react";
 import { getPackages } from "../../api/packagesApi";
 
+import Breadcrumb from "../../components/common/Breadcrumb";
+
 const PageHero = lazy(() => import("../../sections/shared/PageHero"));
 const AppointmentCTA = lazy(
   () => import("../../sections/shared/AppointmentCTA"),
 );
-import Breadcrumb from "../../components/common/Breadcrumb";
 
 const PackagesCompareTable = lazy(
   () => import("../../sections/packages/PackagesCompareTable"),
@@ -18,36 +19,26 @@ const PackageRecommendationQuiz = lazy(
 export default function PackagesCompare() {
   const [packages, setPackages] = useState([]);
   const [recommended, setRecommended] = useState(null);
-
   const [tier, setTier] = useState("all");
 
   const tableRef = useRef(null);
 
   useEffect(() => {
-    const fetchPackages = async () => {
-      const data = await getPackages();
-      setPackages(data);
-    };
-
-    fetchPackages();
+    getPackages().then(setPackages);
   }, []);
-
-  const handleRecommendation = (pkg) => {
-    setRecommended(pkg);
-
-    setTimeout(() => {
-      tableRef.current?.scrollIntoView({
-        behavior: "smooth",
-      });
-    }, 200);
-  };
-
-  /* -------- PACKAGE TIER FILTER -------- */
 
   const filteredPackages =
     tier === "all"
       ? packages
       : packages.filter((p) => p.tier?.toLowerCase() === tier);
+
+  const handleRecommendation = (pkg) => {
+    setRecommended(pkg);
+
+    setTimeout(() => {
+      tableRef.current?.scrollIntoView({ behavior: "smooth" });
+    }, 200);
+  };
 
   return (
     <main className="min-h-screen bg-[var(--bg)]">
@@ -61,7 +52,7 @@ export default function PackagesCompare() {
 
       <PageHero
         title="Compare Health Packages"
-        subtitle="Find the right package based on tests, benefits and pricing"
+        subtitle="Find the right package based on tests and pricing"
       />
 
       <PackageRecommendationQuiz
@@ -69,9 +60,9 @@ export default function PackagesCompare() {
         onRecommendation={handleRecommendation}
       />
 
-      {/* TIER TOGGLE */}
+      {/* TIER FILTER */}
 
-      <div className="flex justify-center mt-10">
+      <div className="flex justify-center mt-12">
         <div className="flex gap-2 bg-[var(--card)] border border-[var(--border)] rounded-xl p-2">
           {["all", "basic", "advanced", "premium"].map((t) => (
             <button
