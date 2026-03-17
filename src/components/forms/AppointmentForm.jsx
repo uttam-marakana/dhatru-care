@@ -34,17 +34,34 @@ export default function AppointmentForm() {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
 
+  /* ---------------- PARAMS ---------------- */
+
   const packageParam = searchParams.get("package");
   const packageNameParam = searchParams.get("packageName");
+  const departmentParam = searchParams.get("department");
+  const doctorParam = searchParams.get("doctor");
 
-  const [step, setStep] = useState(1);
+  const fromDepartmentPage = !!departmentParam && !doctorParam;
+  const fromDoctorPage = !!doctorParam;
+
+  /* ---------------- INITIAL STEP LOGIC ---------------- */
+
+  const getInitialStep = () => {
+    if (doctorParam) return 3;
+    if (departmentParam) return 2;
+    return 1;
+  };
+
+  const [step, setStep] = useState(getInitialStep());
+
+  /* ---------------- STATE ---------------- */
 
   const [form, setForm] = useState({
     patientName: "",
     phone: "",
     email: "",
-    department: "",
-    doctorId: "",
+    department: departmentParam || "",
+    doctorId: doctorParam || "",
     date: "",
     time: "",
     message: "",
@@ -117,8 +134,18 @@ export default function AppointmentForm() {
   }, [form.department]);
 
   useEffect(() => {
+    if (!doctorParam) return;
+
+    // Auto select doctor if coming from URL
+    const found = doctors.find((d) => d.id === doctorParam);
+    if (found) setDoctor(found);
+  }, [doctorParam, doctors]);
+
+  useEffect(() => {
     setDoctor(doctors.find((d) => d.id === form.doctorId) || null);
   }, [form.doctorId, doctors]);
+
+  /* ---------------- SLOT GENERATION ---------------- */
 
   const allSlots = useMemo(() => {
     if (!doctor) return [];
@@ -132,9 +159,7 @@ export default function AppointmentForm() {
   useEffect(() => {
     if (!form.doctorId || !form.date || !doctor) return;
 
-    const working = isDoctorWorkingDay(doctor, form.date);
-
-    if (!working) {
+    if (!isDoctorWorkingDay(doctor, form.date)) {
       setAvailableSlots([]);
       return;
     }
@@ -170,8 +195,8 @@ export default function AppointmentForm() {
       const payload = {
         ...form,
         userId: user.uid,
-        doctorName: doctor.name,
-        doctorSpecialty: doctor.specialty,
+        doctorName: doctor?.name,
+        doctorSpecialty: doctor?.specialty,
         departmentId: form.department,
         departmentName:
           departments.find((d) => d.id === form.department)?.name || "",
@@ -198,20 +223,18 @@ export default function AppointmentForm() {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
-      {loading && (
-        <div className="text-sm text-blue-500">Securing your slot...</div>
-      )}
-
       {form.packageName && (
-        <div className="p-3 rounded-lg bg-blue-50 text-sm text-blue-700">
+        <div className="p-3 rounded-lg bg-blue-50 text-blue-700 text-sm">
           Selected Package: <strong>{form.packageName}</strong>
         </div>
       )}
 
+      {/* STEPS */}
+
       <div className="flex justify-between text-sm font-medium">
-        {["Department", "Doctor", "Date", "Time", "Details"].map((label, i) => (
-          <span key={label} className={step >= i + 1 ? "text-blue-500" : ""}>
-            {label}
+        {["Department", "Doctor", "Date", "Time", "Details"].map((l, i) => (
+          <span key={l} className={step >= i + 1 ? "text-blue-500" : ""}>
+            {l}
           </span>
         ))}
       </div>
@@ -230,7 +253,6 @@ export default function AppointmentForm() {
           className={selectStyle}
         >
           <option value="">Select Department</option>
-
           {departments.map((d) => (
             <option key={d.id} value={d.id}>
               {d.name}
@@ -242,14 +264,14 @@ export default function AppointmentForm() {
       {/* STEP 2 */}
 
       {step === 2 && (
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        <div className="grid sm:grid-cols-2 gap-3">
           {doctors.map((doc) => (
             <button
               key={doc.id}
               type="button"
               disabled={fromDoctorPage}
               onClick={() => selectDoctor(doc)}
-              className="border border-gray-200 p-4 rounded-lg text-left hover:border-blue-500 disabled:opacity-40"
+              className="border p-4 rounded-lg hover:border-blue-500"
             >
               <div className="font-semibold">{doc.name}</div>
               <div className="text-sm text-gray-500">{doc.specialty}</div>
@@ -285,78 +307,52 @@ export default function AppointmentForm() {
           <input
             name="patientName"
             placeholder="Full Name"
-            value={form.patientName}
-            onChange={handleChange}
             required
             className={inputStyle}
+            onChange={handleChange}
           />
-
           <input
             name="phone"
             placeholder="Phone"
-            value={form.phone}
-            onChange={handleChange}
             required
             className={inputStyle}
+            onChange={handleChange}
           />
-
           <input
             name="email"
             placeholder="Email"
-            value={form.email}
-            onChange={handleChange}
             required
             className={inputStyle}
+            onChange={handleChange}
           />
 
           <textarea
             name="message"
-            placeholder="Additional Notes"
-            value={form.message}
-            onChange={handleChange}
+            placeholder="Notes"
             rows="4"
             className={textareaStyle}
+            onChange={handleChange}
           />
 
-          <button
-            disabled={!canGoNext() || loading}
-            className="ui-button disabled:opacity-50"
-          >
+          <button disabled={!canGoNext() || loading} className="ui-button">
             {loading ? "Booking..." : "Book Appointment"}
           </button>
         </>
       )}
 
-      {/* NAVIGATION */}
+      {/* NAV */}
 
       <div className="flex justify-between pt-4">
-        <button
-          type="button"
-          onClick={prevStep}
-          disabled={step === 1}
-          className="px-4 py-2 rounded-lg border border-gray-300 hover:bg-gray-100 disabled:opacity-40"
-        >
+        <button type="button" onClick={prevStep} disabled={step === 1}>
           ← Previous
         </button>
 
         {step !== 5 && (
-          <button
-            type="button"
-            onClick={nextStep}
-            disabled={!canGoNext()}
-            className="px-4 py-2 rounded-lg bg-blue-500 hover:bg-blue-600 text-white disabled:opacity-40"
-          >
+          <button type="button" onClick={nextStep} disabled={!canGoNext()}>
             Next →
           </button>
         )}
       </div>
-
-      <button
-        disabled={!canGoNext() || loading}
-        className="ui-button disabled:opacity-50"
-      >
-        {loading ? "Booking..." : "Book Appointment"}
-      </button>
     </form>
   );
 }
