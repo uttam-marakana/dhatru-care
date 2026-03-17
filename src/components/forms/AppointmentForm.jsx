@@ -38,7 +38,7 @@ export default function AppointmentForm() {
   const doctorParam = searchParams.get("doctor");
 
   const getInitialStep = () => {
-    if (doctorParam) return 3;
+    if (doctorParam && departmentParam) return 3;
     if (departmentParam) return 2;
     return 1;
   };
@@ -63,52 +63,9 @@ export default function AppointmentForm() {
   const [doctor, setDoctor] = useState(null);
   const [availableSlots, setAvailableSlots] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [successData, setSuccessData] = useState(null);
 
   const submittingRef = useRef(false);
-
-  /* ---------------- PROGRESS ---------------- */
-
-  const progress = (step / 5) * 100;
-
-  /* ---------------- HELPERS ---------------- */
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-
-    setForm((prev) => ({
-      ...prev,
-      [name]: value,
-      ...(name === "department" && { doctorId: "", date: "", time: "" }),
-      ...(name === "doctorId" && { date: "", time: "" }),
-    }));
-  };
-
-  const nextStep = () => step < 5 && setStep((s) => s + 1);
-  const prevStep = () => step > 1 && setStep((s) => s - 1);
-
-  const selectDoctor = (doc) => {
-    setForm((p) => ({ ...p, doctorId: doc.id }));
-    setStep(3);
-  };
-
-  const selectDate = (date) => {
-    setForm((p) => ({ ...p, date, time: "" }));
-    setStep(4);
-  };
-
-  const selectSlot = (time) => {
-    setForm((p) => ({ ...p, time }));
-    setStep(5);
-  };
-
-  const canGoNext = () => {
-    if (step === 1) return form.department;
-    if (step === 2) return form.doctorId;
-    if (step === 3) return form.date;
-    if (step === 4) return form.time;
-    if (step === 5) return form.patientName && form.phone && form.email;
-    return false;
-  };
 
   /* ---------------- LOAD ---------------- */
 
@@ -116,16 +73,39 @@ export default function AppointmentForm() {
     getAllDepartments().then(setDepartments);
   }, []);
 
+  /* PACKAGE → AUTO DEPARTMENT (safe fallback) */
+  useEffect(() => {
+    if (packageParam && departments.length && !form.department) {
+      setForm((p) => ({
+        ...p,
+        department: departments[0]?.id || "",
+      }));
+      setStep(2);
+    }
+  }, [packageParam, departments]);
+
   useEffect(() => {
     if (!form.department) return;
     getDoctorsByDepartment(form.department).then(setDoctors);
   }, [form.department]);
 
+  /* AUTO DOCTOR FROM URL */
+  useEffect(() => {
+    if (doctorParam && doctors.length) {
+      const found = doctors.find((d) => d.id === doctorParam);
+      if (found) {
+        setDoctor(found);
+        setForm((p) => ({ ...p, doctorId: found.id }));
+        setStep(3);
+      }
+    }
+  }, [doctorParam, doctors]);
+
   useEffect(() => {
     setDoctor(doctors.find((d) => d.id === form.doctorId) || null);
   }, [form.doctorId, doctors]);
 
-  /* ---------------- SLOT ENGINE ---------------- */
+  /* ---------------- SLOT ---------------- */
 
   const allSlots = useMemo(() => {
     if (!doctor) return [];
@@ -145,20 +125,14 @@ export default function AppointmentForm() {
     }
 
     const unsub = subscribeDoctorSlots(form.doctorId, form.date, (booked) => {
-      const filtered = filterAvailableSlots(allSlots, booked);
-      setAvailableSlots(filtered);
+      setAvailableSlots(filterAvailableSlots(allSlots, booked));
     });
 
     return () => unsub();
   }, [form.doctorId, form.date, doctor, allSlots]);
 
-  /* ---------------- SMART DATA ---------------- */
-
-  const earliestSlot = availableSlots?.[0] || null;
+  const earliestSlot = availableSlots?.[0];
   const slotsLeft = availableSlots.length;
-
-  // Fake social proof (can later replace with real analytics)
-  const bookingsToday = 12 + Math.floor(Math.random() * 15);
 
   /* ---------------- SUBMIT ---------------- */
 
@@ -172,7 +146,6 @@ export default function AppointmentForm() {
 
     if (!user) {
       notifyError("Login required");
-      submittingRef.current = false;
       return;
     }
 
@@ -186,9 +159,8 @@ export default function AppointmentForm() {
         userId: user.uid,
         doctorName: doctor?.name,
         doctorSpecialty: doctor?.specialty,
-        departmentId: form.department,
-        departmentName:
-          departments.find((d) => d.id === form.department)?.name || "",
+        status: "booked",
+        createdAt: new Date(),
       };
 
       await notifyPromise(createAppointment(payload), {
@@ -199,7 +171,7 @@ export default function AppointmentForm() {
 
       trackBookingSuccess(form);
 
-      navigate("/profile/appointments");
+      setSuccessData(payload);
     } catch (err) {
       notifyError(err.message || "Slot taken");
     } finally {
@@ -208,37 +180,87 @@ export default function AppointmentForm() {
     }
   };
 
+  /* ---------------- SUCCESS SCREEN ---------------- */
+
+  if (successData) {
+    return (
+      <div className="text-center py-20 space-y-4">
+        <h2 className="text-2xl font-bold text-green-600">
+          Appointment Confirmed 🎉
+        </h2>
+
+        <p>
+          Hello <strong>{successData.patientName}</strong>,
+        </p>
+
+        <p>
+          Your appointment is booked on <strong>{successData.date}</strong> at{" "}
+          <strong>{successData.time}</strong>.
+        </p>
+
+        <p className="text-gray-500">
+          Stay strong and positive. Wishing you a speedy recovery 💙
+        </p>
+
+        <button onClick={() => navigate("/")} className="ui-button mt-4">
+          Go Home
+        </button>
+      </div>
+    );
+  }
+
+  /* ---------------- FALLBACK ---------------- */
+
+  if (step === 3 && !doctor) {
+    return <div className="py-20 text-center">Loading doctor...</div>;
+  }
+
   /* ---------------- UI ---------------- */
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
-      {/* PROGRESS */}
-      <div className="w-full bg-gray-200 h-2 rounded-full">
-        <div
-          className="bg-blue-500 h-2 rounded-full transition-all"
-          style={{ width: `${progress}%` }}
-        />
-      </div>
-
-      {/* PACKAGE */}
       {form.packageName && (
-        <div className="p-3 bg-blue-50 text-blue-700 rounded-lg text-sm">
+        <div className="p-3 bg-blue-50 text-blue-700 rounded">
           Selected: <strong>{form.packageName}</strong>
         </div>
       )}
 
-      {/* DOCTOR CARD */}
-      {doctor && (
-        <div className="p-4 border rounded-xl bg-[var(--card)]">
-          <div className="font-semibold">{doctor.name}</div>
-          <div className="text-sm text-gray-500">{doctor.specialty}</div>
-          <div className="text-xs mt-1">
-            ⏰ {doctor.startHour}:00 - {doctor.endHour}:00
-          </div>
+      {/* STEP 1 */}
+      {step === 1 && (
+        <select
+          name="department"
+          value={form.department}
+          onChange={(e) => {
+            setForm((p) => ({ ...p, department: e.target.value }));
+            setStep(2);
+          }}
+          className="ui-select"
+        >
+          <option value="">Select Department</option>
+          {departments.map((d) => (
+            <option key={d.id} value={d.id}>
+              {d.name}
+            </option>
+          ))}
+        </select>
+      )}
 
-          <div className="text-xs mt-2 text-green-600">
-            🔥 {bookingsToday}+ patients booked today
-          </div>
+      {/* STEP 2 */}
+      {step === 2 && (
+        <div className="grid sm:grid-cols-2 gap-3">
+          {doctors.map((doc) => (
+            <button
+              key={doc.id}
+              type="button"
+              onClick={() => {
+                setForm((p) => ({ ...p, doctorId: doc.id }));
+                setStep(3);
+              }}
+              className="border p-4 rounded"
+            >
+              {doc.name}
+            </button>
+          ))}
         </div>
       )}
 
@@ -246,7 +268,10 @@ export default function AppointmentForm() {
       {step === 3 && doctor && (
         <DoctorAvailabilityCalendar
           selectedDate={form.date}
-          onSelect={selectDate}
+          onSelect={(d) => {
+            setForm((p) => ({ ...p, date: d }));
+            setStep(4);
+          }}
           doctor={doctor}
         />
       )}
@@ -255,28 +280,33 @@ export default function AppointmentForm() {
       {step === 4 && (
         <>
           {earliestSlot && (
-            <div className="p-3 bg-green-50 text-green-700 rounded-lg text-sm">
-              ⚡ Earliest Slot: <strong>{earliestSlot}</strong>
+            <div className="text-green-600 text-sm">
+              Earliest: {earliestSlot}
               <button
-                type="button"
-                className="ml-3 underline"
-                onClick={() => selectSlot(earliestSlot)}
+                onClick={() => {
+                  setForm((p) => ({ ...p, time: earliestSlot }));
+                  setStep(5);
+                }}
               >
-                Book Now
+                {" "}
+                Book
               </button>
             </div>
           )}
 
-          {slotsLeft <= 3 && slotsLeft > 0 && (
-            <div className="text-sm text-red-500">
-              ⚠ Only {slotsLeft} slots left today
+          {slotsLeft <= 3 && (
+            <div className="text-red-500 text-sm">
+              Only {slotsLeft} slots left
             </div>
           )}
 
           <SlotGrid
             slots={availableSlots}
             selected={form.time}
-            onSelect={selectSlot}
+            onSelect={(t) => {
+              setForm((p) => ({ ...p, time: t }));
+              setStep(5);
+            }}
           />
         </>
       )}
@@ -286,30 +316,26 @@ export default function AppointmentForm() {
         <>
           <input
             name="patientName"
-            placeholder="Full Name"
-            onChange={handleChange}
-            required
+            placeholder="Name"
+            onChange={(e) =>
+              setForm((p) => ({ ...p, patientName: e.target.value }))
+            }
             className="ui-input"
+            required
           />
           <input
             name="phone"
             placeholder="Phone"
-            onChange={handleChange}
-            required
+            onChange={(e) => setForm((p) => ({ ...p, phone: e.target.value }))}
             className="ui-input"
+            required
           />
           <input
             name="email"
             placeholder="Email"
-            onChange={handleChange}
-            required
+            onChange={(e) => setForm((p) => ({ ...p, email: e.target.value }))}
             className="ui-input"
-          />
-          <textarea
-            name="message"
-            placeholder="Notes"
-            onChange={handleChange}
-            className="ui-textarea"
+            required
           />
 
           <button className="ui-button">
@@ -317,19 +343,6 @@ export default function AppointmentForm() {
           </button>
         </>
       )}
-
-      {/* NAV */}
-      <div className="flex justify-between">
-        <button type="button" onClick={prevStep} disabled={step === 1}>
-          ← Back
-        </button>
-
-        {step !== 5 && (
-          <button type="button" onClick={nextStep} disabled={!canGoNext()}>
-            Next →
-          </button>
-        )}
-      </div>
     </form>
   );
 }
