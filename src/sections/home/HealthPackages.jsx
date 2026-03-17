@@ -1,5 +1,4 @@
-import { useNavigate } from "react-router-dom";
-import { Link } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 import Container from "../../components/layout/Container";
 import Button from "../../components/common/Button";
@@ -23,21 +22,7 @@ export default function HealthPackages({ packages = [], loading, error }) {
 
   return (
     <section className="relative py-20 md:py-24 bg-[var(--section)] text-[var(--text)] overflow-hidden">
-      <div
-        className="
-        pointer-events-none
-        absolute -top-40 left-1/2 -translate-x-1/2
-        w-[700px] md:w-[900px]
-        h-[700px] md:h-[900px]
-        bg-[var(--glow-bg)]
-        blur-[140px]
-        rounded-full
-        opacity-70
-        z-0
-        "
-      />
-
-      <Container className="relative z-10">
+      <Container>
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-bold text-[var(--color-primary)]">
             Comprehensive Health Packages
@@ -48,22 +33,18 @@ export default function HealthPackages({ packages = [], loading, error }) {
           {packages.map((pkg) => (
             <div
               key={pkg.id}
+              onClick={() => navigate(`/packages/${pkg.id}`)}
               className="
-              group
+              group cursor-pointer
               bg-[var(--card)]
               border border-[var(--border)]
-              rounded-2xl
-              p-6
-              flex flex-col
+              rounded-2xl p-6 flex flex-col
               transition-all duration-500
               hover:-translate-y-2
               hover:border-[var(--color-primary)]/40
-              hover:shadow-[0_0_40px_var(--glow-soft)]
               "
             >
-              <h3 className="font-semibold mb-2 text-[var(--text)]">
-                {pkg.name}
-              </h3>
+              <h3 className="font-semibold mb-2">{pkg.name}</h3>
 
               <p className="text-3xl font-bold text-[var(--color-primary)] mb-6">
                 {pkg.price}
@@ -77,24 +58,17 @@ export default function HealthPackages({ packages = [], loading, error }) {
 
               <Button
                 className="mt-auto w-full"
-                onClick={() =>
+                onClick={(e) => {
+                  e.stopPropagation();
                   navigate(
                     `/appointment?package=${pkg.id}&packageName=${pkg.name}`,
-                  )
-                }
+                  );
+                }}
               >
                 Book Now
               </Button>
             </div>
           ))}
-        </div>
-
-        <div className="text-center mt-14">
-          <Link to="/packages/compare">
-            <Button variant="ghost" size="lg">
-              Compare Packages →
-            </Button>
-          </Link>
         </div>
       </Container>
     </section>
