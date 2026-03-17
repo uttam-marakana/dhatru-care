@@ -18,7 +18,7 @@ const DepartmentDetail = lazy(() => import("../pages/public/DepartmentDetail"));
 const DoctorDetail = lazy(() => import("../pages/public/DoctorDetail"));
 const BlogDetail = lazy(() => import("../pages/public/BlogDetail"));
 const Appointments = lazy(() => import("../pages/public/Appointments"));
-const PackagesCompare = lazy(() => import("../pages/public/PackagesCompare"));
+const PackageDetails = lazy(() => import("../pages/public/PackageDetails"));
 
 /* ---------------- AUTH ---------------- */
 
@@ -83,10 +83,10 @@ export default function AppRoutes() {
         />
 
         <Route
-          path="/packages/compare"
+          path="/packages/:id"
           element={
             <LazyWrapper>
-              <PackagesCompare />
+              <PackageDetails />
             </LazyWrapper>
           }
         />
