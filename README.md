@@ -376,6 +376,7 @@ dhatrucare/
 │
 │   ├── utils/                              # Utility/helper functions
 │   │   ├── appointmentStatus.js
+│   │   ├── bookingAnalytics.js
 │   │   ├── constants.js
 │   │   ├── departmentDoctorMap.js
 │   │   ├── formatDate.js
