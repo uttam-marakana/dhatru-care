@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, useRef } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 
 import {
@@ -15,17 +15,16 @@ import {
   isDoctorWorkingDay,
 } from "../../utils/generateSlots";
 
+import {
+  trackBookingAttempt,
+  trackBookingSuccess,
+} from "../../utils/bookingAnalytics";
+
 import SlotGrid from "../common/SlotGrid";
 import DoctorAvailabilityCalendar from "../common/DoctorAvailabilityCalendar";
 
 import { auth } from "../../firebase";
-import { db } from "../../firebase";
-
-import { doc, runTransaction, serverTimestamp } from "firebase/firestore";
-
 import { notifyPromise, notifyError } from "../../utils/toast";
-
-/* ---------------- UI STYLES ---------------- */
 
 const inputStyle = "ui-input";
 const selectStyle = "ui-select";
@@ -35,12 +34,8 @@ export default function AppointmentForm() {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
 
-  const departmentParam = searchParams.get("department");
-  const doctorParam = searchParams.get("doctor");
   const packageParam = searchParams.get("package");
-
-  const fromDepartmentPage = !!departmentParam && !doctorParam;
-  const fromDoctorPage = !!doctorParam;
+  const packageNameParam = searchParams.get("packageName");
 
   const [step, setStep] = useState(1);
 
@@ -54,6 +49,7 @@ export default function AppointmentForm() {
     time: "",
     message: "",
     packageId: packageParam || "",
+    packageName: packageNameParam || "",
   });
 
   const [departments, setDepartments] = useState([]);
@@ -61,6 +57,8 @@ export default function AppointmentForm() {
   const [doctor, setDoctor] = useState(null);
   const [availableSlots, setAvailableSlots] = useState([]);
   const [loading, setLoading] = useState(false);
+
+  const submittingRef = useRef(false);
 
   /* ---------------- HELPERS ---------------- */
 
@@ -70,11 +68,18 @@ export default function AppointmentForm() {
     setForm((prev) => ({
       ...prev,
       [name]: value,
+      ...(name === "department" && { doctorId: "", date: "", time: "" }),
+      ...(name === "doctorId" && { date: "", time: "" }),
     }));
   };
 
-  const nextStep = () => setStep((s) => Math.min(s + 1, 5));
-  const prevStep = () => setStep((s) => Math.max(s - 1, 1));
+  const nextStep = () => {
+    if (step < 5 && canGoNext()) setStep((s) => s + 1);
+  };
+
+  const prevStep = () => {
+    if (step > 1) setStep((s) => s - 1);
+  };
 
   const selectDoctor = (doc) => {
     setForm((p) => ({ ...p, doctorId: doc.id }));
@@ -82,7 +87,7 @@ export default function AppointmentForm() {
   };
 
   const selectDate = (date) => {
-    setForm((p) => ({ ...p, date }));
+    setForm((p) => ({ ...p, date, time: "" }));
     setStep(4);
   };
 
@@ -100,80 +105,23 @@ export default function AppointmentForm() {
     return false;
   };
 
-  /* ---------------- SLOT LOCKING ---------------- */
-
-  const lockSlot = async (doctorId, date, time) => {
-    const slotRef = doc(db, "slotLocks", `${doctorId}_${date}_${time}`);
-
-    await runTransaction(db, async (transaction) => {
-      const snap = await transaction.get(slotRef);
-
-      if (snap.exists()) {
-        throw new Error("This slot was just booked. Please choose another.");
-      }
-
-      transaction.set(slotRef, {
-        doctorId,
-        date,
-        time,
-        createdAt: serverTimestamp(),
-      });
-    });
-  };
-
-  /* ---------------- LOAD DEPARTMENTS ---------------- */
+  /* ---------------- LOAD ---------------- */
 
   useEffect(() => {
-    const loadDepartments = async () => {
-      const data = await getAllDepartments();
-      setDepartments(data || []);
-
-      if (departmentParam) {
-        setForm((p) => ({ ...p, department: departmentParam }));
-        setStep(2);
-      }
-    };
-
-    loadDepartments();
+    getAllDepartments().then(setDepartments);
   }, []);
-
-  /* ---------------- LOAD DOCTORS ---------------- */
 
   useEffect(() => {
     if (!form.department) return;
-
-    const loadDoctors = async () => {
-      const data = await getDoctorsByDepartment(form.department);
-      setDoctors(data || []);
-
-      if (doctorParam) {
-        const found = data.find((d) => d.id === doctorParam);
-
-        if (found) {
-          setForm((p) => ({
-            ...p,
-            department: found.departmentId,
-            doctorId: found.id,
-          }));
-
-          setStep(3);
-        }
-      }
-    };
-
-    loadDoctors();
+    getDoctorsByDepartment(form.department).then(setDoctors);
   }, [form.department]);
 
   useEffect(() => {
-    const selected = doctors.find((d) => d.id === form.doctorId);
-    setDoctor(selected || null);
+    setDoctor(doctors.find((d) => d.id === form.doctorId) || null);
   }, [form.doctorId, doctors]);
-
-  /* ---------------- SLOT GENERATION ---------------- */
 
   const allSlots = useMemo(() => {
     if (!doctor) return [];
-
     return generateSlots(
       doctor.startHour ?? 9,
       doctor.endHour ?? 17,
@@ -191,14 +139,9 @@ export default function AppointmentForm() {
       return;
     }
 
-    const unsub = subscribeDoctorSlots(
-      form.doctorId,
-      form.date,
-      (bookedSlots) => {
-        const available = filterAvailableSlots(allSlots, bookedSlots);
-        setAvailableSlots(available);
-      },
-    );
+    const unsub = subscribeDoctorSlots(form.doctorId, form.date, (booked) => {
+      setAvailableSlots(filterAvailableSlots(allSlots, booked));
+    });
 
     return () => unsub();
   }, [form.doctorId, form.date, doctor, allSlots]);
@@ -208,23 +151,21 @@ export default function AppointmentForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    if (submittingRef.current) return;
+    submittingRef.current = true;
+
     const user = auth.currentUser;
 
     if (!user) {
-      notifyError("Please login to book an appointment");
-      navigate("/login");
-      return;
-    }
-
-    if (!form.date || !form.time) {
-      notifyError("Please select a date and time slot");
+      notifyError("Login required");
+      submittingRef.current = false;
       return;
     }
 
     try {
       setLoading(true);
 
-      await lockSlot(form.doctorId, form.date, form.time);
+      trackBookingAttempt(form);
 
       const payload = {
         ...form,
@@ -237,17 +178,19 @@ export default function AppointmentForm() {
       };
 
       await notifyPromise(createAppointment(payload), {
-        loading: "Booking appointment...",
-        success: "Appointment booked successfully!",
-        error: "Failed to book appointment",
+        loading: "Booking...",
+        success: "Booked successfully!",
+        error: "Booking failed",
       });
+
+      trackBookingSuccess(form);
 
       navigate("/profile/appointments");
     } catch (err) {
-      console.error(err);
-      notifyError(err.message || "Something went wrong");
+      notifyError(err.message || "Slot taken");
     } finally {
       setLoading(false);
+      submittingRef.current = false;
     }
   };
 
@@ -255,20 +198,19 @@ export default function AppointmentForm() {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
-      {packageParam && (
+      {loading && (
+        <div className="text-sm text-blue-500">Securing your slot...</div>
+      )}
+
+      {form.packageName && (
         <div className="p-3 rounded-lg bg-blue-50 text-sm text-blue-700">
-          Booking from selected health package
+          Selected Package: <strong>{form.packageName}</strong>
         </div>
       )}
 
-      {/* STEP INDICATOR */}
-
       <div className="flex justify-between text-sm font-medium">
         {["Department", "Doctor", "Date", "Time", "Details"].map((label, i) => (
-          <span
-            key={label}
-            className={step >= i + 1 ? "text-blue-500 font-semibold" : ""}
-          >
+          <span key={label} className={step >= i + 1 ? "text-blue-500" : ""}>
             {label}
           </span>
         ))}
@@ -408,6 +350,13 @@ export default function AppointmentForm() {
           </button>
         )}
       </div>
+
+      <button
+        disabled={!canGoNext() || loading}
+        className="ui-button disabled:opacity-50"
+      >
+        {loading ? "Booking..." : "Book Appointment"}
+      </button>
     </form>
   );
 }
