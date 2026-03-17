@@ -306,7 +306,6 @@ dhatrucare/
 │   │       ├── ManageAppointment.jsx
 │   │       ├── NotFound.jsx
 │   │       ├── Packages.jsx
-│   │       ├── PackagesCompare.jsx
 │   │       ├── Search.jsx
 │   │       └── Services.jsx
 │
@@ -348,10 +347,6 @@ dhatrucare/
 │   │   │   ├── LatestBlog.jsx
 │   │   │   ├── QuickActions.jsx
 │   │   │   └── Testimonials.jsx
-│   │
-│   │   ├── packages/
-│   │   │   ├── PackageRecommendationQuiz.jsx
-│   │   │   └── PackagesCompareTable.jsx
 │   │
 │   │   └── shared/
 │   │       ├── AppointmentCTA.jsx
