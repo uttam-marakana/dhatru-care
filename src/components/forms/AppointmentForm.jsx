@@ -22,6 +22,8 @@ import DoctorAvailabilityCalendar from "../common/DoctorAvailabilityCalendar";
 import { auth } from "../../firebase";
 import { notifyPromise, notifyError } from "../../utils/toast";
 
+import CustomSelect from "../common/CustomSelect";
+
 const FEES = {
   regular: 200,
   emergency: 500,
@@ -190,7 +192,7 @@ export default function AppointmentForm() {
   /* UI */
 
   return (
-    <form onSubmit={handleSubmit} className="max-w-xl mx-auto space-y-6">
+    <form onSubmit={handleSubmit} className="max-w-xl mx-auto space-y-6 relative overflow-visible">
       {/* TYPE */}
       <div className="flex gap-3">
         {["regular", "emergency"].map((t) => (
@@ -210,37 +212,53 @@ export default function AppointmentForm() {
       {/* STEP FLOW SAME (no buttons) */}
 
       {step === 1 && (
-        <select
+        <CustomSelect
+          options={departments}
           value={form.department}
-          onChange={(e) => {
-            setForm((p) => ({ ...p, department: e.target.value }));
+          placeholder="Select Department"
+          onChange={(val) => {
+            setForm((p) => ({ ...p, department: val }));
             setStep(2);
           }}
-          className="ui-select w-full"
-        >
-          <option>Select Department</option>
-          {departments.map((d) => (
-            <option key={d.id} value={d.id}>
-              {d.name}
-            </option>
-          ))}
-        </select>
+        />
       )}
 
       {step === 2 && (
-        <div className="grid sm:grid-cols-2 gap-3">
-          {doctors.map((doc) => (
-            <div
-              key={doc.id}
-              onClick={() => {
-                setForm((p) => ({ ...p, doctorId: doc.id }));
-                setStep(3);
-              }}
-              className="border p-4 rounded cursor-pointer hover:border-blue-500"
-            >
-              {doc.name}
-            </div>
-          ))}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          {doctors.map((doc) => {
+            const isSelected = form.doctorId === doc.id;
+
+            return (
+              <button
+                key={doc.id}
+                type="button"
+                onClick={() => {
+                  setForm((p) => ({ ...p, doctorId: doc.id }));
+                  setStep(3);
+                }}
+                className={`
+          p-4 rounded-xl border text-left transition
+          flex flex-col gap-1
+
+          ${
+            isSelected
+              ? "border-[var(--color-primary)] bg-[var(--glow-bg)] shadow-md"
+              : "border-[var(--border)] bg-[var(--card)] hover:border-[var(--color-primary)]"
+          }
+        `}
+              >
+                <span className="font-medium text-[var(--text)]">
+                  {doc.name}
+                </span>
+
+                {doc.specialty && (
+                  <span className="text-xs text-[var(--muted)]">
+                    {doc.specialty}
+                  </span>
+                )}
+              </button>
+            );
+          })}
         </div>
       )}
 
