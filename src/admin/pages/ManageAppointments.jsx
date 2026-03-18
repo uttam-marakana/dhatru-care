@@ -27,7 +27,6 @@ export default function ManageAppointments() {
   /* DATE HELPERS */
 
   const now = new Date();
-
   const todayString = now.toISOString().split("T")[0];
 
   const startOfWeek = new Date(now);
@@ -37,12 +36,10 @@ export default function ManageAppointments() {
 
   const toDate = (a) => new Date(`${a.date}T${a.time}`);
 
-  /* FILTER PIPELINE */
+  /* FILTER */
 
   const filteredAppointments = useMemo(() => {
     let data = [...appointments];
-
-    /* SEARCH */
 
     if (search) {
       const q = search.toLowerCase();
@@ -51,26 +48,20 @@ export default function ManageAppointments() {
         (a) =>
           a.patientName?.toLowerCase().includes(q) ||
           a.doctorName?.toLowerCase().includes(q) ||
-          a.department?.toLowerCase().includes(q),
+          a.departmentName?.toLowerCase().includes(q), // ✅ FIX
       );
     }
-
-    /* STATUS FILTER */
 
     if (statusFilter !== "all") {
       data = data.filter((a) => a.status === statusFilter);
     }
-
-    /* DATE FILTER */
 
     if (dateFilter !== "all") {
       data = data.filter((a) => {
         const d = toDate(a);
 
         if (dateFilter === "today") return a.date === todayString;
-
         if (dateFilter === "week") return d >= startOfWeek;
-
         if (dateFilter === "month") return d >= startOfMonth;
 
         return true;
@@ -80,13 +71,25 @@ export default function ManageAppointments() {
     return data;
   }, [appointments, search, statusFilter, dateFilter]);
 
-  /* RESET PAGE */
+  /* 💰 REVENUE SUMMARY */
 
-  useEffect(() => {
-    setPage(1);
-  }, [search, statusFilter, dateFilter]);
+  const revenueStats = useMemo(() => {
+    let total = 0;
+    let today = 0;
+
+    filteredAppointments.forEach((a) => {
+      const amount = a.totalAmount || 0;
+
+      total += amount;
+      if (a.date === todayString) today += amount;
+    });
+
+    return { total, today };
+  }, [filteredAppointments, todayString]);
 
   /* PAGINATION */
+
+  useEffect(() => setPage(1), [search, statusFilter, dateFilter]);
 
   const totalPages = Math.ceil(filteredAppointments.length / PAGE_SIZE);
 
@@ -102,11 +105,22 @@ export default function ManageAppointments() {
         description="Manage hospital appointments"
       />
 
+      {/* 💰 REVENUE DASHBOARD */}
+      <div className="grid md:grid-cols-2 gap-4">
+        <div className="p-4 rounded-xl bg-[var(--card)] border">
+          <p className="text-sm text-[var(--muted)]">Total Revenue</p>
+          <p className="text-2xl font-bold">₹{revenueStats.total}</p>
+        </div>
+
+        <div className="p-4 rounded-xl bg-[var(--card)] border">
+          <p className="text-sm text-[var(--muted)]">Today Revenue</p>
+          <p className="text-2xl font-bold">₹{revenueStats.today}</p>
+        </div>
+      </div>
+
       {/* FILTER BAR */}
 
       <div className="grid md:grid-cols-3 gap-4">
-        {/* SEARCH */}
-
         <input
           type="search"
           placeholder="Search patient, doctor or department..."
@@ -114,8 +128,6 @@ export default function ManageAppointments() {
           onChange={(e) => setSearch(e.target.value)}
           className="ui-input"
         />
-
-        {/* STATUS FILTER */}
 
         <select
           value={statusFilter}
@@ -129,8 +141,6 @@ export default function ManageAppointments() {
           <option value="cancelled">Cancelled</option>
           <option value="rejected">Rejected</option>
         </select>
-
-        {/* DATE FILTER */}
 
         <select
           value={dateFilter}
@@ -158,7 +168,7 @@ export default function ManageAppointments() {
           <button
             disabled={page === 1}
             onClick={() => setPage((p) => p - 1)}
-            className="px-4 py-2 border border-[var(--border)] rounded-lg disabled:opacity-40"
+            className="px-4 py-2 border rounded-lg disabled:opacity-40"
           >
             Previous
           </button>
@@ -170,7 +180,7 @@ export default function ManageAppointments() {
           <button
             disabled={page === totalPages}
             onClick={() => setPage((p) => p + 1)}
-            className="px-4 py-2 border border-[var(--border)] rounded-lg disabled:opacity-40"
+            className="px-4 py-2 border rounded-lg disabled:opacity-40"
           >
             Next
           </button>
