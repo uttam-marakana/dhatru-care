@@ -269,6 +269,16 @@ export default function UserAppointments() {
                   </p>
 
                   <p>
+                    <span className="text-[var(--muted)]">Type:</span>{" "}
+                    {a.appointmentType || "regular"}
+                  </p>
+
+                  <p>
+                    <span className="text-[var(--muted)]">Fees:</span>{" "}
+                    {a.totalAmount || 0}
+                  </p>
+
+                  <p>
                     <span className="text-[var(--muted)]">Date:</span> {a.date}
                   </p>
 
