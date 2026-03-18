@@ -8,6 +8,7 @@ import {
 
 import { getAllDepartments } from "../../api/departmentsApi";
 import { getDoctorsByDepartment } from "../../api/doctorsApi";
+import { getPackages } from "../../api/packagesApi";
 
 import {
   generateSlots,
@@ -15,42 +16,37 @@ import {
   isDoctorWorkingDay,
 } from "../../utils/generateSlots";
 
-import {
-  trackBookingAttempt,
-  trackBookingSuccess,
-} from "../../utils/bookingAnalytics";
-
 import SlotGrid from "../common/SlotGrid";
 import DoctorAvailabilityCalendar from "../common/DoctorAvailabilityCalendar";
 
 import { auth } from "../../firebase";
 import { notifyPromise, notifyError } from "../../utils/toast";
 
+const FEES = {
+  regular: 200,
+  emergency: 500,
+  reschedule: 100,
+};
+
 export default function AppointmentForm() {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
 
-  /* ---------------- PARAMS ---------------- */
-
   const packageParam = searchParams.get("package");
   const packageNameParam = searchParams.get("packageName");
-  const departmentParam = searchParams.get("department");
-  const doctorParam = searchParams.get("doctor");
 
-  const getInitialStep = () => {
-    if (doctorParam && departmentParam) return 3;
-    if (departmentParam) return 2;
-    return 1;
-  };
+  const [appointmentType, setAppointmentType] = useState("regular");
+  const [packages, setPackages] = useState([]);
 
-  const [step, setStep] = useState(getInitialStep());
+  const [step, setStep] = useState(1);
+  const [successData, setSuccessData] = useState(null);
 
   const [form, setForm] = useState({
     patientName: "",
     phone: "",
     email: "",
-    department: departmentParam || "",
-    doctorId: doctorParam || "",
+    department: "",
+    doctorId: "",
     date: "",
     time: "",
     message: "",
@@ -63,49 +59,26 @@ export default function AppointmentForm() {
   const [doctor, setDoctor] = useState(null);
   const [availableSlots, setAvailableSlots] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [successData, setSuccessData] = useState(null);
 
   const submittingRef = useRef(false);
 
-  /* ---------------- LOAD ---------------- */
+  /* LOAD */
 
   useEffect(() => {
     getAllDepartments().then(setDepartments);
+    getPackages().then(setPackages);
   }, []);
-
-  /* PACKAGE → AUTO DEPARTMENT (safe fallback) */
-  useEffect(() => {
-    if (packageParam && departments.length && !form.department) {
-      setForm((p) => ({
-        ...p,
-        department: departments[0]?.id || "",
-      }));
-      setStep(2);
-    }
-  }, [packageParam, departments]);
 
   useEffect(() => {
     if (!form.department) return;
     getDoctorsByDepartment(form.department).then(setDoctors);
   }, [form.department]);
 
-  /* AUTO DOCTOR FROM URL */
-  useEffect(() => {
-    if (doctorParam && doctors.length) {
-      const found = doctors.find((d) => d.id === doctorParam);
-      if (found) {
-        setDoctor(found);
-        setForm((p) => ({ ...p, doctorId: found.id }));
-        setStep(3);
-      }
-    }
-  }, [doctorParam, doctors]);
-
   useEffect(() => {
     setDoctor(doctors.find((d) => d.id === form.doctorId) || null);
   }, [form.doctorId, doctors]);
 
-  /* ---------------- SLOT ---------------- */
+  /* SLOT */
 
   const allSlots = useMemo(() => {
     if (!doctor) return [];
@@ -124,119 +97,128 @@ export default function AppointmentForm() {
       return;
     }
 
-    const unsub = subscribeDoctorSlots(form.doctorId, form.date, (booked) => {
+    return subscribeDoctorSlots(form.doctorId, form.date, (booked) => {
       setAvailableSlots(filterAvailableSlots(allSlots, booked));
     });
-
-    return () => unsub();
   }, [form.doctorId, form.date, doctor, allSlots]);
 
-  const earliestSlot = availableSlots?.[0];
-  const slotsLeft = availableSlots.length;
+  /* FEES */
 
-  /* ---------------- SUBMIT ---------------- */
+  const getPackagePrice = () => {
+    const pkg = packages.find((p) => p.id === form.packageId);
+    return Number(pkg?.price?.replace(/[^\d]/g, "")) || 0;
+  };
+
+  const appointmentFee = FEES[appointmentType];
+  const packageFee = getPackagePrice();
+  const totalAmount = appointmentFee + packageFee;
+
+  /* SUBMIT */
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (submittingRef.current) return;
-    submittingRef.current = true;
 
-    const user = auth.currentUser;
-
-    if (!user) {
-      notifyError("Login required");
+    if (!form.department || !form.doctorId || !form.date || !form.time) {
+      notifyError("Complete all steps");
       return;
     }
+
+    const user = auth.currentUser;
+    if (!user) return notifyError("Login required");
+
+    submittingRef.current = true;
 
     try {
       setLoading(true);
 
-      trackBookingAttempt(form);
-
       const payload = {
         ...form,
         userId: user.uid,
-        doctorName: doctor?.name,
-        doctorSpecialty: doctor?.specialty,
-        status: "booked",
+
+        doctorName: doctor?.name || "",
+        doctorSpecialty: doctor?.specialty || "",
+
+        departmentId: form.department,
+        departmentName:
+          departments.find((d) => d.id === form.department)?.name || "",
+
+        appointmentType,
+        appointmentFee,
+        packageFee,
+        totalAmount,
+
+        isReschedule: false,
+
+        status: "pending",
         createdAt: new Date(),
       };
 
       await notifyPromise(createAppointment(payload), {
         loading: "Booking...",
-        success: "Booked successfully!",
-        error: "Booking failed",
+        success: "Booked!",
+        error: "Failed",
       });
 
-      trackBookingSuccess(form);
-
       setSuccessData(payload);
-    } catch (err) {
-      notifyError(err.message || "Slot taken");
     } finally {
       setLoading(false);
       submittingRef.current = false;
     }
   };
 
-  /* ---------------- SUCCESS SCREEN ---------------- */
+  /* SUCCESS */
 
   if (successData) {
     return (
-      <div className="text-center py-20 space-y-4">
-        <h2 className="text-2xl font-bold text-green-600">
+      <div className="text-center py-20 space-y-3">
+        <h2 className="text-xl font-bold text-green-600">
           Appointment Confirmed 🎉
         </h2>
-
         <p>
-          Hello <strong>{successData.patientName}</strong>,
+          {successData.patientName}, your appointment is booked on{" "}
+          {successData.date} at {successData.time}
         </p>
-
-        <p>
-          Your appointment is booked on <strong>{successData.date}</strong> at{" "}
-          <strong>{successData.time}</strong>.
-        </p>
-
         <p className="text-gray-500">
-          Stay strong and positive. Wishing you a speedy recovery 💙
+          Stay positive. Wishing you good health 💙
         </p>
-
-        <button onClick={() => navigate("/")} className="ui-button mt-4">
-          Go Home
-        </button>
       </div>
     );
   }
 
-  /* ---------------- FALLBACK ---------------- */
-
-  if (step === 3 && !doctor) {
-    return <div className="py-20 text-center">Loading doctor...</div>;
-  }
-
-  /* ---------------- UI ---------------- */
+  /* UI */
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-6">
-      {form.packageName && (
-        <div className="p-3 bg-blue-50 text-blue-700 rounded">
-          Selected: <strong>{form.packageName}</strong>
-        </div>
-      )}
+    <form onSubmit={handleSubmit} className="max-w-xl mx-auto space-y-6">
+      {/* TYPE */}
+      <div className="flex gap-3">
+        {["regular", "emergency"].map((t) => (
+          <button
+            key={t}
+            type="button"
+            onClick={() => setAppointmentType(t)}
+            className={`px-4 py-2 rounded-lg border ${
+              appointmentType === t ? "bg-blue-500 text-white" : ""
+            }`}
+          >
+            {t}
+          </button>
+        ))}
+      </div>
 
-      {/* STEP 1 */}
+      {/* STEP FLOW SAME (no buttons) */}
+
       {step === 1 && (
         <select
-          name="department"
           value={form.department}
           onChange={(e) => {
             setForm((p) => ({ ...p, department: e.target.value }));
             setStep(2);
           }}
-          className="ui-select"
+          className="ui-select w-full"
         >
-          <option value="">Select Department</option>
+          <option>Select Department</option>
           {departments.map((d) => (
             <option key={d.id} value={d.id}>
               {d.name}
@@ -245,26 +227,23 @@ export default function AppointmentForm() {
         </select>
       )}
 
-      {/* STEP 2 */}
       {step === 2 && (
         <div className="grid sm:grid-cols-2 gap-3">
           {doctors.map((doc) => (
-            <button
+            <div
               key={doc.id}
-              type="button"
               onClick={() => {
                 setForm((p) => ({ ...p, doctorId: doc.id }));
                 setStep(3);
               }}
-              className="border p-4 rounded"
+              className="border p-4 rounded cursor-pointer hover:border-blue-500"
             >
               {doc.name}
-            </button>
+            </div>
           ))}
         </div>
       )}
 
-      {/* STEP 3 */}
       {step === 3 && doctor && (
         <DoctorAvailabilityCalendar
           selectedDate={form.date}
@@ -276,70 +255,46 @@ export default function AppointmentForm() {
         />
       )}
 
-      {/* STEP 4 */}
       {step === 4 && (
-        <>
-          {earliestSlot && (
-            <div className="text-green-600 text-sm">
-              Earliest: {earliestSlot}
-              <button
-                onClick={() => {
-                  setForm((p) => ({ ...p, time: earliestSlot }));
-                  setStep(5);
-                }}
-              >
-                {" "}
-                Book
-              </button>
-            </div>
-          )}
-
-          {slotsLeft <= 3 && (
-            <div className="text-red-500 text-sm">
-              Only {slotsLeft} slots left
-            </div>
-          )}
-
-          <SlotGrid
-            slots={availableSlots}
-            selected={form.time}
-            onSelect={(t) => {
-              setForm((p) => ({ ...p, time: t }));
-              setStep(5);
-            }}
-          />
-        </>
+        <SlotGrid
+          slots={availableSlots}
+          selected={form.time}
+          onSelect={(t) => {
+            setForm((p) => ({ ...p, time: t }));
+            setStep(5);
+          }}
+        />
       )}
 
-      {/* STEP 5 */}
       {step === 5 && (
         <>
           <input
-            name="patientName"
             placeholder="Name"
             onChange={(e) =>
               setForm((p) => ({ ...p, patientName: e.target.value }))
             }
             className="ui-input"
-            required
           />
           <input
-            name="phone"
             placeholder="Phone"
             onChange={(e) => setForm((p) => ({ ...p, phone: e.target.value }))}
             className="ui-input"
-            required
           />
           <input
-            name="email"
             placeholder="Email"
             onChange={(e) => setForm((p) => ({ ...p, email: e.target.value }))}
             className="ui-input"
-            required
           />
 
-          <button className="ui-button">
-            {loading ? "Booking..." : "Confirm Appointment"}
+          {/* FEES UI */}
+          <div className="bg-gray-50 p-4 rounded">
+            <p>Appointment: ₹{appointmentFee}</p>
+            {packageFee > 0 && <p>Package: ₹{packageFee}</p>}
+            <p className="font-bold">Total: ₹{totalAmount}</p>
+          </div>
+
+          <button className="ui-button w-full">
+            {loading ? "Booking..." : "Confirm"}
           </button>
         </>
       )}
