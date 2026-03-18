@@ -29,7 +29,6 @@ export const createAppointmentTransaction = async (data) => {
 
   await runTransaction(db, async (transaction) => {
     const slotDoc = await transaction.get(slotRef);
-
     const now = Timestamp.now();
 
     if (slotDoc.exists()) {
@@ -83,6 +82,8 @@ export const createAppointmentTransaction = async (data) => {
 
       date: data.date,
       time: data.time,
+
+      ...data, // Keeps Package + Fees + Types
 
       slotId,
       status: "pending",
@@ -178,6 +179,11 @@ export const rescheduleAppointmentService = async (
       time: newTime,
       slotId: newSlotId,
       status: "rescheduled",
+
+      updatedAt: serverTimestamp(),
+      appointmentFee: 100, // Reschedule Fees
+      totalAmount: (appointment.packageFee || 0) + 100,
+
       updatedAt: serverTimestamp(),
     });
   });
