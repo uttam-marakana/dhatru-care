@@ -9,6 +9,7 @@ import {
   FaUser,
   FaSignOutAlt,
   FaPhoneAlt,
+  FaCalendarCheck,
 } from "react-icons/fa";
 
 import { useAuth } from "../../context/AuthContext";
@@ -147,16 +148,6 @@ export default function Header() {
             {/* DESKTOP ACTIONS */}
 
             <div className="hidden xl:flex items-center gap-6">
-              {/* Emergency */}
-
-              <a
-                href="tel:+919876543210"
-                className="flex items-center gap-2 text-sm font-medium text-[var(--color-primary)]"
-              >
-                <FaPhoneAlt />
-                Emergency
-              </a>
-
               {/* SEARCH */}
 
               <div ref={searchRef} className="relative">
@@ -285,9 +276,9 @@ export default function Header() {
 
               <PrefetchLink
                 to="/appointments"
-                className="bg-[var(--color-primary)] text-white px-6 py-2.5 rounded-full text-sm font-medium"
+                className="bg-[var(--color-primary)] flex gap-1.5 text-white px-6 py-3.5 rounded-full text-sm font-medium"
               >
-                Book Appointment
+               <FaCalendarCheck className="text-lg" /> Book Appointment
               </PrefetchLink>
             </div>
 

@@ -34,13 +34,13 @@ export default function TopBar() {
             <span>
               24×7 Emergency:
               <strong className="ml-1 tracking-wide text-[var(--text)]">
-                +91 98765 43210
+                +91 9876xxxxxx
               </strong>
             </span>
           </a>
 
           <a
-            href="https://wa.me/919876543210"
+            href="https://wa.me/+919876xxxxxx"
             target="_blank"
             rel="noopener noreferrer"
             className="
@@ -56,17 +56,11 @@ export default function TopBar() {
 
         {/* RIGHT */}
         <div className="flex items-center gap-6 font-medium">
-          <Link
-            to="/for-doctors"
-            className="hover:text-[var(--color-primary)] transition"
-          >
+          <Link to="#" className="hover:text-[var(--color-primary)] transition">
             For Doctors
           </Link>
 
-          <Link
-            to="/careers"
-            className="hover:text-[var(--color-primary)] transition"
-          >
+          <Link to="#" className="hover:text-[var(--color-primary)] transition">
             Careers
           </Link>
         </div>
