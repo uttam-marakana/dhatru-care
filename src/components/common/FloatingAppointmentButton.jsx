@@ -32,6 +32,7 @@ export default function FloatingAppointmentButton() {
         className="
         flex items-center justify-center gap-2
         text-white
+        bg-blue-500   
         backdrop-blur-md
         shadow-[0_0_40px_rgba(59,130,246,0.25)]
         transition-all duration-300
