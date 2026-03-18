@@ -10,7 +10,10 @@ export default function CustomSelect({
   const [open, setOpen] = useState(false);
   const ref = useRef(null);
 
-  const selected = options.find((o) => o.value === value)?.label || placeholder;
+  const getValue = (o) => o.value ?? o.id;
+  const getLabel = (o) => o.label ?? o.name;
+
+  const selectedItem = options.find((o) => getValue(o) === value);
 
   useEffect(() => {
     const handleClick = (e) => {
@@ -23,22 +26,24 @@ export default function CustomSelect({
 
   return (
     <div ref={ref} className="relative w-full">
-      {/* Trigger */}
+      {/* TRIGGER */}
       <button
         type="button"
         onClick={() => setOpen((p) => !p)}
         className="
-        w-full h-11 px-3 pr-10 rounded-lg border
-        border-[var(--border)]
-        bg-[var(--surface)]
-        text-[var(--text)]
-        text-left text-sm
-        flex items-center
-        focus:outline-none
-        focus:ring-2 focus:ring-[var(--color-primary)]
+          relative w-full h-11 px-3 pr-10 rounded-lg border
+          border-[var(--border)]
+          bg-[var(--surface)]
+          text-[var(--text)]
+          text-left text-sm
+          flex items-center
+          focus:outline-none
+          focus:ring-2 focus:ring-[var(--color-primary)]
         "
       >
-        <span className="truncate">{selected}</span>
+        <span className="truncate">
+          {selectedItem ? getLabel(selectedItem) : placeholder}
+        </span>
 
         <FaChevronDown
           size={12}
@@ -48,34 +53,43 @@ export default function CustomSelect({
         />
       </button>
 
-      {/* Menu */}
+      {/* DROPDOWN */}
       {open && (
         <div
           className="
-          absolute z-50 mt-2 w-full rounded-lg
-          border border-[var(--border)]
-          bg-[var(--surface)]
-          shadow-lg overflow-hidden
+            absolute left-0 top-full z-[9999] mt-2 w-full rounded-lg
+            border border-[var(--border)]
+            bg-[var(--surface)]
+            shadow-lg
+            max-h-60 overflow-y-auto ui-dropdown-scroll
           "
         >
-          {options.map((opt) => (
-            <button
-              key={opt.value}
-              type="button"
-              onClick={() => {
-                onChange(opt.value);
-                setOpen(false);
-              }}
-              className="
-              w-full text-left px-3 py-2 text-sm
-              text-[var(--text)]
-              hover:bg-[var(--card)]
-              transition
-              "
-            >
-              {opt.label}
-            </button>
-          ))}
+          {options.map((opt) => {
+            const val = getValue(opt);
+            const label = getLabel(opt);
+            const isActive = value === val;
+
+            return (
+              <button
+                key={val}
+                type="button"
+                onClick={() => {
+                  onChange(val);
+                  setOpen(false);
+                }}
+                className={`
+                  w-full text-left px-3 py-2 text-sm transition
+                  ${
+                    isActive
+                      ? "bg-[var(--color-primary)] text-white"
+                      : "text-[var(--text)] hover:bg-[var(--card)]"
+                  }
+                `}
+              >
+                {label}
+              </button>
+            );
+          })}
         </div>
       )}
     </div>
