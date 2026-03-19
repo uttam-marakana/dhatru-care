@@ -271,6 +271,7 @@ dhatrucare/
 │
 │
 │   ├── hooks/                              # Custom reusable React hooks
+│   │   ├── useBookingEngine.js
 │   │   ├── useDebounce.js
 │   │   ├── useInView.js
 │   │   ├── usePagination.js
@@ -359,6 +360,7 @@ dhatrucare/
 │   │   ├── appointmentService.js
 │   │   ├── authService.js
 │   │   ├── blogService.js
+│   │   ├── bookingEngine.js
 │   │   ├── contactService.js
 │   │   ├── departmentService.js
 │   │   ├── doctorService.js

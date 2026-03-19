@@ -2,7 +2,7 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
 
-    /* ---------------- AUTH CHECKS ---------------- */
+    /* ------ AUTH CHECKS ---------------------- */ 
 
     function isLoggedIn() {
       return request.auth != null;
@@ -18,7 +18,7 @@ service cloud.firestore {
         .data.role == "admin";
     }
 
-    /* ---------------- USERS ---------------- */
+    /* ------ USERS ---------------------- */ 
 
     match /users/{userId} {
 
@@ -31,7 +31,7 @@ service cloud.firestore {
       allow delete: if false;
     }
 
-    /* ---------------- PUBLIC DATA ---------------- */
+    /* ------ PUBLIC DATA ---------------------- */ 
 
     match /doctors/{doc} {
 
@@ -61,7 +61,7 @@ service cloud.firestore {
       allow create, update, delete: if isAdmin();
     }
 
-    /* ---------------- CONTACT / NEWSLETTER ---------------- */
+    /* ------ CONTACT / NEWSLETTER ---------------------- */ 
 
     match /contacts/{doc} {
 
@@ -77,7 +77,7 @@ service cloud.firestore {
       allow read, delete: if isAdmin();
     }
 
-    /* ---------------- APPOINTMENT SLOTS ---------------- */
+    /* ------ APPOINTMENT SLOTS ---------------------- */ 
 
     match /appointmentSlots/{slotId} {
 
@@ -88,43 +88,47 @@ service cloud.firestore {
       allow delete: if isAdmin();
     }
 
-    /* ---------------- APPOINTMENTS ---------------- */
+    /* ------ APPOINTMENTS ---------------------- */ 
 
     match /appointments/{appointmentId} {
 
-      /* USER CAN CREATE THEIR OWN APPOINTMENT */
+      /* ------ USER CAN CREATE THEIR OWN APPOINTMENT ------ */
 
       allow create: if isLoggedIn() &&
         request.resource.data.userId == request.auth.uid;
 
-      /* USER CAN READ THEIR OWN APPOINTMENTS */
+      /* ------ USER CAN READ THEIR OWN APPOINTMENTS ------ */
 
       allow get: if isOwner(resource.data.userId) || isAdmin();
 
-      /* FIX: allow authenticated users to query their appointments */
+      /* ------ FIX: allow authenticated users to query their appointments ------ */
 
       allow list: if isLoggedIn();
 
-      /* USER CAN UPDATE THEIR OWN OR ADMIN CAN MANAGE */
+      /* ------ USER CAN UPDATE THEIR OWN OR ADMIN CAN MANAGE ------ */
 
-      allow update: if isOwner(resource.data.userId) || isAdmin();
+      allow update: if isAdmin()
+        || (
+          isLoggedIn() &&
+          request.resource.data.userId == request.auth.uid
+        );
 
-      /* ONLY ADMIN CAN DELETE */
+      /* ------ ONLY ADMIN CAN DELETE ------ */
 
       allow delete: if isAdmin();
     }
     
-    /* ---------------- 	Booking Events ---------------- */
+    /* ------ 	Booking Events ---------------------- */ 
     
  		match /bookingEvents/{id} {
 
-      /* ✅ only logged-in users can log events */
+      /* ------ ✅ only logged-in users can log events ------ */
       allow create: if isLoggedIn();
 
-      /* ✅ only admin can read analytics */
+      /* ------ ✅ only admin can read analytics ------ */
       allow read: if isAdmin();
 
-      /* ❌ prevent updates/deletes */
+      /* ------ ❌ prevent updates/deletes ------ */
       allow update, delete: if false;
     }
 
