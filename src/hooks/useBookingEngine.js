@@ -14,8 +14,10 @@ export const useBookingEngine = () => {
 
       return { success: true, id };
     } catch (err) {
-      setError(err.message);
-      return { success: false, error: err.message };
+      const message = err?.message || "Booking failed";
+      setError(message);
+
+      return { success: false, error: message };
     } finally {
       setLoading(false);
     }
