@@ -2,7 +2,7 @@ import { useState } from "react";
 import { signup } from "./authApi";
 import { useNavigate, Link } from "react-router-dom";
 
-import { notifyError } from "../utils/toast";
+import { notifyError, notifyPromise } from "../utils/toast";
 
 export default function Signup() {
   const navigate = useNavigate();
@@ -38,9 +38,11 @@ export default function Signup() {
     try {
       setLoading(true);
 
-      await signup(form);
-
-      notifySuccess("Registration successful. Please login.");
+      await notifyPromise(signup(form), {
+        loading: "Registering...",
+        success: "Registration successful. Please login.",
+        error: "Signup failed",
+      });
 
       navigate("/login");
     } catch (err) {
