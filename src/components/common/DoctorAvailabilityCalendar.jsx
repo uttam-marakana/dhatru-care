@@ -2,6 +2,7 @@ export default function DoctorAvailabilityCalendar({
   selectedDate,
   onSelect,
   doctor,
+  availability = {},
 }) {
   const today = new Date();
   const days = [];
@@ -13,7 +14,7 @@ export default function DoctorAvailabilityCalendar({
     date.setDate(today.getDate() + i);
 
     const day = date.getDay();
-    const iso = date.toISOString().split("T")[0];
+    const iso = date.toISOString().split("T")
 
     const label = date.toLocaleDateString("en-IN", {
       weekday: "short",
@@ -21,12 +22,20 @@ export default function DoctorAvailabilityCalendar({
       month: "short",
     });
 
-    const disabled = !workingDays.includes(day);
+    const totalSlots = availability?.[iso]?.total || 0;
+    const bookedSlots = availability?.[iso]?.booked || 0;
+
+    const isFullyBooked =
+      totalSlots > 0 && totalSlots === bookedSlots;
+
+    const disabled =
+      !workingDays.includes(day) || isFullyBooked;
 
     days.push({
       iso,
       label,
       disabled,
+      isFullyBooked,
     });
   }
 
@@ -42,18 +51,25 @@ export default function DoctorAvailabilityCalendar({
             disabled={d.disabled}
             onClick={() => onSelect(d.iso)}
             className={`
-            py-3 rounded-lg text-sm border transition
+              py-3 rounded-lg text-sm border transition
 
-            ${
-              d.disabled
-                ? "opacity-30 cursor-not-allowed border-gray-200 dark:border-white/10"
-                : isSelected
+              ${
+                d.disabled
+                  ? "opacity-30 cursor-not-allowed border-gray-200"
+                  : isSelected
                   ? "bg-blue-500 text-white border-blue-500"
-                  : "border-gray-200 dark:border-white/10 hover:bg-blue-50 dark:hover:bg-white/10"
-            }
+                  : "border-gray-200 hover:bg-blue-50"
+              }
             `}
           >
             {d.label}
+
+            {/* OPTIONAL UX */}
+            {d.isFullyBooked && (
+              <div className="text-[10px] text-red-500">
+                Full
+              </div>
+            )}
           </button>
         );
       })}
