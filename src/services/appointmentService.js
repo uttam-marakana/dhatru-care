@@ -25,7 +25,7 @@ const slotsRef = collection(db, "appointmentSlots");
 export const createAppointmentTransaction = (data) =>
   createAppointmentEngine(data);
 
-/* 🔥 STATUS UPDATE (FINAL SAFE VERSION) */
+/* 🔥 STATUS UPDATE (FINAL — NORMALIZED + SAFE) */
 
 export const updateAppointmentStatusService = async (id, status) => {
   const appointmentRef = doc(db, "appointments", id);
@@ -40,18 +40,21 @@ export const updateAppointmentStatusService = async (id, status) => {
     const appointment = snap.data();
     const slotId = appointment.slotId;
 
-    // 🔥 DEBUG (REMOVE AFTER TESTING)
-    console.log("Releasing slot:", slotId, "Status:", status);
+    // ✅ normalize status
+    const normalizedStatus = status?.toLowerCase().trim();
 
-    // ✅ RELEASE SLOT on cancel/reject
-    if (["cancelled", "rejected"].includes(status) && slotId) {
+    console.log("Status received:", status);
+    console.log("Normalized:", normalizedStatus);
+
+    // ✅ RELEASE SLOT when cancelled/rejected
+    if (["cancelled", "rejected"].includes(normalizedStatus) && slotId) {
       const slotRef = doc(db, "appointmentSlots", slotId);
 
       const slotSnap = await transaction.get(slotRef);
 
-      if (!slotSnap.exists()) {
-        console.error("❌ Slot not found:", slotId);
-      } else {
+      if (slotSnap.exists()) {
+        console.log("✅ Releasing slot:", slotId);
+
         transaction.update(slotRef, {
           isBooked: false,
           isLocked: false,
@@ -59,12 +62,14 @@ export const updateAppointmentStatusService = async (id, status) => {
           lockedUntil: null,
           updatedAt: serverTimestamp(),
         });
+      } else {
+        console.warn("⚠️ Slot not found:", slotId);
       }
     }
 
-    // ✅ UPDATE APPOINTMENT
+    // ✅ update appointment
     transaction.update(appointmentRef, {
-      status,
+      status: normalizedStatus,
       updatedAt: serverTimestamp(),
     });
   });
@@ -114,7 +119,7 @@ export const subscribeUserAppointmentsService = (userId, callback) => {
   });
 };
 
-/* 🔥 SLOT LISTENER (FINAL + REALTIME SAFE) */
+/* 🔥 SLOT LISTENER (FINAL HARDENED VERSION) */
 
 export const subscribeDoctorSlotsService = (doctorId, date, callback) => {
   const q = query(
@@ -131,15 +136,12 @@ export const subscribeDoctorSlotsService = (doctorId, date, callback) => {
       .filter((slot) => {
         const expired = slot.lockedUntil && slot.lockedUntil.toMillis() < now;
 
-        // booked
         if (slot.isBooked) return true;
-
-        // active lock
         if (slot.isLocked && !expired) return true;
 
         return false;
       })
-      .map((s) => s.time);
+      .map((s) => s.time?.trim()); // ✅ normalize
 
     callback(unavailableSlots);
   });
