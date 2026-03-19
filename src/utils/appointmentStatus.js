@@ -1,9 +1,9 @@
 export const APPOINTMENT_STATUS = {
-  PENDING: "pending",
+  REQUESTED: "requested",
   CONFIRMED: "confirmed",
   COMPLETED: "completed",
   CANCELLED: "cancelled",
-  RESCHEDULED: "rescheduled",
+  NO_SHOW: "no_show",
 };
 
 /* STATUS LABELS */

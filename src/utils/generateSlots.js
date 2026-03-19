@@ -1,3 +1,5 @@
+/* GENERATE ALL POSSIBLE SLOTS */
+
 export const generateSlots = (startHour = 9, endHour = 17, interval = 30) => {
   const slots = [];
 
@@ -13,9 +15,31 @@ export const generateSlots = (startHour = 9, endHour = 17, interval = 30) => {
   return slots;
 };
 
-export const filterAvailableSlots = (allSlots, bookedSlots = []) => {
-  return allSlots.filter((slot) => !bookedSlots.includes(slot));
+/* REMOVE BOOKED / LOCKED SLOTS */
+
+export const filterAvailableSlots = (allSlots, unavailableSlots = []) => {
+  return allSlots.filter((slot) => !unavailableSlots.includes(slot));
 };
+
+/* 🔥 REMOVE PAST SLOTS (CORE UX FIX) */
+
+export const filterPastSlots = (slots, date) => {
+  const now = new Date();
+  const selectedDate = new Date(date);
+
+  return slots.filter((time) => {
+    const slotDateTime = new Date(`${date} ${time}`);
+
+    // Only apply filtering for TODAY
+    if (selectedDate.toDateString() === now.toDateString()) {
+      return slotDateTime > now;
+    }
+
+    return true;
+  });
+};
+
+/* DOCTOR WORKING DAY CHECK */
 
 export const isDoctorWorkingDay = (doctor, date) => {
   if (!doctor?.workingDays) return true;
@@ -24,6 +48,8 @@ export const isDoctorWorkingDay = (doctor, date) => {
 
   return doctor.workingDays.includes(day);
 };
+
+/* OPTIONAL: DOCTOR LEAVE CHECK */
 
 export const isLeaveDate = (doctor, date) => {
   if (!doctor?.leaveDates) return false;
