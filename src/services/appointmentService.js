@@ -119,7 +119,7 @@ export const subscribeUserAppointmentsService = (userId, callback) => {
   });
 };
 
-/* 🔥 SLOT LISTENER (FINAL HARDENED VERSION) */
+/* 🔥 SLOT LISTENER */
 
 export const subscribeDoctorSlotsService = (doctorId, date, callback) => {
   const q = query(
@@ -131,18 +131,19 @@ export const subscribeDoctorSlotsService = (doctorId, date, callback) => {
   return onSnapshot(q, (snap) => {
     const now = Date.now();
 
-    const unavailableSlots = snap.docs
-      .map((d) => d.data())
-      .filter((slot) => {
-        const expired = slot.lockedUntil && slot.lockedUntil.toMillis() < now;
+    const slotState = snap.docs.map((d) => {
+      const data = d.data();
 
-        if (slot.isBooked) return true;
-        if (slot.isLocked && !expired) return true;
+      const expired =
+        data.lockedUntil && data.lockedUntil.toMillis() < now;
 
-        return false;
-      })
-      .map((s) => s.time?.trim()); // ✅ normalize
+      return {
+        time: data.time?.trim(),
+        isBooked: data.isBooked || false,
+        isLocked: data.isLocked && !expired,
+      };
+    });
 
-    callback(unavailableSlots);
+    callback(slotState);
   });
 };
