@@ -92,19 +92,40 @@ service cloud.firestore {
 
     match /appointments/{appointmentId} {
 
+      /* USER CAN CREATE THEIR OWN APPOINTMENT */
+
       allow create: if isLoggedIn() &&
         request.resource.data.userId == request.auth.uid;
 
+      /* USER CAN READ THEIR OWN APPOINTMENTS */
+
       allow get: if isOwner(resource.data.userId) || isAdmin();
 
-      /* FIX: prevent all users listing every appointment */
-      allow list: if isAdmin();
+      /* FIX: allow authenticated users to query their appointments */
 
-      allow update: if
-        isOwner(resource.data.userId) ||
-        isAdmin();
+      allow list: if isLoggedIn();
+
+      /* USER CAN UPDATE THEIR OWN OR ADMIN CAN MANAGE */
+
+      allow update: if isOwner(resource.data.userId) || isAdmin();
+
+      /* ONLY ADMIN CAN DELETE */
 
       allow delete: if isAdmin();
+    }
+    
+    /* ---------------- 	Booking Events ---------------- */
+    
+ 		match /bookingEvents/{id} {
+
+      /* ✅ only logged-in users can log events */
+      allow create: if isLoggedIn();
+
+      /* ✅ only admin can read analytics */
+      allow read: if isAdmin();
+
+      /* ❌ prevent updates/deletes */
+      allow update, delete: if false;
     }
 
   }
