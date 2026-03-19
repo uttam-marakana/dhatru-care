@@ -9,7 +9,7 @@
 
 ### Built by **Uttam Marakana (Shadow)**
 
-React & Shopify Developer 
+React & Shopify Developer
 
 A modern **hospital website + admin dashboard** built with **React + Firebase**, designed for scalable healthcare platforms with secure role-based access, responsive UI, and production-grade architecture.
 
@@ -28,7 +28,6 @@ Admin Dashboard
 ```
 https://dhatrucare.vercel.app/admin/upload
 ```
-
 
 ---
 
@@ -53,25 +52,25 @@ The project demonstrates **real-world SaaS style architecture using React + Fire
 
 ## Frontend
 
-* React (Vite)
-* React Router v6
-* Tailwind CSS
-* React Icons
-* Formik + Yup
+- React (Vite)
+- React Router v6
+- Tailwind CSS
+- React Icons
+- Formik + Yup
 
 ## Backend / Platform
 
-* Firebase Authentication
-* Firestore Database
-* Firebase Security Rules
+- Firebase Authentication
+- Firestore Database
+- Firebase Security Rules
 
 ## Architecture Principles
 
-* Layout-based routing
-* Role-based access control
-* Protected routes
-* Modular UI sections
-* Admin domain isolation
+- Layout-based routing
+- Role-based access control
+- Protected routes
+- Modular UI sections
+- Admin domain isolation
 
 ---
 
@@ -467,8 +466,8 @@ const firebaseConfig = {
   projectId: "...",
   storageBucket: "...",
   messagingSenderId: "...",
-  appId: "..."
-}
+  appId: "...",
+};
 ```
 
 ---
@@ -567,12 +566,12 @@ Example index:
 
 ```json
 {
- "collectionGroup": "appointments",
- "queryScope": "COLLECTION",
- "fields": [
-  { "fieldPath": "userId", "order": "ASCENDING" },
-  { "fieldPath": "createdAt", "order": "DESCENDING" }
- ]
+  "collectionGroup": "appointments",
+  "queryScope": "COLLECTION",
+  "fields": [
+    { "fieldPath": "userId", "order": "ASCENDING" },
+    { "fieldPath": "createdAt", "order": "DESCENDING" }
+  ]
 }
 ```
 
@@ -669,7 +668,8 @@ Redeploy the project
 ```
 
 https://dhatrucare.vercel.app
-```
+
+````
 
 ---
 
@@ -691,7 +691,7 @@ const firebaseConfig = {
 }
 
 export const app = initializeApp(firebaseConfig)
-```
+````
 
 ---
 
