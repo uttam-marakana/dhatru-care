@@ -139,7 +139,8 @@ export const subscribeDoctorSlotsService = (doctorId, date, callback) => {
         data.lockedUntil.toMillis() < now;
 
       const isLocked = data.isLocked && !expired;
-      const isBooked = !!data.isBooked;
+      
+      const isBooked = !!data.isBooked || !!data.booked;
 
       return {
         time: data.time?.trim(),

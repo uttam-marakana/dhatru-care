@@ -41,7 +41,7 @@ const canTakeSlot = (slot, userId, now) => {
     slot.lockedUntil && slot.lockedUntil.toMillis() < now.toMillis();
 
   // Hard booking
-  if (slot.isBooked) return false;
+  if (slot.isBooked || slot.booked) return false;
 
   // Active lock by another user
   if (slot.isLocked && !isExpired && slot.lockedBy !== userId) {
