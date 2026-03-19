@@ -42,6 +42,7 @@ export default function AppointmentForm() {
 
   const [step, setStep] = useState(1);
   const [successData, setSuccessData] = useState(null);
+  const [countdown, setCountdown] = useState(6);
 
   const [form, setForm] = useState({
     patientName: "",
@@ -59,9 +60,12 @@ export default function AppointmentForm() {
   const [departments, setDepartments] = useState([]);
   const [doctors, setDoctors] = useState([]);
   const [doctor, setDoctor] = useState(null);
-  const [availableSlots, setAvailableSlots] = useState([]);
-  const [loading, setLoading] = useState(false);
 
+  const [slotState, setSlotState] = useState([]);
+
+  const [availableSlots, setAvailableSlots] = useState([]);
+
+  const [loading, setLoading] = useState(false);
   const submittingRef = useRef(false);
 
   /* LOAD */
@@ -91,7 +95,7 @@ export default function AppointmentForm() {
     );
   }, [doctor]);
 
-  /* SLOT PIPELINE (FIXED) */
+  /* 🔥 UPDATED SLOT PIPELINE */
 
   useEffect(() => {
     if (!form.doctorId || !form.date || !doctor) return;
@@ -104,23 +108,42 @@ export default function AppointmentForm() {
     const unsubscribe = subscribeDoctorSlots(
       form.doctorId,
       form.date,
-      (unavailable) => {
-        console.log("Slot Unavailable", unavailable);
+      (slots) => {
+        setSlotState(slots);
 
-        const normalizedUnavailable = unavailable.map((t) => t?.trim());
+        // ✅ backward compatibility (no break)
+        const blocked = slots
+          .filter((s) => s.isBooked || s.isLocked)
+          .map((s) => s.time?.trim());
 
         const available = filterAvailableSlots(
           allSlots.map((t) => t?.trim()),
-          normalizedUnavailable,
+          blocked,
         );
+
         const future = filterPastSlots(available, form.date);
 
-        setAvailableSlots([...future]); // force UI re-render
+        setAvailableSlots([...future]);
       },
     );
 
     return () => unsubscribe && unsubscribe();
   }, [form.doctorId, form.date, doctor, allSlots]);
+
+  /* STEP NAVIGATION (NEW) */
+
+  const nextStep = () => {
+    if (step === 1 && !form.department) return notifyError("Select department");
+    if (step === 2 && !form.doctorId) return notifyError("Select doctor");
+    if (step === 3 && !form.date) return notifyError("Select date");
+    if (step === 4 && !form.time) return notifyError("Select time");
+
+    setStep((s) => Math.min(s + 1, 5));
+  };
+
+  const prevStep = () => {
+    setStep((s) => Math.max(s - 1, 1));
+  };
 
   /* FEES */
 
@@ -155,19 +178,15 @@ export default function AppointmentForm() {
       const payload = {
         ...form,
         userId: user.uid,
-
         doctorName: doctor?.name || "",
         doctorSpecialty: doctor?.specialty || "",
-
         departmentId: form.department,
         departmentName:
           departments.find((d) => d.id === form.department)?.name || "",
-
         appointmentType,
         appointmentFee,
         packageFee,
         totalAmount,
-
         isReschedule: false,
       };
 
@@ -185,6 +204,25 @@ export default function AppointmentForm() {
     }
   };
 
+  /* 🔥 AUTO REDIRECT */
+
+  useEffect(() => {
+    if (!successData) return;
+
+    const interval = setInterval(() => {
+      setCountdown((c) => c - 1);
+    }, 1000);
+
+    const timer = setTimeout(() => {
+      navigate("/profile/appointments");
+    }, 6000);
+
+    return () => {
+      clearInterval(interval);
+      clearTimeout(timer);
+    };
+  }, [successData, navigate]);
+
   /* SUCCESS */
 
   if (successData) {
@@ -197,6 +235,7 @@ export default function AppointmentForm() {
           {successData.patientName}, your appointment is booked on{" "}
           {successData.date} at {successData.time}
         </p>
+        <p>Redirecting in {countdown}s...</p>
       </div>
     );
   }
@@ -204,41 +243,46 @@ export default function AppointmentForm() {
   /* UI */
 
   return (
-    <form onSubmit={handleSubmit} className="max-w-xl mx-auto space-y-6">
-      {/* 🔥 Appointment TYPE (ONLY STEP 1) */}
-      {step === 1 && (
-        <div className="flex gap-3">
-          {["regular", "emergency"].map((t) => (
-            <button
-              key={t}
-              type="button"
-              onClick={() => setAppointmentType(t)}
-              className={`px-4 py-2 rounded-lg border ${
-                appointmentType === t ? "bg-blue-500 text-white" : ""
-              }`}
-            >
-              {t}
-            </button>
-          ))}
-        </div>
-      )}
-
+    <form
+      onSubmit={handleSubmit}
+      className="
+        w-full
+        max-w-xl
+        mx-auto
+        space-y-6
+        px-2 sm:px-0
+      "
+    >
       {/* STEP 1 */}
       {step === 1 && (
-        <CustomSelect
-          options={departments}
-          value={form.department}
-          placeholder="Select Department"
-          onChange={(val) => {
-            setForm((p) => ({ ...p, department: val }));
-            setStep(2);
-          }}
-        />
+        <>
+          <div className="flex gap-3">
+            {["regular", "emergency"].map((t) => (
+              <button
+                key={t}
+                type="button"
+                onClick={() => setAppointmentType(t)}
+                className={`px-4 py-2 rounded-lg border ${
+                  appointmentType === t ? "bg-blue-500 text-white" : ""
+                }`}
+              >
+                {t}
+              </button>
+            ))}
+          </div>
+
+          <CustomSelect
+            options={departments}
+            value={form.department}
+            placeholder="Select Department"
+            onChange={(val) => setForm((p) => ({ ...p, department: val }))}
+          />
+        </>
       )}
 
       {/* STEP 2 */}
       {step === 2 && (
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-2 sm:gap-3">
           {doctors.map((doc) => {
             const isSelected = form.doctorId === doc.id;
 
@@ -246,20 +290,12 @@ export default function AppointmentForm() {
               <button
                 key={doc.id}
                 type="button"
-                onClick={() => {
-                  setForm((p) => ({ ...p, doctorId: doc.id }));
-                  setStep(3);
-                }}
-                className={`p-4 rounded-xl border text-left transition flex flex-col gap-1 ${
-                  isSelected
-                    ? "border-blue-500 bg-blue-50 shadow-md"
-                    : "border-gray-200 hover:border-blue-500"
+                onClick={() => setForm((p) => ({ ...p, doctorId: doc.id }))}
+                className={`p-4 rounded-xl border ${
+                  isSelected ? "border-blue-500 bg-blue-50" : "border-gray-200"
                 }`}
               >
-                <span className="font-medium">{doc.name}</span>
-                {doc.specialty && (
-                  <span className="text-xs text-gray-500">{doc.specialty}</span>
-                )}
+                {doc.name}
               </button>
             );
           })}
@@ -270,10 +306,7 @@ export default function AppointmentForm() {
       {step === 3 && doctor && (
         <DoctorAvailabilityCalendar
           selectedDate={form.date}
-          onSelect={(d) => {
-            setForm((p) => ({ ...p, date: d }));
-            setStep(4);
-          }}
+          onSelect={(d) => setForm((p) => ({ ...p, date: d }))}
           doctor={doctor}
         />
       )}
@@ -285,14 +318,11 @@ export default function AppointmentForm() {
             <SlotGrid
               slots={availableSlots}
               selected={form.time}
-              onSelect={(t) => {
-                setForm((p) => ({ ...p, time: t }));
-                setStep(5);
-              }}
+              onSelect={(t) => setForm((p) => ({ ...p, time: t }))}
             />
           ) : (
             <p className="text-sm text-gray-500 text-center">
-              No slots available for this date
+              No slots available
             </p>
           )}
         </>
@@ -309,29 +339,74 @@ export default function AppointmentForm() {
             className="ui-input"
           />
 
-          <input
-            placeholder="Phone"
-            onChange={(e) => setForm((p) => ({ ...p, phone: e.target.value }))}
-            className="ui-input"
-          />
-
-          <input
-            placeholder="Email"
-            onChange={(e) => setForm((p) => ({ ...p, email: e.target.value }))}
-            className="ui-input"
-          />
-
-          <div className="bg-gray-50 p-4 rounded">
-            <p>Appointment: ₹{appointmentFee}</p>
-            {packageFee > 0 && <p>Package: ₹{packageFee}</p>}
-            <p className="font-bold">Total: ₹{totalAmount}</p>
-          </div>
-
-          <button className="ui-button w-full">
+          <button
+            className="
+              w-full
+              py-3
+              rounded-lg
+              bg-green-600 text-white
+              font-medium
+              hover:bg-green-700
+              transition
+              shadow
+            "
+          >
             {loading ? "Booking..." : "Confirm"}
           </button>
         </>
       )}
+
+      {/* 🔥 NAVIGATION */}
+      <div
+        className="
+    flex items-center justify-between
+    gap-3
+    pt-6
+    border-t border-[var(--border)]
+  "
+      >
+        {/* LEFT SIDE (Previous) */}
+        <div>
+          {step > 1 && (
+            <button
+              type="button"
+              onClick={prevStep}
+              className="
+          px-4 py-2
+          text-sm
+          rounded-lg
+          border border-[var(--border)]
+          bg-[var(--card)]
+          hover:bg-[var(--section)]
+          transition
+        "
+            >
+              ← Previous
+            </button>
+          )}
+        </div>
+
+        {/* RIGHT SIDE (Next / Submit handled separately) */}
+        <div className="ml-auto">
+          {step < 5 && (
+            <button
+              type="button"
+              onClick={nextStep}
+              className="
+          px-5 py-2.5
+          text-sm font-medium
+          rounded-lg
+          bg-blue-600 text-white
+          hover:bg-blue-700
+          transition
+          shadow-sm
+        "
+            >
+              Next →
+            </button>
+          )}
+        </div>
+      </div>
     </form>
   );
 }
