@@ -105,16 +105,21 @@ export default function AppointmentForm() {
       form.doctorId,
       form.date,
       (unavailable) => {
-        const available = filterAvailableSlots(allSlots, unavailable);
+        console.log("Slot Unavailable", unavailable);
+
+        const normalizedUnavailable = unavailable.map((t) => t?.trim());
+
+        const available = filterAvailableSlots(
+          allSlots.map((t) => t?.trim()),
+          normalizedUnavailable,
+        );
         const future = filterPastSlots(available, form.date);
 
-        setAvailableSlots([...future]); // 🔥 force UI refresh
+        setAvailableSlots([...future]); // force UI re-render
       },
     );
 
-    return () => {
-      if (unsubscribe) unsubscribe();
-    };
+    return () => unsubscribe && unsubscribe();
   }, [form.doctorId, form.date, doctor, allSlots]);
 
   /* FEES */
@@ -200,7 +205,7 @@ export default function AppointmentForm() {
 
   return (
     <form onSubmit={handleSubmit} className="max-w-xl mx-auto space-y-6">
-      {/* 🔥 TYPE (ONLY STEP 1) */}
+      {/* 🔥 Appointment TYPE (ONLY STEP 1) */}
       {step === 1 && (
         <div className="flex gap-3">
           {["regular", "emergency"].map((t) => (
