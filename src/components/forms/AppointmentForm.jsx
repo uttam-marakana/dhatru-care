@@ -31,12 +31,13 @@ const FEES = {
 export default function AppointmentForm() {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
-
   const { book } = useBookingEngine();
 
+  /* URL PARAMS */
   const packageParam = searchParams.get("package");
   const packageNameParam = searchParams.get("packageName");
 
+  /* STATE */
   const [appointmentType, setAppointmentType] = useState("regular");
   const [packages, setPackages] = useState([]);
 
@@ -61,15 +62,14 @@ export default function AppointmentForm() {
   const [doctors, setDoctors] = useState([]);
   const [doctor, setDoctor] = useState(null);
 
+  /* 🔥 SLOT SYSTEM */
   const [slotState, setSlotState] = useState([]);
-
   const [availableSlots, setAvailableSlots] = useState([]);
 
   const [loading, setLoading] = useState(false);
   const submittingRef = useRef(false);
 
-  /* LOAD */
-
+  /* ================= LOAD ================= */
   useEffect(() => {
     getAllDepartments().then(setDepartments);
     getPackages().then(setPackages);
@@ -84,8 +84,7 @@ export default function AppointmentForm() {
     setDoctor(doctors.find((d) => d.id === form.doctorId) || null);
   }, [form.doctorId, doctors]);
 
-  /* SLOT GENERATION */
-
+  /* ================= SLOT GENERATION ================= */
   const allSlots = useMemo(() => {
     if (!doctor) return [];
     return generateSlots(
@@ -95,13 +94,13 @@ export default function AppointmentForm() {
     );
   }, [doctor]);
 
-  /* 🔥 UPDATED SLOT PIPELINE */
-
+  /* ================= SLOT PIPELINE ================= */
   useEffect(() => {
     if (!form.doctorId || !form.date || !doctor) return;
 
     if (!isDoctorWorkingDay(doctor, form.date)) {
       setAvailableSlots([]);
+      setSlotState([]);
       return;
     }
 
@@ -111,7 +110,7 @@ export default function AppointmentForm() {
       (slots) => {
         setSlotState(slots);
 
-        // ✅ backward compatibility (no break)
+        // fallback logic
         const blocked = slots
           .filter((s) => s.isBooked || s.isLocked)
           .map((s) => s.time?.trim());
@@ -130,8 +129,7 @@ export default function AppointmentForm() {
     return () => unsubscribe && unsubscribe();
   }, [form.doctorId, form.date, doctor, allSlots]);
 
-  /* STEP NAVIGATION (NEW) */
-
+  /* ================= NAVIGATION ================= */
   const nextStep = () => {
     if (step === 1 && !form.department) return notifyError("Select department");
     if (step === 2 && !form.doctorId) return notifyError("Select doctor");
@@ -145,8 +143,7 @@ export default function AppointmentForm() {
     setStep((s) => Math.max(s - 1, 1));
   };
 
-  /* FEES */
-
+  /* ================= FEES ================= */
   const getPackagePrice = () => {
     const pkg = packages.find((p) => p.id === form.packageId);
     return Number(pkg?.price?.replace(/[^\d]/g, "")) || 0;
@@ -156,8 +153,7 @@ export default function AppointmentForm() {
   const packageFee = getPackagePrice();
   const totalAmount = appointmentFee + packageFee;
 
-  /* SUBMIT */
-
+  /* ================= SUBMIT ================= */
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -204,8 +200,7 @@ export default function AppointmentForm() {
     }
   };
 
-  /* 🔥 AUTO REDIRECT */
-
+  /* ================= AUTO REDIRECT ================= */
   useEffect(() => {
     if (!successData) return;
 
@@ -223,8 +218,7 @@ export default function AppointmentForm() {
     };
   }, [successData, navigate]);
 
-  /* SUCCESS */
-
+  /* ================= SUCCESS ================= */
   if (successData) {
     return (
       <div className="text-center py-20 space-y-3">
@@ -240,18 +234,11 @@ export default function AppointmentForm() {
     );
   }
 
-  /* UI */
-
+  /* ================= UI ================= */
   return (
     <form
       onSubmit={handleSubmit}
-      className="
-        w-full
-        max-w-xl
-        mx-auto
-        space-y-6
-        px-2 sm:px-0
-      "
+      className="w-full max-w-xl mx-auto space-y-6 px-2 sm:px-0"
     >
       {/* STEP 1 */}
       {step === 1 && (
@@ -282,7 +269,7 @@ export default function AppointmentForm() {
 
       {/* STEP 2 */}
       {step === 2 && (
-        <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-2 sm:gap-3">
+        <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-3">
           {doctors.map((doc) => {
             const isSelected = form.doctorId === doc.id;
 
@@ -311,12 +298,14 @@ export default function AppointmentForm() {
         />
       )}
 
-      {/* STEP 4 */}
+      {/* STEP 4 (🔥 FINAL MERGED) */}
       {step === 4 && (
         <>
-          {availableSlots.length > 0 ? (
+          {allSlots.length > 0 ? (
             <SlotGrid
-              slots={availableSlots}
+              slots={allSlots}
+              slotState={slotState}
+              availableSlots={availableSlots}
               selected={form.time}
               onSelect={(t) => setForm((p) => ({ ...p, time: t }))}
             />
@@ -339,68 +328,53 @@ export default function AppointmentForm() {
             className="ui-input"
           />
 
+          <input
+            placeholder="Phone"
+            onChange={(e) => setForm((p) => ({ ...p, phone: e.target.value }))}
+            className="ui-input"
+          />
+
+          <input
+            placeholder="Email"
+            onChange={(e) => setForm((p) => ({ ...p, email: e.target.value }))}
+            className="ui-input"
+          />
+
+          <div className="bg-gray-50 p-4 rounded">
+            <p>Appointment: ₹{appointmentFee}</p>
+            {packageFee > 0 && <p>Package: ₹{packageFee}</p>}
+            <p className="font-bold">Total: ₹{totalAmount}</p>
+          </div>
+
           <button
-            className="
-              w-full
-              py-3
-              rounded-lg
-              bg-green-600 text-white
-              font-medium
-              hover:bg-green-700
-              transition
-              shadow
-            "
+            type="submit"
+            className="w-full py-3 bg-green-600 text-white rounded-lg font-medium hover:bg-green-700 transition shadow"
           >
             {loading ? "Booking..." : "Confirm"}
           </button>
         </>
       )}
 
-      {/* 🔥 NAVIGATION */}
-      <div
-        className="
-    flex items-center justify-between
-    gap-3
-    pt-6
-    border-t border-[var(--border)]
-  "
-      >
-        {/* LEFT SIDE (Previous) */}
+      {/* NAVIGATION */}
+      <div className="flex items-center justify-between gap-3 pt-6 border-t border-[var(--border)]">
         <div>
           {step > 1 && (
             <button
               type="button"
               onClick={prevStep}
-              className="
-          px-4 py-2
-          text-sm
-          rounded-lg
-          border border-[var(--border)]
-          bg-[var(--card)]
-          hover:bg-[var(--section)]
-          transition
-        "
+              className="px-4 py-2 text-sm rounded-lg border bg-[var(--card)] hover:bg-[var(--section)] transition"
             >
               ← Previous
             </button>
           )}
         </div>
 
-        {/* RIGHT SIDE (Next / Submit handled separately) */}
         <div className="ml-auto">
           {step < 5 && (
             <button
               type="button"
               onClick={nextStep}
-              className="
-          px-5 py-2.5
-          text-sm font-medium
-          rounded-lg
-          bg-blue-600 text-white
-          hover:bg-blue-700
-          transition
-          shadow-sm
-        "
+              className="px-5 py-2.5 text-sm font-medium rounded-lg bg-blue-600 text-white hover:bg-blue-700 transition shadow-sm"
             >
               Next →
             </button>
