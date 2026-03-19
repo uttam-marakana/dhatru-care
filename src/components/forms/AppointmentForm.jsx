@@ -91,7 +91,7 @@ export default function AppointmentForm() {
     );
   }, [doctor]);
 
-  /* SLOT PIPELINE */
+  /* SLOT PIPELINE (FIXED) */
 
   useEffect(() => {
     if (!form.doctorId || !form.date || !doctor) return;
@@ -101,11 +101,20 @@ export default function AppointmentForm() {
       return;
     }
 
-    return subscribeDoctorSlots(form.doctorId, form.date, (unavailable) => {
-      const available = filterAvailableSlots(allSlots, unavailable);
-      const future = filterPastSlots(available, form.date);
-      setAvailableSlots(future);
-    });
+    const unsubscribe = subscribeDoctorSlots(
+      form.doctorId,
+      form.date,
+      (unavailable) => {
+        const available = filterAvailableSlots(allSlots, unavailable);
+        const future = filterPastSlots(available, form.date);
+
+        setAvailableSlots([...future]); // 🔥 force UI refresh
+      },
+    );
+
+    return () => {
+      if (unsubscribe) unsubscribe();
+    };
   }, [form.doctorId, form.date, doctor, allSlots]);
 
   /* FEES */
@@ -119,7 +128,7 @@ export default function AppointmentForm() {
   const packageFee = getPackagePrice();
   const totalAmount = appointmentFee + packageFee;
 
-  /* SUBMIT (FINAL FIXED) */
+  /* SUBMIT */
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -164,7 +173,6 @@ export default function AppointmentForm() {
         return;
       }
 
-      // ✅ ONLY SET SUCCESS HERE
       setSuccessData(payload);
     } finally {
       setLoading(false);
@@ -192,23 +200,25 @@ export default function AppointmentForm() {
 
   return (
     <form onSubmit={handleSubmit} className="max-w-xl mx-auto space-y-6">
-      {/* TYPE */}
-      <div className="flex gap-3">
-        {["regular", "emergency"].map((t) => (
-          <button
-            key={t}
-            type="button"
-            onClick={() => setAppointmentType(t)}
-            className={`px-4 py-2 rounded-lg border ${
-              appointmentType === t ? "bg-blue-500 text-white" : ""
-            }`}
-          >
-            {t}
-          </button>
-        ))}
-      </div>
+      {/* 🔥 TYPE (ONLY STEP 1) */}
+      {step === 1 && (
+        <div className="flex gap-3">
+          {["regular", "emergency"].map((t) => (
+            <button
+              key={t}
+              type="button"
+              onClick={() => setAppointmentType(t)}
+              className={`px-4 py-2 rounded-lg border ${
+                appointmentType === t ? "bg-blue-500 text-white" : ""
+              }`}
+            >
+              {t}
+            </button>
+          ))}
+        </div>
+      )}
 
-      {/* STEP 1: DEPARTMENT */}
+      {/* STEP 1 */}
       {step === 1 && (
         <CustomSelect
           options={departments}
@@ -221,7 +231,7 @@ export default function AppointmentForm() {
         />
       )}
 
-      {/* STEP 2: DOCTOR */}
+      {/* STEP 2 */}
       {step === 2 && (
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           {doctors.map((doc) => {
@@ -251,7 +261,7 @@ export default function AppointmentForm() {
         </div>
       )}
 
-      {/* STEP 3: DATE */}
+      {/* STEP 3 */}
       {step === 3 && doctor && (
         <DoctorAvailabilityCalendar
           selectedDate={form.date}
@@ -263,7 +273,7 @@ export default function AppointmentForm() {
         />
       )}
 
-      {/* SLOT */}
+      {/* STEP 4 */}
       {step === 4 && (
         <>
           {availableSlots.length > 0 ? (
@@ -283,7 +293,7 @@ export default function AppointmentForm() {
         </>
       )}
 
-      {/* FINAL */}
+      {/* STEP 5 */}
       {step === 5 && (
         <>
           <input
