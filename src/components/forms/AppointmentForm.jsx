@@ -1,10 +1,8 @@
 import { useState, useEffect, useMemo, useRef } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 
-import {
-  createAppointment,
-  subscribeDoctorSlots,
-} from "../../api/appointmentsApi";
+import { subscribeDoctorSlots } from "../../api/appointmentsApi";
+import { useBookingEngine } from "../../hooks/useBookingEngine";
 
 import { getAllDepartments } from "../../api/departmentsApi";
 import { getDoctorsByDepartment } from "../../api/doctorsApi";
@@ -21,19 +19,20 @@ import SlotGrid from "../common/SlotGrid";
 import DoctorAvailabilityCalendar from "../common/DoctorAvailabilityCalendar";
 
 import { auth } from "../../firebase";
-import { notifyPromise, notifyError } from "../../utils/toast";
+import { notifyError } from "../../utils/toast";
 
 import CustomSelect from "../common/CustomSelect";
 
 const FEES = {
   regular: 200,
   emergency: 500,
-  reschedule: 100,
 };
 
 export default function AppointmentForm() {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
+
+  const { book } = useBookingEngine();
 
   const packageParam = searchParams.get("package");
   const packageNameParam = searchParams.get("packageName");
@@ -65,7 +64,7 @@ export default function AppointmentForm() {
 
   const submittingRef = useRef(false);
 
-  /* LOAD INITIAL DATA */
+  /* LOAD */
 
   useEffect(() => {
     getAllDepartments().then(setDepartments);
@@ -81,7 +80,7 @@ export default function AppointmentForm() {
     setDoctor(doctors.find((d) => d.id === form.doctorId) || null);
   }, [form.doctorId, doctors]);
 
-  /* GENERATE SLOTS */
+  /* SLOT GENERATION */
 
   const allSlots = useMemo(() => {
     if (!doctor) return [];
@@ -92,28 +91,20 @@ export default function AppointmentForm() {
     );
   }, [doctor]);
 
-  /* SLOT PIPELINE (FINAL) */
+  /* SLOT PIPELINE */
 
   useEffect(() => {
     if (!form.doctorId || !form.date || !doctor) return;
 
-    // Doctor not working that day
     if (!isDoctorWorkingDay(doctor, form.date)) {
       setAvailableSlots([]);
       return;
     }
 
     return subscribeDoctorSlots(form.doctorId, form.date, (unavailable) => {
-      // 1. All slots
-      const all = allSlots;
-
-      // 2. Remove booked + locked
-      const available = filterAvailableSlots(all, unavailable);
-
-      // 3. Remove past slots (CRITICAL FIX)
-      const futureSlots = filterPastSlots(available, form.date);
-
-      setAvailableSlots(futureSlots);
+      const available = filterAvailableSlots(allSlots, unavailable);
+      const future = filterPastSlots(available, form.date);
+      setAvailableSlots(future);
     });
   }, [form.doctorId, form.date, doctor, allSlots]);
 
@@ -128,7 +119,7 @@ export default function AppointmentForm() {
   const packageFee = getPackagePrice();
   const totalAmount = appointmentFee + packageFee;
 
-  /* SUBMIT */
+  /* SUBMIT (FINAL FIXED) */
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -144,10 +135,9 @@ export default function AppointmentForm() {
     if (!user) return notifyError("Login required");
 
     submittingRef.current = true;
+    setLoading(true);
 
     try {
-      setLoading(true);
-
       const payload = {
         ...form,
         userId: user.uid,
@@ -167,19 +157,14 @@ export default function AppointmentForm() {
         isReschedule: false,
       };
 
-      try {
-        const promise = createAppointment(payload);
+      const result = await book(payload);
 
-        await notifyPromise(promise, {
-          loading: "Booking...",
-          success: "Booked!",
-          error: (err) => err?.message || "Booking failed",
-        });
-      } catch (err) {
-        // 🔥 CRITICAL: prevent console crash
-        console.warn("Handled booking error:", err.message);
+      if (!result.success) {
+        notifyError(result.error || "Slot unavailable");
+        return;
       }
 
+      // ✅ ONLY SET SUCCESS HERE
       setSuccessData(payload);
     } finally {
       setLoading(false);
@@ -187,7 +172,7 @@ export default function AppointmentForm() {
     }
   };
 
-  /* SUCCESS SCREEN */
+  /* SUCCESS */
 
   if (successData) {
     return (
@@ -199,9 +184,6 @@ export default function AppointmentForm() {
           {successData.patientName}, your appointment is booked on{" "}
           {successData.date} at {successData.time}
         </p>
-        <p className="text-gray-500">
-          Stay positive. Wishing you good health 💙
-        </p>
       </div>
     );
   }
@@ -209,10 +191,7 @@ export default function AppointmentForm() {
   /* UI */
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      className="max-w-xl mx-auto space-y-6 relative overflow-visible"
-    >
+    <form onSubmit={handleSubmit} className="max-w-xl mx-auto space-y-6">
       {/* TYPE */}
       <div className="flex gap-3">
         {["regular", "emergency"].map((t) => (
@@ -284,7 +263,7 @@ export default function AppointmentForm() {
         />
       )}
 
-      {/* STEP 4: SLOT */}
+      {/* SLOT */}
       {step === 4 && (
         <>
           {availableSlots.length > 0 ? (
@@ -298,13 +277,13 @@ export default function AppointmentForm() {
             />
           ) : (
             <p className="text-sm text-gray-500 text-center">
-              No slots available for this date. Try another day.
+              No slots available for this date
             </p>
           )}
         </>
       )}
 
-      {/* STEP 5: DETAILS */}
+      {/* FINAL */}
       {step === 5 && (
         <>
           <input
