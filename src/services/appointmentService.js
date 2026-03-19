@@ -6,13 +6,13 @@ import {
 
 import {
   doc,
-  updateDoc,
   serverTimestamp,
   collection,
   query,
   where,
   orderBy,
   onSnapshot,
+  runTransaction,
 } from "firebase/firestore";
 
 import { db } from "../firebase";
@@ -25,12 +25,48 @@ const slotsRef = collection(db, "appointmentSlots");
 export const createAppointmentTransaction = (data) =>
   createAppointmentEngine(data);
 
-/* STATUS */
+/* 🔥 STATUS UPDATE (FINAL SAFE VERSION) */
 
 export const updateAppointmentStatusService = async (id, status) => {
-  await updateDoc(doc(db, "appointments", id), {
-    status,
-    updatedAt: serverTimestamp(),
+  const appointmentRef = doc(db, "appointments", id);
+
+  await runTransaction(db, async (transaction) => {
+    const snap = await transaction.get(appointmentRef);
+
+    if (!snap.exists()) {
+      throw new Error("Appointment not found");
+    }
+
+    const appointment = snap.data();
+    const slotId = appointment.slotId;
+
+    // 🔥 DEBUG (REMOVE AFTER TESTING)
+    console.log("Releasing slot:", slotId, "Status:", status);
+
+    // ✅ RELEASE SLOT on cancel/reject
+    if (["cancelled", "rejected"].includes(status) && slotId) {
+      const slotRef = doc(db, "appointmentSlots", slotId);
+
+      const slotSnap = await transaction.get(slotRef);
+
+      if (!slotSnap.exists()) {
+        console.error("❌ Slot not found:", slotId);
+      } else {
+        transaction.update(slotRef, {
+          isBooked: false,
+          isLocked: false,
+          lockedBy: null,
+          lockedUntil: null,
+          updatedAt: serverTimestamp(),
+        });
+      }
+    }
+
+    // ✅ UPDATE APPOINTMENT
+    transaction.update(appointmentRef, {
+      status,
+      updatedAt: serverTimestamp(),
+    });
   });
 };
 
@@ -78,7 +114,7 @@ export const subscribeUserAppointmentsService = (userId, callback) => {
   });
 };
 
-/* 🔥 DOCTOR SLOT LISTENER (UPDATED — PRODUCTION SAFE) */
+/* 🔥 SLOT LISTENER (FINAL + REALTIME SAFE) */
 
 export const subscribeDoctorSlotsService = (doctorId, date, callback) => {
   const q = query(
@@ -95,10 +131,10 @@ export const subscribeDoctorSlotsService = (doctorId, date, callback) => {
       .filter((slot) => {
         const expired = slot.lockedUntil && slot.lockedUntil.toMillis() < now;
 
-        // Case 1: Fully booked
+        // booked
         if (slot.isBooked) return true;
 
-        // Case 2: Actively locked (not expired)
+        // active lock
         if (slot.isLocked && !expired) return true;
 
         return false;
