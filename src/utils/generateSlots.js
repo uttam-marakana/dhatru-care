@@ -28,7 +28,7 @@ export const filterPastSlots = (slots, date) => {
   const selectedDate = new Date(date);
 
   return slots.filter((time) => {
-    const slotDateTime = new Date(`${date} ${time}`);
+    const slotDateTime = new Date(`${date}T${time}`);
 
     if (selectedDate.toDateString() === now.toDateString()) {
       return slotDateTime > now;

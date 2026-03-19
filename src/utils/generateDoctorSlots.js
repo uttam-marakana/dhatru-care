@@ -40,7 +40,10 @@ export const generateDoctorSlots = async (doctor, daysAhead = 30) => {
           doctorId: doctor.id,
           date: dateString,
           time: slot,
-          booked: false,
+          isBooked: false,
+          isLocked: false,
+          lockedBy: null,
+          lockedUntil: null,
         },
         { merge: true },
       );
