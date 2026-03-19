@@ -18,6 +18,8 @@ import {
 import SlotGrid from "../common/SlotGrid";
 import DoctorAvailabilityCalendar from "../common/DoctorAvailabilityCalendar";
 
+import { subscribeDoctorDatesAvailability } from "../../services/dateAvailabilityService";
+
 import { auth } from "../../firebase";
 import { notifyError } from "../../utils/toast";
 
@@ -44,6 +46,8 @@ export default function AppointmentForm() {
   const [step, setStep] = useState(1);
   const [successData, setSuccessData] = useState(null);
   const [countdown, setCountdown] = useState(6);
+
+  const [dateAvailability, setDateAvailability] = useState({});
 
   const [form, setForm] = useState({
     patientName: "",
@@ -83,6 +87,17 @@ export default function AppointmentForm() {
   useEffect(() => {
     setDoctor(doctors.find((d) => d.id === form.doctorId) || null);
   }, [form.doctorId, doctors]);
+
+  useEffect(() => {
+    if (!form.doctorId) return;
+
+    const unsub = subscribeDoctorDatesAvailability(
+      form.doctorId,
+      setDateAvailability,
+    );
+
+    return () => unsub && unsub();
+  }, [form.doctorId]);
 
   /* ================= SLOT GENERATION ================= */
   const allSlots = useMemo(() => {
@@ -295,6 +310,7 @@ export default function AppointmentForm() {
           selectedDate={form.date}
           onSelect={(d) => setForm((p) => ({ ...p, date: d }))}
           doctor={doctor}
+          availability={dateAvailability}
         />
       )}
 
