@@ -2,44 +2,39 @@ import {
   createAppointmentTransaction,
   updateAppointmentStatusService,
   cancelAppointmentService,
+  rescheduleAppointmentService,
   subscribeAppointmentsService,
   subscribeUserAppointmentsService,
-  subscribeDoctorSlotsService,
-  rescheduleAppointmentService,
+  subscribeDoctorSlotsService, // ✅ ADD THIS
 } from "../services/appointmentService";
 
 /* CREATE */
 
-export const createAppointment = async (data) => {
-  return createAppointmentTransaction(data);
-};
+export const createAppointment = (data) => createAppointmentTransaction(data);
 
-/* ADMIN STATUS */
+/* STATUS */
 
 export const updateAppointmentStatus = (id, status) =>
   updateAppointmentStatusService(id, status);
 
 /* CANCEL */
 
-export const cancelAppointment = (appointmentId, slotId) =>
-  cancelAppointmentService(appointmentId, slotId);
+export const cancelAppointment = (id, slotId) =>
+  cancelAppointmentService(id, slotId);
 
 /* RESCHEDULE */
 
-export const rescheduleAppointment = (appointment, newDate, newTime) =>
-  rescheduleAppointmentService(appointment, newDate, newTime);
+export const rescheduleAppointment = (appt, d, t) =>
+  rescheduleAppointmentService(appt, d, t);
 
-/* ADMIN LISTENER */
+/* ADMIN */
 
-export const subscribeAppointments = (callback) =>
-  subscribeAppointmentsService(callback);
+export const subscribeAppointments = (cb) => subscribeAppointmentsService(cb);
 
-/* USER LISTENER */
+/* USER */
 
-export const subscribeUserAppointments = (userId, callback) =>
-  subscribeUserAppointmentsService(userId, callback);
-
-/* SLOT LISTENER */
+export const subscribeUserAppointments = (userId, cb) =>
+  subscribeUserAppointmentsService(userId, cb);
 
 export const subscribeDoctorSlots = (doctorId, date, callback) =>
   subscribeDoctorSlotsService(doctorId, date, callback);
