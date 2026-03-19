@@ -13,6 +13,7 @@ import { getPackages } from "../../api/packagesApi";
 import {
   generateSlots,
   filterAvailableSlots,
+  filterPastSlots,
   isDoctorWorkingDay,
 } from "../../utils/generateSlots";
 
@@ -64,7 +65,7 @@ export default function AppointmentForm() {
 
   const submittingRef = useRef(false);
 
-  /* LOAD */
+  /* LOAD INITIAL DATA */
 
   useEffect(() => {
     getAllDepartments().then(setDepartments);
@@ -80,7 +81,7 @@ export default function AppointmentForm() {
     setDoctor(doctors.find((d) => d.id === form.doctorId) || null);
   }, [form.doctorId, doctors]);
 
-  /* SLOT */
+  /* GENERATE SLOTS */
 
   const allSlots = useMemo(() => {
     if (!doctor) return [];
@@ -91,16 +92,28 @@ export default function AppointmentForm() {
     );
   }, [doctor]);
 
+  /* SLOT PIPELINE (FINAL) */
+
   useEffect(() => {
     if (!form.doctorId || !form.date || !doctor) return;
 
+    // Doctor not working that day
     if (!isDoctorWorkingDay(doctor, form.date)) {
       setAvailableSlots([]);
       return;
     }
 
-    return subscribeDoctorSlots(form.doctorId, form.date, (booked) => {
-      setAvailableSlots(filterAvailableSlots(allSlots, booked));
+    return subscribeDoctorSlots(form.doctorId, form.date, (unavailable) => {
+      // 1. All slots
+      const all = allSlots;
+
+      // 2. Remove booked + locked
+      const available = filterAvailableSlots(all, unavailable);
+
+      // 3. Remove past slots (CRITICAL FIX)
+      const futureSlots = filterPastSlots(available, form.date);
+
+      setAvailableSlots(futureSlots);
     });
   }, [form.doctorId, form.date, doctor, allSlots]);
 
@@ -152,16 +165,20 @@ export default function AppointmentForm() {
         totalAmount,
 
         isReschedule: false,
-
-        status: "pending",
-        createdAt: new Date(),
       };
 
-      await notifyPromise(createAppointment(payload), {
-        loading: "Booking...",
-        success: "Booked!",
-        error: "Failed",
-      });
+      try {
+        const promise = createAppointment(payload);
+
+        await notifyPromise(promise, {
+          loading: "Booking...",
+          success: "Booked!",
+          error: (err) => err?.message || "Booking failed",
+        });
+      } catch (err) {
+        // 🔥 CRITICAL: prevent console crash
+        console.warn("Handled booking error:", err.message);
+      }
 
       setSuccessData(payload);
     } finally {
@@ -170,7 +187,7 @@ export default function AppointmentForm() {
     }
   };
 
-  /* SUCCESS */
+  /* SUCCESS SCREEN */
 
   if (successData) {
     return (
@@ -192,7 +209,10 @@ export default function AppointmentForm() {
   /* UI */
 
   return (
-    <form onSubmit={handleSubmit} className="max-w-xl mx-auto space-y-6 relative overflow-visible">
+    <form
+      onSubmit={handleSubmit}
+      className="max-w-xl mx-auto space-y-6 relative overflow-visible"
+    >
       {/* TYPE */}
       <div className="flex gap-3">
         {["regular", "emergency"].map((t) => (
@@ -209,8 +229,7 @@ export default function AppointmentForm() {
         ))}
       </div>
 
-      {/* STEP FLOW SAME (no buttons) */}
-
+      {/* STEP 1: DEPARTMENT */}
       {step === 1 && (
         <CustomSelect
           options={departments}
@@ -223,6 +242,7 @@ export default function AppointmentForm() {
         />
       )}
 
+      {/* STEP 2: DOCTOR */}
       {step === 2 && (
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           {doctors.map((doc) => {
@@ -236,25 +256,15 @@ export default function AppointmentForm() {
                   setForm((p) => ({ ...p, doctorId: doc.id }));
                   setStep(3);
                 }}
-                className={`
-          p-4 rounded-xl border text-left transition
-          flex flex-col gap-1
-
-          ${
-            isSelected
-              ? "border-[var(--color-primary)] bg-[var(--glow-bg)] shadow-md"
-              : "border-[var(--border)] bg-[var(--card)] hover:border-[var(--color-primary)]"
-          }
-        `}
+                className={`p-4 rounded-xl border text-left transition flex flex-col gap-1 ${
+                  isSelected
+                    ? "border-blue-500 bg-blue-50 shadow-md"
+                    : "border-gray-200 hover:border-blue-500"
+                }`}
               >
-                <span className="font-medium text-[var(--text)]">
-                  {doc.name}
-                </span>
-
+                <span className="font-medium">{doc.name}</span>
                 {doc.specialty && (
-                  <span className="text-xs text-[var(--muted)]">
-                    {doc.specialty}
-                  </span>
+                  <span className="text-xs text-gray-500">{doc.specialty}</span>
                 )}
               </button>
             );
@@ -262,6 +272,7 @@ export default function AppointmentForm() {
         </div>
       )}
 
+      {/* STEP 3: DATE */}
       {step === 3 && doctor && (
         <DoctorAvailabilityCalendar
           selectedDate={form.date}
@@ -273,17 +284,27 @@ export default function AppointmentForm() {
         />
       )}
 
+      {/* STEP 4: SLOT */}
       {step === 4 && (
-        <SlotGrid
-          slots={availableSlots}
-          selected={form.time}
-          onSelect={(t) => {
-            setForm((p) => ({ ...p, time: t }));
-            setStep(5);
-          }}
-        />
+        <>
+          {availableSlots.length > 0 ? (
+            <SlotGrid
+              slots={availableSlots}
+              selected={form.time}
+              onSelect={(t) => {
+                setForm((p) => ({ ...p, time: t }));
+                setStep(5);
+              }}
+            />
+          ) : (
+            <p className="text-sm text-gray-500 text-center">
+              No slots available for this date. Try another day.
+            </p>
+          )}
+        </>
       )}
 
+      {/* STEP 5: DETAILS */}
       {step === 5 && (
         <>
           <input
@@ -293,18 +314,19 @@ export default function AppointmentForm() {
             }
             className="ui-input"
           />
+
           <input
             placeholder="Phone"
             onChange={(e) => setForm((p) => ({ ...p, phone: e.target.value }))}
             className="ui-input"
           />
+
           <input
             placeholder="Email"
             onChange={(e) => setForm((p) => ({ ...p, email: e.target.value }))}
             className="ui-input"
           />
 
-          {/* FEES UI */}
           <div className="bg-gray-50 p-4 rounded">
             <p>Appointment: ₹{appointmentFee}</p>
             {packageFee > 0 && <p>Package: ₹{packageFee}</p>}
