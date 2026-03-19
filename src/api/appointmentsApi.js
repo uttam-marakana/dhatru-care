@@ -5,7 +5,7 @@ import {
   rescheduleAppointmentService,
   subscribeAppointmentsService,
   subscribeUserAppointmentsService,
-  subscribeDoctorSlotsService, // ✅ ADD THIS
+  subscribeDoctorSlotsService,
 } from "../services/appointmentService";
 
 /* CREATE */
@@ -35,6 +35,8 @@ export const subscribeAppointments = (cb) => subscribeAppointmentsService(cb);
 
 export const subscribeUserAppointments = (userId, cb) =>
   subscribeUserAppointmentsService(userId, cb);
+
+/* 🔥 SLOT LISTENER */
 
 export const subscribeDoctorSlots = (doctorId, date, callback) =>
   subscribeDoctorSlotsService(doctorId, date, callback);
