@@ -14,8 +14,8 @@ export const createAppointment = (data) => createAppointmentTransaction(data);
 
 /* STATUS */
 
-export const updateAppointmentStatus = (id, status) =>
-  updateAppointmentStatusService(id, status);
+export const updateAppointmentStatus = (id, status, meta) =>
+  updateAppointmentStatusService(id, status, meta);
 
 /* CANCEL */
 
