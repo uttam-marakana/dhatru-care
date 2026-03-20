@@ -2,10 +2,14 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
 
-    /* ------ AUTH CHECKS ---------------------- */ 
+    /* ---------------- AUTH ---------------- */
 
     function isLoggedIn() {
       return request.auth != null;
+    }
+
+    function getUser() {
+      return get(/databases/$(database)/documents/users/$(request.auth.uid)).data;
     }
 
     function isOwner(userId) {
@@ -13,12 +17,15 @@ service cloud.firestore {
     }
 
     function isAdmin() {
-      return isLoggedIn() &&
-        get(/databases/$(database)/documents/users/$(request.auth.uid))
-        .data.role == "admin";
+      return isLoggedIn() && getUser().role == "admin";
     }
 
-    /* ------ USERS ---------------------- */ 
+    function isSameTenant(resourceTenantId) {
+      return isLoggedIn() &&
+        getUser().tenantId == resourceTenantId;
+    }
+
+    /* ---------------- USERS ---------------- */
 
     match /users/{userId} {
 
@@ -31,105 +38,114 @@ service cloud.firestore {
       allow delete: if false;
     }
 
-    /* ------ PUBLIC DATA ---------------------- */ 
+    /* ---------------- PUBLIC DATA ---------------- */
 
     match /doctors/{doc} {
-
       allow read: if true;
-
-      allow create, update, delete: if isAdmin();
+      allow write: if isAdmin();
     }
 
     match /departments/{doc} {
-
       allow read: if true;
-
-      allow create, update, delete: if isAdmin();
+      allow write: if isAdmin();
     }
 
     match /packages/{doc} {
-
       allow read: if true;
-
-      allow create, update, delete: if isAdmin();
+      allow write: if isAdmin();
     }
 
     match /blog_posts/{doc} {
-
       allow read: if true;
-
-      allow create, update, delete: if isAdmin();
+      allow write: if isAdmin();
     }
 
-    /* ------ CONTACT / NEWSLETTER ---------------------- */ 
+    /* ---------------- CONTACT / NEWSLETTER ---------------- */
 
     match /contacts/{doc} {
-
       allow create: if true;
-
       allow read, delete: if isAdmin();
     }
 
     match /newsletter/{doc} {
-
       allow create: if true;
-
       allow read, delete: if isAdmin();
     }
 
-    /* ------ APPOINTMENT SLOTS ---------------------- */ 
+    /* ---------------- APPOINTMENT SLOTS ---------------- */
 
     match /appointmentSlots/{slotId} {
 
       allow read: if true;
 
-      allow create, update: if isLoggedIn();
+      allow create, update: if isLoggedIn()
+        && isSameTenant(request.resource.data.tenantId);
 
       allow delete: if isAdmin();
     }
 
-    /* ------ APPOINTMENTS ---------------------- */ 
+    /* ---------------- APPOINTMENTS ---------------- */
 
     match /appointments/{appointmentId} {
 
-      /* ------ USER CAN CREATE THEIR OWN APPOINTMENT ------ */
+      /* CREATE */
+      allow create: if isLoggedIn()
+        && request.resource.data.userId == request.auth.uid
+        && isSameTenant(request.resource.data.tenantId);
 
-      allow create: if isLoggedIn() &&
-        request.resource.data.userId == request.auth.uid;
+      /* READ SINGLE */
+      allow get: if isOwner(resource.data.userId)
+        || (isAdmin() && isSameTenant(resource.data.tenantId));
 
-      /* ------ USER CAN READ THEIR OWN APPOINTMENTS ------ */
-
-      allow get: if isOwner(resource.data.userId) || isAdmin();
-
-      /* ------ FIX: allow authenticated users to query their appointments ------ */
-
+      /* LIST (QUERY) */
       allow list: if isLoggedIn();
 
-      /* ------ USER CAN UPDATE THEIR OWN OR ADMIN CAN MANAGE ------ */
-
-      allow update: if isAdmin()
-        || (
-          isLoggedIn() &&
-          request.resource.data.userId == request.auth.uid
+      /* UPDATE */
+      allow update: if
+        (
+          isAdmin() &&
+          isSameTenant(resource.data.tenantId)
+        )
+        ||
+        (
+          isOwner(resource.data.userId) &&
+          isSameTenant(resource.data.tenantId)
         );
 
-      /* ------ ONLY ADMIN CAN DELETE ------ */
-
-      allow delete: if isAdmin();
+      /* DELETE */
+      allow delete: if isAdmin()
+        && isSameTenant(resource.data.tenantId);
     }
-    
-    /* ------ 	Booking Events ---------------------- */ 
-    
- 		match /bookingEvents/{id} {
 
-      /* ------ ✅ only logged-in users can log events ------ */
+    /* ---------------- BOOKING EVENTS ---------------- */
+
+    match /bookingEvents/{id} {
+
       allow create: if isLoggedIn();
 
-      /* ------ ✅ only admin can read analytics ------ */
       allow read: if isAdmin();
 
-      /* ------ ❌ prevent updates/deletes ------ */
       allow update, delete: if false;
+    }
+
+    /* ---------------- AUDIT LOGS ---------------- */
+
+    match /auditLogs/{id} {
+
+      allow create: if isLoggedIn();
+
+      allow read: if isAdmin();
+
+      allow update, delete: if false;
+    }
+
+    /* ---------------- SUBSCRIPTIONS ---------------- */
+
+    match /subscriptions/{tenantId} {
+
+      allow read: if isAdmin();
+
+      allow write: if false; // controlled via backend/admin only
     }
 
   }

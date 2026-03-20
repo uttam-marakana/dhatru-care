@@ -274,6 +274,7 @@ dhatrucare/
 │   │   ├── useDebounce.js
 │   │   ├── useInView.js
 │   │   ├── usePagination.js
+│   │   ├── useRealtimeLock.js
 │   │   ├── useRoutePrefetch.js
 │   │   ├── useScrollDirection.js
 │   │   ├── useSearchSuggestions.js
@@ -357,6 +358,7 @@ dhatrucare/
 │
 │   ├── services/                           # Business logic layer
 │   │   ├── appointmentService.js
+│   │   ├── auditService.js
 │   │   ├── authService.js
 │   │   ├── blogService.js
 │   │   ├── bookingEngine.js
@@ -368,6 +370,7 @@ dhatrucare/
 │   │   ├── packageService.js
 │   │   ├── slotService.js
 │   │   ├── storageService.js
+│   │   ├── subscriptionService.js
 │   │   └── userService.js
 │
 │
@@ -381,6 +384,7 @@ dhatrucare/
 │   │   ├── generateDoctorSlots.js
 │   │   ├── generateSlots.js
 │   │   ├── prefetchRoutes.js
+│   │   ├── roles.js
 │   │   ├── searchRanking.js
 │   │   ├── specialtyKeywords.js
 │   │   ├── toast.js
