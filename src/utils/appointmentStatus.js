@@ -3,8 +3,7 @@ export const APPOINTMENT_STATUS = {
   CONFIRMED: "confirmed",
   COMPLETED: "completed",
   CANCELLED: "cancelled",
-  REJECTED: "rejected",
-  NO_SHOW: "no_show",
+  REJECTED: "rejected"
 };
 
 /* 🔒 FINAL STATES */
