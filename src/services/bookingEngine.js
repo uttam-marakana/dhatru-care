@@ -155,10 +155,10 @@ export const rescheduleAppointmentEngine = async (
     throw new Error("Missing tenantId in appointment");
   }
 
+  const safeTenantId = appointment.tenantId || "default";
+
   const oldSlotRef = doc(db, "appointmentSlots", appointment.slotId);
-
   const newSlotId = buildSlotId(appointment.doctorId, newDate, newTime);
-
   const newSlotRef = doc(db, "appointmentSlots", newSlotId);
   const appointmentRef = doc(db, "appointments", appointment.id);
 
@@ -173,21 +173,28 @@ export const rescheduleAppointmentEngine = async (
     }
 
     /* FREE OLD SLOT */
-
     const oldSnap = await transaction.get(oldSlotRef);
 
     if (oldSnap.exists()) {
-      transaction.update(oldSlotRef, {
-        isBooked: false,
-        isLocked: false,
-        lockedBy: null,
-        lockedUntil: null,
-        updatedAt: serverTimestamp(),
-      });
+      const oldData = oldSnap.data();
+
+      if (oldData.lockedBy === appointment.userId) {
+        transaction.set(
+          oldSlotRef,
+          {
+            tenantId: safeTenantId,
+            isBooked: false,
+            isLocked: false,
+            lockedBy: null,
+            lockedUntil: null,
+            updatedAt: serverTimestamp(),
+          },
+          { merge: true },
+        );
+      }
     }
 
     /* LOCK NEW SLOT */
-
     const lockedUntil = Timestamp.fromMillis(
       now.toMillis() + SLOT_LOCK_MINUTES * 60 * 1000,
     );
@@ -196,8 +203,8 @@ export const rescheduleAppointmentEngine = async (
       newSlotRef,
       {
         doctorId: appointment.doctorId,
-        tenantId: appointment.tenantId,
-        hospitalId: appointment.hospitalId,
+        tenantId: safeTenantId,
+        hospitalId: appointment.hospitalId || safeTenantId,
         userId: appointment.userId,
 
         date: newDate,
@@ -213,8 +220,6 @@ export const rescheduleAppointmentEngine = async (
       },
       { merge: true },
     );
-
-    /* UPDATE APPOINTMENT */
 
     transaction.update(appointmentRef, {
       date: newDate,

@@ -89,7 +89,7 @@ export const updateAppointmentStatusService = async (
     const historyEntry = {
       from: currentStatus,
       to: normalizedNext,
-      at: serverTimestamp(),
+      at: new Date().toISOString(),
       by: meta.userId || "admin",
     };
 
@@ -141,7 +141,7 @@ export const subscribeAppointmentsService = (tenantId, callback) => {
         ...d.data(),
       }));
 
-      // 🔥 FILTER HERE (supports old + new data)
+      // 🔥 FILTER HERE
       const filtered = data.filter(
         (a) => !a.tenantId || a.tenantId === tenantId,
       );
