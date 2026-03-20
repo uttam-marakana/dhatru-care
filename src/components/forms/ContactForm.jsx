@@ -57,40 +57,40 @@ export default function ContactForm() {
 
   return (
     <div className="relative overflow-hidden rounded-2xl">
-      {/* Glow background */}
+      {/* --- Glow background ----------- */}
       <div
         className="
-        pointer-events-none
-        absolute -top-32 left-1/2 -translate-x-1/2
-        w-125 h-125
-        bg-[var(--glow-bg)]
-        blur-[120px]
-        rounded-full
-        opacity-60
-      "
+          pointer-events-none
+          absolute -top-32 left-1/2 -translate-x-1/2
+          w-125 h-125
+          bg-[var(--glow-bg)]
+          blur-[120px]
+          rounded-full
+          opacity-60
+        "
       />
 
-      {/* Form container */}
+      {/* --- Form container ----------- */}
       <div
         className="
-        relative z-10
-        bg-[var(--card)]
-        border border-[var(--border)]
-        p-8 rounded-2xl
-        backdrop-blur-md
-        transition-all duration-500
-        hover:border-[var(--color-primary)]/40
-        hover:shadow-[0_0_40px_var(--glow-soft)]
-      "
+          relative z-10
+          bg-[var(--card)]
+          border border-[var(--border)]
+          p-8 rounded-2xl
+          backdrop-blur-md
+          transition-all duration-500
+          hover:border-[var(--color-primary)]/40
+          hover:shadow-[0_0_40px_var(--glow-soft)]
+        "
       >
         <h2
           className="
-          text-2xl font-bold mb-8 text-center
-          bg-gradient-to-r
-          from-[var(--heading-gradient-from)]
-          to-[var(--heading-gradient-to)]
-          bg-clip-text text-transparent
-        "
+            text-2xl font-bold mb-8 text-center
+            bg-gradient-to-r
+            from-[var(--heading-gradient-from)]
+            to-[var(--heading-gradient-to)]
+            bg-clip-text text-transparent
+          "
         >
           Get in Touch
         </h2>
@@ -125,15 +125,15 @@ export default function ContactForm() {
                 disabled={isSubmitting || status.loading}
                 loading={status.loading}
                 className="
-                w-full
-                bg-[var(--color-primary)]
-                hover:bg-[var(--color-primary-hover)]
-                text-white
-                font-semibold
-                py-3 rounded-xl
-                shadow-[0_0_20px_var(--glow-soft)]
-                transition
-              "
+                  w-full
+                  bg-[var(--color-primary)]
+                  hover:bg-[var(--color-primary-hover)]
+                  text-white
+                  font-semibold
+                  py-3 rounded-xl
+                  shadow-[0_0_20px_var(--glow-soft)]
+                  transition
+                "
               >
                 {status.loading ? "Sending..." : "Send Message"}
               </Button>

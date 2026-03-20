@@ -22,7 +22,6 @@ import DoctorAvailabilityCalendar from "../common/DoctorAvailabilityCalendar";
 
 import { subscribeDoctorDatesAvailability } from "../../services/dateAvailabilityService";
 
-import { auth } from "../../firebase";
 import { notifyError } from "../../utils/toast";
 
 import CustomSelect from "../common/CustomSelect";
@@ -38,11 +37,11 @@ export default function AppointmentForm() {
   const { book } = useBookingEngine();
   const { user, tenantId } = useAuth();
 
-  /* URL PARAMS */
+  /* URL PARAMS ----------- */
   const packageParam = searchParams.get("package");
   const packageNameParam = searchParams.get("packageName");
 
-  /* STATE */
+  /* STATE ----------- */
   const [appointmentType, setAppointmentType] = useState("regular");
   const [packages, setPackages] = useState([]);
 
@@ -69,14 +68,14 @@ export default function AppointmentForm() {
   const [doctors, setDoctors] = useState([]);
   const [doctor, setDoctor] = useState(null);
 
-  /* 🔥 SLOT SYSTEM */
+  /* SLOT SYSTEM ----------- */
   const [slotState, setSlotState] = useState([]);
   const [availableSlots, setAvailableSlots] = useState([]);
 
   const [loading, setLoading] = useState(false);
   const submittingRef = useRef(false);
 
-  /* ================= LOAD ================= */
+  /* --- LOAD ----------- */
   useEffect(() => {
     getAllDepartments().then(setDepartments);
     getPackages().then(setPackages);
@@ -102,7 +101,7 @@ export default function AppointmentForm() {
     return () => unsub && unsub();
   }, [form.doctorId]);
 
-  /* ================= SLOT GENERATION ================= */
+  /* --- SLOT GENERATION ----------- */
   const allSlots = useMemo(() => {
     if (!doctor) return [];
     return generateSlots(
@@ -112,7 +111,7 @@ export default function AppointmentForm() {
     );
   }, [doctor]);
 
-  /* ================= SLOT PIPELINE ================= */
+  /* --- SLOT PIPELINE ----------- */
   useEffect(() => {
     if (!form.doctorId || !form.date || !doctor) return;
 
@@ -147,7 +146,7 @@ export default function AppointmentForm() {
     return () => unsubscribe && unsubscribe();
   }, [form.doctorId, form.date, doctor, allSlots]);
 
-  /* ================= NAVIGATION ================= */
+  /* --- NAVIGATION ----------- */
   const nextStep = () => {
     if (step === 1 && !form.department) return notifyError("Select department");
     if (step === 2 && !form.doctorId) return notifyError("Select doctor");
@@ -161,7 +160,7 @@ export default function AppointmentForm() {
     setStep((s) => Math.max(s - 1, 1));
   };
 
-  /* ================= FEES ================= */
+  /* --- FEES ----------- */
   const getPackagePrice = () => {
     const pkg = packages.find((p) => p.id === form.packageId);
     return Number(pkg?.price?.replace(/[^\d]/g, "")) || 0;
@@ -171,7 +170,7 @@ export default function AppointmentForm() {
   const packageFee = getPackagePrice();
   const totalAmount = appointmentFee + packageFee;
 
-  /* ================= SUBMIT ================= */
+  /* --- SUBMIT ----------- */
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -216,7 +215,7 @@ export default function AppointmentForm() {
         isReschedule: false,
       };
 
-      console.log("BOOKING PAYLOAD:", payload); // 🔥 DEBUG
+      console.log("BOOKING PAYLOAD:", payload);
 
       const result = await book(payload);
 
@@ -235,7 +234,7 @@ export default function AppointmentForm() {
     }
   };;
 
-  /* ================= AUTO REDIRECT ================= */
+  /* --- AUTO REDIRECT ----------- */
   useEffect(() => {
     if (!successData) return;
 
@@ -253,7 +252,7 @@ export default function AppointmentForm() {
     };
   }, [successData, navigate]);
 
-  /* ================= SUCCESS ================= */
+  /* --- SUCCESS ----------- */
   if (successData) {
     return (
       <div className="text-center py-20 space-y-3">
@@ -269,13 +268,13 @@ export default function AppointmentForm() {
     );
   }
 
-  /* ================= UI ================= */
+  /* --- UI ----------- */
   return (
     <form
       onSubmit={handleSubmit}
       className="w-full max-w-xl mx-auto space-y-6 px-2 sm:px-0"
     >
-      {/* STEP 1 */}
+      {/* --- STEP 1 ----------- */}
       {step === 1 && (
         <>
           <div className="flex gap-3">
@@ -302,7 +301,7 @@ export default function AppointmentForm() {
         </>
       )}
 
-      {/* STEP 2 */}
+      {/* --- STEP 2 ----------- */}
       {step === 2 && (
         <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-3">
           {doctors.map((doc) => {
@@ -324,7 +323,7 @@ export default function AppointmentForm() {
         </div>
       )}
 
-      {/* STEP 3 */}
+      {/* --- STEP 3 ----------- */}
       {step === 3 && doctor && (
         <DoctorAvailabilityCalendar
           selectedDate={form.date}
@@ -334,7 +333,7 @@ export default function AppointmentForm() {
         />
       )}
 
-      {/* STEP 4 (🔥 FINAL MERGED) */}
+      {/* --- STEP 4 (🔥 FINAL MERGED) ----------- */}
       {step === 4 && (
         <>
           {allSlots.length > 0 ? (
@@ -353,7 +352,7 @@ export default function AppointmentForm() {
         </>
       )}
 
-      {/* STEP 5 */}
+      {/* --- STEP 5 ----------- */}
       {step === 5 && (
         <>
           <input
@@ -391,7 +390,7 @@ export default function AppointmentForm() {
         </>
       )}
 
-      {/* NAVIGATION */}
+      {/* --- NAVIGATION ----------- */}
       <div className="flex items-center justify-between gap-3 pt-6 border-t border-[var(--border)]">
         <div>
           {step > 1 && (
