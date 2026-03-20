@@ -38,16 +38,16 @@ export default function Button({
   return (
     <button
       className={`
-      inline-flex items-center justify-center gap-2.5
-      font-medium transition-all duration-200
-      focus:outline-none
-      focus:ring-2 focus:ring-[var(--color-primary)]
-      focus:ring-offset-2 focus:ring-offset-[var(--surface)]
-      active:scale-[0.98]
-      disabled:opacity-60 disabled:pointer-events-none
-      ${variants[variant]}
-      ${sizes[size]}
-      ${className}
+        inline-flex items-center justify-center gap-2.5
+        font-medium transition-all duration-200
+        focus:outline-none
+        focus:ring-2 focus:ring-[var(--color-primary)]
+        focus:ring-offset-2 focus:ring-offset-[var(--surface)]
+        active:scale-[0.98]
+        disabled:opacity-60 disabled:pointer-events-none
+        ${variants[variant]}
+        ${sizes[size]}
+        ${className}
       `}
       disabled={disabled || loading}
       {...props}

@@ -27,14 +27,14 @@ export default function SearchDropdown({
   return (
     <div
       className="
-      absolute top-full left-0 mt-2
-      w-full
-      bg-[var(--card)]
-      border border-[var(--border)]
-      rounded-xl
-      shadow-xl
-      overflow-hidden
-      z-50
+        absolute top-full left-0 mt-2
+        w-full
+        bg-[var(--card)]
+        border border-[var(--border)]
+        rounded-xl
+        shadow-xl
+        overflow-hidden
+        z-50
       "
     >
       {loading && (

@@ -2,13 +2,13 @@ export default function DoctorSkeleton() {
   return (
     <div
       className="
-    bg-[var(--card)]
-    rounded-xl
-    border border-[var(--border)]
-    shadow-sm
-    animate-pulse
-    overflow-hidden
-    "
+        bg-[var(--card)]
+        rounded-xl
+        border border-[var(--border)]
+        shadow-sm
+        animate-pulse
+        overflow-hidden
+      "
     >
       <div className="aspect-square bg-[var(--border)]" />
 

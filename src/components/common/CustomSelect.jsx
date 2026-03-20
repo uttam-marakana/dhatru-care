@@ -26,7 +26,7 @@ export default function CustomSelect({
 
   return (
     <div ref={ref} className="relative w-full">
-      {/* TRIGGER */}
+      {/* --- TRIGGER ----------- */}
       <button
         type="button"
         onClick={() => setOpen((p) => !p)}
@@ -53,7 +53,7 @@ export default function CustomSelect({
         />
       </button>
 
-      {/* DROPDOWN */}
+      {/* --- DROPDOWN ----------- */}
       {open && (
         <div
           className="

@@ -16,17 +16,17 @@ export default function UniversalSearchDropdown({
   return (
     <div
       className="
-      mt-2
-      bg-[var(--card)]
-      border border-[var(--border)]
-      rounded-xl
-      shadow-xl
-      overflow-hidden
-      max-h-[420px]
-      overflow-y-auto
+        mt-2
+        bg-[var(--card)]
+        border border-[var(--border)]
+        rounded-xl
+        shadow-xl
+        overflow-hidden
+        max-h-[420px]
+        overflow-y-auto
       "
     >
-      {/* Loading */}
+      {/* --- Loading ----------- */}
 
       {loading && (
         <div className="p-4 text-sm text-[var(--text-secondary)]">
@@ -40,7 +40,7 @@ export default function UniversalSearchDropdown({
         </div>
       )}
 
-      {/* Doctors */}
+      {/* --- Doctors ----------- */}
 
       {doctors.length > 0 && (
         <div className="border-b border-[var(--border)]">
@@ -65,7 +65,7 @@ export default function UniversalSearchDropdown({
         </div>
       )}
 
-      {/* Departments */}
+      {/* --- Departments ----------- */}
 
       {departments.length > 0 && (
         <div className="border-b border-[var(--border)]">
@@ -85,7 +85,7 @@ export default function UniversalSearchDropdown({
         </div>
       )}
 
-      {/* Packages */}
+      {/* --- Packages ----------- */}
 
       {packages.length > 0 && (
         <div className="border-b border-[var(--border)]">
@@ -105,7 +105,7 @@ export default function UniversalSearchDropdown({
         </div>
       )}
 
-      {/* Blogs */}
+      {/* --- Blogs ----------- */}
 
       {blogs.length > 0 && (
         <div>

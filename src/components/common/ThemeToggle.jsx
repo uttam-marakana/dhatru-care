@@ -20,17 +20,23 @@ export default function ThemeToggle() {
     <button
       onClick={toggleTheme}
       aria-label="Toggle Theme"
-      className={`       relative flex items-center w-16 h-8 p-1 rounded-full
-      overflow-hidden transition-colors duration-700
-      backdrop-blur-md
-      ${
-        isDark
-          ? "bg-gradient-to-r from-gray-800 via-gray-900 to-black"
-          : "bg-gradient-to-r from-sky-300 via-yellow-200 to-yellow-300"
-      }
+      className={`       
+        relative flex 
+        items-center 
+        w-16 h-8 p-1 
+        rounded-full
+        overflow-hidden 
+        transition-colors 
+        duration-700
+        backdrop-blur-md
+        ${
+          isDark
+            ? "bg-gradient-to-r from-gray-800 via-gray-900 to-black"
+            : "bg-gradient-to-r from-sky-300 via-yellow-200 to-yellow-300"
+        }
       `}
     >
-      {/* SKY / NIGHT GLOW */}
+      {/* --- SKY / NIGHT GLOW ----------- */}
       {!isDark && (
         <div className="absolute inset-0 bg-yellow-200 opacity-40 blur-xl"></div>
       )}
@@ -39,7 +45,7 @@ export default function ThemeToggle() {
         <div className="absolute inset-0 bg-blue-900 opacity-30 blur-xl"></div>
       )}
 
-      {/* MOVING CLOUDS (LIGHT MODE) */}
+      {/* --- MOVING CLOUDS (LIGHT MODE) ----------- */}
       {!isDark && (
         <>
           <motion.span
@@ -56,7 +62,7 @@ export default function ThemeToggle() {
         </>
       )}
 
-      {/* TWINKLING STARS (DARK MODE) */}
+      {/* --- TWINKLING STARS (DARK MODE) ----------- */}
       {isDark && (
         <>
           <motion.span
@@ -79,25 +85,25 @@ export default function ThemeToggle() {
         </>
       )}
 
-      {/* KNOB */}
+      {/* --- KNOB ----------- */}
       <motion.div
         className={`
-    relative z-10 flex items-center justify-center
-    w-6 h-6 rounded-full
-    backdrop-blur-md
-    ${
-      isDark
-        ? "bg-gray-700 text-gray-200 shadow-inner"
-        : "bg-white text-yellow-500 shadow-md"
-    }
-    `}
+          relative z-10 flex items-center justify-center
+          w-6 h-6 rounded-full
+          backdrop-blur-md
+          ${
+            isDark
+              ? "bg-gray-700 text-gray-200 shadow-inner"
+              : "bg-white text-yellow-500 shadow-md"
+          }
+       `}
         animate={{
           x: isDark ? 32 : 0,
           rotate: isDark ? 180 : 0,
         }}
         transition={spring}
       >
-        {/* SUN */}
+        {/* --- SUN ----------- */}
         {!isDark && (
           <motion.svg
             xmlns="http://www.w3.org/2000/svg"
@@ -129,7 +135,7 @@ export default function ThemeToggle() {
           </motion.svg>
         )}
 
-        {/* MOON */}
+        {/* --- MOON ----------- */}
         {isDark && (
           <motion.svg
             xmlns="http://www.w3.org/2000/svg"

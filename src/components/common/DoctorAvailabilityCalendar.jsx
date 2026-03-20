@@ -57,18 +57,16 @@ export default function DoctorAvailabilityCalendar({
                 d.disabled
                   ? "opacity-30 cursor-not-allowed border-gray-200"
                   : isSelected
-                  ? "bg-blue-500 text-white border-blue-500"
-                  : "border-gray-200 hover:bg-blue-50"
+                    ? "bg-blue-500 text-white border-blue-500"
+                    : "border-gray-200 hover:bg-blue-50"
               }
             `}
           >
             {d.label}
 
-            {/* OPTIONAL UX */}
+            {/* --- Date full ----------- */}
             {d.isFullyBooked && (
-              <div className="text-[10px] text-red-500">
-                Full
-              </div>
+              <div className="text-[10px] text-red-500">Full</div>
             )}
           </button>
         );

@@ -7,15 +7,15 @@ const Select = forwardRef(
         <select
           ref={ref}
           className="
-        w-full px-4 py-3 rounded-lg border
-        bg-[var(--surface)]
-        border-[var(--border)]
-        text-[var(--text)]
-        focus:outline-none
-        focus:ring-2 focus:ring-[var(--color-primary)]
-        appearance-none
-        disabled:opacity-60
-        "
+            w-full px-4 py-3 rounded-lg border
+            bg-[var(--surface)]
+            border-[var(--border)]
+            text-[var(--text)]
+            focus:outline-none
+            focus:ring-2 focus:ring-[var(--color-primary)]
+            appearance-none
+            disabled:opacity-60
+          "
           {...props}
         >
           {children}
