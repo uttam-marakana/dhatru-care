@@ -58,13 +58,13 @@ export default function Signup() {
       <form
         onSubmit={submit}
         className="
-        w-full max-w-lg
-        bg-[var(--surface)]
-        border border-[var(--border)]
-        rounded-2xl
-        p-8
-        space-y-4
-        shadow-[0_0_25px_var(--glow-soft)]
+          w-full max-w-lg
+          bg-[var(--surface)]
+          border border-[var(--border)]
+          rounded-2xl
+          p-8
+          space-y-4
+          shadow-[0_0_25px_var(--glow-soft)]
         "
       >
         <h2 className="text-2xl font-bold text-center text-[var(--text)]">
@@ -153,14 +153,14 @@ export default function Signup() {
         <button
           disabled={loading}
           className="
-          w-full p-3 rounded-lg
-          bg-[var(--color-primary)]
-          hover:bg-[var(--color-primary-hover)]
-          text-white
-          font-semibold
-          transition
-          shadow-[0_0_15px_var(--glow-soft)]
-          disabled:opacity-50
+            w-full p-3 rounded-lg
+            bg-[var(--color-primary)]
+            hover:bg-[var(--color-primary-hover)]
+            text-white
+            font-semibold
+            transition
+            shadow-[0_0_15px_var(--glow-soft)]
+            disabled:opacity-50
           "
         >
           {loading ? "Registering..." : "Register"}

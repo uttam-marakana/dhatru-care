@@ -4,8 +4,6 @@ import { useNavigate, Link } from "react-router-dom";
 
 import { notifyError } from "../utils/toast";
 
-const ADMIN_EMAIL = "uttamrootways@gmail.com";
-
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -21,7 +19,7 @@ export default function Login() {
 
       await login(email, password);
 
-      nav("/"); // Public homepage
+      nav("/");
     } catch (err) {
       console.error(err);
       notifyError("Login failed");
@@ -35,13 +33,13 @@ export default function Login() {
       <form
         onSubmit={submit}
         className="
-        w-full max-w-md
-        bg-[var(--surface)]
-        border border-[var(--border)]
-        rounded-2xl
-        p-8
-        space-y-5
-        shadow-[0_0_25px_var(--glow-soft)]
+          w-full max-w-md
+          bg-[var(--surface)]
+          border border-[var(--border)]
+          rounded-2xl
+          p-8
+          space-y-5
+          shadow-[0_0_25px_var(--glow-soft)]
         "
       >
         <h2 className="text-2xl font-bold text-center text-[var(--text)]">
@@ -55,14 +53,14 @@ export default function Login() {
           type="email"
           required
           className="
-          w-full p-3 rounded-lg
-          bg-[var(--card)]
-          border border-[var(--border)]
-          text-[var(--text)]
-          placeholder:text-[var(--muted)]
-          focus:ring-2 focus:ring-[var(--color-primary)]
-          focus:border-[var(--color-primary)]
-          outline-none
+            w-full p-3 rounded-lg
+            bg-[var(--card)]
+            border border-[var(--border)]
+            text-[var(--text)]
+            placeholder:text-[var(--muted)]
+            focus:ring-2 focus:ring-[var(--color-primary)]
+            focus:border-[var(--color-primary)]
+            outline-none
           "
         />
 
@@ -73,28 +71,28 @@ export default function Login() {
           placeholder="Password"
           required
           className="
-          w-full p-3 rounded-lg
-          bg-[var(--card)]
-          border border-[var(--border)]
-          text-[var(--text)]
-          placeholder:text-[var(--muted)]
-          focus:ring-2 focus:ring-[var(--color-primary)]
-          focus:border-[var(--color-primary)]
-          outline-none
+            w-full p-3 rounded-lg
+            bg-[var(--card)]
+            border border-[var(--border)]
+            text-[var(--text)]
+            placeholder:text-[var(--muted)]
+            focus:ring-2 focus:ring-[var(--color-primary)]
+            focus:border-[var(--color-primary)]
+            outline-none
           "
         />
 
         <button
           disabled={loading}
           className="
-          w-full p-3 rounded-lg
-          bg-[var(--color-primary)]
-          hover:bg-[var(--color-primary-hover)]
-          text-white
-          font-semibold
-          transition
-          shadow-[0_0_15px_var(--glow-soft)]
-          disabled:opacity-50
+            w-full p-3 rounded-lg
+            bg-[var(--color-primary)]
+            hover:bg-[var(--color-primary-hover)]
+            text-white
+            font-semibold
+            transition
+            shadow-[0_0_15px_var(--glow-soft)]
+            disabled:opacity-50
           "
         >
           {loading ? "Logging in..." : "Login"}
