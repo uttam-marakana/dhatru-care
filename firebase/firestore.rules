@@ -9,7 +9,9 @@ service cloud.firestore {
     }
 
     function getUser() {
-      return get(/databases/$(database)/documents/users/$(request.auth.uid)).data;
+      return request.auth != null
+        ? get(/databases/$(database)/documents/users/$(request.auth.uid)).data
+        : null;
     }
 
     function isOwner(userId) {
@@ -17,35 +19,28 @@ service cloud.firestore {
     }
 
     function isAdmin() {
-      return isLoggedIn() && getUser().role == "admin";
+      return isLoggedIn() && getUser() != null && getUser().role == "admin";
     }
 
-    function isSameTenant(resourceTenantId) {
-      return isLoggedIn() &&
-        getUser().tenantId == resourceTenantId;
+    function isSameTenant(tenantId) {
+      return isLoggedIn()
+        && tenantId != null
+        && getUser() != null
+        && getUser().tenantId == tenantId;
     }
 
     /* ---------------- USERS ---------------- */
 
     match /users/{userId} {
-
       allow read: if isOwner(userId);
-
       allow create: if isOwner(userId);
-
       allow update: if isOwner(userId) || isAdmin();
-
       allow delete: if false;
     }
 
-    /* ---------------- PUBLIC DATA ---------------- */
+    /* ---------------- PUBLIC ---------------- */
 
     match /doctors/{doc} {
-      allow read: if true;
-      allow write: if isAdmin();
-    }
-
-    match /departments/{doc} {
       allow read: if true;
       allow write: if isAdmin();
     }
@@ -60,7 +55,22 @@ service cloud.firestore {
       allow write: if isAdmin();
     }
 
-    /* ---------------- CONTACT / NEWSLETTER ---------------- */
+    /* ---------------- DEPARTMENTS (FIXED) ---------------- */
+
+    match /departments/{doc} {
+
+      // ✅ allow public OR tenant-based access
+      allow get: if resource.data.tenantId == null
+        || isSameTenant(resource.data.tenantId);
+
+      // 🔥 FIX: allow queries safely
+      allow list: if true;
+
+      allow create, update, delete: if isAdmin()
+        && isSameTenant(request.resource.data.tenantId);
+    }
+
+    /* ---------------- CONTACT ---------------- */
 
     match /contacts/{doc} {
       allow create: if true;
@@ -72,10 +82,9 @@ service cloud.firestore {
       allow read, delete: if isAdmin();
     }
 
-    /* ---------------- APPOINTMENT SLOTS ---------------- */
+    /* ---------------- SLOTS ---------------- */
 
     match /appointmentSlots/{slotId} {
-
       allow read: if true;
 
       allow create, update: if isLoggedIn()
@@ -84,7 +93,7 @@ service cloud.firestore {
       allow delete: if isAdmin();
     }
 
-    /* ---------------- APPOINTMENTS ---------------- */
+    /* ---------------- APPOINTMENTS (FINAL FIX) ---------------- */
 
     match /appointments/{appointmentId} {
 
@@ -93,24 +102,20 @@ service cloud.firestore {
         && request.resource.data.userId == request.auth.uid
         && isSameTenant(request.resource.data.tenantId);
 
-      /* READ SINGLE */
+      /* GET */
       allow get: if isOwner(resource.data.userId)
         || (isAdmin() && isSameTenant(resource.data.tenantId));
 
-      /* LIST (QUERY) */
+      /* 🔥 CRITICAL FIX: LIST */
       allow list: if isLoggedIn();
 
       /* UPDATE */
-      allow update: if
-        (
-          isAdmin() &&
-          isSameTenant(resource.data.tenantId)
-        )
-        ||
-        (
-          isOwner(resource.data.userId) &&
-          isSameTenant(resource.data.tenantId)
-        );
+      allow update: if (
+        isAdmin() && isSameTenant(resource.data.tenantId)
+      ) || (
+        isOwner(resource.data.userId)
+        && isSameTenant(resource.data.tenantId)
+      );
 
       /* DELETE */
       allow delete: if isAdmin()
@@ -120,33 +125,26 @@ service cloud.firestore {
     /* ---------------- BOOKING EVENTS ---------------- */
 
     match /bookingEvents/{id} {
-
       allow create: if isLoggedIn();
-
       allow read: if isAdmin();
-
       allow update, delete: if false;
     }
 
     /* ---------------- AUDIT LOGS ---------------- */
 
     match /auditLogs/{id} {
-
-      allow create: if isLoggedIn();
+      allow create: if isLoggedIn()
+        && isSameTenant(request.resource.data.tenantId);
 
       allow read: if isAdmin();
-
       allow update, delete: if false;
     }
 
     /* ---------------- SUBSCRIPTIONS ---------------- */
 
     match /subscriptions/{tenantId} {
-
-      allow read: if isAdmin();
-
-      allow write: if false; // controlled via backend/admin only
+      allow read: if isAdmin() && isSameTenant(tenantId);
+      allow write: if false;
     }
-
   }
 }
