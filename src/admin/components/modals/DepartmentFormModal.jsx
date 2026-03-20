@@ -21,13 +21,13 @@ export default function DepartmentFormModal({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center">
-      {/* overlay */}
+      {/* --- overlay ----------- */}
       <div
         className="absolute inset-0 bg-black/40 backdrop-blur-sm"
         onClick={onClose}
       />
 
-      {/* modal */}
+      {/* --- modal ----------- */}
       <div className="relative glass w-full max-w-2xl mx-4 p-6 animate-fade-in-up">
         <div className="flex items-center justify-between mb-6">
           <h2 className="text-xl font-bold gradient-heading">

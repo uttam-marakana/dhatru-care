@@ -22,27 +22,27 @@ export default function ConfirmDeleteModal({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center">
-      {/* OVERLAY */}
+      {/* --- OVERLAY ----------- */}
 
       <div
         className="absolute inset-0 bg-black/40 backdrop-blur-sm"
         onClick={onClose}
       />
 
-      {/* MODAL */}
+      {/* --- MODAL ----------- */}
 
       <div
         className="
-        relative
-        glass
-        w-full
-        max-w-md
-        mx-4
-        p-6
-        animate-fade-in-up
+          relative
+          glass
+          w-full
+          max-w-md
+          mx-4
+          p-6
+          animate-fade-in-up
         "
       >
-        {/* HEADER */}
+        {/* --- HEADER ----------- */}
 
         <div className="flex items-center justify-between mb-4">
           <h3 className="text-lg font-semibold text-[var(--text)]">{title}</h3>
@@ -55,20 +55,20 @@ export default function ConfirmDeleteModal({
           </button>
         </div>
 
-        {/* DESCRIPTION */}
+        {/* --- DESCRIPTION ----------- */}
 
         <p className="text-sm text-[var(--text-secondary)] mb-6">
           {description}
         </p>
 
-        {/* ACTIONS */}
+        {/* --- ACTIONS ----------- */}
 
         <div className="flex justify-end gap-3">
           <button
             onClick={onClose}
             className="
-            px-4 py-2 rounded-lg
-            border border-[var(--border)]
+              px-4 py-2 rounded-lg
+              border border-[var(--border)]
             "
           >
             Cancel
@@ -77,11 +77,11 @@ export default function ConfirmDeleteModal({
           <button
             onClick={onConfirm}
             className="
-            flex items-center gap-2
-            px-4 py-2 rounded-lg
-            bg-[var(--color-error)]
-            text-white
-            hover:opacity-90
+              flex items-center gap-2
+              px-4 py-2 rounded-lg
+              bg-[var(--color-error)]
+              text-white
+              hover:opacity-90
             "
           >
             <FaTrash />

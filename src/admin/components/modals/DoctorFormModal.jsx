@@ -17,29 +17,29 @@ export default function DoctorFormModal({ open, onClose, doctor, onSaved }) {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center">
-      {/* OVERLAY */}
+      {/* --- OVERLAY */}
 
       <div
         className="absolute inset-0 bg-black/40 backdrop-blur-sm"
         onClick={onClose}
       />
 
-      {/* MODAL */}
+      {/* --- MODAL */}
 
       <div
         className="
-        relative
-        glass
-        w-full
-        max-w-4xl
-        mx-4
-        p-6
-        max-h-[90vh]
-        overflow-y-auto
-        animate-fade-in-up
+          relative
+          glass
+          w-full
+          max-w-4xl
+          mx-4
+          p-6
+          max-h-[90vh]
+          overflow-y-auto
+          animate-fade-in-up
         "
       >
-        {/* HEADER */}
+        {/* --- HEADER */}
 
         <div className="flex items-center justify-between mb-6">
           <h2 className="text-xl font-bold gradient-heading">
@@ -54,7 +54,7 @@ export default function DoctorFormModal({ open, onClose, doctor, onSaved }) {
           </button>
         </div>
 
-        {/* FORM */}
+        {/* --- FORM */}
 
         <DoctorForm initialData={doctor} onSaved={onSaved} onClose={onClose} />
       </div>
