@@ -14,7 +14,7 @@ export default function DoctorAvailabilityCalendar({
     date.setDate(today.getDate() + i);
 
     const day = date.getDay();
-    const iso = date.toISOString().split("T")
+    const iso = date.toISOString().split("T")[0];
 
     const label = date.toLocaleDateString("en-IN", {
       weekday: "short",
