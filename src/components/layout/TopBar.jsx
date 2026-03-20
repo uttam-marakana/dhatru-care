@@ -60,9 +60,9 @@ export default function TopBar() {
             For Doctors
           </Link>
 
-          <Link to="#" className="hover:text-[var(--color-primary)] transition">
+          {/* <Link to="#" className="hover:text-[var(--color-primary)] transition">
             Careers
-          </Link>
+          </Link> */}
         </div>
       </div>
     </div>
