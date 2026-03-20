@@ -19,7 +19,7 @@ export default function UniversalFilterLayout({
 
   return (
     <>
-      {/* Desktop */}
+      {/* --- Desktop ----------- */}
 
       <section className="hidden lg:block sticky top-0 bg-[var(--surface)] border-b border-[var(--border)] z-30">
         <div className="max-w-7xl mx-auto px-4 py-4">
@@ -55,7 +55,7 @@ export default function UniversalFilterLayout({
         </div>
       </section>
 
-      {/* Mobile Button */}
+      {/* --- Mobile Button ----------- */}
 
       <button
         onClick={() => setOpen(true)}
@@ -64,7 +64,7 @@ export default function UniversalFilterLayout({
         <FaFilter />
       </button>
 
-      {/* Mobile Drawer */}
+      {/* --- Mobile Drawer ----------- */}
 
       <AnimatePresence>
         {open && (
