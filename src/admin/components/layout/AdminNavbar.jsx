@@ -12,14 +12,14 @@ export default function AdminNavbar({ onMenuClick }) {
 
   const menuRef = useRef(null);
 
-  /* ---------------- INIT THEME ---------------- */
+  /* --- INIT THEME  ----------- */
 
   useEffect(() => {
     const root = document.documentElement;
     setDark(root.classList.contains("dark"));
   }, []);
 
-  /* ---------------- CLOSE MENU OUTSIDE CLICK ---------------- */
+  /* --- CLOSE MENU OUTSIDE CLICK  ----------- */
 
   useEffect(() => {
     const handleClick = (e) => {
@@ -32,7 +32,7 @@ export default function AdminNavbar({ onMenuClick }) {
     return () => document.removeEventListener("click", handleClick);
   }, []);
 
-  /* ---------------- TOGGLE THEME ---------------- */
+  /* --- TOGGLE THEME  ----------- */
 
   const toggleTheme = () => {
     const root = document.documentElement;
@@ -46,7 +46,7 @@ export default function AdminNavbar({ onMenuClick }) {
     }
   };
 
-  /* ---------------- LOGOUT ---------------- */
+  /* --- LOGOUT  ----------- */
 
   const handleLogout = async () => {
     await logout();
@@ -56,74 +56,74 @@ export default function AdminNavbar({ onMenuClick }) {
   return (
     <header
       className="
-      glass
-      sticky top-0 z-30
-      flex items-center justify-between
-      px-4 sm:px-6
-      py-3
-      mb-6
+        glass
+        sticky top-0 z-30
+        flex items-center justify-between
+        px-4 sm:px-6
+        py-3
+        mb-6
       "
     >
-      {/* LEFT SIDE */}
+      {/* --- LEFT SIDE ----------- */}
 
       <div className="flex items-center gap-3">
-        {/* MOBILE SIDEBAR BUTTON */}
+        {/* --- MOBILE SIDEBAR BUTTON ----------- */}
 
         <button
           onClick={onMenuClick}
           className="
-          lg:hidden
-          p-2 rounded-lg
-          hover:bg-[var(--card)]
-          interactive
+            lg:hidden
+            p-2 rounded-lg
+            hover:bg-[var(--card)]
+            interactive
           "
           aria-label="Open menu"
         >
           <FaBars />
         </button>
 
-        {/* TITLE */}
+        {/* --- TITLE ----------- */}
 
         <h1 className="font-semibold text-lg gradient-heading">
           Dhatru Care Admin
         </h1>
       </div>
 
-      {/* RIGHT SIDE */}
+      {/* --- RIGHT SIDE ----------- */}
 
       <div className="flex items-center gap-4 sm:gap-6">
-        {/* THEME TOGGLE */}
+        {/* --- THEME TOGGLE ----------- */}
 
         <button
           onClick={toggleTheme}
           className="
-          p-2 rounded-lg
-          hover:bg-[var(--card)]
-          interactive
+            p-2 rounded-lg
+            hover:bg-[var(--card)]
+            interactive
           "
           aria-label="Toggle theme"
         >
           {dark ? <FaSun /> : <FaMoon />}
         </button>
 
-        {/* USER EMAIL */}
+        {/* --- USER EMAIL ----------- */}
 
         <span className="hidden md:block text-sm text-[var(--text-secondary)]">
           {user?.email}
         </span>
 
-        {/* ACCOUNT MENU */}
+        {/* --- ACCOUNT MENU ----------- */}
 
         <div className="relative" ref={menuRef}>
           <button
             onClick={() => setMenuOpen((s) => !s)}
             className="
-            w-9 h-9
-            rounded-full
-            bg-[var(--card)]
-            flex items-center justify-center
-            hover:bg-[var(--surface)]
-            interactive
+              w-9 h-9
+              rounded-full
+              bg-[var(--card)]
+              flex items-center justify-center
+              hover:bg-[var(--surface)]
+              interactive
             "
           >
             <FaUser />
@@ -132,16 +132,16 @@ export default function AdminNavbar({ onMenuClick }) {
           {menuOpen && (
             <div
               className="
-              absolute right-0 mt-3
-              w-44
-              glass
-              rounded-xl
-              border border-[var(--border)]
-              shadow-lg
-              overflow-hidden
+                absolute right-0 mt-3
+                w-44
+                glass
+                rounded-xl
+                border border-[var(--border)]
+                shadow-lg
+                overflow-hidden
               "
             >
-              {/* PROFILE */}
+              {/* --- PROFILE ----------- */}
 
               <button
                 onClick={() => {
@@ -149,26 +149,26 @@ export default function AdminNavbar({ onMenuClick }) {
                   setMenuOpen(false);
                 }}
                 className="
-                w-full text-left
-                px-4 py-3
-                hover:bg-[var(--card)]
-                text-sm
+                  w-full text-left
+                  px-4 py-3
+                  hover:bg-[var(--card)]
+                  text-sm
                 "
               >
                 Profile
               </button>
 
-              {/* LOGOUT */}
+              {/* --- LOGOUT ----------- */}
 
               <button
                 onClick={handleLogout}
                 className="
-                w-full text-left
-                px-4 py-3
-                hover:bg-[var(--card)]
-                text-sm
-                text-[var(--color-error)]
-                flex items-center gap-2
+                  w-full text-left
+                  px-4 py-3
+                  hover:bg-[var(--card)]
+                  text-sm
+                  text-[var(--color-error)]
+                  flex items-center gap-2
                 "
               >
                 <FaSignOutAlt />
@@ -178,17 +178,17 @@ export default function AdminNavbar({ onMenuClick }) {
           )}
         </div>
 
-        {/* ORIGINAL LOGOUT (kept for compatibility) */}
+        {/* --- ORIGINAL LOGOUT (kept for compatibility) ----------- */}
 
         <button
           onClick={handleLogout}
           className="
-          hidden sm:flex
-          items-center gap-2
-          text-sm
-          text-[var(--color-error)]
-          hover:text-red-600
-          interactive
+            hidden sm:flex
+            items-center gap-2
+            text-sm
+            text-[var(--color-error)]
+            hover:text-red-600
+            interactive
           "
         >
           <FaSignOutAlt />
