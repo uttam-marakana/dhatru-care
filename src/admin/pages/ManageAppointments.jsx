@@ -7,14 +7,15 @@ import {
 
 import { useAuth } from "../../context/AuthContext";
 
+import { notifySuccess, notifyError, notifyConflict } from "../../utils/toast";
+
 import AppointmentsTable from "../components/tables/AppointmentsTable";
 import AdminHeader from "../components/layout/AdminHeader";
 
 const PAGE_SIZE = 10;
 
 export default function ManageAppointments() {
-
-  const {user} = useAuth();
+  const { user, tenantId } = useAuth();
 
   const [appointments, setAppointments] = useState([]);
 
@@ -23,13 +24,17 @@ export default function ManageAppointments() {
   const [dateFilter, setDateFilter] = useState("all");
 
   const [page, setPage] = useState(1);
+  const [loadingId, setLoadingId] = useState(null);
 
+  /* 🔥 TENANT SAFE SUBSCRIPTION */
   useEffect(() => {
-    const unsub = subscribeAppointments(setAppointments);
-    return () => unsub();
-  }, []);
+    if (!tenantId) return;
 
-  /* DATE HELPERS */
+    const unsub = subscribeAppointments(tenantId, setAppointments);
+    return () => unsub();
+  }, [tenantId]);
+
+  /* ================= DATE HELPERS ================= */
 
   const now = new Date();
   const todayString = now.toISOString().split("T")[0];
@@ -41,7 +46,7 @@ export default function ManageAppointments() {
 
   const toDate = (a) => new Date(`${a.date}T${a.time}`);
 
-  /* FILTER */
+  /* ================= FILTER ================= */
 
   const filteredAppointments = useMemo(() => {
     let data = [...appointments];
@@ -53,12 +58,14 @@ export default function ManageAppointments() {
         (a) =>
           a.patientName?.toLowerCase().includes(q) ||
           a.doctorName?.toLowerCase().includes(q) ||
-          a.departmentName?.toLowerCase().includes(q), // ✅ FIX
+          a.departmentName?.toLowerCase().includes(q),
       );
     }
 
     if (statusFilter !== "all") {
-      data = data.filter((a) => a.status === statusFilter);
+      data = data.filter(
+        (a) => (a.status || "pending").toLowerCase() === statusFilter,
+      );
     }
 
     if (dateFilter !== "all") {
@@ -76,14 +83,16 @@ export default function ManageAppointments() {
     return data;
   }, [appointments, search, statusFilter, dateFilter]);
 
-  /* 💰 REVENUE SUMMARY */
+  /* ================= REVENUE ================= */
 
   const revenueStats = useMemo(() => {
     let total = 0;
     let today = 0;
 
     filteredAppointments
-      .filter((a) => a.status === "confirmed" || a.status === "completed")
+      .filter((a) =>
+        ["confirmed", "completed"].includes((a.status || "").toLowerCase()),
+      )
       .forEach((a) => {
         const amount = a.totalAmount || 0;
 
@@ -94,7 +103,7 @@ export default function ManageAppointments() {
     return { total, today };
   }, [filteredAppointments, todayString]);
 
-  /* PAGINATION */
+  /* ================= PAGINATION ================= */
 
   useEffect(() => setPage(1), [search, statusFilter, dateFilter]);
 
@@ -105,6 +114,33 @@ export default function ManageAppointments() {
     return filteredAppointments.slice(start, start + PAGE_SIZE);
   }, [filteredAppointments, page]);
 
+  /* ================= STATUS UPDATE ================= */
+
+  const handleStatusChange = async (id, status) => {
+    try {
+      setLoadingId(id);
+
+      await updateAppointmentStatus(id, status, {
+        userId: user?.uid,
+      });
+
+      notifySuccess("Status updated successfully");
+    } catch (err) {
+      console.error("Status update failed:", err);
+
+      if (err.message === "CONFLICT_UPDATE") {
+        notifyConflict();
+
+        // 🔥 auto refresh to sync latest state
+        setTimeout(() => window.location.reload(), 1200);
+      } else {
+        notifyError(err.message || "Update failed");
+      }
+    } finally {
+      setLoadingId(null);
+    }
+  };
+
   return (
     <div className="space-y-6">
       <AdminHeader
@@ -112,7 +148,7 @@ export default function ManageAppointments() {
         description="Manage hospital appointments"
       />
 
-      {/* 💰 REVENUE DASHBOARD */}
+      {/* ================= REVENUE ================= */}
       <div className="grid md:grid-cols-2 gap-4">
         <div className="p-4 rounded-xl bg-[var(--card)] border">
           <p className="text-sm text-[var(--muted)]">Total Revenue</p>
@@ -125,7 +161,7 @@ export default function ManageAppointments() {
         </div>
       </div>
 
-      {/* FILTER BAR */}
+      {/* ================= FILTERS ================= */}
 
       <div className="grid md:grid-cols-3 gap-4">
         <input
@@ -161,18 +197,15 @@ export default function ManageAppointments() {
         </select>
       </div>
 
-      {/* TABLE */}
+      {/* ================= TABLE ================= */}
 
       <AppointmentsTable
         appointments={paginatedAppointments}
-        onStatusChange={(id, status) =>
-          updateAppointmentStatus(id, status, {
-            userId: user?.uid,
-          })
-        }
+        onStatusChange={handleStatusChange}
+        loadingId={loadingId}
       />
 
-      {/* PAGINATION */}
+      {/* ================= PAGINATION ================= */}
 
       {filteredAppointments.length > PAGE_SIZE && (
         <div className="flex justify-center gap-4 mt-6">

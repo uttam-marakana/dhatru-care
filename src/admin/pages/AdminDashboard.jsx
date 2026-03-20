@@ -4,6 +4,7 @@ import { subscribeAppointments } from "../../api/appointmentsApi";
 import { getDoctors } from "../../api/doctorsApi";
 import { getAllDepartments } from "../../api/departmentsApi";
 import { getPackages } from "../../api/packagesApi";
+import { useAuth } from "../../context/AuthContext";
 
 import DashboardCard from "../components/cards/DashboardCard";
 import AdminHeader from "../components/layout/AdminHeader";
@@ -26,6 +27,8 @@ export default function AdminDashboard() {
 
   const [loading, setLoading] = useState(true);
 
+  const { tenantId } = useAuth();
+
   useEffect(() => {
     const load = async () => {
       const doctorsData = await getDoctors();
@@ -43,12 +46,15 @@ export default function AdminDashboard() {
   }, []);
 
   useEffect(() => {
-    const unsub = subscribeAppointments(setAppointments);
+    if (!tenantId) return;
+
+    const unsub = subscribeAppointments(tenantId, setAppointments);
     return () => unsub();
-  }, []);
+  }, [tenantId]);
 
   const pending = appointments.filter((a) => a.status === "pending").length;
-  const approved = appointments.filter((a) => a.status === "approved").length;
+  const confirmed = appointments.filter((a) => a.status === "confirmed").length;
+  const completed = appointments.filter((a) => a.status === "completed").length;
   const rejected = appointments.filter((a) => a.status === "rejected").length;
 
   return (
@@ -117,8 +123,8 @@ export default function AdminDashboard() {
         />
 
         <DashboardCard
-          title="Approved"
-          value={approved}
+          title="Confirmed"
+          value={confirmed}
           icon={<FaCheckCircle />}
           color="#10b981"
         />
