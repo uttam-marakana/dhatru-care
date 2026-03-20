@@ -11,15 +11,15 @@ export default function GoogleMapEmbed({
   return (
     <div
       className={`
-      group
-      w-full rounded-2xl overflow-hidden
-      border border-[var(--border)]
-      bg-[var(--card)]
-      transition-all duration-500
-      hover:-translate-y-1
-      hover:border-[var(--color-primary)]/40
-      hover:shadow-[0_0_40px_var(--glow-soft)]
-      ${className}
+        group
+        w-full rounded-2xl overflow-hidden
+        border border-[var(--border)]
+        bg-[var(--card)]
+        transition-all duration-500
+        hover:-translate-y-1
+        hover:border-[var(--color-primary)]/40
+        hover:shadow-[0_0_40px_var(--glow-soft)]
+        ${className}
       `}
     >
       <iframe

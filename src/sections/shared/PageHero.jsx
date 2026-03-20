@@ -1,4 +1,3 @@
-import { lazy } from "react";
 import PropTypes from "prop-types";
 
 import Container from "../../components/layout/Container";
@@ -30,9 +29,9 @@ export default function PageHero({
           {subtitle && (
             <p
               className="
-              text-lg md:text-xl lg:text-2xl
-              max-w-3xl mx-auto
-              text-[var(--text-secondary)]
+                text-lg md:text-xl lg:text-2xl
+                max-w-3xl mx-auto
+                text-[var(--text-secondary)]
               "
             >
               {subtitle}
