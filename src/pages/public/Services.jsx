@@ -16,16 +16,16 @@ export default function Services() {
       <section className="py-16 md:py-24">
         <div className="max-w-7xl mx-auto px-4">
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {/* Example Service Card */}
+            {/* --- Example Service Card ----------- */}
             <div
               className="
-          p-6 rounded-2xl
-          bg-[var(--card)]
-          border border-[var(--border)]
-          hover:border-[var(--color-primary)]/40
-          hover:shadow-[0_0_30px_var(--glow-soft)
-          transition
-          "
+                p-6 rounded-2xl
+                bg-[var(--card)]
+                border border-[var(--border)]
+                hover:border-[var(--color-primary)]/40
+                hover:shadow-[0_0_30px_var(--glow-soft)
+                transition
+              "
             >
               <h3 className="text-xl font-semibold text-[var(--text)] mb-2">
                 Emergency Care
@@ -38,13 +38,13 @@ export default function Services() {
 
             <div
               className="
-          p-6 rounded-2xl
-          bg-[var(--card)]
-          border border-[var(--border)]
-          hover:border-[var(--color-primary)]/40
-          hover:shadow-[0_0_30px_var(--glow-soft)
-          transition
-          "
+                p-6 rounded-2xl
+                bg-[var(--card)]
+                border border-[var(--border)]
+                hover:border-[var(--color-primary)]/40
+                hover:shadow-[0_0_30px_var(--glow-soft)
+                transition
+              "
             >
               <h3 className="text-xl font-semibold text-[var(--text)] mb-2">
                 Diagnostic Services
@@ -57,13 +57,13 @@ export default function Services() {
 
             <div
               className="
-          p-6 rounded-2xl
-          bg-[var(--card)]
-          border border-[var(--border)]
-          hover:border-[var(--color-primary)]/40
-          hover:shadow-[0_0_30px_var(--glow-soft)
-          transition
-          "
+                p-6 rounded-2xl
+                bg-[var(--card)]
+                border border-[var(--border)]
+                hover:border-[var(--color-primary)]/40
+                hover:shadow-[0_0_30px_var(--glow-soft)
+                transition
+              "
             >
               <h3 className="text-xl font-semibold text-[var(--text)] mb-2">
                 Preventive Health

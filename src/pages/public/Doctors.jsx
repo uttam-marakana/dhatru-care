@@ -26,7 +26,7 @@ export default function Doctors() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  /* FETCH DOCTORS (runs on route navigation) */
+  /* --- FETCH DOCTORS ----------- */
 
   useEffect(() => {
     let mounted = true;
@@ -55,7 +55,7 @@ export default function Doctors() {
     };
   }, [location.key]);
 
-  /* Sync filters → URL */
+  /* --- Sync filters → URL ----------- */
 
   useEffect(() => {
     const params = {};
@@ -67,7 +67,7 @@ export default function Doctors() {
     setSearchParams(params);
   }, [filters, setSearchParams]);
 
-  /* Filter doctors */
+  /* --- Filter doctors ----------- */
 
   const doctors = useMemo(() => {
     let data = [...allDoctors];

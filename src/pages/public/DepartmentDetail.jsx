@@ -44,7 +44,7 @@ export default function DepartmentDetail() {
 
         const allDoctors = await getDoctors();
 
-        /* Filter doctors by departmentId */
+        /* --- Filter doctors by departmentId ----------- */
 
         const filteredDoctors = allDoctors.filter(
           (doc) => doc.departmentId === dept.id,
@@ -84,13 +84,13 @@ export default function DepartmentDetail() {
   return (
     <main
       className="
-      min-h-screen
-      bg-gradient-to-b
-      from-gray-50 via-gray-100 to-gray-50
-      dark:from-gray-950 dark:via-gray-900 dark:to-gray-950
+        min-h-screen
+        bg-gradient-to-b
+        from-gray-50 via-gray-100 to-gray-50
+        dark:from-gray-950 dark:via-gray-900 dark:to-gray-950
       "
     >
-      {/* BREADCRUMB */}
+      {/* ---  BREADCRUMB ----------- */}
 
       <Breadcrumb
         items={[
@@ -100,7 +100,7 @@ export default function DepartmentDetail() {
         ]}
       />
 
-      {/* HERO */}
+      {/* ---  HERO ----------- */}
 
       <section className="relative py-20 text-center">
         <Container>
@@ -119,12 +119,12 @@ export default function DepartmentDetail() {
         </Container>
       </section>
 
-      {/* CONTENT */}
+      {/* ---  CONTENT ----------- */}
 
       <section className="py-20">
         <Container>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {/* SERVICES */}
+            {/* ---  SERVICES ----------- */}
 
             <Card className="bg-white dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-2xl p-8 hover:-translate-y-2 transition">
               <h2 className="text-xl font-bold mb-4 flex items-center gap-2">
@@ -139,7 +139,7 @@ export default function DepartmentDetail() {
               </ul>
             </Card>
 
-            {/* HIGHLIGHTS */}
+            {/* ---  HIGHLIGHTS ----------- */}
 
             <Card className="bg-white dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-2xl p-8 hover:-translate-y-2 transition">
               <h2 className="text-xl font-bold mb-4 flex items-center gap-2">
@@ -154,7 +154,7 @@ export default function DepartmentDetail() {
               </ul>
             </Card>
 
-            {/* BOOK CTA */}
+            {/* ---  BOOK CTA ----------- */}
 
             <Card className="bg-white dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-2xl p-8 hover:-translate-y-2 transition">
               <h2 className="text-xl font-bold mb-4">
@@ -179,7 +179,7 @@ export default function DepartmentDetail() {
         </Container>
       </section>
 
-      {/* RELATED DOCTORS */}
+      {/* ---  RELATED DOCTORS ----------- */}
 
       {relatedDoctors.length > 0 && (
         <section className="py-20 bg-gray-100 dark:bg-gray-900">

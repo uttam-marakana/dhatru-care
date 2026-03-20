@@ -93,31 +93,31 @@ export default function DoctorDetail() {
         ]}
       />
 
-      {/* HERO */}
+      {/* --- HERO ----------- */}
       <div className="relative py-12 md:py-20 overflow-hidden">
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-175 h-175 bg-[var(--glow-bg)] blur-[150px] rounded-full"></div>
 
         <Container>
           <div className="grid lg:grid-cols-5 gap-12 relative z-10 items-start">
-            {/* PROFILE CARD */}
+            {/* --- PROFILE CARD ----------- */}
             <div className="lg:col-span-2">
               <Card
                 className="
-                relative
-                p-6 text-center
-                bg-[var(--card)]
-                border border-[var(--border)]
-                shadow-[0_0_40px_var(--glow-soft)]
-                md:sticky md:top-28
-                transition-all duration-500
-                hover:shadow-[0_0_70px_var(--glow-soft)]
-                hover:-translate-y-1
+                  relative
+                  p-6 text-center
+                  bg-[var(--card)]
+                  border border-[var(--border)]
+                  shadow-[0_0_40px_var(--glow-soft)]
+                  md:sticky md:top-28
+                  transition-all duration-500
+                  hover:shadow-[0_0_70px_var(--glow-soft)]
+                  hover:-translate-y-1
                 "
               >
-                {/* Animated Halo Glow */}
+                {/* --- Animated Halo Glow ----------- */}
                 <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-[var(--color-primary)]/10 via-transparent to-[var(--color-primary)]/10 opacity-0 hover:opacity-100 blur-2xl transition duration-700"></div>
 
-                {/* Doctor Image */}
+                {/* --- Doctor Image ----------- */}
                 <div className="relative w-32 h-32 mx-auto mb-5">
                   <div className="absolute inset-0 rounded-full bg-[var(--glow-bg)] blur-xl opacity-60"></div>
 
@@ -134,7 +134,7 @@ export default function DoctorDetail() {
                   )}
                 </div>
 
-                {/* Name + Verification */}
+                {/* --- Name + Verification ----------- */}
                 <div className="flex items-center justify-center gap-2">
                   <h1 className="text-2xl font-bold text-[var(--color-primary)]">
                     {doctor.name}
@@ -150,7 +150,7 @@ export default function DoctorDetail() {
                   {doctor.specialty}
                 </p>
 
-                {/* Badges */}
+                {/* --- Badges ----------- */}
                 <div className="flex justify-center gap-3 mt-4 flex-wrap">
                   <span className="px-3 py-1 text-sm rounded-full bg-[var(--surface)] border border-[var(--border)]">
                     {doctor.experience}
@@ -162,7 +162,7 @@ export default function DoctorDetail() {
                   </span>
                 </div>
 
-                {/* TRUST STATS */}
+                {/* --- TRUST STATS ----------- */}
                 <div className="grid grid-cols-3 gap-4 mt-6 text-center">
                   <div className="bg-[var(--surface)] border border-[var(--border)] rounded-lg py-3">
                     <p className="font-bold text-[var(--color-primary)]">15+</p>
@@ -186,7 +186,7 @@ export default function DoctorDetail() {
                   </div>
                 </div>
 
-                {/* ACTION BUTTONS 60 / 40 */}
+                {/* --- ACTION BUTTONS ----------- */}
                 <div className="grid grid-cols-1 md:grid-cols-[60%_40%] gap-3 mt-6 w-full relative z-10">
                   <Link
                     to={`/appointments?department=${doctor.departmentId}&doctor=${doctor.id}`}
@@ -196,15 +196,15 @@ export default function DoctorDetail() {
                       size="lg"
                       leftIcon={<FaCalendarCheck />}
                       className="
-                      w-full
-                      cursor-pointer
-                      bg-gradient-to-r
-                      from-[var(--color-primary)]
-                      to-[var(--color-primary-hover)]
-                      text-white
-                      shadow-[0_0_25px_var(--glow-soft)]
-                      hover:shadow-[0_0_40px_var(--glow-soft)]
-                      transition-all
+                        w-full
+                        cursor-pointer
+                        bg-gradient-to-r
+                        from-[var(--color-primary)]
+                        to-[var(--color-primary-hover)]
+                        text-white
+                        shadow-[0_0_25px_var(--glow-soft)]
+                        hover:shadow-[0_0_40px_var(--glow-soft)]
+                        transition-all
                       "
                     >
                       Book Appointment
@@ -228,17 +228,17 @@ export default function DoctorDetail() {
               </Card>
             </div>
 
-            {/* DOCTOR DETAILS */}
+            {/* --- DOCTOR DETAILS ----------- */}
             <div className="lg:col-span-3">
               <div
                 className="
-                relative
-                bg-[var(--card)]/70
-                backdrop-blur-xl
-                border border-[var(--border)]
-                rounded-3xl
-                p-8 md:p-10
-                shadow-[0_0_50px_var(--glow-soft)]
+                  relative
+                  bg-[var(--card)]/70
+                  backdrop-blur-xl
+                  border border-[var(--border)]
+                  rounded-3xl
+                  p-8 md:p-10
+                  shadow-[0_0_50px_var(--glow-soft)]
                 "
               >
                 <div className="absolute inset-0 rounded-3xl bg-[var(--glow-bg)] blur-3xl opacity-20 pointer-events-none"></div>
@@ -290,10 +290,23 @@ export default function DoctorDetail() {
         </Container>
       </div>
 
-      {/* RELATED DOCTORS (unchanged except hover polish) */}
+      {/* --- RELATED DOCTORS ----------- */}
       {relatedDoctors.length > 0 && (
         <section className="relative py-20 md:py-24 bg-[var(--section)] text-[var(--text)] overflow-hidden">
-          <div className="pointer-events-none absolute -top-40 left-1/2 -translate-x-1/2 w-[700px] md:w-[900px] h-[700px] md:h-[900px] bg-[var(--glow-bg)] blur-[140px] rounded-full opacity-70 z-0"></div>
+          <div
+            className="
+              pointer-events-none 
+              absolute 
+              -top-40 left-1/2 
+              -translate-x-1/2 
+              w-[700px] md:w-[900px] 
+              h-[700px] md:h-[900px] 
+              bg-[var(--glow-bg)] 
+              blur-[140px] 
+              rounded-full 
+              opacity-70 z-0
+            "
+          />
 
           <Container className="relative z-10">
             <div className="text-center mb-16">

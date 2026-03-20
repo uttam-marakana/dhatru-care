@@ -16,18 +16,18 @@ export default function Contact() {
       />
 
       <section className="relative py-20 md:py-24 bg-[var(--section)] text-[var(--text)] overflow-hidden">
-        {/* Glow */}
+        {/* --- Glow ----------- */}
         <div
           className="
-          pointer-events-none
-          absolute -top-40 left-1/2 -translate-x-1/2
-          w-[700px] md:w-[900px]
-          h-[700px] md:h-[900px]
-          bg-[var(--glow-bg)]
-          blur-[140px]
-          rounded-full
-          opacity-70
-          z-0
+            pointer-events-none
+            absolute -top-40 left-1/2 -translate-x-1/2
+            w-[700px] md:w-[900px]
+            h-[700px] md:h-[900px]
+            bg-[var(--glow-bg)]
+            blur-[140px]
+            rounded-full
+            opacity-70
+            z-0
           "
         />
 
@@ -36,22 +36,22 @@ export default function Contact() {
             <ContactForm />
 
             <div className="space-y-8">
-              {/* MAP */}
+              {/* --- MAP ----------- */}
               <GoogleMapEmbed />
 
-              {/* CONTACT DETAILS */}
+              {/* --- CONTACT DETAILS ----------- */}
 
               <div className="space-y-6">
-                {/* Address */}
+                {/* --- Address ----------- */}
                 <div
                   className="
-                  bg-[var(--card)]
-                  border border-[var(--border)]
-                  p-6 rounded-2xl
-                  transition-all duration-500
-                  hover:-translate-y-1
-                  hover:border-[var(--color-primary)]/40
-                  hover:shadow-[0_0_40px_var(--glow-soft)]
+                    bg-[var(--card)]
+                    border border-[var(--border)]
+                    p-6 rounded-2xl
+                    transition-all duration-500
+                    hover:-translate-y-1
+                    hover:border-[var(--color-primary)]/40
+                    hover:shadow-[0_0_40px_var(--glow-soft)]
                   "
                 >
                   <h4 className="font-semibold text-lg mb-2 text-[var(--color-primary)]">
@@ -67,13 +67,13 @@ export default function Contact() {
                   </p>
                 </div>
 
-                {/* Emergency */}
+                {/* --- Emergency ----------- */}
                 <div
                   className="
-                  bg-[var(--color-primary)]/10
-                  border border-[var(--color-primary)]/40
-                  p-6 rounded-2xl
-                  shadow-[0_0_40px_var(--glow-soft)]
+                    bg-[var(--color-primary)]/10
+                    border border-[var(--color-primary)]/40
+                    p-6 rounded-2xl
+                    shadow-[0_0_40px_var(--glow-soft)]
                   "
                 >
                   <h4 className="font-semibold text-lg mb-2 text-[var(--color-primary)]">
@@ -87,16 +87,16 @@ export default function Contact() {
                   <p className="text-sm text-[var(--muted)]">24×7 Available</p>
                 </div>
 
-                {/* General Enquiry */}
+                {/* --- General Enquiry ----------- */}
                 <div
                   className="
-                  bg-[var(--card)]
-                  border border-[var(--border)]
-                  p-6 rounded-2xl
-                  transition-all duration-500
-                  hover:-translate-y-1
-                  hover:border-[var(--color-primary)]/40
-                  hover:shadow-[0_0_40px_var(--glow-soft)]
+                    bg-[var(--card)]
+                    border border-[var(--border)]
+                    p-6 rounded-2xl
+                    transition-all duration-500
+                    hover:-translate-y-1
+                    hover:border-[var(--color-primary)]/40
+                    hover:shadow-[0_0_40px_var(--glow-soft)]
                   "
                 >
                   <h4 className="font-semibold text-lg mb-2 text-[var(--color-primary)]">

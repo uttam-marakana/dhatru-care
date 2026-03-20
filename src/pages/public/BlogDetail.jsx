@@ -35,9 +35,9 @@ export default function BlogDetail() {
     return (
       <div
         className="
-        min-h-screen flex items-center justify-center
-        bg-[var(--bg)]
-        text-[var(--text-secondary)]
+          min-h-screen flex items-center justify-center
+          bg-[var(--bg)]
+          text-[var(--text-secondary)]
         "
       >
         Loading...
@@ -48,9 +48,9 @@ export default function BlogDetail() {
     return (
       <div
         className="
-        min-h-screen flex items-center justify-center
-        bg-[var(--bg)]
-        text-[var(--text-secondary)]
+          min-h-screen flex items-center justify-center
+          bg-[var(--bg)]
+          text-[var(--text-secondary)]
         "
       >
         Post not found
@@ -60,8 +60,8 @@ export default function BlogDetail() {
   return (
     <article
       className="
-      min-h-screen
-      bg-[var(--bg)]
+        min-h-screen
+        bg-[var(--bg)]
       "
     >
       <Breadcrumb
@@ -84,9 +84,9 @@ export default function BlogDetail() {
         <Link
           to="/blog"
           className="
-          inline-flex items-center gap-2
-          text-[var(--color-primary)]
-          mb-8
+            inline-flex items-center gap-2
+            text-[var(--color-primary)]
+            mb-8
           "
         >
           <FaArrowLeft /> Back to Blog
@@ -94,9 +94,9 @@ export default function BlogDetail() {
 
         <h1
           className="
-          text-4xl font-bold
-          text-[var(--text)]
-          mb-6
+            text-4xl font-bold
+            text-[var(--text)]
+            mb-6
           "
         >
           {post.title}
@@ -104,8 +104,8 @@ export default function BlogDetail() {
 
         <div
           className="
-          flex gap-6 mb-10
-          text-[var(--text-secondary)]
+            flex gap-6 mb-10
+            text-[var(--text-secondary)]
           "
         >
           <span className="flex items-center gap-2">

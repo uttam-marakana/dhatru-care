@@ -43,15 +43,15 @@ export default function Departments() {
     return () => {
       mounted = false;
     };
-  }, [location.key]); // important
+  }, [location.key]);
 
   return (
     <main
       className="
-      min-h-screen
-      bg-gradient-to-b
-      from-gray-50 via-gray-100 to-gray-50
-      dark:from-gray-950 dark:via-gray-900 dark:to-gray-950
+        min-h-screen
+        bg-gradient-to-b
+        from-gray-50 via-gray-100 to-gray-50
+        dark:from-gray-950 dark:via-gray-900 dark:to-gray-950
       "
     >
       <PageHero
@@ -62,12 +62,12 @@ export default function Departments() {
       <section className="py-20 relative">
         <div
           className="
-          absolute top-1/3 left-1/2 -translate-x-1/2
-          w-[700px] h-[700px]
-          bg-[var(--glow-bg)]
-          blur-[160px]
-          rounded-full
-          pointer-events-none
+            absolute top-1/3 left-1/2 -translate-x-1/2
+            w-[700px] h-[700px]
+            bg-[var(--glow-bg)]
+            blur-[160px]
+            rounded-full
+            pointer-events-none
           "
         />
 

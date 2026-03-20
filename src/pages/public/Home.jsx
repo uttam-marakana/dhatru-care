@@ -40,7 +40,7 @@ export default function Home() {
 
   const [loading, setLoading] = useState(true);
 
-  /* REDIRECT ADMIN TO DASHBOARD */
+  /* --- REDIRECT TO ADMIN DASHBOARD ----------- */
 
   useEffect(() => {
     if (!authLoading && role === "admin") {
@@ -48,7 +48,7 @@ export default function Home() {
     }
   }, [role, authLoading, navigate]);
 
-  /* LOAD HOME DATA */
+  /* --- LOAD HOME DATA ----------- */
 
   useEffect(() => {
     const load = async () => {

@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom";
-import { lazy } from "react";
 
 import Container from "../../components/layout/Container";
 import Button from "../../components/common/Button";

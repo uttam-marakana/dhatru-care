@@ -29,7 +29,7 @@ export default function Blog() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  /* FETCH BLOG POSTS */
+  /* --- FETCH BLOG POSTS ----------- */
 
   useEffect(() => {
     let mounted = true;
@@ -61,7 +61,7 @@ export default function Blog() {
     };
   }, [location.key]);
 
-  /* Sync filters with URL */
+  /* --- Sync filters with URL ----------- */
 
   useEffect(() => {
     const params = {};
@@ -73,7 +73,7 @@ export default function Blog() {
     setSearchParams(params);
   }, [filters, setSearchParams]);
 
-  /* Apply filters */
+  /* --- Apply filters ----------- */
 
   useEffect(() => {
     let data = [...allPosts];

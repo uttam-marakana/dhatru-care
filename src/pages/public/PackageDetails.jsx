@@ -21,7 +21,7 @@ export default function PackageDetails() {
   const [pkg, setPkg] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  /* ---------------- LOAD ---------------- */
+  /* --- LOAD ----------- */
 
   useEffect(() => {
     getPackages().then((data) => {
@@ -31,7 +31,7 @@ export default function PackageDetails() {
     });
   }, [id]);
 
-  /* ---------------- HELPERS ---------------- */
+  /* --- HELPERS ----------- */
 
   const parsePrice = (price) => {
     if (typeof price === "number") return price;
@@ -47,7 +47,7 @@ export default function PackageDetails() {
     }));
   }, [pkg]);
 
-  /* ---------------- STATES ---------------- */
+  /* --- STATES ----------- */
 
   if (loading) {
     return (
@@ -63,7 +63,7 @@ export default function PackageDetails() {
     );
   }
 
-  /* ---------------- UI ---------------- */
+  /* --- UI ----------- */
 
   return (
     <main className="min-h-screen bg-[var(--bg)] pb-24">
@@ -76,7 +76,7 @@ export default function PackageDetails() {
       />
 
       <Container className="py-10 md:py-16 space-y-12">
-        {/* HEADER */}
+        {/* --- HEADER ----------- */}
 
         <div className="grid lg:grid-cols-2 gap-10 items-center">
           <div>
@@ -86,12 +86,12 @@ export default function PackageDetails() {
               ₹{parsePrice(pkg.price)}
             </p>
 
-            {/* 🔥 URGENCY */}
+            {/* --- URGENCY ----------- */}
             <p className="text-sm text-red-500 mt-2 font-medium">
               ⚡ Limited slots available today
             </p>
 
-            {/* 🔥 TRUST */}
+            {/* --- TRUST ----------- */}
             <p className="text-xs text-[var(--text-secondary)] mt-1">
               ✔ 1200+ patients booked • ✔ Doctor verified
             </p>
@@ -114,7 +114,7 @@ export default function PackageDetails() {
             </div>
           </div>
 
-          {/* QUICK INFO */}
+          {/* --- QUICK INFO ----------- */}
 
           <div className="grid grid-cols-2 gap-4">
             <InfoCard icon={<FaUserMd />} label="Doctor Consultation" />
@@ -127,7 +127,7 @@ export default function PackageDetails() {
           </div>
         </div>
 
-        {/* BENEFITS */}
+        {/* --- BENEFITS ----------- */}
 
         <div className="grid md:grid-cols-3 gap-6">
           <BenefitCard
@@ -144,7 +144,7 @@ export default function PackageDetails() {
           />
         </div>
 
-        {/* META */}
+        {/* --- META ----------- */}
 
         <div className="grid md:grid-cols-3 gap-6">
           <MetaCard
@@ -158,7 +158,7 @@ export default function PackageDetails() {
           />
         </div>
 
-        {/* INCLUDED TESTS */}
+        {/* --- INCLUDED TESTS ----------- */}
 
         <div>
           <h2 className="text-xl md:text-2xl font-bold mb-6">
@@ -170,10 +170,10 @@ export default function PackageDetails() {
               <div
                 key={i}
                 className="
-                p-4 rounded-xl
-                border border-[var(--border)]
-                bg-[var(--card)]
-                flex gap-3
+                  p-4 rounded-xl
+                  border border-[var(--border)]
+                  bg-[var(--card)]
+                  flex gap-3
                 "
               >
                 <FaCheckCircle className="text-green-500 mt-1" />
@@ -189,7 +189,7 @@ export default function PackageDetails() {
           </div>
         </div>
 
-        {/* FINAL CTA */}
+        {/* --- FINAL CTA ----------- */}
 
         <div className="text-center pt-10">
           <Button
@@ -203,15 +203,15 @@ export default function PackageDetails() {
         </div>
       </Container>
 
-      {/* 🔥 STICKY CTA (MOBILE + DESKTOP SAFE) */}
+      {/* --- STICKY CTA ----------- */}
 
       <div
         className="
-        fixed bottom-0 left-0 w-full
-        bg-[var(--card)]
-        border-t border-[var(--border)]
-        p-4 z-50
-        flex items-center justify-between
+          fixed bottom-0 left-0 w-full
+          bg-[var(--card)]
+          border-t border-[var(--border)]
+          p-4 z-50
+          flex items-center justify-between
         "
       >
         <div>
@@ -233,7 +233,7 @@ export default function PackageDetails() {
   );
 }
 
-/* ---------------- COMPONENTS ---------------- */
+/* --- COMPONENTS ----------- */
 
 function InfoCard({ icon, label }) {
   return (
@@ -262,7 +262,7 @@ function BenefitCard({ title, desc }) {
   );
 }
 
-/* ---------------- HELPER ---------------- */
+/* --- HELPER ----------- */
 
 function getTestDescription(test) {
   const map = {

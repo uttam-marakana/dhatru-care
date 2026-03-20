@@ -75,7 +75,7 @@ export default function Search() {
             </p>
           )}
 
-          {/* Doctors */}
+          {/* --- Doctors ----------- */}
 
           {results.doctors.length > 0 && (
             <section className="mb-12">
@@ -98,7 +98,7 @@ export default function Search() {
             </section>
           )}
 
-          {/* Departments */}
+          {/* --- Departments ----------- */}
 
           {results.departments.length > 0 && (
             <section className="mb-12">
@@ -118,7 +118,7 @@ export default function Search() {
             </section>
           )}
 
-          {/* Packages */}
+          {/* --- Packages ----------- */}
 
           {results.packages.length > 0 && (
             <section className="mb-12">
@@ -138,7 +138,7 @@ export default function Search() {
             </section>
           )}
 
-          {/* Blogs */}
+          {/* --- Blogs ----------- */}
 
           {results.blogs.length > 0 && (
             <section>
