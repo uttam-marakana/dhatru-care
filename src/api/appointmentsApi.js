@@ -29,7 +29,8 @@ export const rescheduleAppointment = (appt, d, t) =>
 
 /* ADMIN */
 
-export const subscribeAppointments = (cb) => subscribeAppointmentsService(cb);
+export const subscribeAppointments = (tenantId, cb) =>
+  subscribeAppointmentsService(tenantId, cb);
 
 /* USER */
 

@@ -3,10 +3,13 @@ import { getDoctors } from "../api/doctorsApi";
 import { getAllDepartments } from "../api/departmentsApi";
 import { getPackages } from "../api/packagesApi";
 import { getBlogPosts } from "../api/blogsApi";
+import { useAuth } from "./AuthContext";
 
 const HomeDataContext = createContext();
 
 export function HomeDataProvider({ children }) {
+  const { tenantId } = useAuth();
+
   const [data, setData] = useState({
     departments: [],
     doctors: [],
@@ -17,13 +20,15 @@ export function HomeDataProvider({ children }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    if (!tenantId) return;
+
     const loadAll = async () => {
       try {
         const [dept, docs, pkgs, posts] = await Promise.all([
-          getAllDepartments(),
-          getDoctors(),
-          getPackages(),
-          getBlogPosts(),
+          getAllDepartments({}, tenantId),
+          getDoctors(tenantId),
+          getPackages(tenantId),
+          getBlogPosts(tenantId),
         ]);
 
         setData({
@@ -40,7 +45,7 @@ export function HomeDataProvider({ children }) {
     };
 
     loadAll();
-  }, []);
+  }, [tenantId]);
 
   return (
     <HomeDataContext.Provider value={{ ...data, loading }}>
