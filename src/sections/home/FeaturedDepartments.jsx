@@ -1,4 +1,3 @@
-import { lazy } from "react";
 import { Link } from "react-router-dom";
 
 import Container from "../../components/layout/Container";
@@ -17,23 +16,23 @@ export default function FeaturedDepartments({
 
   return (
     <section className="relative py-20 md:py-24 bg-[var(--section)] text-[var(--text)] overflow-hidden">
-      {/* Background Glow */}
+      {/* --- Background Glow ----------- */}
       <div
         className="
-        pointer-events-none
-        absolute -top-40 left-1/2 -translate-x-1/2
-        w-[700px] md:w-[900px]
-        h-[700px] md:h-[900px]
-        bg-[var(--glow-bg)]
-        blur-[140px]
-        rounded-full
-        opacity-70
-        z-0
+          pointer-events-none
+          absolute -top-40 left-1/2 -translate-x-1/2
+          w-[700px] md:w-[900px]
+          h-[700px] md:h-[900px]
+          bg-[var(--glow-bg)]
+          blur-[140px]
+          rounded-full
+          opacity-70
+          z-0
         "
       />
 
       <Container className="relative z-10">
-        {/* Header */}
+        {/* --- Header ----------- */}
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-bold text-[var(--color-primary)]">
             Our Specialized Departments
@@ -45,23 +44,23 @@ export default function FeaturedDepartments({
           </p>
         </div>
 
-        {/* Grid */}
+        {/* --- Grid ----------- */}
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
           {departments.slice(0, 4).map((dept) => (
             <Link
               key={dept.id}
               to={`/departments/${dept.slug}`}
               className="
-              group
-              bg-[var(--card)]
-              border border-[var(--border)]
-              rounded-2xl
-              p-8
-              text-center
-              transition-all duration-500
-              hover:-translate-y-2
-              hover:border-[var(--color-primary)]/40
-              hover:shadow-[0_0_40px_var(--glow-soft)]
+                group
+                bg-[var(--card)]
+                border border-[var(--border)]
+                rounded-2xl
+                p-8
+                text-center
+                transition-all duration-500
+                hover:-translate-y-2
+                hover:border-[var(--color-primary)]/40
+                hover:shadow-[0_0_40px_var(--glow-soft)]
               "
             >
               <div className="text-4xl mb-4 text-[var(--color-primary)]">

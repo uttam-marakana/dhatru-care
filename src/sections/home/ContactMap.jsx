@@ -1,4 +1,3 @@
-import { lazy } from "react";
 import { FaPhoneAlt, FaMapMarkerAlt, FaDirections } from "react-icons/fa";
 
 import Container from "../../components/layout/Container";
@@ -21,7 +20,7 @@ export default function ContactMap() {
         </div>
 
         <div className="grid md:grid-cols-2 gap-12">
-          {/* MAP */}
+          {/* --- MAP ----------- */}
           <div className="relative rounded-3xl overflow-hidden border border-[var(--border)] shadow-[0_0_40px_var(--glow-soft)] h-[450px]">
             <iframe
               title="Hospital Location"
@@ -36,16 +35,22 @@ export default function ContactMap() {
               href="https://maps.google.com"
               target="_blank"
               rel="noopener noreferrer"
-              className="absolute bottom-6 left-1/2 -translate-x-1/2
-              bg-[var(--color-primary)] hover:bg-(--color-primary-hover)
-              text-white px-6 py-3 rounded-full flex items-center gap-2"
+              className="
+                absolute bottom-6 left-1/2 
+                -translate-x-1/2
+                bg-[var(--color-primary)] 
+                hover:bg-(--color-primary-hover)
+                text-white px-6 py-3 
+                rounded-full flex 
+                items-center gap-2
+              "
             >
               <FaDirections />
               Get Directions
             </a>
           </div>
 
-          {/* INFO */}
+          {/* --- INFO ----------- */}
           <div className="space-y-8">
             <div className="bg-[var(--card)] border border-[var(--border)] rounded-2xl p-6">
               <div className="flex items-center gap-3 mb-4 text-[var(--color-primary)]">

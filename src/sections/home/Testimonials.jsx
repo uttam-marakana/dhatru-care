@@ -1,4 +1,3 @@
-import { lazy } from "react";
 import { FaStar } from "react-icons/fa";
 
 import Container from "../../components/layout/Container";
@@ -30,11 +29,11 @@ export default function Testimonials({ testimonials = [], loading = false }) {
 
   return (
     <section className="relative py-20 md:py-24 bg-[var(--bg)] text-[var(--text)]">
-      {/* Glow */}
+      {/* --- Glow ----------- */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[650px] h-[650px] bg-[var(--glow-bg)] blur-[140px] rounded-full"></div>
 
       <Container>
-        {/* Header */}
+        {/* --- Header ----------- */}
         <div className="text-center mb-16 relative z-10">
           <h2 className="text-4xl md:text-5xl font-bold text-[var(--color-primary)]">
             What Our Patients Say
@@ -45,19 +44,20 @@ export default function Testimonials({ testimonials = [], loading = false }) {
           </p>
         </div>
 
-        {/* Grid */}
+        {/* --- Grid ----------- */}
         <div className="grid md:grid-cols-2 gap-8 relative z-10">
           {data.map((t, i) => (
             <div
               key={i}
               className="
-              bg-[var(--card)]
-              border border-[var(--border)]
-              rounded-2xl
-              p-8
-              transition-all
-              hover:border-[var(--color-primary)]/40
-              hover:shadow-[0_0_40px_var(--glow-soft)]"
+                bg-[var(--card)]
+                border border-[var(--border)]
+                rounded-2xl
+                p-8
+                transition-all
+                hover:border-[var(--color-primary)]/40
+                hover:shadow-[0_0_40px_var(--glow-soft)]
+              "
             >
               <p className="italic text-[var(--text-secondary)] mb-6 leading-relaxed">
                 “{t.text}”

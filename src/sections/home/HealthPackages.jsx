@@ -1,4 +1,4 @@
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import Container from "../../components/layout/Container";
 import Button from "../../components/common/Button";
@@ -35,13 +35,13 @@ export default function HealthPackages({ packages = [], loading, error }) {
               key={pkg.id}
               onClick={() => navigate(`/packages/${pkg.id}`)}
               className="
-              group cursor-pointer
-              bg-[var(--card)]
-              border border-[var(--border)]
-              rounded-2xl p-6 flex flex-col
-              transition-all duration-500
-              hover:-translate-y-2
-              hover:border-[var(--color-primary)]/40
+                group cursor-pointer
+                bg-[var(--card)]
+                border border-[var(--border)]
+                rounded-2xl p-6 flex flex-col
+                transition-all duration-500
+                hover:-translate-y-2
+                hover:border-[var(--color-primary)]/40
               "
             >
               <h3 className="font-semibold mb-2">{pkg.name}</h3>

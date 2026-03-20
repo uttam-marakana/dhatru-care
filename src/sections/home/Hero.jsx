@@ -6,7 +6,7 @@ import Button from "../../components/common/Button";
 export default function Hero() {
   return (
     <section className="relative min-h-[85vh] md:min-h-[95vh] flex items-center bg-[var(--bg)] text-[var(--text)] overflow-hidden">
-      {/* Background Glow */}
+      {/* --- Background Glow ----------- */}
       <div className="absolute inset-0 bg-[var(--glow-bg)] blur-[140px] opacity-40"></div>
 
       <Container className="relative z-10 py-16 md:py-24">
@@ -40,7 +40,7 @@ export default function Hero() {
             </Link>
           </div>
 
-          {/* Trust Badges */}
+          {/* --- Trust Badges ----------- */}
           <div className="mt-12 grid grid-cols-1 sm:grid-cols-3 gap-6 text-[var(--text-secondary)]">
             <div className="flex items-center gap-3">
               <span className="text-3xl">🏥</span> 50,000+ Patients

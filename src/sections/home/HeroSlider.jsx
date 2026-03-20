@@ -57,7 +57,7 @@ export default function HeroSlider() {
         />
       </AnimatePresence>
 
-      {/* Overlay */}
+      {/* --- Overlay ----------- */}
       <div className="absolute inset-0 bg-[var(--bg)]/80 z-10" />
 
       <Container className="relative z-20 h-full flex items-center">
@@ -90,17 +90,31 @@ export default function HeroSlider() {
         </motion.div>
       </Container>
 
-      {/* Navigation */}
+      {/* --- Navigation ----------- */}
       <button
         onClick={prev}
-        className="absolute left-6 top-1/2 -translate-y-1/2 z-30 w-12 h-12 flex items-center justify-center rounded-full bg-[var(--card)] border border-[var(--border)]"
+        className="
+          absolute left-6 top-1/2 
+          -translate-y-1/2 z-30 
+          w-12 h-12 flex 
+          items-center justify-center 
+          rounded-full bg-[var(--card)] 
+          border border-[var(--border)]
+        "
       >
         <FaChevronLeft />
       </button>
 
       <button
         onClick={next}
-        className="absolute right-6 top-1/2 -translate-y-1/2 z-30 w-12 h-12 flex items-center justify-center rounded-full bg-[var(--card)] border border-[var(--border)]"
+        className="
+          absolute right-6 top-1/2 
+          -translate-y-1/2 z-30 
+          w-12 h-12 flex 
+          items-center justify-center 
+          rounded-full bg-[var(--card)] 
+          border border-[var(--border)]
+        "
       >
         <FaChevronRight />
       </button>

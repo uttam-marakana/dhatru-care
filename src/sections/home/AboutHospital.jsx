@@ -1,4 +1,3 @@
-import { lazy } from "react";
 import Hospital_Img from "../../assets/images/hospital_img.png";
 
 import Container from "../../components/layout/Container";
@@ -10,7 +9,7 @@ export default function AboutHospital() {
 
       <Container>
         <div className="grid lg:grid-cols-2 gap-14 lg:gap-20 items-center relative z-10">
-          {/* Content */}
+          {/* --- Content ----------- */}
           <div>
             <h2 className="text-4xl md:text-5xl font-bold mb-6 text-[var(--color-primary)]">
               Welcome to Dhatru Care
@@ -27,7 +26,7 @@ export default function AboutHospital() {
               we ensure personalized treatment and round-the-clock support.
             </p>
 
-            {/* Metrics */}
+            {/* --- Metrics ----------- */}
             <div className="grid grid-cols-3 gap-6">
               {[
                 { value: "15+", label: "Years of Excellence" },
@@ -36,10 +35,15 @@ export default function AboutHospital() {
               ].map((item, i) => (
                 <div
                   key={i}
-                  className="group bg-[var(--card)] border border-[var(--border)]
-                  rounded-xl p-6 text-center transition-all duration-500
-                  hover:-translate-y-1 hover:border-[var(--color-primary)]/40
-                  hover:shadow-[0_0_30px_var(--glow-soft)]"
+                  className="
+                    group bg-[var(--card)] 
+                    border border-[var(--border)]
+                    rounded-xl p-6 text-center 
+                    transition-all duration-500
+                    hover:-translate-y-1 
+                    hover:border-[var(--color-primary)]/40
+                    hover:shadow-[0_0_30px_var(--glow-soft)]
+                  "
                 >
                   <h3 className="text-2xl font-bold text-[var(--color-primary)]">
                     {item.value}
@@ -53,7 +57,7 @@ export default function AboutHospital() {
             </div>
           </div>
 
-          {/* Image */}
+          {/* --- Image ----------- */}
           <div className="relative group">
             <div className="absolute -inset-4 rounded-3xl bg-[var(--glow-bg)] blur-3xl opacity-60"></div>
 
