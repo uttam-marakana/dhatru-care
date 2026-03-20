@@ -16,9 +16,11 @@ export default function ManageAppointments() {
   /* REALTIME LISTENER */
 
   useEffect(() => {
-    const unsub = subscribeAppointments(setAppointments);
+    if (!tenantId) return;
+
+    const unsub = subscribeAppointments(tenantId, setAppointments);
     return () => unsub();
-  }, []);
+  }, [tenantId]);
 
   return (
     <div className="p-6 space-y-6">
