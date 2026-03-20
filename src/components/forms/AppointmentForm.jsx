@@ -8,6 +8,8 @@ import { getAllDepartments } from "../../api/departmentsApi";
 import { getDoctorsByDepartment } from "../../api/doctorsApi";
 import { getPackages } from "../../api/packagesApi";
 
+import { useAuth } from "../../context/AuthContext";
+
 import {
   generateSlots,
   filterAvailableSlots,
@@ -34,6 +36,7 @@ export default function AppointmentForm() {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const { book } = useBookingEngine();
+  const { user, tenantId } = useAuth();
 
   /* URL PARAMS */
   const packageParam = searchParams.get("package");
@@ -179,8 +182,14 @@ export default function AppointmentForm() {
       return;
     }
 
-    const user = auth.currentUser;
     if (!user) return notifyError("Login required");
+
+    if (!tenantId) {
+      notifyError("Tenant missing");
+      return;
+    }
+
+    console.log("Booking with tenant:", tenantId);
 
     submittingRef.current = true;
     setLoading(true);
@@ -189,18 +198,25 @@ export default function AppointmentForm() {
       const payload = {
         ...form,
         userId: user.uid,
-        tenantId: "default",
+        tenantId,
+        hospitalId: tenantId,
+
         doctorName: doctor?.name || "",
         doctorSpecialty: doctor?.specialty || "",
+
         departmentId: form.department,
         departmentName:
           departments.find((d) => d.id === form.department)?.name || "",
+
         appointmentType,
         appointmentFee,
         packageFee,
         totalAmount,
+
         isReschedule: false,
       };
+
+      console.log("BOOKING PAYLOAD:", payload); // 🔥 DEBUG
 
       const result = await book(payload);
 
@@ -210,11 +226,14 @@ export default function AppointmentForm() {
       }
 
       setSuccessData(payload);
+    } catch (err) {
+      console.error(err);
+      notifyError(err.message || "Booking failed");
     } finally {
       setLoading(false);
       submittingRef.current = false;
     }
-  };
+  };;
 
   /* ================= AUTO REDIRECT ================= */
   useEffect(() => {
