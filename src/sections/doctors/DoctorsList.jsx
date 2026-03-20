@@ -36,12 +36,12 @@ export default function DoctorsList({
             <div
               key={i}
               className="
-           animate-pulse
-           bg-[var(--card)]
-           rounded-xl
-           border border-[var(--border)]
-           overflow-hidden
-           "
+                animate-pulse
+                bg-[var(--card)]
+                rounded-xl
+                border border-[var(--border)]
+                overflow-hidden
+              "
             >
               {" "}
               <div className="aspect-square bg-[var(--surface)]" />
@@ -85,16 +85,16 @@ export default function DoctorsList({
   /* MAIN UI */
   return (
     <Container className="py-12">
-      {/* GRID */}
+      {/* --- GRID ----------- */}
       <div
         className="
-  grid
-  grid-cols-1
-  sm:grid-cols-2
-  lg:grid-cols-3
-  xl:grid-cols-4
-  gap-6
-  "
+          grid
+          grid-cols-1
+          sm:grid-cols-2
+          lg:grid-cols-3
+          xl:grid-cols-4
+          gap-6
+        "
       >
         {paginatedDoctors.map((doctor) => (
           <Link
@@ -105,22 +105,22 @@ export default function DoctorsList({
             <Card
               hover
               className="
-          h-full flex flex-col overflow-hidden
-          bg-[var(--card)]
-          border border-[var(--border)]
-          transition-all duration-500
-          hover:-translate-y-2
-          hover:border-[var(--color-primary)]/40
-          hover:shadow-[0_0_40px_var(--glow-soft)]
-          "
+                h-full flex flex-col overflow-hidden
+                bg-[var(--card)]
+                border border-[var(--border)]
+                transition-all duration-500
+                hover:-translate-y-2
+                hover:border-[var(--color-primary)]/40
+                hover:shadow-[0_0_40px_var(--glow-soft)]
+              "
             >
-              {/* IMAGE */}
+              {/* --- IMAGE ----------- */}
               <div
                 className="
-          aspect-square
-          bg-[var(--surface)]
-          flex items-center justify-center
-          "
+                  aspect-square
+                  bg-[var(--surface)]
+                  flex items-center justify-center
+                "
               >
                 {doctor.imageUrl ? (
                   <img
@@ -133,38 +133,38 @@ export default function DoctorsList({
                 )}
               </div>
 
-              {/* CONTENT */}
+              {/* --- CONTENT ----------- */}
               <div className="p-5 flex flex-col grow">
                 <h3
                   className="
-              text-lg
-              font-bold
-              line-clamp-2
-              text-[var(--text)]
-              transition
-              group-hover:text-[var(--color-primary)]
-              "
+                    text-lg
+                    font-bold
+                    line-clamp-2
+                    text-[var(--text)]
+                    transition
+                    group-hover:text-[var(--color-primary)]
+                  "
                 >
                   {doctor.name}
                 </h3>
 
                 <p
                   className="
-            text-[var(--color-primary)]
-            font-medium
-            mt-1
-            "
+                    text-[var(--color-primary)]
+                    font-medium
+                    mt-1
+                  "
                 >
                   {doctor.specialty}
                 </p>
 
                 <div
                   className="
-            flex items-center gap-3
-            text-sm
-            text-[var(--text-secondary)]
-            mt-2
-            "
+                    flex items-center gap-3
+                    text-sm
+                    text-[var(--text-secondary)]
+                    mt-2
+                  "
                 >
                   <span>{doctor.experience}</span>
 
@@ -176,12 +176,12 @@ export default function DoctorsList({
 
                 <p
                   className="
-            text-sm
-            text-[var(--text-secondary)]
-            mt-3
-            line-clamp-2
-            grow
-            "
+                    text-sm
+                    text-[var(--text-secondary)]
+                    mt-3
+                    line-clamp-2
+                    grow
+                  "
                 >
                   {doctor.bio || "Experienced specialist."}
                 </p>
@@ -189,11 +189,11 @@ export default function DoctorsList({
                 <Button
                   variant="outline"
                   className="
-              mt-5 w-full
-              group-hover:bg-[var(--color-primary)]
-              group-hover:text-white
-              transition
-              "
+                    mt-5 w-full
+                    group-hover:bg-[var(--color-primary)]
+                    group-hover:text-white
+                    transition
+                  "
                 >
                   View Profile & Book
                 </Button>
@@ -203,17 +203,17 @@ export default function DoctorsList({
         ))}
       </div>
 
-      {/* PAGINATION */}
+      {/* --- PAGINATION ----------- */}
       {totalPages > 1 && (
         <div
           className="
-    flex flex-wrap
-    justify-center
-    items-center
-    gap-4
-    mt-12
-    text-[var(--text-secondary)]
-    "
+            flex flex-wrap
+            justify-center
+            items-center
+            gap-4
+            mt-12
+            text-[var(--text-secondary)]
+          "
         >
           <Button
             variant="outline"
