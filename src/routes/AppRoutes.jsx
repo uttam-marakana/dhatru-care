@@ -12,7 +12,7 @@ import AdminRoute from "./AdminRoute";
 
 import { publicRoutes } from "./autoRoutes";
 
-/* ---------------- PUBLIC DYNAMIC ROUTES ---------------- */
+/* --- PUBLIC DYNAMIC ROUTES ----------- */
 
 const DepartmentDetail = lazy(() => import("../pages/public/DepartmentDetail"));
 const DoctorDetail = lazy(() => import("../pages/public/DoctorDetail"));
@@ -20,12 +20,12 @@ const BlogDetail = lazy(() => import("../pages/public/BlogDetail"));
 const Appointments = lazy(() => import("../pages/public/Appointments"));
 const PackageDetails = lazy(() => import("../pages/public/PackageDetails"));
 
-/* ---------------- AUTH ---------------- */
+/* --- AUTH ----------- */
 
 const Login = lazy(() => import("../auth/Login"));
 const Signup = lazy(() => import("../auth/Signup"));
 
-/* ---------------- PROTECTED USER ---------------- */
+/* --- PROTECTED USER ----------- */
 
 const Profile = lazy(() => import("../pages/protected/Profile"));
 const Settings = lazy(() => import("../pages/protected/Settings"));
@@ -33,7 +33,7 @@ const UserAppointments = lazy(
   () => import("../pages/protected/UserAppointments"),
 );
 
-/* ---------------- ADMIN ---------------- */
+/* --- ADMIN ----------- */
 
 const AdminDashboard = lazy(() => import("../admin/pages/AdminDashboard"));
 const ManageDoctors = lazy(() => import("../admin/pages/ManageDoctors"));
@@ -49,14 +49,14 @@ const ManagePackages = lazy(() => import("../admin/pages/ManagePackages"));
 const DataUpload = lazy(() => import("../admin/pages/DataUpload"));
 const BulkUpload = lazy(() => import("../admin/pages/BulkUpload"));
 
-/* ---------------- 404 ---------------- */
+/* --- 404 ----------- */
 
 const NotFound = lazy(() => import("../pages/public/NotFound"));
 
 export default function AppRoutes() {
   return (
     <Routes>
-      {/* ---------------- PUBLIC ROUTES ---------------- */}
+      {/* --- --- PUBLIC ROUTES ----------- ----------- */}
 
       <Route element={<PublicLayout />}>
         {publicRoutes.map(({ path, element: Component }) => (
@@ -71,7 +71,7 @@ export default function AppRoutes() {
           />
         ))}
 
-        {/* APPOINTMENT PAGE */}
+        {/* --- APPOINTMENT PAGE ----------- */}
 
         <Route
           path="/appointment"
@@ -91,7 +91,7 @@ export default function AppRoutes() {
           }
         />
 
-        {/* DYNAMIC ROUTES */}
+        {/* --- DYNAMIC ROUTES ----------- */}
 
         <Route
           path="/departments/:slug"
@@ -121,7 +121,7 @@ export default function AppRoutes() {
         />
       </Route>
 
-      {/* ---------------- AUTH ROUTES ---------------- */}
+      {/* --- --- AUTH ROUTES ----------- ----------- */}
 
       <Route element={<AuthLayout />}>
         <Route
@@ -143,7 +143,7 @@ export default function AppRoutes() {
         />
       </Route>
 
-      {/* ---------------- USER PROTECTED ROUTES ---------------- */}
+      {/* --- --- USER PROTECTED ROUTES ----------- ----------- */}
 
       <Route
         element={
@@ -180,7 +180,7 @@ export default function AppRoutes() {
         />
       </Route>
 
-      {/* ---------------- ADMIN ROUTES ---------------- */}
+      {/* --- --- ADMIN ROUTES ----------- ----------- */}
 
       <Route
         path="/admin"
@@ -272,7 +272,7 @@ export default function AppRoutes() {
         />
       </Route>
 
-      {/* ---------------- 404 ---------------- */}
+      {/* --- --- 404 ----------- ----------- */}
 
       <Route
         path="*"

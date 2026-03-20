@@ -1,14 +1,10 @@
 import { lazy } from "react";
 
-/*
-Auto import public pages
-*/
+/* --- Auto import public pages ----------- */
 
 const publicPages = import.meta.glob("../pages/public/**/*.jsx");
 
-/*
-Convert file path → route path
-*/
+/* --- Convert file path → route path ----------- */
 
 function getRoutePath(file) {
   let path = file
@@ -25,9 +21,7 @@ function getRoutePath(file) {
   return path || "/";
 }
 
-/*
-Exclude dynamic routes handled manually
-*/
+/* --- Exclude dynamic routes handled manually ----------- */
 
 const excludedRoutes = [
   "/blogdetail",
@@ -36,9 +30,7 @@ const excludedRoutes = [
   "/notfound",
 ];
 
-/*
-Generate routes
-*/
+/* --- Generate routes ----------- */
 
 export const publicRoutes = Object.entries(publicPages)
   .map(([file, importer]) => {
