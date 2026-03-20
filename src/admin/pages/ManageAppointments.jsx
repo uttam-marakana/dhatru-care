@@ -172,18 +172,35 @@ export default function ManageAppointments() {
           className="ui-input"
         />
 
-        <select
-          value={statusFilter}
-          onChange={(e) => setStatusFilter(e.target.value)}
-          className="ui-select"
-        >
-          <option value="all">All Status</option>
-          <option value="pending">Pending</option>
-          <option value="confirmed">Confirmed</option>
-          <option value="completed">Completed</option>
-          <option value="cancelled">Cancelled</option>
-          <option value="rejected">Rejected</option>
-        </select>
+        <div className="relative">
+          <select
+            value={statusFilter}
+            onChange={(e) => setStatusFilter(e.target.value)}
+            className="
+              w-full
+              px-4 py-2
+              rounded-lg
+              border
+              bg-[var(--card)]
+              text-[var(--text)]
+              appearance-none
+              focus:outline-none
+              focus:ring-2
+              focus:ring-blue-500
+            "
+          >
+            <option value="all">All Status</option>
+            <option value="pending">Pending</option>
+            <option value="confirmed">Confirmed</option>
+            <option value="completed">Completed</option>
+            <option value="cancelled">Cancelled</option>
+            <option value="rejected">Rejected</option>
+          </select>
+
+          <span className="absolute right-3 top-2.5 text-gray-400 pointer-events-none">
+            ▼
+          </span>
+        </div>
 
         <select
           value={dateFilter}
