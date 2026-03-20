@@ -20,7 +20,7 @@ export default function BlogForm({ initialData, onSaved, onClose }) {
   const [form, setForm] = useState(initialState);
   const [loading, setLoading] = useState(false);
 
-  /* LOAD DATA FOR EDIT */
+  /* --- LOAD DATA FOR EDIT ----------- */
 
   useEffect(() => {
     if (initialData) {
@@ -33,12 +33,12 @@ export default function BlogForm({ initialData, onSaved, onClose }) {
     }
   }, [initialData]);
 
-  /* INPUT HANDLER */
+  /* --- INPUT HANDLER ----------- */
 
   const handleChange = (e) =>
     setForm({ ...form, [e.target.name]: e.target.value });
 
-  /* HELPERS */
+  /* --- HELPERS ----------- */
 
   const toArray = (v) =>
     v
@@ -48,7 +48,7 @@ export default function BlogForm({ initialData, onSaved, onClose }) {
           .filter(Boolean)
       : [];
 
-  /* SUBMIT */
+  /* --- SUBMIT ----------- */
 
   const submit = async (e) => {
     e.preventDefault();

@@ -88,7 +88,7 @@ export default function DoctorScheduleForm({ doctor }) {
 
   return (
     <FormCard title="Doctor Schedule">
-      {/* WORKING DAYS */}
+      {/* --- WORKING DAYS ----------- */}
 
       <div className="md:col-span-2">
         <label className="block mb-2 font-medium">Working Days</label>
@@ -118,7 +118,7 @@ export default function DoctorScheduleForm({ doctor }) {
         </div>
       </div>
 
-      {/* START HOUR */}
+      {/* --- START HOUR ----------- */}
 
       <div>
         <label className="text-sm block mb-1">Start Hour</label>
@@ -134,7 +134,7 @@ export default function DoctorScheduleForm({ doctor }) {
         />
       </div>
 
-      {/* END HOUR */}
+      {/* --- END HOUR ----------- */}
 
       <div>
         <label className="text-sm block mb-1">End Hour</label>
@@ -150,7 +150,7 @@ export default function DoctorScheduleForm({ doctor }) {
         />
       </div>
 
-      {/* SLOT DURATION */}
+      {/* --- SLOT DURATION ----------- */}
 
       <div>
         <label className="text-sm block mb-1">Slot Duration (minutes)</label>
@@ -166,7 +166,7 @@ export default function DoctorScheduleForm({ doctor }) {
         />
       </div>
 
-      {/* LEAVE DATES */}
+      {/* --- LEAVE DATES ----------- */}
 
       <div>
         <label className="text-sm block mb-1">Leave Dates</label>
@@ -180,7 +180,7 @@ export default function DoctorScheduleForm({ doctor }) {
         />
       </div>
 
-      {/* SAVE BUTTON */}
+      {/* --- SAVE BUTTON ----------- */}
 
       <div className="md:col-span-2">
         <button
