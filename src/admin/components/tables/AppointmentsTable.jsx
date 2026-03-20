@@ -1,3 +1,9 @@
+import {
+  STATUS_TRANSITIONS,
+  isFinalStatus,
+  getStatusLabel,
+} from "../../utils/appointmentStatus";
+
 export default function AppointmentsTable({ appointments, onStatusChange }) {
   return (
     <div className="glass overflow-x-auto">
@@ -13,35 +19,45 @@ export default function AppointmentsTable({ appointments, onStatusChange }) {
         </thead>
 
         <tbody>
-          {appointments.map((a) => (
-            <tr
-              key={a.id}
-              className="border-b border-[var(--border)] hover:bg-[var(--card)]"
-            >
-              <td className="p-4 font-medium">{a.patientName}</td>
+          {appointments.map((a) => {
+            const currentStatus = (a.status || "").toLowerCase().trim();
+            const isLocked = isFinalStatus(currentStatus);
 
-              <td className="p-4">{a.doctorName}</td>
+            const allowedNext = STATUS_TRANSITIONS[currentStatus] || [];
 
-              <td className="p-4">{a.date}</td>
+            return (
+              <tr
+                key={a.id}
+                className="border-b border-[var(--border)] hover:bg-[var(--card)]"
+              >
+                <td className="p-4 font-medium">{a.patientName}</td>
+                <td className="p-4">{a.doctorName}</td>
+                <td className="p-4">{a.date}</td>
+                <td className="p-4">{a.time}</td>
 
-              <td className="p-4">{a.time}</td>
+                <td className="p-4">
+                  <select
+                    value={currentStatus}
+                    disabled={isLocked}
+                    onChange={(e) => onStatusChange(a.id, e.target.value)}
+                    className="p-2 rounded border border-[var(--border)] bg-[var(--card)] disabled:opacity-60 disabled:cursor-not-allowed"
+                  >
+                    {/* current */}
+                    <option value={currentStatus}>
+                      {getStatusLabel(currentStatus)}
+                    </option>
 
-              <td className="p-4">
-                <select
-                  value={a.status}
-                  disabled={isLocked}
-                  onChange={(e) => onStatusChange(a.id, e.target.value)}
-                  className="p-2 rounded border border-[var(--border)] bg-[var(--card)] disabled:opacity-60 disabled:cursor-not-allowed"
-                >
-                  <option value="pending">Pending</option>
-                  <option value="confirmed">Confirm</option>
-                  <option value="completed">Completed</option>
-                  <option value="rejected">Rejected</option>
-                  <option value="cancelled">Cancelled</option>
-                </select>
-              </td>
-            </tr>
-          ))}
+                    {/* allowed transitions */}
+                    {allowedNext.map((s) => (
+                      <option key={s} value={s}>
+                        {getStatusLabel(s)}
+                      </option>
+                    ))}
+                  </select>
+                </td>
+              </tr>
+            );
+          })}
         </tbody>
       </table>
     </div>
