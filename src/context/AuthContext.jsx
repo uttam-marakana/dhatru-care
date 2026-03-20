@@ -22,6 +22,7 @@ export function AuthProvider({ children }) {
           setUser(null);
           setRole(null);
           setName(null);
+          setTenantId(null);
           setLoading(false);
           return;
         }
@@ -32,24 +33,29 @@ export function AuthProvider({ children }) {
         const snap = await getDoc(userRef);
 
         let userRole = "user";
+        let tenant = "default"; // ✅ fallback
 
         if (snap.exists()) {
           const data = snap.data();
+
           userRole = data.role ?? "user";
+          tenant = data.tenantId ?? "default";
 
           setName(data.name ?? "User");
-          setTenantId(data.tenantId || "default");
+        } else {
+          console.warn("User doc missing → using default tenant");
         }
 
         setRole(userRole);
+        setTenantId(tenant);
 
-        /* DEBUG LOGS */
-
-        console.log("Auth State:", firebaseUser.email);
+        console.log("Auth:", firebaseUser.email);
         console.log("Role:", userRole);
+        console.log("Tenant:", tenant); // ✅ IMPORTANT
       } catch (error) {
-        console.error("Auth role fetch error:", error);
+        console.error("Auth error:", error);
         setRole("user");
+        setTenantId("default");
       } finally {
         setLoading(false);
       }
@@ -67,7 +73,9 @@ export function AuthProvider({ children }) {
   };
 
   return (
-    <AuthContext.Provider value={{ user, role, name, tenantId, loading, logout }}>
+    <AuthContext.Provider
+      value={{ user, role, name, tenantId, loading, logout }}
+    >
       {children}
     </AuthContext.Provider>
   );
