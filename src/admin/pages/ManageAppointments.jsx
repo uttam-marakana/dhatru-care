@@ -77,12 +77,14 @@ export default function ManageAppointments() {
     let total = 0;
     let today = 0;
 
-    filteredAppointments.forEach((a) => {
-      const amount = a.totalAmount || 0;
+    filteredAppointments
+      .filter((a) => a.status === "confirmed" || a.status === "completed")
+      .forEach((a) => {
+        const amount = a.totalAmount || 0;
 
-      total += amount;
-      if (a.date === todayString) today += amount;
-    });
+        total += amount;
+        if (a.date === todayString) today += amount;
+      });
 
     return { total, today };
   }, [filteredAppointments, todayString]);
