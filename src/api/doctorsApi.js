@@ -6,27 +6,27 @@ import {
   removeDoctor,
 } from "../services/doctorService";
 
-/* ------ GENERAL DOCTOR FETCH ---------------------- */
+/* --- GENERAL DOCTOR FETCH ----------- */
 
 export const getDoctors = (filters) => fetchDoctors(filters);
 
-/* ------ FETCH DOCTORS BY DEPARTMENT ---------------------- */
+/* --- FETCH DOCTORS BY DEPARTMENT ----------- */
 
 export const getDoctorsByDepartment = (departmentId) =>
   fetchDoctors({ department: departmentId });
 
-/* ------ FETCH SINGLE DOCTOR ---------------------- */
+/* --- FETCH SINGLE Doctor ----------- */
 
 export const getDoctorById = (id) => fetchDoctorById(id);
 
-/* ------ CREATE ---------------------- */
+/* --- CREATE ----------- */
 
 export const createDoctor = (data) => insertDoctor(data);
 
-/* ------ UPDATE ---------------------- */
+/* --- UPDATE ----------- */
 
 export const updateDoctor = (id, data) => modifyDoctor(id, data);
 
-/* ------ DELETE ---------------------- */
+/* --- DELETE ----------- */
 
 export const deleteDoctor = (id) => removeDoctor(id);
