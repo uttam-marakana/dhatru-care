@@ -5,7 +5,11 @@ import {
   getStatusStyle,
 } from "../../../utils/appointmentStatus";
 
-export default function AppointmentsTable({ appointments, onStatusChange, loadingId }) {
+export default function AppointmentsTable({
+  appointments,
+  onStatusChange,
+  loadingId,
+}) {
   return (
     <div className="glass overflow-x-auto">
       <table className="min-w-full text-sm">
@@ -23,7 +27,6 @@ export default function AppointmentsTable({ appointments, onStatusChange, loadin
           {appointments.map((a) => {
             let currentStatus = (a.status || "pending").toLowerCase().trim();
 
-            /* 🔥 MIGRATION */
             if (currentStatus === "requested") {
               currentStatus = "pending";
             }
@@ -43,7 +46,6 @@ export default function AppointmentsTable({ appointments, onStatusChange, loadin
 
                 <td className="p-4">
                   <div className="flex items-center gap-2">
-                    {/* STATUS BADGE */}
                     <span
                       className={`px-2 py-1 rounded text-xs ${getStatusStyle(
                         currentStatus,
@@ -52,12 +54,11 @@ export default function AppointmentsTable({ appointments, onStatusChange, loadin
                       {getStatusLabel(currentStatus)}
                     </span>
 
-                    {/* SELECT */}
                     <select
                       value={currentStatus}
-                      disabled={isLocked || loadingId === a.id}
                       onChange={(e) => onStatusChange(a.id, e.target.value)}
-                      className="p-2 rounded border border-[var(--border)] bg-[var(--card)] disabled:opacity-60 disabled:cursor-not-allowed"
+                      disabled={loadingId === a.id || isLocked}
+                      className="px-2 py-1 border rounded-md bg-white text-sm focus:ring-2 focus:ring-blue-500"
                     >
                       <option value={currentStatus}>
                         {getStatusLabel(currentStatus)}
@@ -74,7 +75,6 @@ export default function AppointmentsTable({ appointments, onStatusChange, loadin
                       ))}
                     </select>
 
-                    {/* HISTORY */}
                     {a.statusHistory?.length > 0 && (
                       <span className="text-xs text-gray-400">
                         {a.statusHistory.length}
