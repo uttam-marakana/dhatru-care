@@ -2,7 +2,7 @@ import {
   STATUS_TRANSITIONS,
   isFinalStatus,
   getStatusLabel,
-} from "../../utils/appointmentStatus";
+} from "../../../utils/appointmentStatus";
 
 export default function AppointmentsTable({ appointments, onStatusChange }) {
   return (
@@ -21,8 +21,8 @@ export default function AppointmentsTable({ appointments, onStatusChange }) {
         <tbody>
           {appointments.map((a) => {
             const currentStatus = (a.status || "").toLowerCase().trim();
-            const isLocked = isFinalStatus(currentStatus);
 
+            const isLocked = isFinalStatus(currentStatus);
             const allowedNext = STATUS_TRANSITIONS[currentStatus] || [];
 
             return (
@@ -36,24 +36,33 @@ export default function AppointmentsTable({ appointments, onStatusChange }) {
                 <td className="p-4">{a.time}</td>
 
                 <td className="p-4">
-                  <select
-                    value={currentStatus}
-                    disabled={isLocked}
-                    onChange={(e) => onStatusChange(a.id, e.target.value)}
-                    className="p-2 rounded border border-[var(--border)] bg-[var(--card)] disabled:opacity-60 disabled:cursor-not-allowed"
-                  >
-                    {/* current */}
-                    <option value={currentStatus}>
-                      {getStatusLabel(currentStatus)}
-                    </option>
-
-                    {/* allowed transitions */}
-                    {allowedNext.map((s) => (
-                      <option key={s} value={s}>
-                        {getStatusLabel(s)}
+                  <div className="flex items-center gap-2">
+                    <select
+                      value={currentStatus}
+                      disabled={isLocked}
+                      onChange={(e) => onStatusChange(a.id, e.target.value)}
+                      className="p-2 rounded border border-[var(--border)] bg-[var(--card)] disabled:opacity-60 disabled:cursor-not-allowed"
+                    >
+                      {/* current */}
+                      <option value={currentStatus}>
+                        {getStatusLabel(currentStatus)}
                       </option>
-                    ))}
-                  </select>
+
+                      {/* allowed transitions */}
+                      {allowedNext.map((s) => (
+                        <option key={s} value={s}>
+                          {getStatusLabel(s)}
+                        </option>
+                      ))}
+                    </select>
+
+                    {/* 🔥 future-safe: show history count */}
+                    {a.statusHistory?.length > 0 && (
+                      <span className="text-xs text-gray-400">
+                        {a.statusHistory.length}
+                      </span>
+                    )}
+                  </div>
                 </td>
               </tr>
             );
