@@ -42,21 +42,21 @@ export default function RescheduleModal({
   return (
     <div
       className="
-      fixed inset-0
-      bg-black/50
-      flex items-center justify-center
-      z-50
-      px-4
+        fixed inset-0
+        bg-black/50
+        flex items-center justify-center
+        z-50
+        px-4
       "
     >
       <div
         className="
-        w-full max-w-md
-        bg-white dark:bg-gray-900
-        border border-gray-200 dark:border-white/10
-        rounded-xl
-        p-6
-        shadow-lg
+          w-full max-w-md
+          bg-white dark:bg-gray-900
+          border border-gray-200 dark:border-white/10
+          rounded-xl
+          p-6
+          shadow-lg
         "
       >
         <h3 className="text-lg font-semibold mb-4">Reschedule Appointment</h3>
@@ -67,10 +67,10 @@ export default function RescheduleModal({
             value={date}
             onChange={(e) => setDate(e.target.value)}
             className="
-            w-full p-3 rounded-lg
-            border border-gray-300
-            dark:border-white/10
-            bg-white dark:bg-gray-800
+              w-full p-3 rounded-lg
+              border border-gray-300
+              dark:border-white/10
+              bg-white dark:bg-gray-800
             "
           />
 
@@ -79,10 +79,10 @@ export default function RescheduleModal({
             value={time}
             onChange={(e) => setTime(e.target.value)}
             className="
-            w-full p-3 rounded-lg
-            border border-gray-300
-            dark:border-white/10
-            bg-white dark:bg-gray-800
+              w-full p-3 rounded-lg
+              border border-gray-300
+              dark:border-white/10
+              bg-white dark:bg-gray-800
             "
           />
         </div>
@@ -91,9 +91,9 @@ export default function RescheduleModal({
           <button
             onClick={onClose}
             className="
-            px-4 py-2 rounded-lg
-            border border-gray-300
-            hover:bg-gray-100
+              px-4 py-2 rounded-lg
+              border border-gray-300
+              hover:bg-gray-100
             "
           >
             Cancel
@@ -103,9 +103,9 @@ export default function RescheduleModal({
             onClick={submit}
             disabled={loading}
             className="
-            px-4 py-2 rounded-lg
-            bg-blue-500 hover:bg-blue-600
-            text-white
+              px-4 py-2 rounded-lg
+              bg-blue-500 hover:bg-blue-600
+              text-white
             "
           >
             {loading ? "Updating..." : "Confirm"}
