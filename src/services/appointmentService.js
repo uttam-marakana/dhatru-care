@@ -114,22 +114,14 @@ export const updateAppointmentStatusService = async (
   }
 };
 
-/* ✅ CANCEL (FIXED + TRANSACTION SAFE) */
+/* ✅ CANCEL */
 export const cancelAppointmentService = async (id, slotId) => {
-  if (!id) throw new Error("Appointment ID required");
-
-  return runTransaction(db, async (transaction) => {
-    return cancelAppointmentEngine(transaction, id, slotId);
-  });
+  return cancelAppointmentEngine(id, slotId);
 };
 
-/* ✅ RESCHEDULE (FIXED + TRANSACTION SAFE) */
+/* ✅ RESCHEDULE */
 export const rescheduleAppointmentService = async (appt, date, time) => {
-  if (!appt) throw new Error("Appointment required");
-
-  return runTransaction(db, async (transaction) => {
-    return rescheduleAppointmentEngine(transaction, appt, date, time);
-  });
+  return rescheduleAppointmentEngine(appt, date, time);
 };
 
 /* 🔥 ADMIN (FIXED) */
@@ -139,21 +131,22 @@ export const subscribeAppointmentsService = (tenantId, callback) => {
     return () => {};
   }
 
-  const q = query(
-    appointmentsRef,
-    where("tenantId", "==", tenantId),
-    orderBy("createdAt", "desc"),
-  );
+  const q = query(appointmentsRef, orderBy("createdAt", "desc"));
 
   return onSnapshot(
     q,
     (snap) => {
-      callback(
-        snap.docs.map((d) => ({
-          id: d.id,
-          ...d.data(),
-        })),
+      const data = snap.docs.map((d) => ({
+        id: d.id,
+        ...d.data(),
+      }));
+
+      // 🔥 FILTER HERE (supports old + new data)
+      const filtered = data.filter(
+        (a) => !a.tenantId || a.tenantId === tenantId,
       );
+
+      callback(filtered);
     },
     (err) => {
       console.error("Appointments listener error:", err);
