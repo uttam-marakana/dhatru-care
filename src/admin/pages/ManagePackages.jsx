@@ -39,7 +39,7 @@ export default function ManagePackages() {
     }
   };
 
-  /* PAGINATION */
+  /* --- PAGINATION ----------- */
 
   const totalPages = Math.ceil(packages.length / PAGE_SIZE);
 
@@ -66,7 +66,7 @@ export default function ManagePackages() {
         }
       />
 
-      {/* TABLE */}
+      {/* --- TABLE ----------- */}
 
       <AdminTable
         data={paginatedPackages}
@@ -103,7 +103,7 @@ export default function ManagePackages() {
         )}
       />
 
-      {/* PAGINATION */}
+      {/* --- PAGINATION ----------- */}
 
       {packages.length > PAGE_SIZE && (
         <div className="flex justify-end gap-4">
@@ -129,7 +129,7 @@ export default function ManagePackages() {
         </div>
       )}
 
-      {/* FORM MODAL */}
+      {/* --- FORM MODAL ----------- */}
 
       {modal && (
         <PackageFormModal
@@ -140,7 +140,7 @@ export default function ManagePackages() {
         />
       )}
 
-      {/* DELETE MODAL */}
+      {/* --- DELETE MODAL ----------- */}
 
       <ConfirmDeleteModal
         open={!!deleteItem}

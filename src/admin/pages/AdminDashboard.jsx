@@ -29,7 +29,7 @@ export default function AdminDashboard() {
 
   const { tenantId } = useAuth();
 
-  /* ================= LOAD STATIC DATA ================= */
+  /* --- LOAD STATIC DATA ----------- */
 
   useEffect(() => {
     const load = async () => {
@@ -47,7 +47,7 @@ export default function AdminDashboard() {
     load();
   }, []);
 
-  /* ================= APPOINTMENTS ================= */
+  /* --- APPOINTMENTS ----------- */
 
   useEffect(() => {
     if (!tenantId) {
@@ -65,7 +65,7 @@ export default function AdminDashboard() {
     return () => unsub();
   }, [tenantId]);
 
-  /* ================= NORMALIZED STATS ================= */
+  /* --- NORMALIZED STATS ----------- */
 
   const stats = useMemo(() => {
     const normalize = (s) => (s || "pending").toLowerCase().trim();
@@ -84,7 +84,7 @@ export default function AdminDashboard() {
     };
   }, [appointments]);
 
-  /* ================= UI ================= */
+  /* --- UI ----------- */
 
   return (
     <div className="space-y-8">
@@ -93,7 +93,7 @@ export default function AdminDashboard() {
         description="Overview of hospital system metrics"
       />
 
-      {/* MAIN METRICS */}
+      {/* --- MAIN METRICS ----------- */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         <DashboardCard
           title="Doctors"
@@ -124,7 +124,7 @@ export default function AdminDashboard() {
         />
       </div>
 
-      {/* STATUS METRICS */}
+      {/* --- STATUS METRICS ----------- */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6">
         <DashboardCard
           title="Pending"

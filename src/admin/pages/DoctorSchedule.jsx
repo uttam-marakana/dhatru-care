@@ -25,7 +25,7 @@ export default function DoctorSchedule() {
         description="Manage doctor availability and appointment slots"
       />
 
-      {/* SELECT DOCTOR */}
+      {/* --- SELECT DOCTOR ----------- */}
 
       <div className="glass p-6 max-w-lg">
         <label className="block mb-2 font-medium">Select Doctor</label>
@@ -36,9 +36,9 @@ export default function DoctorSchedule() {
             setSelectedDoctor(doctors.find((d) => d.id === e.target.value))
           }
           className="
-          w-full p-3 rounded-lg
-          border border-[var(--border)]
-          bg-[var(--card)]
+            w-full p-3 rounded-lg
+            border border-[var(--border)]
+            bg-[var(--card)]
           "
         >
           <option value="">Choose doctor</option>
@@ -51,7 +51,7 @@ export default function DoctorSchedule() {
         </select>
       </div>
 
-      {/* SCHEDULE FORM */}
+      {/* --- SCHEDULE FORM ----------- */}
 
       {selectedDoctor && <DoctorScheduleForm doctor={selectedDoctor} />}
     </div>

@@ -88,7 +88,7 @@ export default function ManageDepartments() {
         )}
       />
 
-      {/* FORM MODAL */}
+      {/* --- FORM MODAL ----------- */}
 
       {modal && (
         <DepartmentFormModal
@@ -99,7 +99,7 @@ export default function ManageDepartments() {
         />
       )}
 
-      {/* DELETE MODAL */}
+      {/* --- DELETE MODAL ----------- */}
 
       <ConfirmDeleteModal
         open={!!deleteItem}

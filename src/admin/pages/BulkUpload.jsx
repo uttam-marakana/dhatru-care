@@ -12,11 +12,11 @@ export default function BulkUpload() {
       <button
         onClick={runBulkUpload}
         className="
-        px-6 py-3
-        bg-[var(--color-primary)]
-        text-white
-        rounded-lg
-        hover:opacity-90
+          px-6 py-3
+          bg-[var(--color-primary)]
+          text-white
+          rounded-lg
+          hover:opacity-90
         "
       >
         Upload JSON Data

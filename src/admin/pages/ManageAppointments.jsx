@@ -26,7 +26,7 @@ export default function ManageAppointments() {
   const [page, setPage] = useState(1);
   const [loadingId, setLoadingId] = useState(null);
 
-  /* 🔥 TENANT SAFE SUBSCRIPTION */
+  /* --- TENANT SAFE SUBSCRIPTION ----------- */
   useEffect(() => {
     if (!tenantId) return;
 
@@ -34,7 +34,7 @@ export default function ManageAppointments() {
     return () => unsub();
   }, [tenantId]);
 
-  /* ================= DATE HELPERS ================= */
+  /* --- DATE HELPERS ----------- */
 
   const now = new Date();
   const todayString = now.toISOString().split("T")[0];
@@ -46,7 +46,7 @@ export default function ManageAppointments() {
 
   const toDate = (a) => new Date(`${a.date}T${a.time}`);
 
-  /* ================= FILTER ================= */
+  /* --- FILTER ----------- */
 
   const filteredAppointments = useMemo(() => {
     let data = [...appointments];
@@ -83,7 +83,7 @@ export default function ManageAppointments() {
     return data;
   }, [appointments, search, statusFilter, dateFilter]);
 
-  /* ================= REVENUE ================= */
+  /* --- REVENUE ----------- */
 
   const revenueStats = useMemo(() => {
     let total = 0;
@@ -103,7 +103,7 @@ export default function ManageAppointments() {
     return { total, today };
   }, [filteredAppointments, todayString]);
 
-  /* ================= PAGINATION ================= */
+  /* --- PAGINATION ----------- */
 
   useEffect(() => setPage(1), [search, statusFilter, dateFilter]);
 
@@ -114,7 +114,7 @@ export default function ManageAppointments() {
     return filteredAppointments.slice(start, start + PAGE_SIZE);
   }, [filteredAppointments, page]);
 
-  /* ================= STATUS UPDATE ================= */
+  /* --- STATUS UPDATE ----------- */
 
   const handleStatusChange = async (id, status) => {
     try {
@@ -148,7 +148,7 @@ export default function ManageAppointments() {
         description="Manage hospital appointments"
       />
 
-      {/* ================= REVENUE ================= */}
+      {/* --- REVENUE ----------- */}
       <div className="grid md:grid-cols-2 gap-4">
         <div className="p-4 rounded-xl bg-[var(--card)] border">
           <p className="text-sm text-[var(--muted)]">Total Revenue</p>
@@ -161,7 +161,7 @@ export default function ManageAppointments() {
         </div>
       </div>
 
-      {/* ================= FILTERS ================= */}
+      {/* --- FILTERS ----------- */}
 
       <div className="grid md:grid-cols-3 gap-4">
         <input
@@ -214,7 +214,7 @@ export default function ManageAppointments() {
         </select>
       </div>
 
-      {/* ================= TABLE ================= */}
+      {/* --- TABLE ----------- */}
 
       <AppointmentsTable
         appointments={paginatedAppointments}
@@ -222,7 +222,7 @@ export default function ManageAppointments() {
         loadingId={loadingId}
       />
 
-      {/* ================= PAGINATION ================= */}
+      {/* --- PAGINATION ----------- */}
 
       {filteredAppointments.length > PAGE_SIZE && (
         <div className="flex justify-center gap-4 mt-6">
