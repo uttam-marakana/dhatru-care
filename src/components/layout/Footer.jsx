@@ -45,29 +45,29 @@ export default function Footer() {
   return (
     <footer
       className="
-      relative
-      bg-[var(--bg)]
-      text-[var(--text-secondary)]
-      border-t border-[var(--border)]
-      overflow-hidden
+        relative
+        bg-[var(--bg)]
+        text-[var(--text-secondary)]
+        border-t border-[var(--border)]
+        overflow-hidden
       "
     >
-      {/* Glow Aura */}
+      {/* --- Glow Aura ----------- */}
       <div className="absolute -top-40 left-1/2 -translate-x-1/2 w-[700px] h-[700px] bg-[var(--glow-bg)] blur-[140px] rounded-full"></div>
 
       <Container className="py-20 relative z-10">
         <div
           className="
-          backdrop-blur-xl
-          bg-[var(--surface)]/70
-          border border-[var(--border)]
-          rounded-3xl
-          p-10
-          shadow-[0_0_60px_var(--glow-bg)]
+            backdrop-blur-xl
+            bg-[var(--surface)]/70
+            border border-[var(--border)]
+            rounded-3xl
+            p-10
+            shadow-[0_0_60px_var(--glow-bg)]
           "
         >
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
-            {/* Brand */}
+            {/* --- Brand ----------- */}
             <div className="space-y-6">
               <PrefetchLink to="/" aria-label="Dhatru Care">
                 <img
@@ -93,13 +93,13 @@ export default function Footer() {
                     key={i}
                     href="#"
                     className="
-                    w-9 h-9 flex items-center justify-center
-                    rounded-full
-                    border border-[var(--border)]
-                    hover:border-[var(--color-primary)]/40
-                    hover:text-[var(--color-primary)]
-                    hover:shadow-[0_0_20px_var(--glow-soft)]
-                    transition
+                      w-9 h-9 flex items-center justify-center
+                      rounded-full
+                      border border-[var(--border)]
+                      hover:border-[var(--color-primary)]/40
+                      hover:text-[var(--color-primary)]
+                      hover:shadow-[0_0_20px_var(--glow-soft)]
+                      transition
                     "
                   >
                     <Icon size={14} />
@@ -108,7 +108,7 @@ export default function Footer() {
               </div>
             </div>
 
-            {/* Quick Links */}
+            {/* --- Quick Links ----------- */}
             <div>
               <h4 className="text-[var(--text)] font-semibold mb-6">
                 Quick Links
@@ -128,7 +128,7 @@ export default function Footer() {
               </ul>
             </div>
 
-            {/* Specialities */}
+            {/* --- Specialities ----------- */}
             <div>
               <h4 className="text-[var(--text)] font-semibold mb-6">
                 Our Specialities
@@ -148,7 +148,7 @@ export default function Footer() {
               </ul>
             </div>
 
-            {/* Contact */}
+            {/* --- Contact ----------- */}
             <div>
               <h4 className="text-[var(--text)] font-semibold mb-6">
                 Contact Information
@@ -175,13 +175,13 @@ export default function Footer() {
 
               <div
                 className="
-                mt-6
-                bg-[var(--color-primary)]/10
-                border border-[var(--color-primary)]/40
-                text-[var(--color-primary)]
-                p-4 rounded-xl
-                text-sm
-                backdrop-blur-md
+                  mt-6
+                  bg-[var(--color-primary)]/10
+                  border border-[var(--color-primary)]/40
+                  text-[var(--color-primary)]
+                  p-4 rounded-xl
+                  text-sm
+                  backdrop-blur-md
                 "
               >
                 24×7 Emergency Support Available
@@ -189,10 +189,10 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* Divider */}
+          {/* --- Divider ----------- */}
           <div className="mt-16 h-px bg-gradient-to-r from-transparent via-[var(--border)] to-transparent"></div>
 
-          {/* Bottom */}
+          {/* --- Bottom ----------- */}
           <div className="pt-8 text-center text-sm text-[var(--muted)] space-y-3">
             <p>
               © {new Date().getFullYear()} Dhatru Care Multispeciality Hospital.
