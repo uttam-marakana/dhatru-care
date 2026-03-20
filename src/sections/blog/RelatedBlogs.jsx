@@ -1,4 +1,4 @@
-import { useEffect, useState, lazy } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { getRelatedBlogs } from "../../api/blogsApi";
 
@@ -42,47 +42,47 @@ export default function RelatedBlogs({
 
         <div
           className="
-    grid
-    grid-cols-1
-    sm:grid-cols-2
-    lg:grid-cols-3
-    gap-6
-    "
+            grid
+            grid-cols-1
+            sm:grid-cols-2
+            lg:grid-cols-3
+            gap-6
+          "
         >
           {blogs.map((post) => (
             <Link key={post.id} to={`/blog/${post.slug}`}>
               <Card
                 hover
                 className="
-            h-full overflow-hidden
-            bg-[var(--card)]
-            border border-[var(--border)]
-            transition-all duration-300
-            hover:border-[var(--color-primary)]/40
-            hover:shadow-[0_0_40px_var(--glow-soft)]
-            "
+                  h-full overflow-hidden
+                  bg-[var(--card)]
+                  border border-[var(--border)]
+                  transition-all duration-300
+                  hover:border-[var(--color-primary)]/40
+                  hover:shadow-[0_0_40px_var(--glow-soft)]
+                "
               >
                 <div className="aspect-video bg-[var(--surface)]" />
 
                 <div className="p-5">
                   <h3
                     className="
-              font-semibold
-              text-lg
-              mb-2
-              line-clamp-2
-              text-[var(--text)]
-              "
+                      font-semibold
+                      text-lg
+                      mb-2
+                      line-clamp-2
+                      text-[var(--text)]
+                    "
                   >
                     {post.title}
                   </h3>
 
                   <p
                     className="
-              text-sm
-              text-[var(--text-secondary)]
-              line-clamp-3
-              "
+                      text-sm
+                      text-[var(--text-secondary)]
+                      line-clamp-3
+                    "
                   >
                     {post.excerpt}
                   </p>
