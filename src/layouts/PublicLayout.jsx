@@ -14,28 +14,28 @@ import useRoutePrefetch from "../hooks/useRoutePrefetch";
 export default function PublicLayout() {
   const scrollDirection = useScrollDirection();
 
-  // Initialize route prefetching (runs once on mount)
+  // Initialize route prefetching
   useRoutePrefetch();
 
   return (
     <div
       className="
-      flex min-h-screen flex-col
-      overflow-x-hidden
-      
-      bg-gradient-to-b
-      from-gray-50 via-gray-100 to-gray-50
-      dark:from-gray-950 dark:via-gray-900 dark:to-gray-950
-      
-      text-gray-900 dark:text-white
+        flex min-h-screen flex-col
+        overflow-x-hidden
+        
+        bg-gradient-to-b
+        from-gray-50 via-gray-100 to-gray-50
+        dark:from-gray-950 dark:via-gray-900 dark:to-gray-950
+        
+        text-gray-900 dark:text-white
       "
     >
       <Suspense fallback={null}>
         <ScrollToTop />
 
-        {/* Navigation Wrapper */}
+        {/* --- Navigation Wrapper ----------- */}
         <div className="relative z-40">
-          {/* TopBar hides on scroll down */}
+          {/* --- TopBar hides on scroll down ----------- */}
           <div
             className={`
               transition-all duration-300
@@ -52,7 +52,7 @@ export default function PublicLayout() {
           <Header />
         </div>
 
-        {/* Page content */}
+        {/* --- Page content ----------- */}
         <main className="grow relative">
           <AnimatedOutlet />
           <FloatingAppointmentButton />

@@ -18,11 +18,11 @@ export default function AdminLayout() {
   const dropdownRef = useRef(null);
   const navigate = useNavigate();
 
-  const { logout } = useAuth(); // ✅ added
+  const { logout } = useAuth();
 
   const adminName = localStorage.getItem("adminName") || "Admin";
 
-  /* GREETING LOGIC */
+  /* --- GREETING LOGIC ----------- */
 
   const hour = new Date().getHours();
   let greeting = "Hello";
@@ -38,7 +38,7 @@ export default function AdminLayout() {
         : "text-[var(--text-secondary)] hover:bg-[var(--card)]"
     }`;
 
-  /* CLOSE DROPDOWN WHEN CLICK OUTSIDE */
+  /* --- CLOSE DROPDOWN WHEN CLICK OUTSIDE ----------- */
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -52,11 +52,11 @@ export default function AdminLayout() {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  /* LOGOUT */
+  /* --- LOGOUT ----------- */
 
   const handleLogout = async () => {
     try {
-      await logout(); // ✅ Firebase logout
+      await logout(); // Firebase logout
       localStorage.removeItem("adminToken");
       localStorage.removeItem("adminName");
 
@@ -68,7 +68,7 @@ export default function AdminLayout() {
 
   return (
     <div className="min-h-screen flex bg-[var(--bg)]">
-      {/* MOBILE OVERLAY */}
+      {/* --- MOBILE OVERLAY ----------- */}
 
       {open && (
         <div
@@ -77,15 +77,15 @@ export default function AdminLayout() {
         />
       )}
 
-      {/* SIDEBAR */}
+      {/* --- SIDEBAR ----------- */}
 
       <aside
         className={`
-        fixed lg:sticky top-0 left-0 h-screen w-64 z-40
-        bg-[var(--surface)]
-        border-r border-[var(--border)]
-        transform transition-transform duration-300
-        ${open ? "translate-x-0" : "-translate-x-full lg:translate-x-0"}
+          fixed lg:sticky top-0 left-0 h-screen w-64 z-40
+          bg-[var(--surface)]
+          border-r border-[var(--border)]
+          transform transition-transform duration-300
+          ${open ? "translate-x-0" : "-translate-x-full lg:translate-x-0"}
         `}
       >
         <div className="p-4 flex justify-between items-center lg:hidden border-b border-[var(--border)]">
@@ -142,29 +142,29 @@ export default function AdminLayout() {
         </nav>
       </aside>
 
-      {/* MAIN CONTENT */}
+      {/* --- MAIN CONTENT ----------- */}
 
       <main className="flex-1 p-4 sm:p-6 lg:p-8 overflow-x-hidden">
-        {/* TOP BAR */}
+        {/* --- TOP BAR ----------- */}
 
         <div className="flex items-center justify-between mb-6 relative z-20">
-          {/* MOBILE MENU */}
+          {/* --- MOBILE MENU ----------- */}
 
           <button
             onClick={() => setOpen(true)}
             className="
-            lg:hidden p-2 rounded-lg
-            bg-[var(--color-primary)]
-            hover:bg-[var(--color-primary-hover)]
-            text-white
-            shadow-[0_0_12px_var(--glow-soft)]
-            transition
+              lg:hidden p-2 rounded-lg
+              bg-[var(--color-primary)]
+              hover:bg-[var(--color-primary-hover)]
+              text-white
+              shadow-[0_0_12px_var(--glow-soft)]
+              transition
             "
           >
             <FaBars />
           </button>
 
-          {/* USER INFO */}
+          {/* --- USER INFO ----------- */}
 
           <div
             className="relative ml-auto flex items-center gap-3"
@@ -187,23 +187,23 @@ export default function AdminLayout() {
               <FaUserCircle size={30} />
             </button>
 
-            {/* DROPDOWN */}
+            {/* --- DROPDOWN ----------- */}
 
             {menuOpen && (
               <div
                 className="
-                absolute
-                right-0
-                top-full
-                mt-2
-                w-48
-                glass
-                border border-[var(--border)]
-                rounded-xl
-                shadow-lg
-                overflow-hidden
-                z-50
-                animate-fadeIn
+                  absolute
+                  right-0
+                  top-full
+                  mt-2
+                  w-48
+                  glass
+                  border border-[var(--border)]
+                  rounded-xl
+                  shadow-lg
+                  overflow-hidden
+                  z-50
+                  animate-fadeIn
                 "
               >
                 <button
@@ -231,7 +231,7 @@ export default function AdminLayout() {
           </div>
         </div>
 
-        {/* PAGE CONTENT */}
+        {/* --- PAGE CONTENT ----------- */}
 
         <Outlet />
       </main>
