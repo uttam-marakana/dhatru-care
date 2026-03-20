@@ -1,6 +1,4 @@
-/* -------------------------------- */
-/* APPOINTMENT STATUS */
-/* -------------------------------- */
+/* --- APPOINTMENT STATUS ----------- */
 
 export const APPOINTMENT_STATUS = {
   PENDING: "pending",
@@ -9,9 +7,7 @@ export const APPOINTMENT_STATUS = {
   CANCELLED: "cancelled",
 };
 
-/* -------------------------------- */
-/* STATUS LABELS */
-/* -------------------------------- */
+/* --- STATUS LABELS ----------- */
 
 export const STATUS_LABELS = {
   pending: "Pending",
@@ -20,9 +16,7 @@ export const STATUS_LABELS = {
   cancelled: "Cancelled",
 };
 
-/* -------------------------------- */
-/* STATUS COLORS */
-/* -------------------------------- */
+/* --- STATUS COLORS ----------- */
 
 export const STATUS_COLORS = {
   pending: "var(--color-warning)",
@@ -31,15 +25,11 @@ export const STATUS_COLORS = {
   cancelled: "var(--muted)",
 };
 
-/* -------------------------------- */
-/* PAGINATION */
-/* -------------------------------- */
+/* --- PAGINATION ----------- */
 
 export const ADMIN_PAGE_SIZE = 10;
 
-/* -------------------------------- */
-/* DASHBOARD METRICS */
-/* -------------------------------- */
+/* --- DASHBOARD METRICS ----------- */
 
 export const DASHBOARD_METRICS = [
   {
@@ -60,9 +50,7 @@ export const DASHBOARD_METRICS = [
   },
 ];
 
-/* -------------------------------- */
-/* SEARCHABLE FIELDS */
-/* -------------------------------- */
+/* --- SEARCHABLE FIELDS ----------- */
 
 export const SEARCH_FIELDS = {
   doctors: ["name", "specialty", "location"],
@@ -71,17 +59,13 @@ export const SEARCH_FIELDS = {
   packages: ["name"],
 };
 
-/* -------------------------------- */
-/* DEFAULT FILTERS */
-/* -------------------------------- */
+/* --- DEFAULT FILTERS ----------- */
 
 export const DEFAULT_APPOINTMENT_FILTER = {
   status: "",
   search: "",
 };
 
-/* -------------------------------- */
-/* DATE FORMAT */
-/* -------------------------------- */
+/* --- DATE FORMAT ----------- */
 
 export const DATE_FORMAT = "YYYY-MM-DD";
