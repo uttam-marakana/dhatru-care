@@ -50,28 +50,28 @@ export default function Profile() {
   return (
     <div className="min-h-screen bg-[var(--section)] py-12 px-4">
       <div className="max-w-4xl mx-auto">
-        {/* PROFILE CARD */}
+        {/* --- PROFILE CARD ----------- */}
 
         <div
           className="
-          bg-[var(--card)]
-          border border-[var(--border)]
-          rounded-2xl
-          p-8
-          shadow-lg
-          hover-lift
-          animate-fade-in-up
+            bg-[var(--card)]
+            border border-[var(--border)]
+            rounded-2xl
+            p-8
+            shadow-lg
+            hover-lift
+            animate-fade-in-up
           "
         >
-          {/* HEADER */}
+          {/* --- HEADER ----------- */}
 
           <div className="flex items-center gap-4 mb-8">
             <div
               className="
-              w-16 h-16
-              flex items-center justify-center
-              rounded-full
-              bg-[var(--color-primary)]/10
+                w-16 h-16
+                flex items-center justify-center
+                rounded-full
+                bg-[var(--color-primary)]/10
               "
             >
               <FaUserCircle size={42} className="text-[var(--color-primary)]" />
@@ -88,7 +88,7 @@ export default function Profile() {
             </div>
           </div>
 
-          {/* TABLE */}
+          {/* --- TABLE ----------- */}
 
           <div className="overflow-x-auto">
             <table className="w-full border border-[var(--border)] rounded-xl overflow-hidden">

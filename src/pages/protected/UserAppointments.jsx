@@ -8,7 +8,7 @@ import {
 import { useAuth } from "../../context/AuthContext";
 import Container from "../../components/layout/Container";
 
-/* STATUS BADGE STYLES */
+/* --- STATUS BADGE STYLES ----------- */
 
 const statusStyles = {
   pending: "bg-yellow-500/20 text-yellow-400",
@@ -19,12 +19,12 @@ const statusStyles = {
   rescheduled: "bg-purple-500/20 text-purple-400",
 };
 
-/* EDIT RULE */
+/* --- EDIT RULE ----------- */
 
 const isEditable = (status) =>
   ["pending", "confirmed", "rescheduled"].includes(status);
 
-/* PAGINATION */
+/* --- PAGINATION ----------- */
 
 const PAGE_SIZE = 10;
 
@@ -46,7 +46,7 @@ export default function UserAppointments() {
 
   const [page, setPage] = useState(1);
 
-  /* SUBSCRIBE USER APPOINTMENTS */
+  /* --- SUBSCRIBE USER APPOINTMENTS ----------- */
 
   useEffect(() => {
     if (!user) return;
@@ -59,13 +59,13 @@ export default function UserAppointments() {
     return () => unsub();
   }, [user]);
 
-  /* RESET PAGE WHEN TAB CHANGES */
+  /* --- RESET PAGE WHEN TAB CHANGES ----------- */
 
   useEffect(() => {
     setPage(1);
   }, [tab]);
 
-  /* DATE HELPERS */
+  /* --- DATE HELPERS ----------- */
 
   const now = new Date();
 
@@ -73,7 +73,7 @@ export default function UserAppointments() {
 
   const todayString = new Date().toISOString().split("T")[0];
 
-  /* FILTER GROUPS */
+  /* --- FILTER GROUPS ----------- */
 
   const today = useMemo(
     () =>
@@ -85,7 +85,7 @@ export default function UserAppointments() {
     [appointments],
   );
 
-  /* UPCOMING (ONLY CONFIRMED / RESCHEDULED) */
+  /* --- UPCOMING (ONLY CONFIRMED / RESCHEDULED) ----------- */
 
   const upcoming = useMemo(
     () =>
@@ -101,7 +101,7 @@ export default function UserAppointments() {
     [appointments],
   );
 
-  /* AWAITING APPROVAL (PENDING) */
+  /* --- AWAITING APPROVAL (PENDING) ----------- */
 
   const awaiting = useMemo(
     () => appointments.filter((a) => a.status === "pending"),
@@ -138,7 +138,7 @@ export default function UserAppointments() {
     rejected,
   }[tab];
 
-  /* PAGINATION */
+  /* --- PAGINATION ----------- */
 
   const totalPages = Math.ceil(visible.length / PAGE_SIZE);
 
@@ -148,7 +148,7 @@ export default function UserAppointments() {
     return visible.slice(start, end);
   }, [visible, page]);
 
-  /* OPEN CANCEL MODAL */
+  /* --- OPEN CANCEL MODAL ----------- */
 
   const openCancel = (appt) => {
     setSelectedAppointment(appt);
@@ -160,7 +160,7 @@ export default function UserAppointments() {
     setCancelModal(false);
   };
 
-  /* OPEN RESCHEDULE MODAL */
+  /* --- OPEN RESCHEDULE MODAL ----------- */
 
   const openReschedule = (appt) => {
     setSelectedAppointment(appt);
@@ -189,7 +189,7 @@ export default function UserAppointments() {
           My Appointments
         </h1>
 
-        {/* TABS */}
+        {/* --- TABS ----------- */}
 
         <div className="flex flex-wrap justify-center gap-4 mb-10">
           {[
@@ -227,7 +227,7 @@ export default function UserAppointments() {
           ))}
         </div>
 
-        {/* APPOINTMENT CARDS */}
+        {/* --- APPOINTMENT CARDS ----------- */}
 
         {paginatedAppointments.length === 0 ? (
           <p className="text-center text-[var(--muted)]">
@@ -317,7 +317,7 @@ export default function UserAppointments() {
           </div>
         )}
 
-        {/* PAGINATION */}
+        {/* --- PAGINATION ----------- */}
 
         {visible.length > PAGE_SIZE && (
           <div className="flex justify-center gap-4 mt-12">
@@ -343,7 +343,7 @@ export default function UserAppointments() {
           </div>
         )}
 
-        {/* CANCEL MODAL */}
+        {/* --- CANCEL MODAL ----------- */}
 
         {cancelModal && (
           <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50">
@@ -371,7 +371,7 @@ export default function UserAppointments() {
           </div>
         )}
 
-        {/* RESCHEDULE MODAL */}
+        {/* --- RESCHEDULE MODAL ----------- */}
 
         {rescheduleModal && (
           <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50">
