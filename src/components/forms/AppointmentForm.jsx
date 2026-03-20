@@ -319,7 +319,7 @@ export default function AppointmentForm() {
         <>
           {allSlots.length > 0 ? (
             <SlotGrid
-              slots={allSlots}
+              slots={availableSlots}
               slotState={slotState}
               availableSlots={availableSlots}
               selected={form.time}
@@ -356,7 +356,7 @@ export default function AppointmentForm() {
             className="ui-input"
           />
 
-          <div className="bg-gray-50 p-4 rounded">
+          <div className="bg-[var(--card)] p-4 rounded border border-[var(--border)]">
             <p>Appointment: ₹{appointmentFee}</p>
             {packageFee > 0 && <p>Package: ₹{packageFee}</p>}
             <p className="font-bold">Total: ₹{totalAmount}</p>
