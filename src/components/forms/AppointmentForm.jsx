@@ -189,6 +189,7 @@ export default function AppointmentForm() {
       const payload = {
         ...form,
         userId: user.uid,
+        tenantId: "default",
         doctorName: doctor?.name || "",
         doctorSpecialty: doctor?.specialty || "",
         departmentId: form.department,
