@@ -2,9 +2,10 @@ import {
   STATUS_TRANSITIONS,
   isFinalStatus,
   getStatusLabel,
+  getStatusStyle,
 } from "../../../utils/appointmentStatus";
 
-export default function AppointmentsTable({ appointments, onStatusChange }) {
+export default function AppointmentsTable({ appointments, onStatusChange, loadingId }) {
   return (
     <div className="glass overflow-x-auto">
       <table className="min-w-full text-sm">
@@ -20,7 +21,12 @@ export default function AppointmentsTable({ appointments, onStatusChange }) {
 
         <tbody>
           {appointments.map((a) => {
-            const currentStatus = (a.status || "").toLowerCase().trim();
+            let currentStatus = (a.status || "pending").toLowerCase().trim();
+
+            /* 🔥 MIGRATION */
+            if (currentStatus === "requested") {
+              currentStatus = "pending";
+            }
 
             const isLocked = isFinalStatus(currentStatus);
             const allowedNext = STATUS_TRANSITIONS[currentStatus] || [];
@@ -28,7 +34,7 @@ export default function AppointmentsTable({ appointments, onStatusChange }) {
             return (
               <tr
                 key={a.id}
-                className="border-b border-[var(--border)] hover:bg-[var(--card)]"
+                className="border-b border-[var(--border)] hover:bg-[var(--card)] transition"
               >
                 <td className="p-4 font-medium">{a.patientName}</td>
                 <td className="p-4">{a.doctorName}</td>
@@ -37,18 +43,30 @@ export default function AppointmentsTable({ appointments, onStatusChange }) {
 
                 <td className="p-4">
                   <div className="flex items-center gap-2">
+                    {/* STATUS BADGE */}
+                    <span
+                      className={`px-2 py-1 rounded text-xs ${getStatusStyle(
+                        currentStatus,
+                      )}`}
+                    >
+                      {getStatusLabel(currentStatus)}
+                    </span>
+
+                    {/* SELECT */}
                     <select
                       value={currentStatus}
-                      disabled={isLocked}
+                      disabled={isLocked || loadingId === a.id}
                       onChange={(e) => onStatusChange(a.id, e.target.value)}
                       className="p-2 rounded border border-[var(--border)] bg-[var(--card)] disabled:opacity-60 disabled:cursor-not-allowed"
                     >
-                      {/* current */}
                       <option value={currentStatus}>
                         {getStatusLabel(currentStatus)}
                       </option>
 
-                      {/* allowed transitions */}
+                      {allowedNext.length === 0 && (
+                        <option disabled>No actions</option>
+                      )}
+
                       {allowedNext.map((s) => (
                         <option key={s} value={s}>
                           {getStatusLabel(s)}
@@ -56,7 +74,7 @@ export default function AppointmentsTable({ appointments, onStatusChange }) {
                       ))}
                     </select>
 
-                    {/* 🔥 future-safe: show history count */}
+                    {/* HISTORY */}
                     {a.statusHistory?.length > 0 && (
                       <span className="text-xs text-gray-400">
                         {a.statusHistory.length}
