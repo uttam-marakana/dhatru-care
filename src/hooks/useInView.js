@@ -12,7 +12,7 @@ export function useInView(options = {}) {
         }
       },
       {
-        threshold: 0.1, // trigger when 10% visible
+        threshold: 0.1,
         rootMargin: "0px 0px -10% 0px",
         ...options,
       },
