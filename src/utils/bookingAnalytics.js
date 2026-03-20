@@ -1,7 +1,7 @@
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 import { db } from "../firebase";
 
-/* TRACK ATTEMPT */
+/* --- TRACK ATTEMPT ----------- */
 
 export const trackBookingAttempt = async (data) => {
   try {
@@ -16,7 +16,7 @@ export const trackBookingAttempt = async (data) => {
   } catch (e) {}
 };
 
-/* TRACK SUCCESS */
+/* --- TRACK SUCCESS ----------- */
 
 export const trackBookingSuccess = async (data) => {
   try {

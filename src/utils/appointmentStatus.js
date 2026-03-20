@@ -1,6 +1,4 @@
-/* -------------------------------- */
-/* APPOINTMENT STATUS (SOURCE OF TRUTH) */
-/* -------------------------------- */
+/* --- APPOINTMENT STATUS (SOURCE OF TRUTH) ----------- */
 
 export const APPOINTMENT_STATUS = {
   PENDING: "pending",
@@ -10,9 +8,7 @@ export const APPOINTMENT_STATUS = {
   REJECTED: "rejected",
 };
 
-/* -------------------------------- */
-/* 🔒 FINAL STATES */
-/* -------------------------------- */
+/* --- FINAL STATES ----------- */
 
 export const FINAL_STATUSES = [
   APPOINTMENT_STATUS.COMPLETED,
@@ -20,9 +16,7 @@ export const FINAL_STATUSES = [
   APPOINTMENT_STATUS.REJECTED,
 ];
 
-/* -------------------------------- */
-/* 🔁 STATE MACHINE */
-/* -------------------------------- */
+/* --- STATE MACHINE ----------- */
 
 export const STATUS_TRANSITIONS = {
   pending: ["confirmed", "cancelled", "rejected"],
@@ -32,18 +26,14 @@ export const STATUS_TRANSITIONS = {
   rejected: [],
 };
 
-/* -------------------------------- */
-/* VALIDATION */
-/* -------------------------------- */
+/* --- VALIDATION ----------- */
 
 export const canTransition = (current, next) => {
   if (!current || !next) return false;
   return (STATUS_TRANSITIONS[current] || []).includes(next);
 };
 
-/* -------------------------------- */
-/* UI LABELS */
-/* -------------------------------- */
+/* --- UI LABELS ----------- */
 
 export const appointmentStatusLabels = {
   pending: "Pending",
@@ -53,9 +43,7 @@ export const appointmentStatusLabels = {
   rejected: "Rejected",
 };
 
-/* -------------------------------- */
-/* UI STYLES */
-/* -------------------------------- */
+/* --- UI STYLES ----------- */
 
 export const appointmentStatusStyles = {
   pending: "bg-yellow-100 text-yellow-700",
@@ -65,9 +53,7 @@ export const appointmentStatusStyles = {
   rejected: "bg-gray-100 text-gray-600",
 };
 
-/* -------------------------------- */
-/* UI HELPERS */
-/* -------------------------------- */
+/* --- UI HELPERS ----------- */
 
 export const getStatusStyle = (status) =>
   appointmentStatusStyles[status] || "bg-gray-100 text-gray-700";
@@ -77,9 +63,7 @@ export const getStatusLabel = (status) =>
 
 export const isFinalStatus = (status) => FINAL_STATUSES.includes(status);
 
-/* -------------------------------- */
-/* 🔥 UI OPTIONS (FIXED EXPORT) */
-/* -------------------------------- */
+/* --- UI OPTIONS ----------- */
 
 export const appointmentStatusOptions = Object.values(APPOINTMENT_STATUS).map(
   (status) => ({

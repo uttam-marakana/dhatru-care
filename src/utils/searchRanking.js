@@ -11,7 +11,7 @@ export function rankResults(items, query, fields = []) {
         if (!value) return;
 
         if (value === q)
-          score += 100; // exact match
+          score += 100;
         else if (value.startsWith(q)) score += 60;
         else if (value.includes(q)) score += 30;
       });
