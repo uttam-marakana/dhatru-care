@@ -22,7 +22,7 @@ const validateBookingInput = ({ doctorId, date, time, userId }) => {
     throw new Error("Invalid booking data");
   }
 
-  const selected = new Date(`${date} ${time}`);
+  const selected = new Date(`${date}T${time}`);
   if (isNaN(selected.getTime())) {
     throw new Error("Invalid date/time format");
   }
