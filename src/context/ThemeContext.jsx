@@ -4,13 +4,11 @@ const ThemeContext = createContext(undefined);
 
 export function ThemeProvider({ children }) {
   const [theme, setTheme] = useState(() => {
-    // 1. Try to read from localStorage first
     const saved = localStorage.getItem("theme");
     if (saved && ["light", "dark", "system"].includes(saved)) {
       return saved;
     }
 
-    // 2. Fall back to system preference
     return window.matchMedia("(prefers-color-scheme: dark)").matches
       ? "dark"
       : "light";
@@ -19,7 +17,6 @@ export function ThemeProvider({ children }) {
   useEffect(() => {
     const root = window.document.documentElement;
 
-    // Remove any existing forced classes
     root.classList.remove("light", "dark");
 
     if (theme === "dark") {
@@ -29,7 +26,6 @@ export function ThemeProvider({ children }) {
       root.classList.add("light");
       localStorage.setItem("theme", "light");
     } else {
-      // 'system' mode → remove localStorage key and let OS decide
       localStorage.removeItem("theme");
 
       const isSystemDark = window.matchMedia(
@@ -39,7 +35,6 @@ export function ThemeProvider({ children }) {
     }
   }, [theme]);
 
-  // Listen for system theme changes only when in 'system' mode
   useEffect(() => {
     if (theme !== "system") return;
 
@@ -66,7 +61,7 @@ export function ThemeProvider({ children }) {
   const value = {
     theme,
     cycleTheme,
-    setTheme, // optional – if you want to allow direct setting elsewhere
+    setTheme, 
   };
 
   return (

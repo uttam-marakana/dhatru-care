@@ -33,7 +33,7 @@ export function AuthProvider({ children }) {
         const snap = await getDoc(userRef);
 
         let userRole = "user";
-        let tenant = "default"; // ✅ fallback
+        let tenant = "default";
 
         if (snap.exists()) {
           const data = snap.data();
@@ -51,7 +51,7 @@ export function AuthProvider({ children }) {
 
         console.log("Auth:", firebaseUser.email);
         console.log("Role:", userRole);
-        console.log("Tenant:", tenant); // ✅ IMPORTANT
+        console.log("Tenant:", tenant);
       } catch (error) {
         console.error("Auth error:", error);
         setRole("user");
