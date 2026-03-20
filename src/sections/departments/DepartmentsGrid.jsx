@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
 import { FaArrowRight } from "react-icons/fa";
-import { lazy } from "react";
 
 import Container from "../../components/layout/Container";
 import Card from "../../components/common/Card";
@@ -22,13 +21,13 @@ export default function DepartmentsGrid({ departments = [] }) {
     <Container>
       <div
         className="
-  grid
-  grid-cols-1
-  sm:grid-cols-2
-  lg:grid-cols-3
-  xl:grid-cols-4
-  gap-8
-  "
+          grid
+          grid-cols-1
+          sm:grid-cols-2
+          lg:grid-cols-3
+          xl:grid-cols-4
+          gap-8
+        "
       >
         {departments.map((dept) => (
           <Link
@@ -38,40 +37,40 @@ export default function DepartmentsGrid({ departments = [] }) {
           >
             <Card
               className="
-          h-full flex flex-col
-          bg-[var(--card)]
-          border border-[var(--border)]
-          rounded-2xl
-          p-8
-          text-center
-          transition-all duration-500
-          hover:-translate-y-2
-          hover:border-[var(--color-primary)]/40
-          hover:shadow-[0_0_40px_var(--glow-soft)]
-          "
+                h-full flex flex-col
+                bg-[var(--card)]
+                border border-[var(--border)]
+                rounded-2xl
+                p-8
+                text-center
+                transition-all duration-500
+                hover:-translate-y-2
+                hover:border-[var(--color-primary)]/40
+                hover:shadow-[0_0_40px_var(--glow-soft)]
+              "
             >
               <div className="text-6xl mb-6">{dept.icon || "🏥"}</div>
 
               <h3
                 className="
-          text-xl
-          font-semibold
-          mb-3
-          text-[var(--text)]
-          group-hover:text-[var(--color-primary)]
-          transition-colors
-          "
+                  text-xl
+                  font-semibold
+                  mb-3
+                  text-[var(--text)]
+                  group-hover:text-[var(--color-primary)]
+                  transition-colors
+                "
               >
                 {dept.name}
               </h3>
 
               <p
                 className="
-          text-[var(--text-secondary)]
-          mb-6
-          text-sm
-          leading-relaxed
-          "
+                  text-[var(--text-secondary)]
+                  mb-6
+                  text-sm
+                  leading-relaxed
+                "
               >
                 {dept.shortDesc}
               </p>
@@ -81,9 +80,9 @@ export default function DepartmentsGrid({ departments = [] }) {
                   variant="ghost"
                   size="sm"
                   className="
-              text-[var(--color-primary)]
-              hover:text-(--color-primary-hover)
-              "
+                    text-[var(--color-primary)]
+                    hover:text-(--color-primary-hover)
+                  "
                   rightIcon={<FaArrowRight />}
                 >
                   Explore Department
