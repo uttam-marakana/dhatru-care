@@ -26,6 +26,7 @@ service cloud.firestore {
       return isLoggedIn()
         && tenantId != null
         && getUser() != null
+        && getUser().tenantId != null
         && getUser().tenantId == tenantId;
     }
 
