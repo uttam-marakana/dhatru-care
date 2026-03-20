@@ -14,60 +14,103 @@ import { db } from "../firebase";
 
 const ref = collection(db, "departments");
 
-/* FETCH ALL DEPARTMENTS */
+/* ------ 🔍 FETCH ALL DEPARTMENTS ------ */
 
-export const fetchDepartments = async (filters = {}) => {
-  const constraints = [];
+export const fetchDepartments = async (filters = {}, tenantId = null) => {
+  try {
+    const constraints = [];
 
-  if (filters.type) {
-    constraints.push(where("type", "==", filters.type));
+    // 🔥 TENANT SAFETY
+    if (tenantId) {
+      constraints.push(where("tenantId", "==", tenantId));
+    }
+
+    // 🔎 EXISTING FILTER
+    if (filters.type) {
+      constraints.push(where("type", "==", filters.type));
+    }
+
+    const q = constraints.length ? query(ref, ...constraints) : ref;
+
+    const snap = await getDocs(q);
+
+    return snap.docs.map((d) => ({
+      id: d.id,
+      ...d.data(),
+    }));
+  } catch (err) {
+    console.error("❌ fetchDepartments error:", err);
+    return []; // 🔥 prevent UI crash
   }
-
-  const q = constraints.length ? query(ref, ...constraints) : ref;
-
-  const snap = await getDocs(q);
-
-  return snap.docs.map((d) => ({
-    id: d.id,
-    ...d.data(),
-  }));
 };
 
-/* FETCH DEPARTMENT BY SLUG */
+/* ------ 🔍 FETCH BY SLUG ------ */
 
-export const fetchDepartmentBySlug = async (slug) => {
-  const q = query(ref, where("slug", "==", slug));
+export const fetchDepartmentBySlug = async (slug, tenantId = null) => {
+  try {
+    const constraints = [where("slug", "==", slug)];
 
-  const snap = await getDocs(q);
+    if (tenantId) {
+      constraints.push(where("tenantId", "==", tenantId));
+    }
 
-  if (snap.empty) return null;
+    const q = query(ref, ...constraints);
+    const snap = await getDocs(q);
 
-  const d = snap.docs[0];
+    if (snap.empty) return null;
 
-  return {
-    id: d.id,
-    ...d.data(),
-  };
+    const d = snap.docs[0];
+
+    return {
+      id: d.id,
+      ...d.data(),
+    };
+  } catch (err) {
+    console.error("❌ fetchDepartmentBySlug error:", err);
+    return null;
+  }
 };
 
-/* CREATE */
+/* ------ ➕ CREATE ------ */
 
-export const insertDepartment = async (data) =>
-  addDoc(ref, {
-    ...data,
-    createdAt: serverTimestamp(),
-    updatedAt: serverTimestamp(),
-  });
+export const insertDepartment = async (data, tenantId = null) => {
+  try {
+    return await addDoc(ref, {
+      ...data,
 
-/* UPDATE */
+      // 🔥 REQUIRED FOR RULES
+      tenantId: tenantId || data?.tenantId || "default",
 
-export const modifyDepartment = async (id, data) =>
-  updateDoc(doc(db, "departments", id), {
-    ...data,
-    updatedAt: serverTimestamp(),
-  });
+      createdAt: serverTimestamp(),
+      updatedAt: serverTimestamp(),
+    });
+  } catch (err) {
+    console.error("❌ insertDepartment error:", err);
+    throw err;
+  }
+};
 
-/* DELETE */
+/* ------ ✏️ UPDATE ------ */
 
-export const removeDepartment = async (id) =>
-  deleteDoc(doc(db, "departments", id));
+export const modifyDepartment = async (id, data) => {
+  try {
+    return await updateDoc(doc(db, "departments", id), {
+      ...data,
+      updatedAt: serverTimestamp(),
+    });
+  } catch (err) {
+    console.error("❌ modifyDepartment error:", err);
+    throw err;
+  }
+};
+
+/* ------ ❌ DELETE ------ */
+
+export const removeDepartment = async (id) => {
+  try {
+    return await deleteDoc(doc(db, "departments", id));
+  } catch (err) {
+    console.error("❌ removeDepartment error:", err);
+    throw err;
+  }
+};

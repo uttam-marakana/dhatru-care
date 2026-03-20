@@ -14,8 +14,8 @@ import {
   onSnapshot,
   runTransaction,
 } from "firebase/firestore";
-import { db } from "../firebase";
 
+import { db } from "../firebase";
 import { logAdminAction } from "./auditService";
 
 import { canTransition, APPOINTMENT_STATUS } from "../utils/appointmentStatus";
@@ -23,9 +23,9 @@ import { canTransition, APPOINTMENT_STATUS } from "../utils/appointmentStatus";
 const appointmentsRef = collection(db, "appointments");
 const slotsRef = collection(db, "appointmentSlots");
 
-/* 🔥 NORMALIZER (CRITICAL) */
+/* NORMALIZER */
 const normalizeStatus = (status) =>
-  String(status || "")
+  String(status || "pending")
     .toLowerCase()
     .trim();
 
@@ -33,13 +33,15 @@ const normalizeStatus = (status) =>
 export const createAppointmentTransaction = (data) =>
   createAppointmentEngine(data);
 
-/* 🔥 STATUS UPDATE */
+/* STATUS UPDATE */
 export const updateAppointmentStatusService = async (
   id,
   nextStatus,
   meta = {},
 ) => {
   const appointmentRef = doc(db, "appointments", id);
+
+  let auditPayload = null;
 
   await runTransaction(db, async (transaction) => {
     const snap = await transaction.get(appointmentRef);
@@ -49,14 +51,12 @@ export const updateAppointmentStatusService = async (
     const appointment = snap.data();
 
     const currentStatus = normalizeStatus(appointment.status);
-    const normalizedNext = normalizeStatus(nextStatus);
+    let normalizedNext = normalizeStatus(nextStatus);
 
-    /* 🔒 CONFLICT DETECTION */
-    if (appointment.status !== currentStatus) {
-      throw new Error("Conflict: Appointment updated by another admin");
+    if (normalizedNext === "requested") {
+      normalizedNext = "pending";
     }
 
-    /* 🔒 VALIDATE TRANSITION */
     if (!canTransition(currentStatus, normalizedNext)) {
       throw new Error(
         `Invalid transition: ${currentStatus} → ${normalizedNext}`,
@@ -65,7 +65,6 @@ export const updateAppointmentStatusService = async (
 
     const slotId = appointment.slotId;
 
-    /* 🔓 RELEASE SLOT */
     const shouldRelease =
       normalizedNext === APPOINTMENT_STATUS.CANCELLED ||
       normalizedNext === APPOINTMENT_STATUS.REJECTED;
@@ -76,6 +75,7 @@ export const updateAppointmentStatusService = async (
       transaction.set(
         slotRef,
         {
+          tenantId: appointment.tenantId,
           isBooked: false,
           isLocked: false,
           lockedBy: null,
@@ -86,7 +86,6 @@ export const updateAppointmentStatusService = async (
       );
     }
 
-    /* 🧾 STATUS HISTORY */
     const historyEntry = {
       from: currentStatus,
       to: normalizedNext,
@@ -100,60 +99,104 @@ export const updateAppointmentStatusService = async (
       statusHistory: [...(appointment.statusHistory || []), historyEntry],
     });
 
-    /* 🛡 AUDIT LOG */
-    await logAdminAction({
+    auditPayload = {
       type: "STATUS_CHANGE",
       appointmentId: id,
       from: currentStatus,
       to: normalizedNext,
       userId: meta.userId || "admin",
-      tenantId: appointment.tenantId || "default",
-    });
+      tenantId: appointment.tenantId,
+    };
+  });
+
+  if (auditPayload) {
+    await logAdminAction(auditPayload);
+  }
+};
+
+/* ✅ CANCEL (FIXED + TRANSACTION SAFE) */
+export const cancelAppointmentService = async (id, slotId) => {
+  if (!id) throw new Error("Appointment ID required");
+
+  return runTransaction(db, async (transaction) => {
+    return cancelAppointmentEngine(transaction, id, slotId);
   });
 };
 
-/* CANCEL */
-export const cancelAppointmentService = (id, slotId) =>
-  cancelAppointmentEngine(id, slotId);
+/* ✅ RESCHEDULE (FIXED + TRANSACTION SAFE) */
+export const rescheduleAppointmentService = async (appt, date, time) => {
+  if (!appt) throw new Error("Appointment required");
 
-/* RESCHEDULE */
-export const rescheduleAppointmentService = (appt, d, t) =>
-  rescheduleAppointmentEngine(appt, d, t);
-
-/* ADMIN */
-export const subscribeAppointmentsService = (callback) => {
-  const q = query(appointmentsRef, orderBy("createdAt", "desc"));
-
-  return onSnapshot(q, (snap) => {
-    callback(
-      snap.docs.map((d) => ({
-        id: d.id,
-        ...d.data(),
-      })),
-    );
+  return runTransaction(db, async (transaction) => {
+    return rescheduleAppointmentEngine(transaction, appt, date, time);
   });
 };
 
-/* USER */
+/* 🔥 ADMIN (FIXED) */
+export const subscribeAppointmentsService = (tenantId, callback) => {
+  if (!tenantId || typeof callback !== "function") {
+    console.warn("Invalid subscription params");
+    return () => {};
+  }
+
+  const q = query(
+    appointmentsRef,
+    where("tenantId", "==", tenantId),
+    orderBy("createdAt", "desc"),
+  );
+
+  return onSnapshot(
+    q,
+    (snap) => {
+      callback(
+        snap.docs.map((d) => ({
+          id: d.id,
+          ...d.data(),
+        })),
+      );
+    },
+    (err) => {
+      console.error("Appointments listener error:", err);
+    },
+  );
+};
+
+/* 🔥 USER (SAFE) */
 export const subscribeUserAppointmentsService = (userId, callback) => {
+  if (!userId || typeof callback !== "function") {
+    console.warn("Invalid user subscription");
+    return () => {};
+  }
+
   const q = query(
     appointmentsRef,
     where("userId", "==", userId),
     orderBy("createdAt", "desc"),
   );
 
-  return onSnapshot(q, (snap) => {
-    callback(
-      snap.docs.map((d) => ({
-        id: d.id,
-        ...d.data(),
-      })),
-    );
-  });
+  return onSnapshot(
+    q,
+    (snap) => {
+      const unique = new Map();
+
+      snap.docs.forEach((d) => {
+        unique.set(d.id, { id: d.id, ...d.data() });
+      });
+
+      callback([...unique.values()]);
+    },
+    (err) => {
+      console.error("User appointments error:", err);
+    },
+  );
 };
 
-/* 🔥 SLOT LISTENER (FINAL SAFE VERSION) */
+/* SLOT LISTENER */
 export const subscribeDoctorSlotsService = (doctorId, date, callback) => {
+  if (!doctorId || !date || typeof callback !== "function") {
+    return () => {};
+  }
+
   const q = query(
     slotsRef,
     where("doctorId", "==", doctorId),
@@ -166,18 +209,12 @@ export const subscribeDoctorSlotsService = (doctorId, date, callback) => {
     const slotState = snap.docs.map((d) => {
       const data = d.data();
 
-      const expired =
-        data.lockedUntil &&
-        data.lockedUntil.toMillis &&
-        data.lockedUntil.toMillis() < now;
-
-      const isLocked = data.isLocked && !expired;
-      const isBooked = !!data.isBooked || !!data.booked;
+      const expired = data.lockedUntil?.toMillis?.() < now;
 
       return {
         time: data.time?.trim(),
-        isBooked,
-        isLocked,
+        isBooked: !!data.isBooked || !!data.booked,
+        isLocked: data.isLocked && !expired,
       };
     });
 
