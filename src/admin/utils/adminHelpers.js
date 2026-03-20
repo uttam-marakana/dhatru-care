@@ -1,6 +1,4 @@
-/* -------------------------------- */
-/* FORMAT DATE */
-/* -------------------------------- */
+/* --- FORMAT DATE  ----------- */
 
 export const formatDate = (date) => {
   if (!date) return "";
@@ -10,9 +8,7 @@ export const formatDate = (date) => {
   return d.toLocaleDateString();
 };
 
-/* -------------------------------- */
-/* FORMAT DATE TIME */
-/* -------------------------------- */
+/* --- FORMAT DATE TIME  ----------- */
 
 export const formatDateTime = (date) => {
   if (!date) return "";
@@ -22,9 +18,7 @@ export const formatDateTime = (date) => {
   return `${d.toLocaleDateString()} ${d.toLocaleTimeString()}`;
 };
 
-/* -------------------------------- */
-/* PAGINATE DATA */
-/* -------------------------------- */
+/* --- PAGINATE DATA  ----------- */
 
 export const paginate = (data, page, pageSize) => {
   const start = (page - 1) * pageSize;
@@ -33,17 +27,13 @@ export const paginate = (data, page, pageSize) => {
   return data.slice(start, end);
 };
 
-/* -------------------------------- */
-/* TOTAL PAGES */
-/* -------------------------------- */
+/* --- TOTAL PAGES  ----------- */
 
 export const getTotalPages = (dataLength, pageSize) => {
   return Math.ceil(dataLength / pageSize);
 };
 
-/* -------------------------------- */
-/* SEARCH FILTER */
-/* -------------------------------- */
+/* --- SEARCH FILTER  ----------- */
 
 export const searchFilter = (items, term, fields = []) => {
   if (!term) return items;
@@ -57,9 +47,7 @@ export const searchFilter = (items, term, fields = []) => {
   );
 };
 
-/* -------------------------------- */
-/* SORT BY DATE */
-/* -------------------------------- */
+/* --- SORT BY DATE  ----------- */
 
 export const sortByDateDesc = (items, field = "createdAt") => {
   return [...items].sort((a, b) => {
@@ -70,9 +58,7 @@ export const sortByDateDesc = (items, field = "createdAt") => {
   });
 };
 
-/* -------------------------------- */
-/* ARRAY TO CSV */
-/* -------------------------------- */
+/* --- ARRAY TO CSV  ----------- */
 
 export const arrayToCSV = (arr) => {
   if (!Array.isArray(arr)) return "";
@@ -80,9 +66,7 @@ export const arrayToCSV = (arr) => {
   return arr.join(", ");
 };
 
-/* -------------------------------- */
-/* CSV TO ARRAY */
-/* -------------------------------- */
+/* --- CSV TO ARRAY  ----------- */
 
 export const csvToArray = (value) => {
   if (!value) return [];
@@ -93,9 +77,7 @@ export const csvToArray = (value) => {
     .filter(Boolean);
 };
 
-/* -------------------------------- */
-/* SAFE NUMBER */
-/* -------------------------------- */
+/* --- SAFE NUMBER  ----------- */
 
 export const toNumber = (value, fallback = 0) => {
   const n = Number(value);
