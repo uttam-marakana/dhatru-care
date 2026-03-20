@@ -29,8 +29,9 @@ export default function AppointmentsTable({ appointments, onStatusChange }) {
               <td className="p-4">
                 <select
                   value={a.status}
+                  disabled={isLocked}
                   onChange={(e) => onStatusChange(a.id, e.target.value)}
-                  className="p-2 rounded border border-[var(--border)] bg-[var(--card)]"
+                  className="p-2 rounded border border-[var(--border)] bg-[var(--card)] disabled:opacity-60 disabled:cursor-not-allowed"
                 >
                   <option value="pending">Pending</option>
                   <option value="confirmed">Confirm</option>
