@@ -18,7 +18,7 @@ export const app = initializeApp(firebaseConfig);
 export const db = getFirestore(app);
 export const auth = getAuth(app);
 
-/* SAFE ANALYTICS INIT */
+/* --- SAFE ANALYTICS INIT ----------- */
 
 export let analytics = null;
 

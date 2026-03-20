@@ -1,10 +1,10 @@
 @import "tailwindcss";
 
-/* ---- 1. Custom Dark Variant -------------------------- */
+/* ---  1. Custom Dark Variant ----------- */
 
 @custom-variant dark (&:where(.dark, .dark *));
 
-/* ---- 2. Theme Tokens -------------------------- */
+/* ---  2. Theme Tokens ----------- */
 
 @theme {
   --color-primary: #38bdf8;
@@ -56,7 +56,7 @@
   --radius-lg: 1rem;
 }
 
-/* ---- Theme Modes ---- */
+/* ---  Theme Modes ---- */
 
 :root {
   --bg: var(--bg-primary-light);
@@ -92,7 +92,7 @@
   --glow-bg: var(--glow-bg-dark);
 }
 
-/* ---- Base Styles ---- */
+/* ---  Base Styles ---- */
 
 body {
   background: var(--section);
@@ -111,7 +111,7 @@ html {
   scroll-behavior: smooth;
 }
 
-/* ---- UI Form Components ---- */
+/* ---  UI Form Components ---- */
 
 @layer components {
   .ui-input {
@@ -204,7 +204,7 @@ html {
   }
 }
 
-/* ---- Global Theme Transition -------------------------- */
+/* ---  Global Theme Transition ----------- */
 
 * {
   transition:
@@ -213,7 +213,7 @@ html {
     color 0.3s ease;
 }
 
-/* ---- Reduced Motion -------------------------- */
+/* ---  Reduced Motion ----------- */
 
 @media (prefers-reduced-motion: reduce) {
   * {
@@ -224,7 +224,7 @@ html {
   }
 }
 
-/* ---- 6. Interactive Elements -------------------------- */
+/* ---  6. Interactive Elements ----------- */
 
 @layer base {
   button,
@@ -246,7 +246,7 @@ select {
     box-shadow 0.25s ease;
 }
 
-/* ---- Focus Ring -------------------------- */
+/* ---  Focus Ring ----------- */
 
 :focus-visible {
   outline: none;
@@ -256,7 +256,7 @@ select {
     0 0 0 4px var(--color-primary);
 }
 
-/* ---- Animations -------------------------- */
+/* ---  Animations ----------- */
 
 @keyframes fadeInUp {
   from {
@@ -274,7 +274,7 @@ select {
   animation: fadeInUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-/* ---- Skeleton -------------------------- */
+/* ---  Skeleton ----------- */
 
 @keyframes shimmer {
   100% {
@@ -303,7 +303,7 @@ select {
   animation: shimmer 1.6s infinite;
 }
 
-/* ---- Hover Lift -------------------------- */
+/* ---  Hover Lift ----------- */
 
 .hover-lift {
   will-change: transform;
@@ -320,7 +320,7 @@ select {
   box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.45);
 }
 
-/* ---- Scrollbar -------------------------- */
+/* ---  Scrollbar ----------- */
 
 ::-webkit-scrollbar {
   width: 8px;
@@ -344,7 +344,7 @@ select {
   scrollbar-color: var(--border) transparent;
 }
 
-/* ---- Typography -------------------------- */
+/* ---  Typography ----------- */
 
 .prose {
   max-width: none;
@@ -358,7 +358,7 @@ select {
   color: var(--muted);
 }
 
-/* ---- Glass -------------------------- */
+/* ---  Glass ----------- */
 
 .glass {
   background: var(--glass);
@@ -370,7 +370,7 @@ select {
   border-radius: var(--radius-lg);
 }
 
-/* ---- Glow Utilities -------------------------- */
+/* ---  Glow Utilities ----------- */
 
 .glow-primary {
   box-shadow: 0 0 25px var(--glow-soft);
@@ -380,7 +380,7 @@ select {
   box-shadow: 0 0 60px var(--glow-bg);
 }
 
-/* ---- Gradient Heading -------------------------- */
+/* ---  Gradient Heading ----------- */
 
 .gradient-heading {
   background: linear-gradient(
@@ -394,7 +394,7 @@ select {
   color: transparent;
 }
 
-/* ---- Layout Utilities -------------------------- */
+/* ---  Layout Utilities ----------- */
 
 .container-system {
   max-width: var(--container-max);
@@ -408,7 +408,7 @@ select {
   padding-block: var(--section-padding);
 }
 
-/* ---- Interaction -------------------------- */
+/* ---  Interaction ----------- */
 
 .interactive {
   transition:
@@ -417,7 +417,7 @@ select {
     background-color 0.25s ease;
 }
 
-/* ---- Remove Browser Default Search Clear Icon -------------------------- */
+/* ---  Remove Browser Default Search Clear Icon ----------- */
 
 input[type="search"]::-webkit-search-cancel-button {
   -webkit-appearance: none;

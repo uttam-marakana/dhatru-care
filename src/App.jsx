@@ -11,10 +11,10 @@ const AppRoutes = lazy(() => import("./routes/AppRoutes"));
 function App() {
   return (
     <div className="min-h-screen bg-[var(--bg)] text-[var(--text)]">
-      {/* Vercel Analytics */}
+      {/* --- Vercel Analytics ----------- */}
       <Analytics />
 
-      {/* GLOBAL TOAST SYSTEM */}
+      {/* --- GLOBAL TOAST SYSTEM ----------- */}
 
       <Toaster
         position="top-right"
