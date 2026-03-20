@@ -11,6 +11,7 @@ export function AuthProvider({ children }) {
   const [role, setRole] = useState(null);
   const [name, setName] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [tenantId, setTenantId] = useState(null);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
@@ -35,7 +36,9 @@ export function AuthProvider({ children }) {
         if (snap.exists()) {
           const data = snap.data();
           userRole = data.role ?? "user";
-          setName(data.role ?? "User");
+
+          setName(data.name ?? "User");
+          setTenantId(data.tenantId || "default");
         }
 
         setRole(userRole);
@@ -64,7 +67,7 @@ export function AuthProvider({ children }) {
   };
 
   return (
-    <AuthContext.Provider value={{ user, role, name, loading, logout }}>
+    <AuthContext.Provider value={{ user, role, name, tenantId, loading, logout }}>
       {children}
     </AuthContext.Provider>
   );
