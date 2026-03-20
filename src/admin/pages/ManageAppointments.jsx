@@ -5,12 +5,17 @@ import {
   updateAppointmentStatus,
 } from "../../api/appointmentsApi";
 
+import { useAuth } from "../../context/AuthContext";
+
 import AppointmentsTable from "../components/tables/AppointmentsTable";
 import AdminHeader from "../components/layout/AdminHeader";
 
 const PAGE_SIZE = 10;
 
 export default function ManageAppointments() {
+
+  const {user} = useAuth();
+
   const [appointments, setAppointments] = useState([]);
 
   const [search, setSearch] = useState("");
@@ -160,7 +165,11 @@ export default function ManageAppointments() {
 
       <AppointmentsTable
         appointments={paginatedAppointments}
-        onStatusChange={updateAppointmentStatus}
+        onStatusChange={(id, status) =>
+          updateAppointmentStatus(id, status, {
+            userId: user?.uid,
+          })
+        }
       />
 
       {/* PAGINATION */}
