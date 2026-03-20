@@ -17,9 +17,9 @@ const buildSlotId = (doctorId, date, time) => `${doctorId}_${date}_${time}`;
 
 /* VALIDATION */
 
-const validateBookingInput = ({ doctorId, date, time, userId }) => {
-  if (!doctorId || !date || !time || !userId) {
-    throw new Error("Invalid booking data");
+const validateBookingInput = ({ doctorId, date, time, userId, tenantId }) => {
+  if (!doctorId || !date || !time || !userId || !tenantId) {
+    throw new Error("Invalid booking data (missing required fields)");
   }
 
   const selected = new Date(`${date}T${time}`);
@@ -40,10 +40,8 @@ const canTakeSlot = (slot, userId, now) => {
   const isExpired =
     slot.lockedUntil && slot.lockedUntil.toMillis() < now.toMillis();
 
-  // Hard booking
   if (slot.isBooked || slot.booked) return false;
 
-  // Active lock by another user
   if (slot.isLocked && !isExpired && slot.lockedBy !== userId) {
     return false;
   }
@@ -81,9 +79,10 @@ export const createAppointmentEngine = async (data) => {
       slotRef,
       {
         doctorId: data.doctorId,
-        tenantId: data.tenantId || "default",
-        
-        hospitalId: data.hospitalId || "default",
+        tenantId: data.tenantId,
+        hospitalId: data.hospitalId,
+
+        userId: data.userId, // 🔥 REQUIRED FOR RULES
 
         date: data.date,
         time: data.time,
@@ -104,10 +103,10 @@ export const createAppointmentEngine = async (data) => {
     transaction.set(appointmentRef, {
       ...data,
 
-      tenantId: data.tenantId || "default",
+      tenantId: data.tenantId,
+      hospitalId: data.hospitalId,
 
       slotId,
-      hospitalId: data.hospitalId || "default",
 
       status: APPOINTMENT_STATUS.PENDING,
 
@@ -152,6 +151,10 @@ export const rescheduleAppointmentEngine = async (
   newDate,
   newTime,
 ) => {
+  if (!appointment.tenantId) {
+    throw new Error("Missing tenantId in appointment");
+  }
+
   const oldSlotRef = doc(db, "appointmentSlots", appointment.slotId);
 
   const newSlotId = buildSlotId(appointment.doctorId, newDate, newTime);
@@ -193,7 +196,9 @@ export const rescheduleAppointmentEngine = async (
       newSlotRef,
       {
         doctorId: appointment.doctorId,
-        hospitalId: appointment.hospitalId || "default",
+        tenantId: appointment.tenantId,
+        hospitalId: appointment.hospitalId,
+        userId: appointment.userId,
 
         date: newDate,
         time: newTime,
