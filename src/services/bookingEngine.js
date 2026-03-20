@@ -81,6 +81,8 @@ export const createAppointmentEngine = async (data) => {
       slotRef,
       {
         doctorId: data.doctorId,
+        tenantId: data.tenantId || "default",
+        
         hospitalId: data.hospitalId || "default",
 
         date: data.date,
@@ -101,6 +103,8 @@ export const createAppointmentEngine = async (data) => {
 
     transaction.set(appointmentRef, {
       ...data,
+
+      tenantId: data.tenantId || "default",
 
       slotId,
       hospitalId: data.hospitalId || "default",

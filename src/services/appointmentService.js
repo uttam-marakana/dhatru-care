@@ -16,6 +16,8 @@ import {
 } from "firebase/firestore";
 import { db } from "../firebase";
 
+import { logAdminAction } from "./auditService";
+
 import { canTransition, APPOINTMENT_STATUS } from "../utils/appointmentStatus";
 
 const appointmentsRef = collection(db, "appointments");
@@ -31,8 +33,12 @@ const normalizeStatus = (status) =>
 export const createAppointmentTransaction = (data) =>
   createAppointmentEngine(data);
 
-/* 🔥 STATUS UPDATE (FINAL BULLETPROOF VERSION) */
-export const updateAppointmentStatusService = async (id, nextStatus) => {
+/* 🔥 STATUS UPDATE */
+export const updateAppointmentStatusService = async (
+  id,
+  nextStatus,
+  meta = {},
+) => {
   const appointmentRef = doc(db, "appointments", id);
 
   await runTransaction(db, async (transaction) => {
@@ -44,6 +50,11 @@ export const updateAppointmentStatusService = async (id, nextStatus) => {
 
     const currentStatus = normalizeStatus(appointment.status);
     const normalizedNext = normalizeStatus(nextStatus);
+
+    /* 🔒 CONFLICT DETECTION */
+    if (appointment.status !== currentStatus) {
+      throw new Error("Conflict: Appointment updated by another admin");
+    }
 
     /* 🔒 VALIDATE TRANSITION */
     if (!canTransition(currentStatus, normalizedNext)) {
@@ -75,9 +86,28 @@ export const updateAppointmentStatusService = async (id, nextStatus) => {
       );
     }
 
+    /* 🧾 STATUS HISTORY */
+    const historyEntry = {
+      from: currentStatus,
+      to: normalizedNext,
+      at: serverTimestamp(),
+      by: meta.userId || "admin",
+    };
+
     transaction.update(appointmentRef, {
       status: normalizedNext,
       updatedAt: serverTimestamp(),
+      statusHistory: [...(appointment.statusHistory || []), historyEntry],
+    });
+
+    /* 🛡 AUDIT LOG */
+    await logAdminAction({
+      type: "STATUS_CHANGE",
+      appointmentId: id,
+      from: currentStatus,
+      to: normalizedNext,
+      userId: meta.userId || "admin",
+      tenantId: appointment.tenantId || "default",
     });
   });
 };
