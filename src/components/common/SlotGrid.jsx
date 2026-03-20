@@ -1,6 +1,6 @@
 export default function SlotGrid({
   slots = [],
-  slotState = [], // ✅ NEW (optional, backward safe)
+  slotState = [],
   selected,
   onSelect,
 }) {
@@ -16,7 +16,7 @@ export default function SlotGrid({
     const slot = slotState?.find((s) => s.time === time);
 
     if (!slot) return "available";
-    if (slot.isBooked) return "booked";
+    if (slot.isBooked || slot.booked) return "booked";
     if (slot.isLocked) return "locked";
 
     return "available";
