@@ -14,45 +14,51 @@ import {
   onSnapshot,
   runTransaction,
 } from "firebase/firestore";
-
 import { db } from "../firebase";
+
+import { canTransition, APPOINTMENT_STATUS } from "../utils/appointmentStatus";
 
 const appointmentsRef = collection(db, "appointments");
 const slotsRef = collection(db, "appointmentSlots");
+
+/* 🔥 NORMALIZER (CRITICAL) */
+const normalizeStatus = (status) =>
+  String(status || "")
+    .toLowerCase()
+    .trim();
 
 /* CREATE */
 export const createAppointmentTransaction = (data) =>
   createAppointmentEngine(data);
 
 /* 🔥 STATUS UPDATE (FINAL BULLETPROOF VERSION) */
-export const updateAppointmentStatusService = async (id, status) => {
+export const updateAppointmentStatusService = async (id, nextStatus) => {
   const appointmentRef = doc(db, "appointments", id);
 
   await runTransaction(db, async (transaction) => {
     const snap = await transaction.get(appointmentRef);
 
-    if (!snap.exists()) {
-      throw new Error("Appointment not found");
-    }
+    if (!snap.exists()) throw new Error("Appointment not found");
 
     const appointment = snap.data();
+
+    const currentStatus = normalizeStatus(appointment.status);
+    const normalizedNext = normalizeStatus(nextStatus);
+
+    /* 🔒 VALIDATE TRANSITION */
+    if (!canTransition(currentStatus, normalizedNext)) {
+      throw new Error(
+        `Invalid transition: ${currentStatus} → ${normalizedNext}`,
+      );
+    }
+
     const slotId = appointment.slotId;
 
-    // ✅ BULLETPROOF NORMALIZATION
-    const normalizedStatus = String(status ?? "")
-      .toLowerCase()
-      .trim();
+    /* 🔓 RELEASE SLOT */
+    const shouldRelease =
+      normalizedNext === APPOINTMENT_STATUS.CANCELLED ||
+      normalizedNext === APPOINTMENT_STATUS.REJECTED;
 
-    // ✅ UNIVERSAL MATCH
-    const releaseStatuses = ["cancelled", "canceled", "rejected", "reject"];
-
-    const shouldRelease = releaseStatuses.includes(normalizedStatus);
-
-    console.log("Status:", normalizedStatus);
-    console.log("Should Release:", shouldRelease);
-    console.log("Slot ID:", slotId);
-
-    // 🔥 CRITICAL: FORCE SLOT RESET
     if (shouldRelease && slotId) {
       const slotRef = doc(db, "appointmentSlots", slotId);
 
@@ -67,13 +73,10 @@ export const updateAppointmentStatusService = async (id, status) => {
         },
         { merge: true },
       );
-
-      console.log("✅ Slot released successfully");
     }
 
-    // ✅ UPDATE APPOINTMENT
     transaction.update(appointmentRef, {
-      status: normalizedStatus,
+      status: normalizedNext,
       updatedAt: serverTimestamp(),
     });
   });
@@ -139,7 +142,6 @@ export const subscribeDoctorSlotsService = (doctorId, date, callback) => {
         data.lockedUntil.toMillis() < now;
 
       const isLocked = data.isLocked && !expired;
-      
       const isBooked = !!data.isBooked || !!data.booked;
 
       return {

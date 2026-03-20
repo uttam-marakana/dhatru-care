@@ -105,7 +105,7 @@ export const createAppointmentEngine = async (data) => {
       slotId,
       hospitalId: data.hospitalId || "default",
 
-      status: APPOINTMENT_STATUS.REQUESTED,
+      status: APPOINTMENT_STATUS.PENDING,
 
       createdAt: serverTimestamp(),
       updatedAt: serverTimestamp(),
