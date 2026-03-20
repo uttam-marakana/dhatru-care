@@ -20,7 +20,6 @@ export const subscribeDoctorDatesAvailability = (doctorId, callback) => {
 
       map[date].total++;
 
-      // 🔥 support both schemas
       if (data.isBooked || data.booked) {
         map[date].booked++;
       }

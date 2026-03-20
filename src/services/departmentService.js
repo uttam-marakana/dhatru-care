@@ -14,18 +14,16 @@ import { db } from "../firebase";
 
 const ref = collection(db, "departments");
 
-/* ------ 🔍 FETCH ALL DEPARTMENTS ------ */
+/* --- FETCH ALL DEPARTMENTS ----------- */
 
 export const fetchDepartments = async (filters = {}, tenantId = null) => {
   try {
     const constraints = [];
 
-    // 🔥 TENANT SAFETY
     if (tenantId) {
       constraints.push(where("tenantId", "==", tenantId));
     }
 
-    // 🔎 EXISTING FILTER
     if (filters.type) {
       constraints.push(where("type", "==", filters.type));
     }
@@ -40,11 +38,11 @@ export const fetchDepartments = async (filters = {}, tenantId = null) => {
     }));
   } catch (err) {
     console.error("❌ fetchDepartments error:", err);
-    return []; // 🔥 prevent UI crash
+    return [];
   }
 };
 
-/* ------ 🔍 FETCH BY SLUG ------ */
+/* --- FETCH BY SLUG ----------- */
 
 export const fetchDepartmentBySlug = async (slug, tenantId = null) => {
   try {
@@ -71,14 +69,13 @@ export const fetchDepartmentBySlug = async (slug, tenantId = null) => {
   }
 };
 
-/* ------ ➕ CREATE ------ */
+/* --- CREATE ----------- */
 
 export const insertDepartment = async (data, tenantId = null) => {
   try {
     return await addDoc(ref, {
       ...data,
 
-      // 🔥 REQUIRED FOR RULES
       tenantId: tenantId || data?.tenantId || "default",
 
       createdAt: serverTimestamp(),
@@ -90,7 +87,7 @@ export const insertDepartment = async (data, tenantId = null) => {
   }
 };
 
-/* ------ ✏️ UPDATE ------ */
+/* --- UPDATE ----------- */
 
 export const modifyDepartment = async (id, data) => {
   try {
@@ -104,7 +101,7 @@ export const modifyDepartment = async (id, data) => {
   }
 };
 
-/* ------ ❌ DELETE ------ */
+/* --- DELETE ----------- */
 
 export const removeDepartment = async (id) => {
   try {

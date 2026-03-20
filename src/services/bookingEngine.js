@@ -11,11 +11,11 @@ import { APPOINTMENT_STATUS } from "../utils/appointmentStatus";
 
 const SLOT_LOCK_MINUTES = 5;
 
-/* HELPERS */
+/* --- HELPERS ----------- */
 
 const buildSlotId = (doctorId, date, time) => `${doctorId}_${date}_${time}`;
 
-/* VALIDATION */
+/* --- VALIDATION ----------- */
 
 const validateBookingInput = ({ doctorId, date, time, userId, tenantId }) => {
   if (!doctorId || !date || !time || !userId || !tenantId) {
@@ -32,7 +32,7 @@ const validateBookingInput = ({ doctorId, date, time, userId, tenantId }) => {
   }
 };
 
-/* CORE LOCK CHECK */
+/* --- CORE LOCK CHECK ----------- */
 
 const canTakeSlot = (slot, userId, now) => {
   if (!slot) return true;
@@ -49,7 +49,7 @@ const canTakeSlot = (slot, userId, now) => {
   return true;
 };
 
-/* CREATE APPOINTMENT */
+/* --- CREATE APPOINTMENT ----------- */
 
 export const createAppointmentEngine = async (data) => {
   validateBookingInput(data);
@@ -73,7 +73,7 @@ export const createAppointmentEngine = async (data) => {
       now.toMillis() + SLOT_LOCK_MINUTES * 60 * 1000,
     );
 
-    /* LOCK + BOOK SLOT */
+    /* --- LOCK + BOOK SLOT ----------- */
 
     transaction.set(
       slotRef,
@@ -82,7 +82,7 @@ export const createAppointmentEngine = async (data) => {
         tenantId: data.tenantId,
         hospitalId: data.hospitalId,
 
-        userId: data.userId, // 🔥 REQUIRED FOR RULES
+        userId: data.userId,
 
         date: data.date,
         time: data.time,
@@ -98,7 +98,7 @@ export const createAppointmentEngine = async (data) => {
       { merge: true },
     );
 
-    /* CREATE APPOINTMENT */
+    /* --- CREATE APPOINTMENT ----------- */
 
     transaction.set(appointmentRef, {
       ...data,
@@ -118,7 +118,7 @@ export const createAppointmentEngine = async (data) => {
   return appointmentRef.id;
 };
 
-/* CANCEL */
+/* --- CANCEL ----------- */
 
 export const cancelAppointmentEngine = async (appointmentId, slotId) => {
   const slotRef = doc(db, "appointmentSlots", slotId);
@@ -144,7 +144,7 @@ export const cancelAppointmentEngine = async (appointmentId, slotId) => {
   });
 };
 
-/* RESCHEDULE */
+/* --- RESCHEDULE ----------- */
 
 export const rescheduleAppointmentEngine = async (
   appointment,
@@ -172,7 +172,7 @@ export const rescheduleAppointmentEngine = async (
       throw new Error("New slot unavailable");
     }
 
-    /* FREE OLD SLOT */
+    /* --- FREE OLD SLOT ----------- */
     const oldSnap = await transaction.get(oldSlotRef);
 
     if (oldSnap.exists()) {
@@ -194,7 +194,7 @@ export const rescheduleAppointmentEngine = async (
       }
     }
 
-    /* LOCK NEW SLOT */
+    /* --- LOCK NEW SLOT ----------- */
     const lockedUntil = Timestamp.fromMillis(
       now.toMillis() + SLOT_LOCK_MINUTES * 60 * 1000,
     );

@@ -17,7 +17,7 @@ import { db } from "../firebase";
 
 const ref = collection(db, "doctors");
 
-/* FETCH DOCTORS */
+/* --- FETCH DOCTORS ----------- */
 
 export const fetchDoctors = async (filters = {}) => {
   const constraints = [];
@@ -43,14 +43,14 @@ export const fetchDoctors = async (filters = {}) => {
   }));
 };
 
-/* FETCH SINGLE DOCTOR */
+/* --- FETCH SINGLE DOCTOR ----------- */
 
 export const fetchDoctorById = async (id) => {
   const snap = await getDoc(doc(db, "doctors", id));
   return snap.exists() ? { id: snap.id, ...snap.data() } : null;
 };
 
-/* CREATE */
+/* --- CREATE ----------- */
 
 export const insertDoctor = async (data) =>
   addDoc(ref, {
@@ -59,7 +59,7 @@ export const insertDoctor = async (data) =>
     updatedAt: serverTimestamp(),
   });
 
-/* UPDATE */
+/* --- UPDATE ----------- */
 
 export const modifyDoctor = async (id, data) =>
   updateDoc(doc(db, "doctors", id), {
@@ -67,6 +67,6 @@ export const modifyDoctor = async (id, data) =>
     updatedAt: serverTimestamp(),
   });
 
-/* DELETE */
+/* --- DELETE ----------- */
 
 export const removeDoctor = async (id) => deleteDoc(doc(db, "doctors", id));

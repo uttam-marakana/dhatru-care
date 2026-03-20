@@ -1,4 +1,4 @@
-import { doc, serverTimestamp } from "firebase/firestore";
+import { doc } from "firebase/firestore";
 import { db } from "../firebase";
 
 export const getSlotRef = (doctorId, date, time) =>

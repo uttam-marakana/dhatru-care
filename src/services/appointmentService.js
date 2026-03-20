@@ -23,17 +23,17 @@ import { canTransition, APPOINTMENT_STATUS } from "../utils/appointmentStatus";
 const appointmentsRef = collection(db, "appointments");
 const slotsRef = collection(db, "appointmentSlots");
 
-/* NORMALIZER */
+/* --- NORMALIZER ----------- */
 const normalizeStatus = (status) =>
   String(status || "pending")
     .toLowerCase()
     .trim();
 
-/* CREATE */
+/* --- CREATE ----------- */
 export const createAppointmentTransaction = (data) =>
   createAppointmentEngine(data);
 
-/* STATUS UPDATE */
+/* --- STATUS UPDATE ----------- */
 export const updateAppointmentStatusService = async (
   id,
   nextStatus,
@@ -114,17 +114,17 @@ export const updateAppointmentStatusService = async (
   }
 };
 
-/* ✅ CANCEL */
+/* --- CANCEL ----------- */
 export const cancelAppointmentService = async (id, slotId) => {
   return cancelAppointmentEngine(id, slotId);
 };
 
-/* ✅ RESCHEDULE */
+/* --- RESCHEDULE ----------- */
 export const rescheduleAppointmentService = async (appt, date, time) => {
   return rescheduleAppointmentEngine(appt, date, time);
 };
 
-/* 🔥 ADMIN (FIXED) */
+/* --- ADMIN ----------- */
 export const subscribeAppointmentsService = (tenantId, callback) => {
   if (!tenantId || typeof callback !== "function") {
     console.warn("Invalid subscription params");
@@ -141,7 +141,7 @@ export const subscribeAppointmentsService = (tenantId, callback) => {
         ...d.data(),
       }));
 
-      // 🔥 FILTER HERE
+      // FILTER HERE
       const filtered = data.filter(
         (a) => !a.tenantId || a.tenantId === tenantId,
       );
@@ -154,7 +154,7 @@ export const subscribeAppointmentsService = (tenantId, callback) => {
   );
 };
 
-/* 🔥 USER (SAFE) */
+/* --- USER ----------- */
 export const subscribeUserAppointmentsService = (userId, callback) => {
   if (!userId || typeof callback !== "function") {
     console.warn("Invalid user subscription");
@@ -184,7 +184,7 @@ export const subscribeUserAppointmentsService = (userId, callback) => {
   );
 };
 
-/* SLOT LISTENER */
+/* --- SLOT LISTENER ----------- */
 export const subscribeDoctorSlotsService = (doctorId, date, callback) => {
   if (!doctorId || !date || typeof callback !== "function") {
     return () => {};
