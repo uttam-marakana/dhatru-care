@@ -91,7 +91,7 @@ export default function ManageAppointments() {
 
     filteredAppointments
       .filter((a) =>
-        ["confirmed", "completed"].includes((a.status || "").toLowerCase()),
+        ["completed"].includes((a.status || "").toLowerCase()),
       )
       .forEach((a) => {
         const amount = a.totalAmount || 0;

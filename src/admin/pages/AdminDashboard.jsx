@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 
 import { subscribeAppointments } from "../../api/appointmentsApi";
 import { getDoctors } from "../../api/doctorsApi";
@@ -29,6 +29,8 @@ export default function AdminDashboard() {
 
   const { tenantId } = useAuth();
 
+  /* ================= LOAD STATIC DATA ================= */
+
   useEffect(() => {
     const load = async () => {
       const doctorsData = await getDoctors();
@@ -45,17 +47,44 @@ export default function AdminDashboard() {
     load();
   }, []);
 
-  useEffect(() => {
-    if (!tenantId) return;
+  /* ================= APPOINTMENTS ================= */
 
-    const unsub = subscribeAppointments(tenantId, setAppointments);
+  useEffect(() => {
+    if (!tenantId) {
+      console.warn("No tenantId found");
+      return;
+    }
+
+    console.log("Subscribing to tenant:", tenantId);
+
+    const unsub = subscribeAppointments(tenantId, (data) => {
+      console.log("Appointments received:", data);
+      setAppointments(data);
+    });
+
     return () => unsub();
   }, [tenantId]);
 
-  const pending = appointments.filter((a) => a.status === "pending").length;
-  const confirmed = appointments.filter((a) => a.status === "confirmed").length;
-  const completed = appointments.filter((a) => a.status === "completed").length;
-  const rejected = appointments.filter((a) => a.status === "rejected").length;
+  /* ================= NORMALIZED STATS ================= */
+
+  const stats = useMemo(() => {
+    const normalize = (s) => (s || "pending").toLowerCase().trim();
+
+    return {
+      pending: appointments.filter((a) => normalize(a.status) === "pending")
+        .length,
+      confirmed: appointments.filter((a) => normalize(a.status) === "confirmed")
+        .length,
+      completed: appointments.filter((a) => normalize(a.status) === "completed")
+        .length,
+      rejected: appointments.filter((a) => normalize(a.status) === "rejected")
+        .length,
+      cancelled: appointments.filter((a) => normalize(a.status) === "cancelled")
+        .length,
+    };
+  }, [appointments]);
+
+  /* ================= UI ================= */
 
   return (
     <div className="space-y-8">
@@ -65,16 +94,7 @@ export default function AdminDashboard() {
       />
 
       {/* MAIN METRICS */}
-
-      <div
-        className="
-        grid
-        grid-cols-1
-        sm:grid-cols-2
-        lg:grid-cols-4
-        gap-6
-        "
-      >
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         <DashboardCard
           title="Doctors"
           value={loading ? "..." : doctors.length}
@@ -105,35 +125,35 @@ export default function AdminDashboard() {
       </div>
 
       {/* STATUS METRICS */}
-
-      <div
-        className="
-        grid
-        grid-cols-1
-        sm:grid-cols-2
-        lg:grid-cols-3
-        gap-6
-        "
-      >
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6">
         <DashboardCard
           title="Pending"
-          value={pending}
+          value={stats.pending}
           icon={<FaClock />}
-          color="#f59e0b"
         />
 
         <DashboardCard
           title="Confirmed"
-          value={confirmed}
+          value={stats.confirmed}
           icon={<FaCheckCircle />}
-          color="#10b981"
+        />
+
+        <DashboardCard
+          title="Completed"
+          value={stats.completed}
+          icon={<FaCheckCircle />}
         />
 
         <DashboardCard
           title="Rejected"
-          value={rejected}
+          value={stats.rejected}
           icon={<FaTimesCircle />}
-          color="#ef4444"
+        />
+
+        <DashboardCard
+          title="Cancelled"
+          value={stats.cancelled}
+          icon={<FaTimesCircle />}
         />
       </div>
     </div>
