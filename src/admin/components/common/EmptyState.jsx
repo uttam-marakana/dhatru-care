@@ -17,13 +17,13 @@ export default function EmptyState({
       gap-4
       "
     >
-      {/* ICON */}
+      {/* --- ICON ----------- */}
 
       <div className="text-4xl text-[var(--muted)]">
         <FaInbox />
       </div>
 
-      {/* TEXT */}
+      {/* --- TEXT ----------- */}
 
       <div>
         <h3 className="text-lg font-semibold text-[var(--text)]">{title}</h3>
@@ -33,7 +33,7 @@ export default function EmptyState({
         </p>
       </div>
 
-      {/* ACTION */}
+      {/* --- ACTION ----------- */}
 
       {action && <div className="mt-2">{action}</div>}
     </div>

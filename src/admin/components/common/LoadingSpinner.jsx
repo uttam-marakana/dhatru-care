@@ -14,10 +14,10 @@ export default function LoadingSpinner({
         ${fullPage ? "min-h-[70vh]" : ""}
       `}
     >
-      {/* SPINNER AREA */}
+      {/* --- SPINNER AREA ----------- */}
 
       <div className="relative flex items-center justify-center">
-        {/* Pulse Ring */}
+        {/* --- Pulse Ring ----------- */}
         <span
           className="
             absolute
@@ -29,7 +29,7 @@ export default function LoadingSpinner({
           "
         />
 
-        {/* Spinner */}
+        {/* --- Spinner ----------- */}
         <span
           className="
             w-10 h-10
@@ -42,7 +42,7 @@ export default function LoadingSpinner({
         />
       </div>
 
-      {/* TEXT + ANIMATED DOTS */}
+      {/* --- TEXT + ANIMATED DOTS ----------- */}
 
       {text && (
         <p className="text-sm text-[var(--text-secondary)] flex items-center gap-1">
