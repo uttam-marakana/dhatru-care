@@ -60,8 +60,10 @@ export const updateMessageMeta = async (id, payload) => {
 
     //  auto tracking
     ...(payload.status === "read" && { isRead: true }),
+
     ...(payload.status === "replied" && {
       repliedAt: serverTimestamp(),
+      isLocked: true,
     }),
 
     updatedAt: serverTimestamp(),
