@@ -28,7 +28,7 @@ export default function LeadDrawer({ open, onClose, lead, onUpdate }) {
             { text: note, createdAt: new Date().toISOString() },
           ]
         : lead.notes || [],
-      isLocked: true, // enforce single update
+      isLocked: true,
     });
 
     setNote("");
@@ -36,34 +36,38 @@ export default function LeadDrawer({ open, onClose, lead, onUpdate }) {
 
   return (
     <div className="fixed inset-0 z-50 flex">
-      <div className="flex-1 bg-black/40" onClick={onClose} />
+      {/* Overlay */}
+      <div className="flex-1 bg-black/40 backdrop-blur-sm" onClick={onClose} />
 
-      <div className="w-full sm:w-[420px] bg-white p-6 overflow-y-auto">
-        <h2 className="text-xl font-bold mb-4">Lead Details</h2>
+      {/* Drawer */}
+      <div className="w-full sm:w-[420px] bg-[var(--card)] border-l border-[var(--border)] p-6 overflow-y-auto shadow-xl">
+        {/* HEADER */}
+        <div className="flex justify-between items-center mb-6">
+          <h2 className="text-lg font-semibold">Lead Details</h2>
+          <button
+            onClick={onClose}
+            className="text-sm text-[var(--muted)] hover:text-[var(--text)]"
+          >
+            ✕
+          </button>
+        </div>
 
+        {/* INFO */}
         <div className="space-y-3 text-sm">
-          <p>
-            <b>Name:</b> {lead.name}
-          </p>
-          <p>
-            <b>Email:</b> {lead.email}
-          </p>
-          <p>
-            <b>Subject:</b> {lead.subject}
-          </p>
-          <p>
-            <b>Message:</b> {lead.message}
-          </p>
+          <Info label="Name" value={lead.name} />
+          <Info label="Email" value={lead.email} />
+          <Info label="Subject" value={lead.subject} />
+          <Info label="Message" value={lead.message} />
         </div>
 
         {/* STATUS */}
         <div className="mt-6">
-          <label>Status</label>
+          <label className="text-sm text-[var(--muted)]">Status</label>
           <select
             disabled={isLocked}
             value={status}
             onChange={(e) => setStatus(e.target.value)}
-            className="w-full border p-2 rounded disabled:opacity-60"
+            className="ui-select mt-1 disabled:opacity-60"
           >
             <option>new</option>
             <option>read</option>
@@ -73,12 +77,12 @@ export default function LeadDrawer({ open, onClose, lead, onUpdate }) {
 
         {/* PRIORITY */}
         <div className="mt-4">
-          <label>Priority</label>
+          <label className="text-sm text-[var(--muted)]">Priority</label>
           <select
             disabled={isLocked}
             value={priority}
             onChange={(e) => setPriority(e.target.value)}
-            className="w-full border p-2 rounded disabled:opacity-60"
+            className="ui-select mt-1 disabled:opacity-60"
           >
             <option>low</option>
             <option>normal</option>
@@ -88,19 +92,26 @@ export default function LeadDrawer({ open, onClose, lead, onUpdate }) {
 
         {/* NOTES */}
         <div className="mt-6">
-          <h3 className="font-semibold mb-2">Notes</h3>
+          <h3 className="text-sm font-medium mb-2">Notes</h3>
 
-          <div className="space-y-2 max-h-40 overflow-y-auto">
-            {lead.notes?.map((n, i) => (
-              <div key={i} className="text-xs bg-gray-100 p-2 rounded">
-                {n.text}
-              </div>
-            ))}
+          <div className="space-y-2 max-h-40 overflow-y-auto pr-1">
+            {lead.notes?.length > 0 ? (
+              lead.notes.map((n, i) => (
+                <div
+                  key={i}
+                  className="text-xs bg-[var(--glass)] p-2 rounded border"
+                >
+                  {n.text}
+                </div>
+              ))
+            ) : (
+              <p className="text-xs text-[var(--muted)]">No notes yet</p>
+            )}
           </div>
 
           {!isLocked && (
             <textarea
-              className="w-full border rounded p-2 mt-3"
+              className="ui-textarea mt-3"
               rows={3}
               placeholder="Add note..."
               value={note}
@@ -109,22 +120,29 @@ export default function LeadDrawer({ open, onClose, lead, onUpdate }) {
           )}
         </div>
 
-        {/* SINGLE ACTION BUTTON */}
+        {/* ACTION */}
         {!isLocked && (
-          <button
-            onClick={handleSave}
-            className="mt-6 w-full bg-blue-600 text-white py-2 rounded"
-          >
+          <button onClick={handleSave} className="ui-button mt-6">
             Save & Finalize
           </button>
         )}
 
         {isLocked && (
-          <p className="mt-4 text-sm text-green-600 text-center">
+          <p className="mt-4 text-sm text-[var(--color-success)] text-center">
             This record is finalized and cannot be edited.
           </p>
         )}
       </div>
     </div>
+  );
+}
+
+/* --- HELPER --- */
+function Info({ label, value }) {
+  return (
+    <p>
+      <span className="text-[var(--muted)]">{label}:</span>{" "}
+      <span className="font-medium">{value || "-"}</span>
+    </p>
   );
 }
