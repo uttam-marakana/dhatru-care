@@ -21,12 +21,10 @@ export default function ManageContacts() {
 
   useEffect(() => {
     if (loading || !user || role !== "admin") return;
-
     const unsub = subscribeContacts(setMessages);
     return () => unsub();
   }, [user, role, loading]);
 
-  /* FILTER */
   const filtered = useMemo(() => {
     let data = [...messages];
 
@@ -58,7 +56,6 @@ export default function ManageContacts() {
     return filtered.slice(start, start + PAGE_SIZE);
   }, [filtered, page]);
 
-  /* UPDATE */
   const handleUpdate = async (id, payload) => {
     try {
       setLoadingId(id);
@@ -72,7 +69,6 @@ export default function ManageContacts() {
     }
   };
 
-  /* LOADER */
   if (loading) {
     return (
       <div className="flex justify-center items-center min-h-[300px]">
@@ -88,10 +84,8 @@ export default function ManageContacts() {
         description="Manage user inquiries"
       />
 
-      {/* ANALYTICS */}
       <ContactAnalytics data={messages} />
 
-      {/* FILTERS */}
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         <input
           type="search"
@@ -113,7 +107,6 @@ export default function ManageContacts() {
         </select>
       </div>
 
-      {/* TABLE */}
       <div className="p-4 rounded-xl bg-[var(--card)] border">
         {messages.length === 0 ? (
           <div className="text-center py-10 text-[var(--muted)]">
@@ -128,7 +121,6 @@ export default function ManageContacts() {
         )}
       </div>
 
-      {/* PAGINATION */}
       {filtered.length > PAGE_SIZE && (
         <div className="flex flex-wrap justify-center gap-4">
           <button
