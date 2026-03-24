@@ -4,17 +4,17 @@ import {
   updateMessageMeta,
 } from "../services/contactService";
 
-/* --- CREATE ----------- */
+/* CREATE */
 export const createContactMessage = async (data) => {
   return insertContactMessage(data);
 };
 
-/* --- REALTIME SUBSCRIBE ----------- */
+/* REALTIME */
 export const subscribeContacts = (cb) => {
   return subscribeService(cb);
 };
 
-/* --- UPDATE (STATUS / PRIORITY / NOTES) ----------- */
+/* UPDATE */
 export const updateContactMeta = async (id, payload) => {
   return updateMessageMeta(id, payload);
 };
