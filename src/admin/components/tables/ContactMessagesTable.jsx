@@ -38,10 +38,48 @@ export default function ContactMessagesTable({
               >
                 <td className="p-3">{m.name}</td>
                 <td>{m.email}</td>
-                <td>
+
+                {/* STATUS */}
+                <td onClick={(e) => e.stopPropagation()}>
                   <StatusBadge status={m.status} />
+
+                  {!m.isLocked && (
+                    <select
+                      value={m.status}
+                      onChange={(e) =>
+                        onUpdate(m.id, { status: e.target.value })
+                      }
+                      className="ml-2 px-2 py-1 border rounded"
+                    >
+                      <option>new</option>
+                      <option>read</option>
+                      <option>replied</option>
+                    </select>
+                  )}
+
+                  {m.isLocked && (
+                    <span className="ml-2 text-xs text-green-600">✔ Final</span>
+                  )}
                 </td>
-                <td>{m.priority}</td>
+
+                {/* PRIORITY */}
+                <td onClick={(e) => e.stopPropagation()}>
+                  {!m.isLocked ? (
+                    <select
+                      value={m.priority}
+                      onChange={(e) =>
+                        onUpdate(m.id, { priority: e.target.value })
+                      }
+                      className="px-2 py-1 border rounded"
+                    >
+                      <option>low</option>
+                      <option>normal</option>
+                      <option>high</option>
+                    </select>
+                  ) : (
+                    <span className="text-sm text-gray-500">{m.priority}</span>
+                  )}
+                </td>
               </tr>
             ))}
           </tbody>
