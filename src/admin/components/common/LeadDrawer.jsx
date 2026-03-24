@@ -7,10 +7,8 @@ export default function LeadDrawer({ open, onClose, lead, onUpdate }) {
 
   return (
     <div className="fixed inset-0 z-50 flex">
-      {/* Overlay */}
       <div className="flex-1 bg-black/40" onClick={onClose} />
 
-      {/* Drawer */}
       <div className="w-full sm:w-[420px] bg-white p-6 overflow-y-auto">
         <h2 className="text-xl font-bold mb-4">Lead Details</h2>
 
@@ -29,13 +27,12 @@ export default function LeadDrawer({ open, onClose, lead, onUpdate }) {
           </p>
         </div>
 
-        {/* Status */}
         <div className="mt-6">
-          <label className="text-sm font-medium">Status</label>
+          <label>Status</label>
           <select
-            className="w-full mt-1 border p-2 rounded"
-            value={lead.status}
+            value={lead?.status || "new"}
             onChange={(e) => onUpdate(lead.id, { status: e.target.value })}
+            className="w-full border p-2 rounded"
           >
             <option>new</option>
             <option>read</option>
@@ -43,13 +40,12 @@ export default function LeadDrawer({ open, onClose, lead, onUpdate }) {
           </select>
         </div>
 
-        {/* Priority */}
         <div className="mt-4">
-          <label className="text-sm font-medium">Priority</label>
+          <label>Priority</label>
           <select
-            className="w-full mt-1 border p-2 rounded"
-            value={lead.priority}
+            value={lead?.priority || "normal"}
             onChange={(e) => onUpdate(lead.id, { priority: e.target.value })}
+            className="w-full border p-2 rounded"
           >
             <option>low</option>
             <option>normal</option>
@@ -57,7 +53,6 @@ export default function LeadDrawer({ open, onClose, lead, onUpdate }) {
           </select>
         </div>
 
-        {/* Notes */}
         <div className="mt-6">
           <h3 className="font-semibold mb-2">Notes</h3>
 
@@ -72,7 +67,6 @@ export default function LeadDrawer({ open, onClose, lead, onUpdate }) {
           <textarea
             className="w-full border rounded p-2 mt-3"
             rows={3}
-            placeholder="Add note..."
             value={note}
             onChange={(e) => setNote(e.target.value)}
           />
@@ -85,10 +79,7 @@ export default function LeadDrawer({ open, onClose, lead, onUpdate }) {
               onUpdate(lead.id, {
                 notes: [
                   ...(lead.notes || []),
-                  {
-                    text: note,
-                    createdAt: new Date().toISOString(),
-                  },
+                  { text: note, createdAt: new Date().toISOString() },
                 ],
               });
 

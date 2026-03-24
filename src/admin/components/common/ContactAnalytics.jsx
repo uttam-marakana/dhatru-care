@@ -1,5 +1,4 @@
 export default function ContactAnalytics({ data = [] }) {
-
   const total = data.length;
 
   const stats = data.reduce(
