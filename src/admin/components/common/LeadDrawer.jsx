@@ -1,11 +1,38 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export default function LeadDrawer({ open, onClose, lead, onUpdate }) {
   const [note, setNote] = useState("");
+  const [status, setStatus] = useState("new");
+  const [priority, setPriority] = useState("normal");
+
+  useEffect(() => {
+    if (lead) {
+      setStatus(lead.status || "new");
+      setPriority(lead.priority || "normal");
+    }
+  }, [lead]);
 
   if (!open || !lead) return null;
 
   const isLocked = lead?.isLocked;
+
+  const handleSave = () => {
+    if (isLocked) return;
+
+    onUpdate(lead.id, {
+      status,
+      priority,
+      notes: note
+        ? [
+            ...(lead.notes || []),
+            { text: note, createdAt: new Date().toISOString() },
+          ]
+        : lead.notes || [],
+      isLocked: true, // enforce single update
+    });
+
+    setNote("");
+  };
 
   return (
     <div className="fixed inset-0 z-50 flex">
@@ -34,8 +61,8 @@ export default function LeadDrawer({ open, onClose, lead, onUpdate }) {
           <label>Status</label>
           <select
             disabled={isLocked}
-            value={lead?.status || "new"}
-            onChange={(e) => onUpdate(lead.id, { status: e.target.value })}
+            value={status}
+            onChange={(e) => setStatus(e.target.value)}
             className="w-full border p-2 rounded disabled:opacity-60"
           >
             <option>new</option>
@@ -49,8 +76,8 @@ export default function LeadDrawer({ open, onClose, lead, onUpdate }) {
           <label>Priority</label>
           <select
             disabled={isLocked}
-            value={lead?.priority || "normal"}
-            onChange={(e) => onUpdate(lead.id, { priority: e.target.value })}
+            value={priority}
+            onChange={(e) => setPriority(e.target.value)}
             className="w-full border p-2 rounded disabled:opacity-60"
           >
             <option>low</option>
@@ -71,36 +98,32 @@ export default function LeadDrawer({ open, onClose, lead, onUpdate }) {
             ))}
           </div>
 
-          {/* LOCK NOTES INPUT */}
           {!isLocked && (
-            <>
-              <textarea
-                className="w-full border rounded p-2 mt-3"
-                rows={3}
-                value={note}
-                onChange={(e) => setNote(e.target.value)}
-              />
-
-              <button
-                className="mt-2 bg-blue-500 text-white px-4 py-2 rounded"
-                onClick={() => {
-                  if (!note) return;
-
-                  onUpdate(lead.id, {
-                    notes: [
-                      ...(lead.notes || []),
-                      { text: note, createdAt: new Date().toISOString() },
-                    ],
-                  });
-
-                  setNote("");
-                }}
-              >
-                Add Note
-              </button>
-            </>
+            <textarea
+              className="w-full border rounded p-2 mt-3"
+              rows={3}
+              placeholder="Add note..."
+              value={note}
+              onChange={(e) => setNote(e.target.value)}
+            />
           )}
         </div>
+
+        {/* SINGLE ACTION BUTTON */}
+        {!isLocked && (
+          <button
+            onClick={handleSave}
+            className="mt-6 w-full bg-blue-600 text-white py-2 rounded"
+          >
+            Save & Finalize
+          </button>
+        )}
+
+        {isLocked && (
+          <p className="mt-4 text-sm text-green-600 text-center">
+            This record is finalized and cannot be edited.
+          </p>
+        )}
       </div>
     </div>
   );
