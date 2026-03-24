@@ -14,44 +14,113 @@ export default function ContactMessagesTable({
     [messages, activeId],
   );
 
+  /* --- SLA HELPER --- */
+  const isOverdue = (m) => {
+    if (!m.createdAt || m.isLocked) return false;
+    const created = m.createdAt.toDate?.() || new Date(m.createdAt);
+    return Date.now() - created.getTime() > 1000 * 60 * 60 * 24; // 24h
+  };
+
+  const getPriorityStyle = (priority) => {
+    if (priority === "high") return "text-red-500 font-medium";
+    if (priority === "low") return "text-gray-400";
+    return "";
+  };
+
   return (
     <>
       <div className="glass overflow-x-auto">
-        <table className="min-w-[600px] text-sm">
-          <thead>
-            <tr className="border-b">
-              <th className="p-3">Name</th>
-              <th>Email</th>
-              <th>Status</th>
-              <th>Priority</th>
+        <table className="min-w-full text-sm">
+          {/* HEADER */}
+          <thead className="border-b border-[var(--border)]">
+            <tr className="text-left text-[var(--text-secondary)]">
+              <th className="p-4">Name</th>
+              <th className="p-4">Email</th>
+              <th className="p-4">Subject</th>
+              <th className="p-4">Status</th>
+              <th className="p-4">Priority</th>
             </tr>
           </thead>
 
+          {/* BODY */}
           <tbody>
-            {messages.map((m) => (
-              <tr
-                key={m.id}
-                onClick={() => setActiveId(m.id)}
-                className={`border-b hover:bg-[var(--card)] cursor-pointer ${
-                  loadingId === m.id ? "opacity-50 pointer-events-none" : ""
-                }`}
-              >
-                <td className="p-3">{m.name}</td>
-                <td>{m.email}</td>
+            {messages.map((m) => {
+              const status = (m.status || "new").toLowerCase();
+              const overdue = isOverdue(m);
+              const unread = !m.isRead;
 
-                {/* STATUS VIEW ONLY */}
-                <td>
-                  <StatusBadge status={m.status} />
-                </td>
+              return (
+                <tr
+                  key={m.id}
+                  onClick={() => setActiveId(m.id)}
+                  className={`
+                    border-b border-[var(--border)]
+                    hover:bg-[var(--card)]
+                    transition cursor-pointer
+                    ${loadingId === m.id ? "opacity-50 pointer-events-none" : ""}
+                    ${unread ? "bg-blue-50/40" : ""}
+                  `}
+                >
+                  {/* NAME */}
+                  <td className="p-4 font-medium flex items-center gap-2">
+                    {m.name}
 
-                {/* PRIORITY VIEW ONLY */}
-                <td>{m.priority}</td>
-              </tr>
-            ))}
+                    {/* UNREAD DOT */}
+                    {unread && (
+                      <span className="w-2 h-2 bg-blue-500 rounded-full" />
+                    )}
+                  </td>
+
+                  {/* EMAIL */}
+                  <td className="p-4 text-[var(--muted)]">{m.email}</td>
+
+                  {/* SUBJECT */}
+                  <td className="p-4 max-w-[220px] truncate">
+                    {m.subject || "-"}
+                  </td>
+
+                  {/* STATUS */}
+                  <td className="p-4">
+                    <div className="flex items-center gap-2">
+                      <StatusBadge status={status} />
+
+                      {/* ✔ FINAL */}
+                      {m.isLocked && (
+                        <span className="text-xs text-gray-400">✔</span>
+                      )}
+
+                      {/* NOTES COUNT */}
+                      {m.notes?.length > 0 && (
+                        <span className="text-xs text-gray-400">
+                          {m.notes.length}
+                        </span>
+                      )}
+
+                      {/* SLA BADGE */}
+                      {overdue && (
+                        <span className="text-xs text-red-500 font-medium">
+                          overdue
+                        </span>
+                      )}
+                    </div>
+                  </td>
+
+                  {/* PRIORITY */}
+                  <td
+                    className={`p-4 capitalize text-[var(--muted)] ${getPriorityStyle(
+                      m.priority,
+                    )}`}
+                  >
+                    {m.priority}
+                  </td>
+                </tr>
+              );
+            })}
           </tbody>
         </table>
       </div>
 
+      {/* DRAWER */}
       <LeadDrawer
         open={!!activeId}
         lead={activeLead}
