@@ -145,9 +145,13 @@ dhatrucare/
 │   │   │
 │   │   │   ├── common/                     # Reusable admin components
 │   │   │   │   ├── AdminTable.jsx          # Generic admin data table
+│   │   │   │   ├── ContactAnalytics.jsx          
 │   │   │   │   ├── EmptyState.jsx          # UI for empty data states
 │   │   │   │   ├── FormCard.jsx            # Wrapper for admin forms
-│   │   │   │   └── LoadingSpinner.jsx      # Loading indicator
+│   │   │   │   ├── LeadDrawer.jsx          
+│   │   │   │   ├── LoadingSpinner.jsx          
+│   │   │   │   ├── NoteModal.jsx          
+│   │   │   │   └── StatusBadge.jsx      # Loading indicator
 │   │   │
 │   │   │   ├── forms/                      # Admin CRUD forms
 │   │   │   │   ├── BlogForm.jsx            # Blog creation/edit form
@@ -170,6 +174,7 @@ dhatrucare/
 │   │   │   └── tables/                     # Admin tables for entities
 │   │   │       ├── AppointmentsTable.jsx
 │   │   │       ├── BlogsTable.jsx
+│   │   │       ├── ContactMessagesTable.jsx
 │   │   │       ├── DepartmentsTable.jsx
 │   │   │       ├── DoctorsTable.jsx
 │   │   │       └── PackagesTable.jsx
@@ -181,6 +186,7 @@ dhatrucare/
 │   │   │   ├── DoctorSchedule.jsx          # Manage doctor schedules
 │   │   │   ├── ManageAppointments.jsx
 │   │   │   ├── ManageBlogs.jsx
+│   │   │   ├── ManageContacts.jsx
 │   │   │   ├── ManageDepartments.jsx
 │   │   │   ├── ManageDoctors.jsx
 │   │   │   └── ManagePackages.jsx
