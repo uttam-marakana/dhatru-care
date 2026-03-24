@@ -25,7 +25,7 @@ export const insertContactMessage = async (data) => {
     priority: "normal",
     notes: [],
 
-    // 🔥 analytics + future SaaS tracking
+    //  analytics + future SaaS tracking
     isRead: false,
     repliedAt: null,
     tenantId: data.tenantId || null,
@@ -58,7 +58,7 @@ export const updateMessageMeta = async (id, payload) => {
   await updateDoc(docRef, {
     ...payload,
 
-    // 🔥 auto tracking
+    //  auto tracking
     ...(payload.status === "read" && { isRead: true }),
     ...(payload.status === "replied" && {
       repliedAt: serverTimestamp(),
