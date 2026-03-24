@@ -46,6 +46,7 @@ const ManageDepartments = lazy(
   () => import("../admin/pages/ManageDepartments"),
 );
 const ManagePackages = lazy(() => import("../admin/pages/ManagePackages"));
+const ManageContacts = lazy(() => import("../admin/pages/ManageContacts"));
 const DataUpload = lazy(() => import("../admin/pages/DataUpload"));
 const BulkUpload = lazy(() => import("../admin/pages/BulkUpload"));
 
@@ -249,6 +250,15 @@ export default function AppRoutes() {
           element={
             <LazyWrapper>
               <ManagePackages />
+            </LazyWrapper>
+          }
+        />
+
+        <Route
+          path="contacts"
+          element={
+            <LazyWrapper>
+              <ManageContacts />
             </LazyWrapper>
           }
         />
