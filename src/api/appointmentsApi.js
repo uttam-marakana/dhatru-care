@@ -37,7 +37,7 @@ export const subscribeAppointments = (tenantId, cb) =>
 export const subscribeUserAppointments = (userId, cb) =>
   subscribeUserAppointmentsService(userId, cb);
 
-/* --- 🔥 SLOT LISTENER ----------- */
+/* ---  SLOT LISTENER ----------- */
 
 export const subscribeDoctorSlots = (doctorId, date, callback) =>
   subscribeDoctorSlotsService(doctorId, date, callback);
