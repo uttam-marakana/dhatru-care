@@ -232,7 +232,7 @@ export default function AppointmentForm() {
       setLoading(false);
       submittingRef.current = false;
     }
-  };;
+  };
 
   /* --- AUTO REDIRECT ----------- */
   useEffect(() => {
@@ -333,7 +333,7 @@ export default function AppointmentForm() {
         />
       )}
 
-      {/* --- STEP 4 (🔥 FINAL MERGED) ----------- */}
+      {/* --- STEP 4 ( FINAL MERGED) ----------- */}
       {step === 4 && (
         <>
           {allSlots.length > 0 ? (
