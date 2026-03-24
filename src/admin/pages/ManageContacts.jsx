@@ -1,6 +1,7 @@
 import { useEffect, useState, useMemo } from "react";
-import { subscribeContacts, updateContactMeta } from "../../api/contactApi";
+import { useAuth } from "../../context/AuthContext";
 
+import { subscribeContacts, updateContactMeta } from "../../api/contactApi";
 import { notifySuccess, notifyError } from "../../utils/toast";
 
 import ContactMessagesTable from "../components/tables/ContactMessagesTable";
@@ -10,19 +11,23 @@ import AdminHeader from "../components/layout/AdminHeader";
 const PAGE_SIZE = 10;
 
 export default function ManageContacts() {
+  const { user, role, loading } = useAuth(); // 🔥 FIX
+
   const [messages, setMessages] = useState([]);
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
   const [page, setPage] = useState(1);
   const [loadingId, setLoadingId] = useState(null);
 
-  /* --- SUBSCRIBE ----------- */
+  /* 🔥 FIXED SUBSCRIBE */
   useEffect(() => {
+    if (loading || !user || role !== "admin") return;
+
     const unsub = subscribeContacts(setMessages);
     return () => unsub();
-  }, []);
+  }, [user, role, loading]);
 
-  /* --- FILTER ----------- */
+  /* FILTER */
   const filtered = useMemo(() => {
     let data = [...messages];
 
@@ -45,7 +50,6 @@ export default function ManageContacts() {
     return data;
   }, [messages, search, statusFilter]);
 
-  /* --- PAGINATION RESET ----------- */
   useEffect(() => setPage(1), [search, statusFilter]);
 
   const totalPages = Math.ceil(filtered.length / PAGE_SIZE);
@@ -55,7 +59,7 @@ export default function ManageContacts() {
     return filtered.slice(start, start + PAGE_SIZE);
   }, [filtered, page]);
 
-  /* --- UPDATE ----------- */
+  /* UPDATE */
   const handleUpdate = async (id, payload) => {
     try {
       setLoadingId(id);
@@ -69,6 +73,15 @@ export default function ManageContacts() {
     }
   };
 
+  /* 🔥 LOADER */
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center min-h-[300px]">
+        Loading contacts...
+      </div>
+    );
+  }
+
   return (
     <div className="space-y-8">
       <AdminHeader
@@ -76,14 +89,14 @@ export default function ManageContacts() {
         description="Manage user inquiries"
       />
 
-      {/* 🔥 ANALYTICS (TOP PRIORITY) */}
+      {/* ANALYTICS */}
       <ContactAnalytics data={messages} />
 
-      {/* --- FILTERS ----------- */}
+      {/* FILTERS */}
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         <input
           type="search"
-          placeholder="Search name, email, subject..."
+          placeholder="Search..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           className="ui-input w-full"
@@ -101,9 +114,8 @@ export default function ManageContacts() {
         </select>
       </div>
 
-      {/* --- TABLE CONTAINER ----------- */}
+      {/* TABLE */}
       <div className="p-4 rounded-xl bg-[var(--card)] border">
-        {/* 🔥 EMPTY STATE */}
         {messages.length === 0 ? (
           <div className="text-center py-10 text-[var(--muted)]">
             No contact messages yet
@@ -117,25 +129,25 @@ export default function ManageContacts() {
         )}
       </div>
 
-      {/* --- PAGINATION ----------- */}
+      {/* PAGINATION */}
       {filtered.length > PAGE_SIZE && (
-        <div className="flex flex-wrap justify-center items-center gap-4">
+        <div className="flex flex-wrap justify-center gap-4">
           <button
             disabled={page === 1}
             onClick={() => setPage((p) => p - 1)}
-            className="px-4 py-2 border rounded-lg disabled:opacity-40"
+            className="px-4 py-2 border rounded disabled:opacity-40"
           >
             Prev
           </button>
 
-          <span className="text-sm text-[var(--muted)]">
+          <span className="text-sm">
             Page {page} of {totalPages}
           </span>
 
           <button
             disabled={page === totalPages}
             onClick={() => setPage((p) => p + 1)}
-            className="px-4 py-2 border rounded-lg disabled:opacity-40"
+            className="px-4 py-2 border rounded disabled:opacity-40"
           >
             Next
           </button>
