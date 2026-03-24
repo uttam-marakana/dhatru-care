@@ -7,6 +7,7 @@ import {
   orderBy,
   doc,
   updateDoc,
+  getDoc, // ADD
 } from "firebase/firestore";
 import { db } from "../firebase";
 
@@ -25,10 +26,10 @@ export const insertContactMessage = async (data) => {
     priority: "normal",
     notes: [],
 
-    //  analytics + future SaaS tracking
     isRead: false,
     repliedAt: null,
     tenantId: data.tenantId || null,
+    isLocked: false, // INIT
 
     source: data.source || "contact-page",
 
@@ -51,19 +52,26 @@ export const subscribeContactMessages = (cb) => {
   });
 };
 
-/* --- UPDATE (GENERIC CRM) ----------- */
+/* --- UPDATE (LOCK SAFE) ----------- */
 export const updateMessageMeta = async (id, payload) => {
   const docRef = doc(db, "contact_messages", id);
+
+  // FETCH CURRENT STATE
+  const snap = await getDoc(docRef);
+  const current = snap.data();
+
+  // BLOCK IF LOCKED
+  if (current?.isLocked) {
+    throw new Error("Record already finalized");
+  }
 
   await updateDoc(docRef, {
     ...payload,
 
-    //  auto tracking
     ...(payload.status === "read" && { isRead: true }),
 
     ...(payload.status === "replied" && {
       repliedAt: serverTimestamp(),
-      isLocked: true,
     }),
 
     updatedAt: serverTimestamp(),
