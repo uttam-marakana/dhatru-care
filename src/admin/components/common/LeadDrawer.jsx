@@ -5,6 +5,8 @@ export default function LeadDrawer({ open, onClose, lead, onUpdate }) {
 
   if (!open || !lead) return null;
 
+  const isLocked = lead?.isLocked;
+
   return (
     <div className="fixed inset-0 z-50 flex">
       <div className="flex-1 bg-black/40" onClick={onClose} />
@@ -27,12 +29,14 @@ export default function LeadDrawer({ open, onClose, lead, onUpdate }) {
           </p>
         </div>
 
+        {/* STATUS */}
         <div className="mt-6">
           <label>Status</label>
           <select
+            disabled={isLocked}
             value={lead?.status || "new"}
             onChange={(e) => onUpdate(lead.id, { status: e.target.value })}
-            className="w-full border p-2 rounded"
+            className="w-full border p-2 rounded disabled:opacity-60"
           >
             <option>new</option>
             <option>read</option>
@@ -40,12 +44,14 @@ export default function LeadDrawer({ open, onClose, lead, onUpdate }) {
           </select>
         </div>
 
+        {/* PRIORITY */}
         <div className="mt-4">
           <label>Priority</label>
           <select
+            disabled={isLocked}
             value={lead?.priority || "normal"}
             onChange={(e) => onUpdate(lead.id, { priority: e.target.value })}
-            className="w-full border p-2 rounded"
+            className="w-full border p-2 rounded disabled:opacity-60"
           >
             <option>low</option>
             <option>normal</option>
@@ -53,6 +59,7 @@ export default function LeadDrawer({ open, onClose, lead, onUpdate }) {
           </select>
         </div>
 
+        {/* NOTES */}
         <div className="mt-6">
           <h3 className="font-semibold mb-2">Notes</h3>
 
@@ -64,30 +71,35 @@ export default function LeadDrawer({ open, onClose, lead, onUpdate }) {
             ))}
           </div>
 
-          <textarea
-            className="w-full border rounded p-2 mt-3"
-            rows={3}
-            value={note}
-            onChange={(e) => setNote(e.target.value)}
-          />
+          {/* LOCK NOTES INPUT */}
+          {!isLocked && (
+            <>
+              <textarea
+                className="w-full border rounded p-2 mt-3"
+                rows={3}
+                value={note}
+                onChange={(e) => setNote(e.target.value)}
+              />
 
-          <button
-            className="mt-2 bg-blue-500 text-white px-4 py-2 rounded"
-            onClick={() => {
-              if (!note) return;
+              <button
+                className="mt-2 bg-blue-500 text-white px-4 py-2 rounded"
+                onClick={() => {
+                  if (!note) return;
 
-              onUpdate(lead.id, {
-                notes: [
-                  ...(lead.notes || []),
-                  { text: note, createdAt: new Date().toISOString() },
-                ],
-              });
+                  onUpdate(lead.id, {
+                    notes: [
+                      ...(lead.notes || []),
+                      { text: note, createdAt: new Date().toISOString() },
+                    ],
+                  });
 
-              setNote("");
-            }}
-          >
-            Add Note
-          </button>
+                  setNote("");
+                }}
+              >
+                Add Note
+              </button>
+            </>
+          )}
         </div>
       </div>
     </div>
