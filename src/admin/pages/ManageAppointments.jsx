@@ -90,9 +90,7 @@ export default function ManageAppointments() {
     let today = 0;
 
     filteredAppointments
-      .filter((a) =>
-        ["completed"].includes((a.status || "").toLowerCase()),
-      )
+      .filter((a) => ["completed"].includes((a.status || "").toLowerCase()))
       .forEach((a) => {
         const amount = a.totalAmount || 0;
 
@@ -131,7 +129,7 @@ export default function ManageAppointments() {
       if (err.message === "CONFLICT_UPDATE") {
         notifyConflict();
 
-        // 🔥 auto refresh to sync latest state
+        //  auto refresh to sync latest state
         setTimeout(() => window.location.reload(), 1200);
       } else {
         notifyError(err.message || "Update failed");

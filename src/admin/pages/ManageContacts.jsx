@@ -11,7 +11,7 @@ import AdminHeader from "../components/layout/AdminHeader";
 const PAGE_SIZE = 10;
 
 export default function ManageContacts() {
-  const { user, role, loading } = useAuth(); // 🔥 FIX
+  const { user, role, loading } = useAuth();
 
   const [messages, setMessages] = useState([]);
   const [search, setSearch] = useState("");
@@ -19,7 +19,6 @@ export default function ManageContacts() {
   const [page, setPage] = useState(1);
   const [loadingId, setLoadingId] = useState(null);
 
-  /* 🔥 FIXED SUBSCRIBE */
   useEffect(() => {
     if (loading || !user || role !== "admin") return;
 
@@ -73,7 +72,7 @@ export default function ManageContacts() {
     }
   };
 
-  /* 🔥 LOADER */
+  /* LOADER */
   if (loading) {
     return (
       <div className="flex justify-center items-center min-h-[300px]">
