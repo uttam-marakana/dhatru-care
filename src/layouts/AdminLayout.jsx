@@ -124,6 +124,10 @@ export default function AdminLayout() {
             Blogs
           </NavLink>
 
+          <NavLink to="/admin/contacts" className={linkStyle}>
+            Contacts
+          </NavLink>
+
           <NavLink to="/admin/packages" className={linkStyle}>
             Packages
           </NavLink>
