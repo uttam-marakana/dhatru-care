@@ -15,5 +15,5 @@ export const migrateSlots = async () => {
     }
   }
 
-  console.log("✅ Migration complete");
+  console.log("Migration complete");
 };
