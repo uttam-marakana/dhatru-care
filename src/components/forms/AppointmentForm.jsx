@@ -163,7 +163,7 @@ export default function AppointmentForm() {
   /* --- FEES ----------- */
   const getPackagePrice = () => {
     const pkg = packages.find((p) => p.id === form.packageId);
-    return Number(pkg?.price?.replace(/[^\d]/g, "")) || 0;
+    return Number(String(pkg?.price || "").replace(/[^\d]/g, "")) || 0;
   };
 
   const appointmentFee = FEES[appointmentType];
