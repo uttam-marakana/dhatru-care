@@ -2,21 +2,12 @@ import { Suspense, lazy } from "react";
 import { Analytics } from "@vercel/analytics/react";
 import { Toaster } from "react-hot-toast";
 import { ErrorBoundary } from "./components/common/ErrorBoundary";
-import * as Sentry from "@sentry/react";
-
 import { HomeDataProvider } from "./context/HomeDataContext";
 
 // Dynamic imports
 const Loader = lazy(() => import("./components/common/Loader"));
 const AppRoutes = lazy(() => import("./routes/AppRoutes"));
 
-Sentry.init({
-  dsn: import.meta.env.VITE_SENTRY_DSN,
-  integrations: [new Sentry.BrowserTracing(), new Sentry.Replay()],
-  tracesSampleRate: 1.0,
-  replaysSessionSampleRate: 0.1,
-  replaysOnErrorSampleRate: 1.0,
-});
 
 function App() {
   return (
