@@ -119,6 +119,19 @@ service cloud.firestore {
       allow update, delete: if false;
     }
 
+    match /patients/{patientId} {
+      allow create: if isLoggedIn() && isSameTenant(request.resource.data.tenantId);
+      allow read: if isAdmin() && isSameTenant(resource.data.tenantId);
+      allow list: if isAdmin();
+      allow update: if isAdmin() && isSameTenant(resource.data.tenantId);
+      allow delete: if isAdmin() && isSameTenant(resource.data.tenantId);
+    }
+
+    match /invoices/{invoiceId} {
+      allow create: if true;
+      allow read, update, delete: if isAdmin() && isSameTenant(resource.data.tenantId);
+    }
+
     match /subscriptions/{tenantId} {
       allow read: if isAdmin() && isSameTenant(tenantId);
       allow write: if false;
