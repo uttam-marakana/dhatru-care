@@ -1,5 +1,5 @@
 import React from 'react';
-import { toast } from '../../utils/toast';
+import { notifyError } from '../../utils/toast';
 import Loader from './Loader';
 
 export class ErrorBoundary extends React.Component {
@@ -14,7 +14,7 @@ export class ErrorBoundary extends React.Component {
 
   componentDidCatch(error, errorInfo) {
     console.error('ErrorBoundary caught:', error, errorInfo);
-    toast.error('Something went wrong. Please refresh the page.');
+    notifyError('Something went wrong. Please refresh the page.');
 
     // Sentry integration (when configured)
     if (typeof window !== 'undefined' && window.Sentry) {
