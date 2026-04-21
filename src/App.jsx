@@ -12,7 +12,7 @@ const AppRoutes = lazy(() => import("./routes/AppRoutes"));
 function App() {
   return (
     <ErrorBoundary>
-      <div className="min-h-screen bg-[var(--bg)] text-[var(--text)]">
+      <div className="min-h-screen bg-(--bg) text-(--text)">
         {/* --- Vercel Analytics ----------- */}
         <Analytics />
 
@@ -47,7 +47,7 @@ function App() {
 
         <Suspense
           fallback={
-            <div className="fixed inset-0 z-50 flex items-center justify-center bg-[var(--bg)]/80 backdrop-blur-md">
+            <div className="fixed inset-0 z-50 flex items-center justify-center bg-(--bg)/80 backdrop-blur-md">
               <Loader size="lg" />
             </div>
           }
