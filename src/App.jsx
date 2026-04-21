@@ -1,6 +1,8 @@
 import { Suspense, lazy } from "react";
 import { Analytics } from "@vercel/analytics/react";
 import { Toaster } from "react-hot-toast";
+import { ErrorBoundary } from "./components/common/ErrorBoundary";
+import * as Sentry from "@sentry/react";
 
 import { HomeDataProvider } from "./context/HomeDataContext";
 
@@ -8,54 +10,63 @@ import { HomeDataProvider } from "./context/HomeDataContext";
 const Loader = lazy(() => import("./components/common/Loader"));
 const AppRoutes = lazy(() => import("./routes/AppRoutes"));
 
+Sentry.init({
+  dsn: import.meta.env.VITE_SENTRY_DSN,
+  integrations: [new Sentry.BrowserTracing(), new Sentry.Replay()],
+  tracesSampleRate: 1.0,
+  replaysSessionSampleRate: 0.1,
+  replaysOnErrorSampleRate: 1.0,
+});
+
 function App() {
   return (
-    <div className="min-h-screen bg-[var(--bg)] text-[var(--text)]">
-      {/* --- Vercel Analytics ----------- */}
-      <Analytics />
+    <ErrorBoundary>
+      <div className="min-h-screen bg-[var(--bg)] text-[var(--text)]">
+        {/* --- Vercel Analytics ----------- */}
+        <Analytics />
 
-      {/* --- GLOBAL TOAST SYSTEM ----------- */}
-
-      <Toaster
-        position="top-right"
-        reverseOrder={false}
-        gutter={12}
-        toastOptions={{
-          duration: 3000,
-          style: {
-            background: "var(--card)",
-            color: "var(--text)",
-            border: "1px solid var(--border)",
-            borderRadius: "10px",
-            padding: "12px 14px",
-            fontSize: "14px",
-          },
-          success: {
-            iconTheme: {
-              primary: "var(--color-primary)",
-              secondary: "#fff",
-            },
-          },
-          error: {
+        {/* --- GLOBAL TOAST SYSTEM ----------- */}
+        <Toaster
+          position="top-right"
+          reverseOrder={false}
+          gutter={12}
+          toastOptions={{
+            duration: 3000,
             style: {
-              border: "1px solid var(--color-error)",
+              background: "var(--card)",
+              color: "var(--text)",
+              border: "1px solid var(--border)",
+              borderRadius: "10px",
+              padding: "12px 14px",
+              fontSize: "14px",
             },
-          },
-        }}
-      />
+            success: {
+              iconTheme: {
+                primary: "var(--color-primary)",
+                secondary: "#fff",
+              },
+            },
+            error: {
+              style: {
+                border: "1px solid var(--color-error)",
+              },
+            },
+          }}
+        />
 
-      <Suspense
-        fallback={
-          <div className="fixed inset-0 z-50 flex items-center justify-center bg-[var(--bg)]/80 backdrop-blur-md">
-            <Loader size="lg" />
-          </div>
-        }
-      >
-        <HomeDataProvider>
-          <AppRoutes />
-        </HomeDataProvider>
-      </Suspense>
-    </div>
+        <Suspense
+          fallback={
+            <div className="fixed inset-0 z-50 flex items-center justify-center bg-[var(--bg)]/80 backdrop-blur-md">
+              <Loader size="lg" />
+            </div>
+          }
+        >
+          <HomeDataProvider>
+            <AppRoutes />
+          </HomeDataProvider>
+        </Suspense>
+      </div>
+    </ErrorBoundary>
   );
 }
 

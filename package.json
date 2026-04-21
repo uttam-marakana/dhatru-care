@@ -1,20 +1,26 @@
 {
   "name": "dhatru-care",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
+    "test": "vitest",
+    "test:ui": "vitest --ui",
+    "test:e2e": "cypress open",
+    "test:e2e:ci": "cypress run",
     "check": "yarn build --mode production"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^2.11.2",
+    "@sentry/react": "^8.37.0",
     "@tailwindcss/vite": "^4.2.1",
     "@vercel/analytics": "^2.0.1",
     "axios": "^1.13.5",
+    "dompurify": "^3.1.7",
     "firebase": "^12.9.0",
     "formik": "^2.4.9",
     "framer-motion": "^12.34.3",
@@ -28,17 +34,24 @@
     "yup": "^1.7.1"
   },
   "devDependencies": {
+    "@cypress/vite-dev-server": "^1.1.0",
     "@eslint/js": "^9.39.1",
-    "@types/react": "^19.2.7",
-    "@types/react-dom": "^19.2.3",
+    "@testing-library/jest-dom": "^6.24.0",
+    "@testing-library/react": "^16.0.1",
     "@vitejs/plugin-react": "^5.1.1",
+    "cypress": "^13.15.0",
     "eslint": "^9.39.1",
     "eslint-plugin-react-hooks": "^7.0.1",
     "eslint-plugin-react-refresh": "^0.4.24",
     "globals": "^16.5.0",
-    "vite": "^8.0.0-beta.13"
+    "jsdom": "^25.0.1",
+    "prettier": "^3.3.3",
+    "vite": "^8.0.0-beta.13",
+    "vitest": "^3.2.1",
+    "@vitest/ui": "^3.2.1"
   },
   "resolutions": {
     "vite": "^8.0.0-beta.13"
   }
 }
+

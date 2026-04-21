@@ -30,8 +30,19 @@ const normalizeStatus = (status) =>
     .trim();
 
 /* --- CREATE ----------- */
-export const createAppointmentTransaction = (data) =>
-  createAppointmentEngine(data);
+export const createAppointmentTransaction = (data) => {
+  // Auto-link patient if phone matches existing patient
+  if (data.phone) {
+    return searchPatient(data.phone).then((patient) => {
+      if (patient) {
+        data.patientId = patient.id
+        data.patientName = patient.name
+      }
+      return createAppointmentEngine(data)
+    }).catch(() => createAppointmentEngine(data))
+  }
+  return createAppointmentEngine(data)
+};
 
 /* --- STATUS UPDATE ----------- */
 export const updateAppointmentStatusService = async (

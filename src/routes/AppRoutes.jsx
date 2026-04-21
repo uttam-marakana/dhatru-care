@@ -280,9 +280,27 @@ export default function AppRoutes() {
             </LazyWrapper>
           }
         />
+        <Route
+          path="patients"
+          element={
+            <LazyWrapper>
+              <ManagePatients />
+            </LazyWrapper>
+          }
+        />
+        <Route
+          path="billing"
+          element={
+            <LazyWrapper>
+              <BillingDashboard />
+            </LazyWrapper>
+          }
+        />
       </Route>
 
       {/* --- --- 404 ----------- ----------- */}
+
+
 
       <Route
         path="*"
