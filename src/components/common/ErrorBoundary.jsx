@@ -17,8 +17,8 @@ export class ErrorBoundary extends React.Component {
     toast.error('Something went wrong. Please refresh the page.')
     
     // Sentry integration (when configured)
-    if (typeof window !== 'undefined' && (window as any).Sentry) {
-      (window as any).Sentry.captureException(error, { extra: errorInfo })
+    if (typeof window !== 'undefined' && window.Sentry) {
+      window.Sentry.captureException(error, { extra: errorInfo })
     }
   }
 
