@@ -17,7 +17,7 @@ export const sanitizeHtml = (dirty) => {
 export const sanitizeText = (input) => {
   if (!input) return ''
   return input
-    .replace(/<script\\b[^<]*(?:(?!<\\/script>)<[^<]*)*<\\/script>/gi, '')
+.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '')
     .replace(/on\\w+\\s*=/gi, '')
     .replace(/javascript\\s*:/gi, '')
     .trim()
