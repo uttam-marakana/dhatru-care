@@ -1,7 +1,7 @@
 import { useState, useMemo } from "react";
-import Input from "../../../../components/common/Input";
-import Button from "../../../../components/common/Button";
-import CustomSelect from "../../../../components/common/CustomSelect";
+import Input from "../../../components/common/Input";
+import Button from "../../../components/common/Button";
+import CustomSelect from "../../../components/common/CustomSelect";
 
 const PAGE_SIZE = 10;
 
