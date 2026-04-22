@@ -13,10 +13,7 @@ export default function DepartmentsTable({ departments, onEdit, onDelete }) {
 
         <tbody>
           {departments.map((dept) => (
-            <tr
-              key={dept.id}
-              className="border-b border-[var(--border)] hover:bg-[var(--card)]"
-            >
+            <tr key={dept.id} className="border-b border-[var(--border)] hover:bg-[var(--card)]">
               <td className="p-4 font-medium">{dept.name}</td>
 
               <td className="p-4">{dept.slug}</td>
@@ -24,17 +21,11 @@ export default function DepartmentsTable({ departments, onEdit, onDelete }) {
               <td className="p-4">{dept.icon}</td>
 
               <td className="p-4 flex gap-3">
-                <button
-                  onClick={() => onEdit(dept)}
-                  className="text-[var(--color-primary)]"
-                >
+                <button onClick={() => onEdit(dept)} className="text-[var(--color-primary)]">
                   Edit
                 </button>
 
-                <button
-                  onClick={() => onDelete(dept.id)}
-                  className="text-[var(--color-error)]"
-                >
+                <button onClick={() => onDelete(dept.id)} className="text-[var(--color-error)]">
                   Delete
                 </button>
               </td>

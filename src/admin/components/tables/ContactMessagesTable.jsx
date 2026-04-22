@@ -1,18 +1,11 @@
-import { useState, useMemo } from "react";
-import StatusBadge from "../common/StatusBadge";
-import LeadDrawer from "../common/LeadDrawer";
+import { useState, useMemo } from 'react';
+import StatusBadge from '../common/StatusBadge';
+import LeadDrawer from '../common/LeadDrawer';
 
-export default function ContactMessagesTable({
-  messages,
-  onUpdate,
-  loadingId,
-}) {
+export default function ContactMessagesTable({ messages, onUpdate, loadingId }) {
   const [activeId, setActiveId] = useState(null);
 
-  const activeLead = useMemo(
-    () => messages.find((m) => m.id === activeId),
-    [messages, activeId],
-  );
+  const activeLead = useMemo(() => messages.find((m) => m.id === activeId), [messages, activeId]);
 
   /* --- SLA HELPER --- */
   const isOverdue = (m) => {
@@ -22,9 +15,9 @@ export default function ContactMessagesTable({
   };
 
   const getPriorityStyle = (priority) => {
-    if (priority === "high") return "text-red-500 font-medium";
-    if (priority === "low") return "text-gray-400";
-    return "";
+    if (priority === 'high') return 'text-red-500 font-medium';
+    if (priority === 'low') return 'text-gray-400';
+    return '';
   };
 
   return (
@@ -45,7 +38,7 @@ export default function ContactMessagesTable({
           {/* BODY */}
           <tbody>
             {messages.map((m) => {
-              const status = (m.status || "new").toLowerCase();
+              const status = (m.status || 'new').toLowerCase();
               const overdue = isOverdue(m);
               const unread = !m.isRead;
 
@@ -57,8 +50,8 @@ export default function ContactMessagesTable({
                     border-b border-[var(--border)]
                     hover:bg-[var(--card)]
                     transition cursor-pointer
-                    ${loadingId === m.id ? "opacity-50 pointer-events-none" : ""}
-                    ${unread ? "bg-blue-50/40" : ""}
+                    ${loadingId === m.id ? 'opacity-50 pointer-events-none' : ''}
+                    ${unread ? 'bg-blue-50/40' : ''}
                   `}
                 >
                   {/* NAME */}
@@ -66,18 +59,14 @@ export default function ContactMessagesTable({
                     {m.name}
 
                     {/* UNREAD DOT */}
-                    {unread && (
-                      <span className="w-2 h-2 bg-blue-500 rounded-full" />
-                    )}
+                    {unread && <span className="w-2 h-2 bg-blue-500 rounded-full" />}
                   </td>
 
                   {/* EMAIL */}
                   <td className="p-4 text-[var(--muted)]">{m.email}</td>
 
                   {/* SUBJECT */}
-                  <td className="p-4 max-w-[220px] truncate">
-                    {m.subject || "-"}
-                  </td>
+                  <td className="p-4 max-w-[220px] truncate">{m.subject || '-'}</td>
 
                   {/* STATUS */}
                   <td className="p-4">
@@ -85,31 +74,21 @@ export default function ContactMessagesTable({
                       <StatusBadge status={status} />
 
                       {/* ✔ FINAL */}
-                      {m.isLocked && (
-                        <span className="text-xs text-gray-400">✔</span>
-                      )}
+                      {m.isLocked && <span className="text-xs text-gray-400">✔</span>}
 
                       {/* NOTES COUNT */}
                       {m.notes?.length > 0 && (
-                        <span className="text-xs text-gray-400">
-                          {m.notes.length}
-                        </span>
+                        <span className="text-xs text-gray-400">{m.notes.length}</span>
                       )}
 
                       {/* SLA BADGE */}
-                      {overdue && (
-                        <span className="text-xs text-red-500 font-medium">
-                          overdue
-                        </span>
-                      )}
+                      {overdue && <span className="text-xs text-red-500 font-medium">overdue</span>}
                     </div>
                   </td>
 
                   {/* PRIORITY */}
                   <td
-                    className={`p-4 capitalize text-[var(--muted)] ${getPriorityStyle(
-                      m.priority,
-                    )}`}
+                    className={`p-4 capitalize text-[var(--muted)] ${getPriorityStyle(m.priority)}`}
                   >
                     {m.priority}
                   </td>
