@@ -1,7 +1,7 @@
 /* --- FORMAT DATE ----------- */
 
 export const formatDate = (date) => {
-  if (!date) return "";
+  if (!date) return '';
 
   const d = new Date(date);
 
@@ -11,7 +11,7 @@ export const formatDate = (date) => {
 /* --- FORMAT DATE TIME ----------- */
 
 export const formatDateTime = (date) => {
-  if (!date) return "";
+  if (!date) return '';
 
   const d = new Date(date);
 
@@ -41,15 +41,13 @@ export const searchFilter = (items, term, fields = []) => {
   const lower = term.toLowerCase();
 
   return items.filter((item) =>
-    fields.some((field) =>
-      item[field]?.toString().toLowerCase().includes(lower),
-    ),
+    fields.some((field) => item[field]?.toString().toLowerCase().includes(lower))
   );
 };
 
 /* --- SORT BY DATE ----------- */
 
-export const sortByDateDesc = (items, field = "createdAt") => {
+export const sortByDateDesc = (items, field = 'createdAt') => {
   return [...items].sort((a, b) => {
     const aDate = new Date(a[field]);
     const bDate = new Date(b[field]);
@@ -61,9 +59,9 @@ export const sortByDateDesc = (items, field = "createdAt") => {
 /* --- ARRAY TO CSV ----------- */
 
 export const arrayToCSV = (arr) => {
-  if (!Array.isArray(arr)) return "";
+  if (!Array.isArray(arr)) return '';
 
-  return arr.join(", ");
+  return arr.join(', ');
 };
 
 /* --- CSV TO ARRAY ----------- */
@@ -72,7 +70,7 @@ export const csvToArray = (value) => {
   if (!value) return [];
 
   return value
-    .split(",")
+    .split(',')
     .map((v) => v.trim())
     .filter(Boolean);
 };
