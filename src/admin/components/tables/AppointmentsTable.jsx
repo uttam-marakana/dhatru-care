@@ -3,11 +3,11 @@ import {
   isFinalStatus,
   getStatusLabel,
   getStatusStyle,
-} from "../../../../utils/appointmentStatus";
-import CustomSelect from "../../../../components/common/CustomSelect";
-import Button from "../../../../components/common/Button";
-import StatusBadge from "../../common/StatusBadge";
-import { APPOINTMENT_STATUS } from "../../../../utils/appointmentStatus";
+} from "../../../utils/appointmentStatus";
+import CustomSelect from "../../../components/common/CustomSelect";
+import Button from "../../../components/common/Button";
+import StatusBadge from "../common/StatusBadge";
+import { APPOINTMENT_STATUS } from "../../../utils/appointmentStatus";
 
 export default function AppointmentsTable({
   appointments,
