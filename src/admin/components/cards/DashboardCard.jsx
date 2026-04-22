@@ -1,9 +1,4 @@
-export default function DashboardCard({
-  title,
-  value,
-  icon,
-  color = "var(--color-primary)",
-}) {
+export default function DashboardCard({ title, value, icon, color = 'var(--color-primary)' }) {
   return (
     <div
       className="

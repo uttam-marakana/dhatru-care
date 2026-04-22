@@ -1,10 +1,10 @@
 export default function AppointmentCard({ appointment, onStatusChange }) {
   const statusColor = {
-    pending: "text-[var(--color-warning)]",
-    confirmed: "text-[var(--color-success)]",
-    completed: "text-blue-400",
-    rejected: "text-[var(--color-error)]",
-    cancelled: "text-[var(--color-error)]",
+    pending: 'text-[var(--color-warning)]',
+    confirmed: 'text-[var(--color-success)]',
+    completed: 'text-blue-400',
+    rejected: 'text-[var(--color-error)]',
+    cancelled: 'text-[var(--color-error)]',
   };
 
   return (
@@ -20,23 +20,15 @@ export default function AppointmentCard({ appointment, onStatusChange }) {
       "
     >
       <div className="space-y-1">
-        <p className="font-semibold text-[var(--text)]">
-          {appointment.patientName}
-        </p>
+        <p className="font-semibold text-[var(--text)]">{appointment.patientName}</p>
 
         <p className="text-sm text-[var(--text-secondary)]">
           {appointment.date} — {appointment.time}
         </p>
 
-        <p className="text-sm text-[var(--text-secondary)]">
-          {appointment.department}
-        </p>
+        <p className="text-sm text-[var(--text-secondary)]">{appointment.department}</p>
 
-        <p
-          className={`text-sm font-medium ${
-            statusColor[appointment.status] || ""
-          }`}
-        >
+        <p className={`text-sm font-medium ${statusColor[appointment.status] || ''}`}>
           Status: {appointment.status}
         </p>
       </div>
