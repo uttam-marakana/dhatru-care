@@ -1,14 +1,14 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect } from 'react';
 
 export default function LeadDrawer({ open, onClose, lead, onUpdate }) {
-  const [note, setNote] = useState("");
-  const [status, setStatus] = useState("new");
-  const [priority, setPriority] = useState("normal");
+  const [note, setNote] = useState('');
+  const [status, setStatus] = useState('new');
+  const [priority, setPriority] = useState('normal');
 
   useEffect(() => {
     if (lead) {
-      setStatus(lead.status || "new");
-      setPriority(lead.priority || "normal");
+      setStatus(lead.status || 'new');
+      setPriority(lead.priority || 'normal');
     }
   }, [lead]);
 
@@ -23,15 +23,12 @@ export default function LeadDrawer({ open, onClose, lead, onUpdate }) {
       status,
       priority,
       notes: note
-        ? [
-            ...(lead.notes || []),
-            { text: note, createdAt: new Date().toISOString() },
-          ]
+        ? [...(lead.notes || []), { text: note, createdAt: new Date().toISOString() }]
         : lead.notes || [],
       isLocked: true,
     });
 
-    setNote("");
+    setNote('');
   };
 
   return (
@@ -97,10 +94,7 @@ export default function LeadDrawer({ open, onClose, lead, onUpdate }) {
           <div className="space-y-2 max-h-40 overflow-y-auto pr-1">
             {lead.notes?.length > 0 ? (
               lead.notes.map((n, i) => (
-                <div
-                  key={i}
-                  className="text-xs bg-[var(--glass)] p-2 rounded border"
-                >
+                <div key={i} className="text-xs bg-[var(--glass)] p-2 rounded border">
                   {n.text}
                 </div>
               ))
@@ -141,8 +135,8 @@ export default function LeadDrawer({ open, onClose, lead, onUpdate }) {
 function Info({ label, value }) {
   return (
     <p>
-      <span className="text-[var(--muted)]">{label}:</span>{" "}
-      <span className="font-medium">{value || "-"}</span>
+      <span className="text-[var(--muted)]">{label}:</span>{' '}
+      <span className="font-medium">{value || '-'}</span>
     </p>
   );
 }

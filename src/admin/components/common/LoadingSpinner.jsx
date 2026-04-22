@@ -1,7 +1,4 @@
-export default function LoadingSpinner({
-  text = "Loading...",
-  fullPage = false,
-}) {
+export default function LoadingSpinner({ text = 'Loading...', fullPage = false }) {
   return (
     <div
       className={`
@@ -11,7 +8,7 @@ export default function LoadingSpinner({
         gap-5
         px-4
         py-12
-        ${fullPage ? "min-h-[70vh]" : ""}
+        ${fullPage ? 'min-h-[70vh]' : ''}
       `}
     >
       {/* --- SPINNER AREA ----------- */}

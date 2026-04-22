@@ -3,16 +3,14 @@ export default function ContactAnalytics({ data = [] }) {
 
   const stats = data.reduce(
     (acc, m) => {
-      const status = (m.status || "new").toLowerCase();
+      const status = (m.status || 'new').toLowerCase();
       acc[status] = (acc[status] || 0) + 1;
       return acc;
     },
-    { new: 0, read: 0, replied: 0 },
+    { new: 0, read: 0, replied: 0 }
   );
 
-  const highPriority = data.filter(
-    (m) => (m.priority || "normal") === "high",
-  ).length;
+  const highPriority = data.filter((m) => (m.priority || 'normal') === 'high').length;
 
   return (
     <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">

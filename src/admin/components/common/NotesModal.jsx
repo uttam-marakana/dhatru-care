@@ -1,7 +1,7 @@
-import { useState } from "react";
+import { useState } from 'react';
 
 export default function NotesModal({ open, onClose, onSave }) {
-  const [note, setNote] = useState("");
+  const [note, setNote] = useState('');
 
   if (!open) return null;
 
@@ -23,7 +23,7 @@ export default function NotesModal({ open, onClose, onSave }) {
             className="bg-blue-500 text-white px-4 py-2 rounded"
             onClick={() => {
               onSave(note);
-              setNote("");
+              setNote('');
               onClose();
             }}
           >

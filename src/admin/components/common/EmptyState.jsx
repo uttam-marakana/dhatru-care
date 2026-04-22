@@ -1,8 +1,8 @@
-import { FaInbox } from "react-icons/fa";
+import { FaInbox } from 'react-icons/fa';
 
 export default function EmptyState({
-  title = "No data available",
-  description = "Nothing to display here yet.",
+  title = 'No data available',
+  description = 'Nothing to display here yet.',
   action,
 }) {
   return (
@@ -28,9 +28,7 @@ export default function EmptyState({
       <div>
         <h3 className="text-lg font-semibold text-[var(--text)]">{title}</h3>
 
-        <p className="text-sm text-[var(--text-secondary)] mt-1">
-          {description}
-        </p>
+        <p className="text-sm text-[var(--text-secondary)] mt-1">{description}</p>
       </div>
 
       {/* --- ACTION ----------- */}

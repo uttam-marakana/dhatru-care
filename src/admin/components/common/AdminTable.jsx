@@ -1,12 +1,12 @@
-import { useState, useMemo } from "react";
-import Input from "../../../components/common/Input";
-import Button from "../../../components/common/Button";
-import CustomSelect from "../../../components/common/CustomSelect";
+import { useState, useMemo } from 'react';
+import Input from '../../../components/common/Input';
+import Button from '../../../components/common/Button';
+import CustomSelect from '../../../components/common/CustomSelect';
 
 const PAGE_SIZE = 10;
 
 export default function AdminTable({ data = [], columns = [], renderRow, filters = [] }) {
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useState('');
   const [page, setPage] = useState(1);
 
   const filtered = useMemo(() => {
@@ -14,9 +14,7 @@ export default function AdminTable({ data = [], columns = [], renderRow, filters
 
     const q = search.toLowerCase();
 
-    return data.filter((row) =>
-      Object.values(row).join(" ").toLowerCase().includes(q),
-    );
+    return data.filter((row) => Object.values(row).join(' ').toLowerCase().includes(q));
   }, [data, search]);
 
   const totalPages = Math.ceil(filtered.length / PAGE_SIZE);
@@ -38,7 +36,7 @@ export default function AdminTable({ data = [], columns = [], renderRow, filters
             setPage(1);
           }}
         />
-        
+
         {filters.map(({ key, options, value: filterValue, onChange }) => (
           <CustomSelect
             key={key}
@@ -66,7 +64,7 @@ export default function AdminTable({ data = [], columns = [], renderRow, filters
 
             <tbody className="divide-y divide-[var(--border)]">
               {paginated.map((row, i) => (
-                <tr 
+                <tr
                   key={row.id || i}
                   className="hover:bg-[var(--card)] transition-colors duration-200"
                 >
@@ -82,9 +80,10 @@ export default function AdminTable({ data = [], columns = [], renderRow, filters
       {filtered.length > PAGE_SIZE && (
         <div className="flex items-center justify-between">
           <div className="text-sm text-[var(--muted)]">
-            Showing {((page - 1) * PAGE_SIZE) + 1} to {Math.min(page * PAGE_SIZE, filtered.length)} of {filtered.length} results
+            Showing {(page - 1) * PAGE_SIZE + 1} to {Math.min(page * PAGE_SIZE, filtered.length)} of{' '}
+            {filtered.length} results
           </div>
-          
+
           <div className="flex items-center gap-2">
             <Button
               size="sm"
