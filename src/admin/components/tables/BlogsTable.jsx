@@ -1,50 +1,64 @@
+import Button from "../../../../components/common/Button";
+
 export default function BlogsTable({ blogs, onEdit, onDelete }) {
   return (
-    <div className="glass overflow-x-auto">
-      <table className="min-w-full text-sm">
-        <thead className="border-b border-[var(--border)]">
-          <tr className="text-left text-[var(--text-secondary)]">
-            <th className="p-4">Title</th>
-            <th className="p-4">Author</th>
-            <th className="p-4">Category</th>
-            <th className="p-4">Date</th>
-            <th className="p-4">Actions</th>
-          </tr>
-        </thead>
-
-        <tbody>
-          {blogs.map((blog) => (
-            <tr
-              key={blog.id}
-              className="border-b border-[var(--border)] hover:bg-[var(--card)]"
-            >
-              <td className="p-4 font-medium">{blog.title}</td>
-
-              <td className="p-4">{blog.author}</td>
-
-              <td className="p-4">{blog.category}</td>
-
-              <td className="p-4">{blog.date}</td>
-
-              <td className="p-4 flex gap-3">
-                <button
-                  onClick={() => onEdit(blog)}
-                  className="text-[var(--color-primary)]"
-                >
-                  Edit
-                </button>
-
-                <button
-                  onClick={() => onDelete(blog.id)}
-                  className="text-[var(--color-error)]"
-                >
-                  Delete
-                </button>
-              </td>
+    <div className="glass rounded-xl overflow-hidden shadow-lg">
+      <div className="overflow-x-auto">
+        <table className="min-w-full text-sm">
+          <thead className="bg-[var(--card)] border-b border-[var(--border)]">
+            <tr className="text-left text-[var(--text-secondary)]">
+              <th className="p-6 font-medium">Title</th>
+              <th className="p-6 font-medium">Author</th>
+              <th className="p-6 font-medium">Category</th>
+              <th className="p-6 font-medium">Date</th>
+              <th className="p-6 font-medium">Actions</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+
+          <tbody className="divide-y divide-[var(--border)]">
+            {blogs.map((blog) => (
+              <tr
+                key={blog.id}
+                className="hover:bg-[var(--card)] transition-colors duration-200"
+              >
+                <td className="p-6 font-medium max-w-[300px] truncate">
+                  {blog.title}
+                </td>
+
+                <td className="p-6">{blog.author}</td>
+
+                <td className="p-6">
+                  <span className="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-xs font-medium">
+                    {blog.category}
+                  </span>
+                </td>
+
+                <td className="p-6 text-[var(--muted)]">{blog.date}</td>
+
+                <td className="p-6">
+                  <div className="flex gap-2">
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      onClick={() => onEdit(blog)}
+                    >
+                      Edit
+                    </Button>
+
+                    <Button
+                      size="sm"
+                      variant="destructive"
+                      onClick={() => onDelete(blog.id)}
+                    >
+                      Delete
+                    </Button>
+                  </div>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 }
