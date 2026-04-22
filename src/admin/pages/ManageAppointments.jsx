@@ -1,16 +1,13 @@
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useState, useMemo } from 'react';
 
-import {
-  subscribeAppointments,
-  updateAppointmentStatus,
-} from "../../api/appointmentsApi";
+import { subscribeAppointments, updateAppointmentStatus } from '../../api/appointmentsApi';
 
-import { useAuth } from "../../context/AuthContext";
+import { useAuth } from '../../context/AuthContext';
 
-import { notifySuccess, notifyError, notifyConflict } from "../../utils/toast";
+import { notifySuccess, notifyError, notifyConflict } from '../../utils/toast';
 
-import AppointmentsTable from "../components/tables/AppointmentsTable";
-import AdminHeader from "../components/layout/AdminHeader";
+import AppointmentsTable from '../components/tables/AppointmentsTable';
+import AdminHeader from '../components/layout/AdminHeader';
 
 const PAGE_SIZE = 10;
 
@@ -19,9 +16,9 @@ export default function ManageAppointments() {
 
   const [appointments, setAppointments] = useState([]);
 
-  const [search, setSearch] = useState("");
-  const [statusFilter, setStatusFilter] = useState("all");
-  const [dateFilter, setDateFilter] = useState("all");
+  const [search, setSearch] = useState('');
+  const [statusFilter, setStatusFilter] = useState('all');
+  const [dateFilter, setDateFilter] = useState('all');
 
   const [page, setPage] = useState(1);
   const [loadingId, setLoadingId] = useState(null);
@@ -37,7 +34,7 @@ export default function ManageAppointments() {
   /* --- DATE HELPERS ----------- */
 
   const now = new Date();
-  const todayString = now.toISOString().split("T")[0];
+  const todayString = now.toISOString().split('T')[0];
 
   const startOfWeek = new Date(now);
   startOfWeek.setDate(now.getDate() - now.getDay());
@@ -58,23 +55,21 @@ export default function ManageAppointments() {
         (a) =>
           a.patientName?.toLowerCase().includes(q) ||
           a.doctorName?.toLowerCase().includes(q) ||
-          a.departmentName?.toLowerCase().includes(q),
+          a.departmentName?.toLowerCase().includes(q)
       );
     }
 
-    if (statusFilter !== "all") {
-      data = data.filter(
-        (a) => (a.status || "pending").toLowerCase() === statusFilter,
-      );
+    if (statusFilter !== 'all') {
+      data = data.filter((a) => (a.status || 'pending').toLowerCase() === statusFilter);
     }
 
-    if (dateFilter !== "all") {
+    if (dateFilter !== 'all') {
       data = data.filter((a) => {
         const d = toDate(a);
 
-        if (dateFilter === "today") return a.date === todayString;
-        if (dateFilter === "week") return d >= startOfWeek;
-        if (dateFilter === "month") return d >= startOfMonth;
+        if (dateFilter === 'today') return a.date === todayString;
+        if (dateFilter === 'week') return d >= startOfWeek;
+        if (dateFilter === 'month') return d >= startOfMonth;
 
         return true;
       });
@@ -90,7 +85,7 @@ export default function ManageAppointments() {
     let today = 0;
 
     filteredAppointments
-      .filter((a) => ["completed"].includes((a.status || "").toLowerCase()))
+      .filter((a) => ['completed'].includes((a.status || '').toLowerCase()))
       .forEach((a) => {
         const amount = a.totalAmount || 0;
 
@@ -122,17 +117,17 @@ export default function ManageAppointments() {
         userId: user?.uid,
       });
 
-      notifySuccess("Status updated successfully");
+      notifySuccess('Status updated successfully');
     } catch (err) {
-      console.error("Status update failed:", err);
+      console.error('Status update failed:', err);
 
-      if (err.message === "CONFLICT_UPDATE") {
+      if (err.message === 'CONFLICT_UPDATE') {
         notifyConflict();
 
         //  auto refresh to sync latest state
         setTimeout(() => window.location.reload(), 1200);
       } else {
-        notifyError(err.message || "Update failed");
+        notifyError(err.message || 'Update failed');
       }
     } finally {
       setLoadingId(null);
@@ -141,10 +136,7 @@ export default function ManageAppointments() {
 
   return (
     <div className="space-y-6">
-      <AdminHeader
-        title="Appointments"
-        description="Manage hospital appointments"
-      />
+      <AdminHeader title="Appointments" description="Manage hospital appointments" />
 
       {/* --- REVENUE ----------- */}
       <div className="grid md:grid-cols-2 gap-4">
@@ -195,9 +187,7 @@ export default function ManageAppointments() {
             <option value="rejected">Rejected</option>
           </select>
 
-          <span className="absolute right-3 top-2.5 text-gray-400 pointer-events-none">
-            ▼
-          </span>
+          <span className="absolute right-3 top-2.5 text-gray-400 pointer-events-none">▼</span>
         </div>
 
         <select

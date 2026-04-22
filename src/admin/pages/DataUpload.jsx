@@ -1,28 +1,25 @@
-import { useState } from "react";
+import { useState } from 'react';
 
-import BlogForm from "../components/forms/BlogForm";
-import DepartmentForm from "../components/forms/DepartmentForm";
-import DoctorForm from "../components/forms/DoctorForm";
-import PackageForm from "../components/forms/PackageForm";
+import BlogForm from '../components/forms/BlogForm';
+import DepartmentForm from '../components/forms/DepartmentForm';
+import DoctorForm from '../components/forms/DoctorForm';
+import PackageForm from '../components/forms/PackageForm';
 
-import AdminHeader from "../components/layout/AdminHeader";
+import AdminHeader from '../components/layout/AdminHeader';
 
 const tabs = [
-  { key: "doctors", label: "Doctors" },
-  { key: "departments", label: "Departments" },
-  { key: "packages", label: "Packages" },
-  { key: "blogs", label: "Blogs" },
+  { key: 'doctors', label: 'Doctors' },
+  { key: 'departments', label: 'Departments' },
+  { key: 'packages', label: 'Packages' },
+  { key: 'blogs', label: 'Blogs' },
 ];
 
 export default function DataUpload() {
-  const [active, setActive] = useState("doctors");
+  const [active, setActive] = useState('doctors');
 
   return (
     <div className="space-y-8">
-      <AdminHeader
-        title="Admin Data Upload"
-        description="Create hospital data"
-      />
+      <AdminHeader title="Admin Data Upload" description="Create hospital data" />
 
       <div className="flex gap-3 flex-wrap">
         {tabs.map((t) => (
@@ -40,13 +37,13 @@ export default function DataUpload() {
         ))}
       </div>
 
-      {active === "doctors" && <DoctorForm />}
+      {active === 'doctors' && <DoctorForm />}
 
-      {active === "departments" && <DepartmentForm />}
+      {active === 'departments' && <DepartmentForm />}
 
-      {active === "packages" && <PackageForm />}
+      {active === 'packages' && <PackageForm />}
 
-      {active === "blogs" && <BlogForm />}
+      {active === 'blogs' && <BlogForm />}
     </div>
   );
 }

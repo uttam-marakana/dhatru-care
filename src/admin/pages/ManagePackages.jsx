@@ -1,13 +1,13 @@
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useState, useMemo } from 'react';
 
-import { getPackages, deletePackage } from "../../api/packagesApi";
+import { getPackages, deletePackage } from '../../api/packagesApi';
 
-import AdminHeader from "../components/layout/AdminHeader";
-import ConfirmDeleteModal from "../components/modals/ConfirmDeleteModal";
-import PackageFormModal from "../components/modals/PackageFormModal";
-import AdminTable from "../components/common/AdminTable";
+import AdminHeader from '../components/layout/AdminHeader';
+import ConfirmDeleteModal from '../components/modals/ConfirmDeleteModal';
+import PackageFormModal from '../components/modals/PackageFormModal';
+import AdminTable from '../components/common/AdminTable';
 
-import { notifySuccess, notifyError } from "../../utils/toast";
+import { notifySuccess, notifyError } from '../../utils/toast';
 
 const PAGE_SIZE = 10;
 
@@ -31,11 +31,11 @@ export default function ManagePackages() {
   const confirmDelete = async () => {
     try {
       await deletePackage(deleteItem.id);
-      notifySuccess("Package deleted");
+      notifySuccess('Package deleted');
       setDeleteItem(null);
       load();
     } catch {
-      notifyError("Failed to delete package");
+      notifyError('Failed to delete package');
     }
   };
 
@@ -70,16 +70,13 @@ export default function ManagePackages() {
 
       <AdminTable
         data={paginatedPackages}
-        columns={["Name", "Price", "Duration", "Featured", "Actions"]}
+        columns={['Name', 'Price', 'Duration', 'Featured', 'Actions']}
         renderRow={(p) => (
-          <tr
-            key={p.id}
-            className="border-b border-[var(--border)] hover:bg-[var(--card)]"
-          >
+          <tr key={p.id} className="border-b border-[var(--border)] hover:bg-[var(--card)]">
             <td className="p-4 font-medium">{p.name}</td>
             <td className="p-4">₹{p.price}</td>
             <td className="p-4">{p.duration}</td>
-            <td className="p-4">{p.isFeatured ? "Yes" : "No"}</td>
+            <td className="p-4">{p.isFeatured ? 'Yes' : 'No'}</td>
 
             <td className="p-4 flex gap-3">
               <button
@@ -92,10 +89,7 @@ export default function ManagePackages() {
                 Edit
               </button>
 
-              <button
-                onClick={() => setDeleteItem(p)}
-                className="text-[var(--color-error)]"
-              >
+              <button onClick={() => setDeleteItem(p)} className="text-[var(--color-error)]">
                 Delete
               </button>
             </td>

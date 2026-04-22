@@ -1,73 +1,73 @@
-import { useState, useEffect } from 'react'
-import { FaPlus, FaEdit, FaTrash } from 'react-icons/fa'
-import AdminHeader from '../components/layout/AdminHeader'
-import AdminTable from '../components/common/AdminTable'
-import PatientForm from '../components/forms/PatientForm'
-import Button from '../../components/common/Button'
-import Modal from '../../components/common/Modal'
-import EmptyState from '../components/common/EmptyState'
-import { 
-  fetchPatients, 
-  createPatient, 
-  updatePatient, 
+import { useState, useEffect } from 'react';
+import { FaPlus, FaEdit, FaTrash } from 'react-icons/fa';
+import AdminHeader from '../components/layout/AdminHeader';
+import AdminTable from '../components/common/AdminTable';
+import PatientForm from '../components/forms/PatientForm';
+import Button from '../../components/common/Button';
+import Modal from '../../components/common/Modal';
+import EmptyState from '../components/common/EmptyState';
+import {
+  fetchPatients,
+  createPatient,
+  updatePatient,
   deletePatient,
-  subscribePatients 
-} from '../../api/patientApi'
-import { useAuth } from '../../context/AuthContext'
+  subscribePatients,
+} from '../../api/patientApi';
+import { useAuth } from '../../context/AuthContext';
 
 export default function ManagePatients() {
-  const { tenantId } = useAuth()
-  const [patients, setPatients] = useState([])
-  const [loading, setLoading] = useState(true)
-  const [selectedPatient, setSelectedPatient] = useState(null)
-  const [showForm, setShowForm] = useState(false)
-  const [deletingId, setDeletingId] = useState(null)
+  const { tenantId } = useAuth();
+  const [patients, setPatients] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [selectedPatient, setSelectedPatient] = useState(null);
+  const [showForm, setShowForm] = useState(false);
+  const [deletingId, setDeletingId] = useState(null);
 
   // Load initial patients
   useEffect(() => {
     const loadPatients = async () => {
       try {
-        const data = await fetchPatients()
-        setPatients(data)
+        const data = await fetchPatients();
+        setPatients(data);
       } catch (error) {
-        console.error('Load patients error:', error)
+        console.error('Load patients error:', error);
       } finally {
-        setLoading(false)
+        setLoading(false);
       }
-    }
+    };
 
-    loadPatients()
-  }, [])
+    loadPatients();
+  }, []);
 
   // Real-time subscription
   useEffect(() => {
-    if (!tenantId) return
+    if (!tenantId) return;
 
     const unsubscribe = subscribePatients(tenantId, (data) => {
-      setPatients(data)
-      setLoading(false)
-    })
+      setPatients(data);
+      setLoading(false);
+    });
 
-    return unsubscribe
-  }, [tenantId])
+    return unsubscribe;
+  }, [tenantId]);
 
   const handleCreateSuccess = () => {
-    setShowForm(false)
-    setSelectedPatient(null)
-  }
+    setShowForm(false);
+    setSelectedPatient(null);
+  };
 
   const handleEdit = (patient) => {
-    setSelectedPatient(patient)
-    setShowForm(true)
-  }
+    setSelectedPatient(patient);
+    setShowForm(true);
+  };
 
   const handleDelete = async (id) => {
     try {
-      await deletePatient(id)
+      await deletePatient(id);
     } catch (error) {
-      console.error('Delete error:', error)
+      console.error('Delete error:', error);
     }
-  }
+  };
 
   const columns = [
     { key: 'name', header: 'Name', render: (p) => p.name },
@@ -96,14 +96,14 @@ export default function ManagePatients() {
         </div>
       ),
     },
-  ]
+  ];
 
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-[400px]">
         <div>Loading patients...</div>
       </div>
-    )
+    );
   }
 
   return (
@@ -112,10 +112,7 @@ export default function ManagePatients() {
         title="Manage Patients"
         description="View and manage patient records"
         rightContent={
-          <Button 
-            onClick={() => setShowForm(true)}
-            iconLeft={<FaPlus />}
-          >
+          <Button onClick={() => setShowForm(true)} iconLeft={<FaPlus />}>
             Add Patient
           </Button>
         }
@@ -143,12 +140,11 @@ export default function ManagePatients() {
           patient={selectedPatient}
           onSuccess={handleCreateSuccess}
           onCancel={() => {
-            setShowForm(false)
-            setSelectedPatient(null)
+            setShowForm(false);
+            setSelectedPatient(null);
           }}
         />
       </Modal>
     </div>
-  )
+  );
 }
-

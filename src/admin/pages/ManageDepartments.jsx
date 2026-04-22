@@ -1,14 +1,14 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
 
-import { getAllDepartments, deleteDepartment } from "../../api/departmentsApi";
+import { getAllDepartments, deleteDepartment } from '../../api/departmentsApi';
 
-import AdminHeader from "../components/layout/AdminHeader";
-import ConfirmDeleteModal from "../components/modals/ConfirmDeleteModal";
-import DepartmentFormModal from "../components/modals/DepartmentFormModal";
+import AdminHeader from '../components/layout/AdminHeader';
+import ConfirmDeleteModal from '../components/modals/ConfirmDeleteModal';
+import DepartmentFormModal from '../components/modals/DepartmentFormModal';
 
-import AdminTable from "../components/common/AdminTable";
+import AdminTable from '../components/common/AdminTable';
 
-import { notifySuccess, notifyError } from "../../utils/toast";
+import { notifySuccess, notifyError } from '../../utils/toast';
 
 export default function ManageDepartments() {
   const [departments, setDepartments] = useState([]);
@@ -29,11 +29,11 @@ export default function ManageDepartments() {
   const confirmDelete = async () => {
     try {
       await deleteDepartment(deleteItem.id);
-      notifySuccess("Department deleted");
+      notifySuccess('Department deleted');
       setDeleteItem(null);
       load();
     } catch {
-      notifyError("Failed to delete department");
+      notifyError('Failed to delete department');
     }
   };
 
@@ -57,12 +57,9 @@ export default function ManageDepartments() {
 
       <AdminTable
         data={departments}
-        columns={["Name", "Description", "Actions"]}
+        columns={['Name', 'Description', 'Actions']}
         renderRow={(d) => (
-          <tr
-            key={d.id}
-            className="border-b border-[var(--border)] hover:bg-[var(--card)]"
-          >
+          <tr key={d.id} className="border-b border-[var(--border)] hover:bg-[var(--card)]">
             <td className="p-4 font-medium">{d.name}</td>
             <td className="p-4">{d.description}</td>
 
@@ -77,10 +74,7 @@ export default function ManageDepartments() {
                 Edit
               </button>
 
-              <button
-                onClick={() => setDeleteItem(d)}
-                className="text-[var(--color-error)]"
-              >
+              <button onClick={() => setDeleteItem(d)} className="text-[var(--color-error)]">
                 Delete
               </button>
             </td>

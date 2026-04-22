@@ -1,12 +1,12 @@
-import { useEffect, useState, useMemo } from "react";
-import { useAuth } from "../../context/AuthContext";
+import { useEffect, useState, useMemo } from 'react';
+import { useAuth } from '../../context/AuthContext';
 
-import { subscribeContacts, updateContactMeta } from "../../api/contactApi";
-import { notifySuccess, notifyError } from "../../utils/toast";
+import { subscribeContacts, updateContactMeta } from '../../api/contactApi';
+import { notifySuccess, notifyError } from '../../utils/toast';
 
-import ContactMessagesTable from "../components/tables/ContactMessagesTable";
-import ContactAnalytics from "../components/common/ContactAnalytics";
-import AdminHeader from "../components/layout/AdminHeader";
+import ContactMessagesTable from '../components/tables/ContactMessagesTable';
+import ContactAnalytics from '../components/common/ContactAnalytics';
+import AdminHeader from '../components/layout/AdminHeader';
 
 const PAGE_SIZE = 10;
 
@@ -14,13 +14,13 @@ export default function ManageContacts() {
   const { user, role, loading } = useAuth();
 
   const [messages, setMessages] = useState([]);
-  const [search, setSearch] = useState("");
-  const [statusFilter, setStatusFilter] = useState("all");
+  const [search, setSearch] = useState('');
+  const [statusFilter, setStatusFilter] = useState('all');
   const [page, setPage] = useState(1);
   const [loadingId, setLoadingId] = useState(null);
 
   useEffect(() => {
-    if (loading || !user || role !== "admin") return;
+    if (loading || !user || role !== 'admin') return;
     const unsub = subscribeContacts(setMessages);
     return () => unsub();
   }, [user, role, loading]);
@@ -34,14 +34,12 @@ export default function ManageContacts() {
         (m) =>
           m.name?.toLowerCase().includes(q) ||
           m.email?.toLowerCase().includes(q) ||
-          m.subject?.toLowerCase().includes(q),
+          m.subject?.toLowerCase().includes(q)
       );
     }
 
-    if (statusFilter !== "all") {
-      data = data.filter(
-        (m) => (m.status || "new").toLowerCase() === statusFilter,
-      );
+    if (statusFilter !== 'all') {
+      data = data.filter((m) => (m.status || 'new').toLowerCase() === statusFilter);
     }
 
     return data;
@@ -60,10 +58,10 @@ export default function ManageContacts() {
     try {
       setLoadingId(id);
       await updateContactMeta(id, payload);
-      notifySuccess("Updated successfully");
+      notifySuccess('Updated successfully');
     } catch (err) {
       console.error(err);
-      notifyError("Update failed");
+      notifyError('Update failed');
     } finally {
       setLoadingId(null);
     }
@@ -71,18 +69,13 @@ export default function ManageContacts() {
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center min-h-[300px]">
-        Loading contacts...
-      </div>
+      <div className="flex justify-center items-center min-h-[300px]">Loading contacts...</div>
     );
   }
 
   return (
     <div className="space-y-8">
-      <AdminHeader
-        title="Contact Messages"
-        description="Manage user inquiries"
-      />
+      <AdminHeader title="Contact Messages" description="Manage user inquiries" />
 
       <ContactAnalytics data={messages} />
 
@@ -109,9 +102,7 @@ export default function ManageContacts() {
 
       <div className="p-4 rounded-xl bg-[var(--card)] border">
         {messages.length === 0 ? (
-          <div className="text-center py-10 text-[var(--muted)]">
-            No contact messages yet
-          </div>
+          <div className="text-center py-10 text-[var(--muted)]">No contact messages yet</div>
         ) : (
           <ContactMessagesTable
             messages={paginated}

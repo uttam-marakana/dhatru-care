@@ -1,11 +1,11 @@
-import { useEffect, useState } from "react";
-import { getDoctors, deleteDoctor } from "../../api/doctorsApi";
+import { useEffect, useState } from 'react';
+import { getDoctors, deleteDoctor } from '../../api/doctorsApi';
 
-import AdminTable from "../components/common/AdminTable";
-import DoctorFormModal from "../components/modals/DoctorFormModal";
-import AdminHeader from "../components/layout/AdminHeader";
+import AdminTable from '../components/common/AdminTable';
+import DoctorFormModal from '../components/modals/DoctorFormModal';
+import AdminHeader from '../components/layout/AdminHeader';
 
-import { notifySuccess, notifyError } from "../../utils/toast";
+import { notifySuccess, notifyError } from '../../utils/toast';
 
 export default function ManageDoctors() {
   const [doctors, setDoctors] = useState([]);
@@ -22,14 +22,14 @@ export default function ManageDoctors() {
   }, []);
 
   const handleDelete = async (doc) => {
-    if (!confirm("Delete doctor?")) return;
+    if (!confirm('Delete doctor?')) return;
 
     try {
       await deleteDoctor(doc.id);
-      notifySuccess("Doctor deleted");
+      notifySuccess('Doctor deleted');
       load();
     } catch {
-      notifyError("Failed to delete doctor");
+      notifyError('Failed to delete doctor');
     }
   };
 
@@ -52,12 +52,9 @@ export default function ManageDoctors() {
 
       <AdminTable
         data={doctors}
-        columns={["Name", "Specialty", "Department", "Experience", "Actions"]}
+        columns={['Name', 'Specialty', 'Department', 'Experience', 'Actions']}
         renderRow={(doc) => (
-          <tr
-            key={doc.id}
-            className="border-b border-[var(--border)] hover:bg-[var(--card)]"
-          >
+          <tr key={doc.id} className="border-b border-[var(--border)] hover:bg-[var(--card)]">
             <td className="p-4 font-medium">{doc.name}</td>
             <td className="p-4">{doc.specialty}</td>
             <td className="p-4">{doc.departmentId}</td>
@@ -74,10 +71,7 @@ export default function ManageDoctors() {
                 Edit
               </button>
 
-              <button
-                onClick={() => handleDelete(doc)}
-                className="text-[var(--color-error)]"
-              >
+              <button onClick={() => handleDelete(doc)} className="text-[var(--color-error)]">
                 Delete
               </button>
             </td>

@@ -1,13 +1,10 @@
-import AdminHeader from "../components/layout/AdminHeader";
-import { runBulkUpload } from "../../scripts/bulkUpload";
+import AdminHeader from '../components/layout/AdminHeader';
+import { runBulkUpload } from '../../scripts/bulkUpload';
 
 export default function BulkUpload() {
   return (
     <div className="space-y-6">
-      <AdminHeader
-        title="Bulk Upload"
-        description="Upload entire dataset from JSON"
-      />
+      <AdminHeader title="Bulk Upload" description="Upload entire dataset from JSON" />
 
       <button
         onClick={runBulkUpload}

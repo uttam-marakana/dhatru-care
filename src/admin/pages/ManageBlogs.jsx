@@ -1,11 +1,11 @@
-import { useEffect, useState } from "react";
-import { notifySuccess, notifyError } from "../../utils/toast";
+import { useEffect, useState } from 'react';
+import { notifySuccess, notifyError } from '../../utils/toast';
 
-import { getBlogPosts, deleteBlogPost } from "../../api/blogsApi";
+import { getBlogPosts, deleteBlogPost } from '../../api/blogsApi';
 
-import AdminTable from "../components/common/AdminTable";
-import BlogFormModal from "../components/modals/BlogFormModal";
-import AdminHeader from "../components/layout/AdminHeader";
+import AdminTable from '../components/common/AdminTable';
+import BlogFormModal from '../components/modals/BlogFormModal';
+import AdminHeader from '../components/layout/AdminHeader';
 
 export default function ManageBlogs() {
   const [blogs, setBlogs] = useState([]);
@@ -22,14 +22,14 @@ export default function ManageBlogs() {
   }, []);
 
   const handleDelete = async (blog) => {
-    if (!confirm("Delete blog?")) return;
+    if (!confirm('Delete blog?')) return;
 
     try {
       await deleteBlogPost(blog.id);
-      notifySuccess("Blog deleted");
+      notifySuccess('Blog deleted');
       load();
     } catch {
-      notifyError("Failed to delete blog");
+      notifyError('Failed to delete blog');
     }
   };
 
@@ -52,12 +52,9 @@ export default function ManageBlogs() {
 
       <AdminTable
         data={blogs}
-        columns={["Title", "Category", "Author", "Date", "Actions"]}
+        columns={['Title', 'Category', 'Author', 'Date', 'Actions']}
         renderRow={(blog) => (
-          <tr
-            key={blog.id}
-            className="border-b border-[var(--border)] hover:bg-[var(--card)]"
-          >
+          <tr key={blog.id} className="border-b border-[var(--border)] hover:bg-[var(--card)]">
             <td className="p-4 font-medium">{blog.title}</td>
             <td className="p-4">{blog.category}</td>
             <td className="p-4">{blog.author}</td>
@@ -74,10 +71,7 @@ export default function ManageBlogs() {
                 Edit
               </button>
 
-              <button
-                onClick={() => handleDelete(blog)}
-                className="text-[var(--color-error)]"
-              >
+              <button onClick={() => handleDelete(blog)} className="text-[var(--color-error)]">
                 Delete
               </button>
             </td>
