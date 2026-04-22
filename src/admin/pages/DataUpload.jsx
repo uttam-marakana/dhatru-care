@@ -8,10 +8,22 @@ import PackageForm from '../components/forms/PackageForm';
 import AdminHeader from '../components/layout/AdminHeader';
 
 const tabs = [
-  { key: 'doctors', label: 'Doctors' },
-  { key: 'departments', label: 'Departments' },
-  { key: 'packages', label: 'Packages' },
-  { key: 'blogs', label: 'Blogs' },
+  {
+    key: 'doctors',
+    label: 'Doctors',
+  },
+  {
+    key: 'departments',
+    label: 'Departments',
+  },
+  {
+    key: 'packages',
+    label: 'Packages',
+  },
+  {
+    key: 'blogs',
+    label: 'Blogs',
+  },
 ];
 
 export default function DataUpload() {
