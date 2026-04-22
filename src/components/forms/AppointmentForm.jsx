@@ -19,26 +19,26 @@ import {
 
 import SlotGrid from "../common/SlotGrid";
 import DoctorAvailabilityCalendar from "../common/DoctorAvailabilityCalendar";
+import Input from "../common/Input";
+import CustomSelect from "../common/CustomSelect";
 
 import { subscribeDoctorDatesAvailability } from "../../services/dateAvailabilityService";
 
 import { notifyError } from "../../utils/toast";
-
-import CustomSelect from "../common/CustomSelect";
 
 const FEES = {
   regular: 200,
   emergency: 500,
 };
 
-export default function AppointmentForm() {
+export default function AppointmentForm({ selectedPackage }) {
   const navigate = useNavigate();
-  const [searchParams] = useSearchParams();
+const [searchParams] = useSearchParams();
   const { book } = useBookingEngine();
   const { user, tenantId } = useAuth();
 
   /* URL PARAMS ----------- */
-  const packageParam = searchParams.get("package");
+  const packageParam = searchParams.get("package") || selectedPackage;
   const packageNameParam = searchParams.get("packageName");
 
   /* STATE ----------- */
@@ -80,6 +80,13 @@ export default function AppointmentForm() {
     getAllDepartments().then(setDepartments);
     getPackages().then(setPackages);
   }, []);
+
+  // Prefill from prop/params
+  useEffect(() => {
+    if (packageParam) {
+      setForm(prev => ({ ...prev, packageId: packageParam }));
+    }
+  }, [packageParam]);
 
   useEffect(() => {
     if (!form.department) return;
@@ -127,7 +134,6 @@ export default function AppointmentForm() {
       (slots) => {
         setSlotState(slots);
 
-        // fallback logic
         const blocked = slots
           .filter((s) => s.isBooked || s.isLocked)
           .map((s) => s.time?.trim());
@@ -170,6 +176,8 @@ export default function AppointmentForm() {
   const packageFee = getPackagePrice();
   const totalAmount = appointmentFee + packageFee;
 
+  const isStep5Valid = form.patientName.trim() && form.phone.trim() && form.email.trim();
+
   /* --- SUBMIT ----------- */
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -177,18 +185,24 @@ export default function AppointmentForm() {
     if (submittingRef.current) return;
 
     if (!form.department || !form.doctorId || !form.date || !form.time) {
-      notifyError("Complete all steps");
+      notifyError("Complete all required steps first");
       return;
     }
 
-    if (!user) return notifyError("Login required");
+    if (!isStep5Valid) {
+      notifyError("Please fill patient name, phone, and email");
+      return;
+    }
+
+    if (!user) {
+      notifyError("Please login to book appointment");
+      return;
+    }
 
     if (!tenantId) {
-      notifyError("Tenant missing");
+      notifyError("Hospital configuration missing");
       return;
     }
-
-    console.log("Booking with tenant:", tenantId);
 
     submittingRef.current = true;
     setLoading(true);
@@ -215,18 +229,15 @@ export default function AppointmentForm() {
         isReschedule: false,
       };
 
-      console.log("BOOKING PAYLOAD:", payload);
-
       const result = await book(payload);
 
       if (!result.success) {
-        notifyError(result.error || "Slot unavailable");
+        notifyError(result.error || "Booking failed - slot unavailable");
         return;
       }
 
       setSuccessData(payload);
     } catch (err) {
-      console.error(err);
       notifyError(err.message || "Booking failed");
     } finally {
       setLoading(false);
@@ -263,7 +274,7 @@ export default function AppointmentForm() {
           {successData.patientName}, your appointment is booked on{" "}
           {successData.date} at {successData.time}
         </p>
-        <p>Redirecting in {countdown}s...</p>
+        <p>Redirecting to your appointments in {countdown}s...</p>
       </div>
     );
   }
@@ -287,10 +298,17 @@ export default function AppointmentForm() {
                   appointmentType === t ? "bg-blue-500 text-white" : ""
                 }`}
               >
-                {t}
+                {t.charAt(0).toUpperCase() + t.slice(1)}
               </button>
             ))}
           </div>
+
+          <CustomSelect
+            options={packages.map(p => ({ value: p.id, label: p.name + ' (₹' + p.price + ')' }))}
+            value={form.packageId}
+            placeholder="Select Package (Optional)"
+            onChange={(val) => setForm((p) => ({ ...p, packageId: val, packageName: packages.find(pkg => pkg.id === val)?.name || '' }))}
+          />
 
           <CustomSelect
             options={departments}
@@ -312,11 +330,12 @@ export default function AppointmentForm() {
                 key={doc.id}
                 type="button"
                 onClick={() => setForm((p) => ({ ...p, doctorId: doc.id }))}
-                className={`p-4 rounded-xl border ${
-                  isSelected ? "border-blue-500 bg-blue-50" : "border-gray-200"
+                className={`p-4 rounded-xl border flex flex-col items-center gap-1 text-sm ${
+                  isSelected ? "border-blue-500 bg-blue-50" : "border-gray-200 hover:border-gray-300"
                 }`}
               >
-                {doc.name}
+                <div className="font-medium">{doc.name}</div>
+                <div className="text-xs opacity-75">{doc.specialty}</div>
               </button>
             );
           })}
@@ -333,10 +352,10 @@ export default function AppointmentForm() {
         />
       )}
 
-      {/* --- STEP 4 ( FINAL MERGED) ----------- */}
+      {/* --- STEP 4 ----------- */}
       {step === 4 && (
         <>
-          {allSlots.length > 0 ? (
+          {availableSlots.length > 0 ? (
             <SlotGrid
               slots={availableSlots}
               slotState={slotState}
@@ -345,9 +364,10 @@ export default function AppointmentForm() {
               onSelect={(t) => setForm((p) => ({ ...p, time: t }))}
             />
           ) : (
-            <p className="text-sm text-gray-500 text-center">
-              No slots available
-            </p>
+            <div className="text-center py-8">
+              <p className="text-sm text-gray-500 mb-2">No available slots</p>
+              <p className="text-xs text-gray-400">Try different date or doctor</p>
+            </div>
           )}
         </>
       )}
@@ -355,37 +375,54 @@ export default function AppointmentForm() {
       {/* --- STEP 5 ----------- */}
       {step === 5 && (
         <>
-          <input
-            placeholder="Name"
-            onChange={(e) =>
-              setForm((p) => ({ ...p, patientName: e.target.value }))
-            }
-            className="ui-input"
+          <Input
+            placeholder="Full Name *"
+            value={form.patientName}
+            onChange={(e) => setForm((p) => ({ ...p, patientName: e.target.value }))}
+            required
           />
 
-          <input
-            placeholder="Phone"
+          <Input
+            placeholder="Phone Number *"
+            value={form.phone}
             onChange={(e) => setForm((p) => ({ ...p, phone: e.target.value }))}
-            className="ui-input"
+            required
           />
 
-          <input
-            placeholder="Email"
+          <Input
+            placeholder="Email (Optional)"
+            type="email"
+            value={form.email}
             onChange={(e) => setForm((p) => ({ ...p, email: e.target.value }))}
-            className="ui-input"
           />
 
-          <div className="bg-[var(--card)] p-4 rounded border border-[var(--border)]">
-            <p>Appointment: ₹{appointmentFee}</p>
-            {packageFee > 0 && <p>Package: ₹{packageFee}</p>}
-            <p className="font-bold">Total: ₹{totalAmount}</p>
+          <div className="bg-[var(--card)] p-4 rounded-lg border border-[var(--border)] space-y-1">
+            <div className="text-sm">
+              Appointment Fee: ₹{appointmentFee}
+            </div>
+            {packageFee > 0 && (
+              <div className="text-sm">
+                Package: ₹{packageFee}
+              </div>
+            )}
+            <div className="font-semibold text-lg">
+              Total: ₹{totalAmount}
+            </div>
           </div>
 
           <button
             type="submit"
-            className="w-full py-3 bg-green-600 text-white rounded-lg font-medium hover:bg-green-700 transition shadow"
+            disabled={!isStep5Valid || loading}
+            className="w-full py-3 bg-green-600 text-white rounded-lg font-medium hover:bg-green-700 transition-all shadow disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
           >
-            {loading ? "Booking..." : "Confirm"}
+            {loading ? (
+              <>
+                <span className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></span>
+                Booking...
+              </>
+            ) : (
+              "Confirm & Book Appointment"
+            )}
           </button>
         </>
       )}
@@ -397,21 +434,26 @@ export default function AppointmentForm() {
             <button
               type="button"
               onClick={prevStep}
-              className="px-4 py-2 text-sm rounded-lg border bg-[var(--card)] hover:bg-[var(--section)] transition"
+              className="px-4 py-2 text-sm rounded-lg border bg-[var(--card)] hover:bg-[var(--section)] transition-all flex items-center gap-1"
             >
-              ← Previous
+              ← Previous Step
             </button>
           )}
         </div>
 
-        <div className="ml-auto">
+        <div className="ml-auto text-sm text-gray-500">
+          Step {step} of 5
+        </div>
+
+        <div>
           {step < 5 && (
             <button
               type="button"
               onClick={nextStep}
-              className="px-5 py-2.5 text-sm font-medium rounded-lg bg-blue-600 text-white hover:bg-blue-700 transition shadow-sm"
+              disabled={loading}
+              className="px-5 py-2.5 text-sm font-medium rounded-lg bg-blue-600 text-white hover:bg-blue-700 transition-all shadow-sm disabled:opacity-50"
             >
-              Next →
+              Next Step →
             </button>
           )}
         </div>
