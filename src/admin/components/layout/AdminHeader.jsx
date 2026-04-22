@@ -17,22 +17,14 @@ export default function AdminHeader({ title, description, action }) {
       {/* --- TITLE AREA ----------- */}
 
       <div>
-        <h2 className="text-xl sm:text-2xl font-bold gradient-heading">
-          {title}
-        </h2>
+        <h2 className="text-xl sm:text-2xl font-bold gradient-heading">{title}</h2>
 
-        {description && (
-          <p className="text-sm text-[var(--text-secondary)] mt-1">
-            {description}
-          </p>
-        )}
+        {description && <p className="text-sm text-[var(--text-secondary)] mt-1">{description}</p>}
       </div>
 
       {/* --- ACTION AREA ----------- */}
 
-      {action && (
-        <div className="flex items-center gap-3 flex-wrap">{action}</div>
-      )}
+      {action && <div className="flex items-center gap-3 flex-wrap">{action}</div>}
     </div>
   );
 }

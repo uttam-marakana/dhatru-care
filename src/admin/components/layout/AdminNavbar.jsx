@@ -1,7 +1,7 @@
-import { useState, useEffect, useRef } from "react";
-import { useAuth } from "../../../context/AuthContext";
-import { useNavigate } from "react-router-dom";
-import { FaBars, FaSignOutAlt, FaMoon, FaSun, FaUser } from "react-icons/fa";
+import { useState, useEffect, useRef } from 'react';
+import { useAuth } from '../../../context/AuthContext';
+import { useNavigate } from 'react-router-dom';
+import { FaBars, FaSignOutAlt, FaMoon, FaSun, FaUser } from 'react-icons/fa';
 
 export default function AdminNavbar({ onMenuClick }) {
   const { user, logout } = useAuth();
@@ -16,7 +16,7 @@ export default function AdminNavbar({ onMenuClick }) {
 
   useEffect(() => {
     const root = document.documentElement;
-    setDark(root.classList.contains("dark"));
+    setDark(root.classList.contains('dark'));
   }, []);
 
   /* --- CLOSE MENU OUTSIDE CLICK  ----------- */
@@ -28,8 +28,8 @@ export default function AdminNavbar({ onMenuClick }) {
       }
     };
 
-    document.addEventListener("click", handleClick);
-    return () => document.removeEventListener("click", handleClick);
+    document.addEventListener('click', handleClick);
+    return () => document.removeEventListener('click', handleClick);
   }, []);
 
   /* --- TOGGLE THEME  ----------- */
@@ -37,11 +37,11 @@ export default function AdminNavbar({ onMenuClick }) {
   const toggleTheme = () => {
     const root = document.documentElement;
 
-    if (root.classList.contains("dark")) {
-      root.classList.remove("dark");
+    if (root.classList.contains('dark')) {
+      root.classList.remove('dark');
       setDark(false);
     } else {
-      root.classList.add("dark");
+      root.classList.add('dark');
       setDark(true);
     }
   };
@@ -50,7 +50,7 @@ export default function AdminNavbar({ onMenuClick }) {
 
   const handleLogout = async () => {
     await logout();
-    navigate("/login");
+    navigate('/login');
   };
 
   return (
@@ -84,9 +84,7 @@ export default function AdminNavbar({ onMenuClick }) {
 
         {/* --- TITLE ----------- */}
 
-        <h1 className="font-semibold text-lg gradient-heading">
-          Dhatru Care Admin
-        </h1>
+        <h1 className="font-semibold text-lg gradient-heading">Dhatru Care Admin</h1>
       </div>
 
       {/* --- RIGHT SIDE ----------- */}
@@ -108,9 +106,7 @@ export default function AdminNavbar({ onMenuClick }) {
 
         {/* --- USER EMAIL ----------- */}
 
-        <span className="hidden md:block text-sm text-[var(--text-secondary)]">
-          {user?.email}
-        </span>
+        <span className="hidden md:block text-sm text-[var(--text-secondary)]">{user?.email}</span>
 
         {/* --- ACCOUNT MENU ----------- */}
 
@@ -145,7 +141,7 @@ export default function AdminNavbar({ onMenuClick }) {
 
               <button
                 onClick={() => {
-                  navigate("/admin/profile");
+                  navigate('/admin/profile');
                   setMenuOpen(false);
                 }}
                 className="
