@@ -23,6 +23,8 @@ import { canTransition, APPOINTMENT_STATUS } from "../utils/appointmentStatus";
 const appointmentsRef = collection(db, "appointments");
 const slotsRef = collection(db, "appointmentSlots");
 
+import { searchPatient } from "../api/patientApi";
+
 /* --- NORMALIZER ----------- */
 const normalizeStatus = (status) =>
   String(status || "pending")
