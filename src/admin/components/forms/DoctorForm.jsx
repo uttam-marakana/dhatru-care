@@ -1,7 +1,10 @@
 import { useState } from "react";
 import { createDoctor, updateDoctor } from "../../../api/doctorsApi";
-
 import { notifyPromise } from "../../../utils/toast";
+import Input from "../../../../components/common/Input";
+import CustomSelect from "../../../../components/common/CustomSelect";
+import Button from "../../../../components/common/Button";
+import Textarea from "../../../../components/common/Textarea";
 
 const initialState = {
   name: "",
@@ -18,9 +21,9 @@ const initialState = {
   achievements: "",
   imageUrl: "",
   workingDays: "1,2,3,4,5",
-  startHour: "",
-  endHour: "",
-  slotDuration: "",
+  startHour: "9",
+  endHour: "17",
+  slotDuration: "30",
   leaveDates: "",
 };
 
@@ -29,10 +32,10 @@ export default function DoctorForm({ initialData, onSaved, onClose }) {
     initialData
       ? {
           ...initialData,
-          languages: initialData.languages?.join(", "),
-          achievements: initialData.achievements?.join(", "),
-          workingDays: initialData.workingDays?.join(", "),
-          leaveDates: initialData.leaveDates?.join(", "),
+          languages: initialData.languages?.join(", ") || "",
+          achievements: initialData.achievements?.join(", ") || "",
+          workingDays: initialData.workingDays?.join(", ") || "1,2,3,4,5",
+          leaveDates: initialData.leaveDates?.join(", ") || "",
         }
       : initialState,
   );
@@ -44,19 +47,15 @@ export default function DoctorForm({ initialData, onSaved, onClose }) {
 
   const toArray = (v) =>
     v
-      ? v
-          .split(",")
-          .map((i) => i.trim())
-          .filter(Boolean)
-      : [];
+      .split(",")
+      .map((i) => i.trim())
+      .filter(Boolean);
 
   const toNumberArray = (v) =>
     v
-      ? v
-          .split(",")
-          .map((i) => Number(i.trim()))
-          .filter(Boolean)
-      : [];
+      .split(",")
+      .map((i) => Number(i.trim()))
+      .filter(Boolean);
 
   const submit = async (e) => {
     e.preventDefault();
@@ -93,171 +92,189 @@ export default function DoctorForm({ initialData, onSaved, onClose }) {
 
       onSaved?.();
       onClose?.();
-
       setForm(initialState);
     } catch (err) {
       console.error(err);
+    } finally {
+      setLoading(false);
     }
-
-    setLoading(false);
   };
 
-  const input =
-    "w-full p-3 rounded-lg border border-[var(--border)] bg-[var(--card)] text-[var(--text)]";
+  const inputClass = "w-full";
 
   return (
-    <form onSubmit={submit} className="grid grid-cols-1 md:grid-cols-2 gap-5">
-      <input
-        name="name"
-        value={form.name}
-        onChange={handleChange}
-        placeholder="Doctor Name"
-        className={input}
-        required
-      />
+    <form onSubmit={submit} className="grid grid-cols-1 lg:grid-cols-2 gap-6 space-y-6 animate-fade-in-up">
+      <div>
+        <label className="block text-sm font-medium mb-3 text-[var(--text-secondary)]">Doctor Name *</label>
+        <Input
+          name="name"
+          value={form.name}
+          onChange={handleChange}
+          placeholder="Dr. John Doe"
+          required
+        />
+      </div>
 
-      <select
-        name="gender"
-        value={form.gender}
-        onChange={handleChange}
-        className={input}
-      >
-        <option value="">Gender</option>
-        <option>Male</option>
-        <option>Female</option>
-      </select>
+      <div>
+        <label className="block text-sm font-medium mb-3 text-[var(--text-secondary)]">Gender</label>
+        <CustomSelect
+          options={[
+            { value: "male", label: "Male" },
+            { value: "female", label: "Female" },
+            { value: "other", label: "Other" },
+          ]}
+          value={form.gender}
+          placeholder="Select gender"
+          onChange={(val) => setForm({ ...form, gender: val })}
+        />
+      </div>
 
-      <input
+      <Input
+        label="Specialty *"
         name="specialty"
         value={form.specialty}
         onChange={handleChange}
-        placeholder="Specialty"
-        className={input}
+        placeholder="Cardiology, Neurology, etc."
+        className="lg:col-span-2"
       />
 
-      <input
+      <Input
+        label="Qualification"
         name="qualification"
         value={form.qualification}
         onChange={handleChange}
-        placeholder="Qualification"
-        className={input}
+        placeholder="MBBS, MD, etc."
       />
 
-      <input
+      <Input
+        label="Department"
         name="departmentId"
         value={form.departmentId}
         onChange={handleChange}
-        placeholder="Department ID"
-        className={input}
+        placeholder="dept-cardiology"
       />
 
-      <input
+      <Input
+        label="Experience (years)"
         name="experience"
+        type="number"
         value={form.experience}
         onChange={handleChange}
-        placeholder="Experience Years"
-        className={input}
+        placeholder="10"
       />
 
-      <input
-        name="rating"
-        value={form.rating}
-        onChange={handleChange}
-        placeholder="Rating"
-        className={input}
-      />
+      <div className="lg:col-span-2 grid grid-cols-1 md:grid-cols-3 gap-4">
+        <Input
+          label="Rating"
+          name="rating"
+          type="number"
+          step="0.1"
+          value={form.rating}
+          onChange={handleChange}
+          placeholder="4.8"
+        />
+        <Input
+          label="Reviews"
+          name="reviews"
+          type="number"
+          value={form.reviews}
+          onChange={handleChange}
+          placeholder="150"
+        />
+        <Input
+          label="Languages"
+          name="languages"
+          value={form.languages}
+          onChange={handleChange}
+          placeholder="English, Hindi, Tamil"
+        />
+      </div>
 
-      <input
-        name="reviews"
-        value={form.reviews}
-        onChange={handleChange}
-        placeholder="Reviews Count"
-        className={input}
-      />
-
-      <input
-        name="languages"
-        value={form.languages}
-        onChange={handleChange}
-        placeholder="Languages (comma separated)"
-        className={input}
-      />
-
-      <input
+      <Input
+        label="Location"
         name="location"
         value={form.location}
         onChange={handleChange}
-        placeholder="Location"
-        className={input}
+        placeholder="Downtown Clinic"
       />
 
-      <input
+      <Input
+        label="Image URL"
         name="imageUrl"
         value={form.imageUrl}
         onChange={handleChange}
-        placeholder="Image URL"
-        className={input}
+        placeholder="https://..."
       />
 
-      <input
-        name="workingDays"
-        value={form.workingDays}
-        onChange={handleChange}
-        placeholder="Working Days (1,2,3,4,5)"
-        className={input}
-      />
+      <div className="lg:col-span-2 space-y-3">
+        <label className="block text-sm font-medium text-[var(--text-secondary)]">Working Schedule</label>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <Input
+            name="workingDays"
+            value={form.workingDays}
+            onChange={handleChange}
+            placeholder="1,2,3,4,5 (Mon-Fri)"
+          />
+          <Input
+            name="startHour"
+            type="number"
+            value={form.startHour}
+            onChange={handleChange}
+            placeholder="9"
+          />
+          <Input
+            name="endHour"
+            type="number"
+            value={form.endHour}
+            onChange={handleChange}
+            placeholder="17"
+          />
+          <Input
+            name="slotDuration"
+            type="number"
+            value={form.slotDuration}
+            onChange={handleChange}
+            placeholder="30"
+          />
+        </div>
+        <Input
+          name="leaveDates"
+          value={form.leaveDates}
+          onChange={handleChange}
+          placeholder="2024-12-25,2025-01-01"
+        />
+      </div>
 
-      <input
-        name="startHour"
-        value={form.startHour}
-        onChange={handleChange}
-        placeholder="Start Hour"
-        className={input}
-      />
+      <div className="lg:col-span-2">
+        <label className="block text-sm font-medium mb-3 text-[var(--text-secondary)]">Bio</label>
+        <Textarea
+          name="bio"
+          value={form.bio}
+          onChange={handleChange}
+          rows={4}
+          placeholder="Doctor bio..."
+        />
+      </div>
 
-      <input
-        name="endHour"
-        value={form.endHour}
-        onChange={handleChange}
-        placeholder="End Hour"
-        className={input}
-      />
-
-      <input
-        name="slotDuration"
-        value={form.slotDuration}
-        onChange={handleChange}
-        placeholder="Slot Duration"
-        className={input}
-      />
-
-      <input
-        name="leaveDates"
-        value={form.leaveDates}
-        onChange={handleChange}
-        placeholder="Leave Dates (YYYY-MM-DD)"
-        className={input}
-      />
-
-      <textarea
-        name="bio"
-        value={form.bio}
-        onChange={handleChange}
-        rows={4}
-        className={`${input} md:col-span-2`}
-      />
-
-      <input
+      <Input
+        label="Achievements"
         name="achievements"
         value={form.achievements}
         onChange={handleChange}
-        placeholder="Achievements"
-        className={`${input} md:col-span-2`}
+        placeholder="Awards, publications (comma separated)"
+        className="lg:col-span-2"
       />
 
-      <button disabled={loading} className="ui-button md:col-span-2">
-        {loading ? "Saving..." : "Save Doctor"}
-      </button>
+      <div className="lg:col-span-2 flex gap-3 pt-4">
+        <Button type="submit" loading={loading} className="flex-1">
+          {loading ? "Saving..." : initialData ? "Update Doctor" : "Create Doctor"}
+        </Button>
+        {onClose && (
+          <Button type="button" variant="outline" onClick={onClose}>
+            Cancel
+          </Button>
+        )}
+      </div>
     </form>
   );
 }
