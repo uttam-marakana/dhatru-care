@@ -1,16 +1,16 @@
-import { useEffect } from "react";
-import { FaTimes } from "react-icons/fa";
-import BlogForm from "../forms/BlogForm";
+import { useEffect } from 'react';
+import { FaTimes } from 'react-icons/fa';
+import BlogForm from '../forms/BlogForm';
 
 export default function BlogFormModal({ open, onClose, blog, onSaved }) {
   useEffect(() => {
     const esc = (e) => {
-      if (e.key === "Escape") onClose();
+      if (e.key === 'Escape') onClose();
     };
 
-    document.addEventListener("keydown", esc);
+    document.addEventListener('keydown', esc);
 
-    return () => document.removeEventListener("keydown", esc);
+    return () => document.removeEventListener('keydown', esc);
   }, [onClose]);
 
   if (!open) return null;
@@ -19,10 +19,7 @@ export default function BlogFormModal({ open, onClose, blog, onSaved }) {
     <div className="fixed inset-0 z-50 flex items-center justify-center">
       {/* --- OVERLAY ----------- */}
 
-      <div
-        className="absolute inset-0 bg-black/40 backdrop-blur-sm"
-        onClick={onClose}
-      />
+      <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" onClick={onClose} />
 
       {/* --- MODAL ----------- */}
 
@@ -42,14 +39,9 @@ export default function BlogFormModal({ open, onClose, blog, onSaved }) {
         {/* --- HEADER ----------- */}
 
         <div className="flex items-center justify-between mb-6">
-          <h2 className="text-xl font-bold gradient-heading">
-            {blog ? "Edit Blog" : "Add Blog"}
-          </h2>
+          <h2 className="text-xl font-bold gradient-heading">{blog ? 'Edit Blog' : 'Add Blog'}</h2>
 
-          <button
-            onClick={onClose}
-            className="p-2 rounded hover:bg-[var(--card)]"
-          >
+          <button onClick={onClose} className="p-2 rounded hover:bg-[var(--card)]">
             <FaTimes />
           </button>
         </div>
