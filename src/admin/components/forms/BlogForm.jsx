@@ -1,19 +1,19 @@
-import { useState, useEffect } from "react";
-import { createBlogPost, updateBlogPost } from "../../../api/blogsApi";
+import { useState, useEffect } from 'react';
+import { createBlogPost, updateBlogPost } from '../../../api/blogsApi';
 
-import { notifyPromise } from "../../../utils/toast";
+import { notifyPromise } from '../../../utils/toast';
 
 const initialState = {
-  slug: "",
-  title: "",
-  content: "",
-  excerpt: "",
-  author: "",
-  date: "",
-  readTime: "",
-  imageUrl: "",
-  category: "",
-  tags: "",
+  slug: '',
+  title: '',
+  content: '',
+  excerpt: '',
+  author: '',
+  date: '',
+  readTime: '',
+  imageUrl: '',
+  category: '',
+  tags: '',
 };
 
 export default function BlogForm({ initialData, onSaved, onClose }) {
@@ -26,7 +26,7 @@ export default function BlogForm({ initialData, onSaved, onClose }) {
     if (initialData) {
       setForm({
         ...initialData,
-        tags: initialData.tags?.join(", ") || "",
+        tags: initialData.tags?.join(', ') || '',
       });
     } else {
       setForm(initialState);
@@ -35,15 +35,14 @@ export default function BlogForm({ initialData, onSaved, onClose }) {
 
   /* --- INPUT HANDLER ----------- */
 
-  const handleChange = (e) =>
-    setForm({ ...form, [e.target.name]: e.target.value });
+  const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
 
   /* --- HELPERS ----------- */
 
   const toArray = (v) =>
     v
       ? v
-          .split(",")
+          .split(',')
           .map((i) => i.trim())
           .filter(Boolean)
       : [];
@@ -62,15 +61,15 @@ export default function BlogForm({ initialData, onSaved, onClose }) {
     try {
       if (initialData) {
         await notifyPromise(updateBlogPost(initialData.id, payload), {
-          loading: "Updating blog...",
-          success: "Blog updated successfully",
-          error: "Failed to update blog",
+          loading: 'Updating blog...',
+          success: 'Blog updated successfully',
+          error: 'Failed to update blog',
         });
       } else {
         await notifyPromise(createBlogPost(payload), {
-          loading: "Creating blog...",
-          success: "Blog created successfully",
-          error: "Failed to create blog",
+          loading: 'Creating blog...',
+          success: 'Blog created successfully',
+          error: 'Failed to create blog',
         });
       }
 
@@ -85,7 +84,7 @@ export default function BlogForm({ initialData, onSaved, onClose }) {
   };
 
   const input =
-    "w-full p-3 rounded-lg border border-[var(--border)] bg-[var(--card)] text-[var(--text)]";
+    'w-full p-3 rounded-lg border border-[var(--border)] bg-[var(--card)] text-[var(--text)]';
 
   return (
     <form onSubmit={submit} className="grid grid-cols-1 md:grid-cols-2 gap-5">
@@ -175,7 +174,7 @@ export default function BlogForm({ initialData, onSaved, onClose }) {
         disabled={loading}
         className="bg-[var(--color-primary)] hover:bg-[var(--color-primary-hover)] text-white py-3 rounded-lg md:col-span-2"
       >
-        {loading ? "Saving..." : "Save Blog"}
+        {loading ? 'Saving...' : 'Save Blog'}
       </button>
     </form>
   );

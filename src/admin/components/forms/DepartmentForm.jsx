@@ -1,20 +1,17 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect } from 'react';
 
-import {
-  createDepartment,
-  updateDepartment,
-} from "../../../api/departmentsApi";
+import { createDepartment, updateDepartment } from '../../../api/departmentsApi';
 
-import { notifyPromise } from "../../../utils/toast";
+import { notifyPromise } from '../../../utils/toast';
 
 const initialState = {
-  slug: "",
-  name: "",
-  icon: "",
-  description: "",
-  services: "",
-  highlights: "",
-  bgGradient: "",
+  slug: '',
+  name: '',
+  icon: '',
+  description: '',
+  services: '',
+  highlights: '',
+  bgGradient: '',
 };
 
 export default function DepartmentForm({ initialData, onSaved }) {
@@ -24,8 +21,8 @@ export default function DepartmentForm({ initialData, onSaved }) {
     if (initialData) {
       setForm({
         ...initialData,
-        services: initialData.services?.join(", ") || "",
-        highlights: initialData.highlights?.join(", ") || "",
+        services: initialData.services?.join(', ') || '',
+        highlights: initialData.highlights?.join(', ') || '',
       });
     } else {
       setForm(initialState);
@@ -35,7 +32,7 @@ export default function DepartmentForm({ initialData, onSaved }) {
   const toArray = (v) =>
     v
       ? v
-          .split(",")
+          .split(',')
           .map((i) => i.trim())
           .filter(Boolean)
       : [];
@@ -58,15 +55,15 @@ export default function DepartmentForm({ initialData, onSaved }) {
     try {
       if (initialData) {
         await notifyPromise(updateDepartment(initialData.id, payload), {
-          loading: "Updating department...",
-          success: "Department updated successfully",
-          error: "Failed to update department",
+          loading: 'Updating department...',
+          success: 'Department updated successfully',
+          error: 'Failed to update department',
         });
       } else {
         await notifyPromise(createDepartment(payload), {
-          loading: "Creating department...",
-          success: "Department created successfully",
-          error: "Failed to create department",
+          loading: 'Creating department...',
+          success: 'Department created successfully',
+          error: 'Failed to create department',
         });
       }
 

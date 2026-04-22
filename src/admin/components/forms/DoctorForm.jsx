@@ -1,30 +1,30 @@
-import { useState } from "react";
-import { createDoctor, updateDoctor } from "../../../api/doctorsApi";
-import { notifyPromise } from "../../../utils/toast";
-import Input from "../../../components/common/Input";
-import CustomSelect from "../../../components/common/CustomSelect";
-import Button from "../../../components/common/Button";
-import Textarea from "../../../components/common/Textarea";
+import { useState } from 'react';
+import { createDoctor, updateDoctor } from '../../../api/doctorsApi';
+import { notifyPromise } from '../../../utils/toast';
+import Input from '../../../components/common/Input';
+import CustomSelect from '../../../components/common/CustomSelect';
+import Button from '../../../components/common/Button';
+import Textarea from '../../../components/common/Textarea';
 
 const initialState = {
-  name: "",
-  gender: "",
-  specialty: "",
-  qualification: "",
-  departmentId: "",
-  experience: "",
-  rating: "",
-  reviews: "",
-  languages: "",
-  location: "",
-  bio: "",
-  achievements: "",
-  imageUrl: "",
-  workingDays: "1,2,3,4,5",
-  startHour: "9",
-  endHour: "17",
-  slotDuration: "30",
-  leaveDates: "",
+  name: '',
+  gender: '',
+  specialty: '',
+  qualification: '',
+  departmentId: '',
+  experience: '',
+  rating: '',
+  reviews: '',
+  languages: '',
+  location: '',
+  bio: '',
+  achievements: '',
+  imageUrl: '',
+  workingDays: '1,2,3,4,5',
+  startHour: '9',
+  endHour: '17',
+  slotDuration: '30',
+  leaveDates: '',
 };
 
 export default function DoctorForm({ initialData, onSaved, onClose }) {
@@ -32,28 +32,27 @@ export default function DoctorForm({ initialData, onSaved, onClose }) {
     initialData
       ? {
           ...initialData,
-          languages: initialData.languages?.join(", ") || "",
-          achievements: initialData.achievements?.join(", ") || "",
-          workingDays: initialData.workingDays?.join(", ") || "1,2,3,4,5",
-          leaveDates: initialData.leaveDates?.join(", ") || "",
+          languages: initialData.languages?.join(', ') || '',
+          achievements: initialData.achievements?.join(', ') || '',
+          workingDays: initialData.workingDays?.join(', ') || '1,2,3,4,5',
+          leaveDates: initialData.leaveDates?.join(', ') || '',
         }
-      : initialState,
+      : initialState
   );
 
   const [loading, setLoading] = useState(false);
 
-  const handleChange = (e) =>
-    setForm({ ...form, [e.target.name]: e.target.value });
+  const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
 
   const toArray = (v) =>
     v
-      .split(",")
+      .split(',')
       .map((i) => i.trim())
       .filter(Boolean);
 
   const toNumberArray = (v) =>
     v
-      .split(",")
+      .split(',')
       .map((i) => Number(i.trim()))
       .filter(Boolean);
 
@@ -78,15 +77,15 @@ export default function DoctorForm({ initialData, onSaved, onClose }) {
     try {
       if (initialData) {
         await notifyPromise(updateDoctor(initialData.id, payload), {
-          loading: "Updating doctor...",
-          success: "Doctor updated successfully",
-          error: "Failed to update doctor",
+          loading: 'Updating doctor...',
+          success: 'Doctor updated successfully',
+          error: 'Failed to update doctor',
         });
       } else {
         await notifyPromise(createDoctor(payload), {
-          loading: "Creating doctor...",
-          success: "Doctor created successfully",
-          error: "Failed to create doctor",
+          loading: 'Creating doctor...',
+          success: 'Doctor created successfully',
+          error: 'Failed to create doctor',
         });
       }
 
@@ -100,12 +99,17 @@ export default function DoctorForm({ initialData, onSaved, onClose }) {
     }
   };
 
-  const inputClass = "w-full";
+  const inputClass = 'w-full';
 
   return (
-    <form onSubmit={submit} className="grid grid-cols-1 lg:grid-cols-2 gap-6 space-y-6 animate-fade-in-up">
+    <form
+      onSubmit={submit}
+      className="grid grid-cols-1 lg:grid-cols-2 gap-6 space-y-6 animate-fade-in-up"
+    >
       <div>
-        <label className="block text-sm font-medium mb-3 text-[var(--text-secondary)]">Doctor Name *</label>
+        <label className="block text-sm font-medium mb-3 text-[var(--text-secondary)]">
+          Doctor Name *
+        </label>
         <Input
           name="name"
           value={form.name}
@@ -116,12 +120,14 @@ export default function DoctorForm({ initialData, onSaved, onClose }) {
       </div>
 
       <div>
-        <label className="block text-sm font-medium mb-3 text-[var(--text-secondary)]">Gender</label>
+        <label className="block text-sm font-medium mb-3 text-[var(--text-secondary)]">
+          Gender
+        </label>
         <CustomSelect
           options={[
-            { value: "male", label: "Male" },
-            { value: "female", label: "Female" },
-            { value: "other", label: "Other" },
+            { value: 'male', label: 'Male' },
+            { value: 'female', label: 'Female' },
+            { value: 'other', label: 'Other' },
           ]}
           value={form.gender}
           placeholder="Select gender"
@@ -207,7 +213,9 @@ export default function DoctorForm({ initialData, onSaved, onClose }) {
       />
 
       <div className="lg:col-span-2 space-y-3">
-        <label className="block text-sm font-medium text-[var(--text-secondary)]">Working Schedule</label>
+        <label className="block text-sm font-medium text-[var(--text-secondary)]">
+          Working Schedule
+        </label>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <Input
             name="workingDays"
@@ -267,7 +275,7 @@ export default function DoctorForm({ initialData, onSaved, onClose }) {
 
       <div className="lg:col-span-2 flex gap-3 pt-4">
         <Button type="submit" loading={loading} className="flex-1">
-          {loading ? "Saving..." : initialData ? "Update Doctor" : "Create Doctor"}
+          {loading ? 'Saving...' : initialData ? 'Update Doctor' : 'Create Doctor'}
         </Button>
         {onClose && (
           <Button type="button" variant="outline" onClick={onClose}>

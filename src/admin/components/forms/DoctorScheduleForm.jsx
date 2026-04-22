@@ -1,8 +1,8 @@
-import { useState } from "react";
-import { updateDoctor } from "../../../api/doctorsApi";
-import FormCard from "../common/FormCard";
+import { useState } from 'react';
+import { updateDoctor } from '../../../api/doctorsApi';
+import FormCard from '../common/FormCard';
 
-import { notifySuccess, notifyError } from "../../../utils/toast";
+import { notifySuccess, notifyError } from '../../../utils/toast';
 
 export default function DoctorScheduleForm({ doctor }) {
   const [form, setForm] = useState({
@@ -10,19 +10,19 @@ export default function DoctorScheduleForm({ doctor }) {
     startHour: doctor?.startHour || 9,
     endHour: doctor?.endHour || 17,
     slotDuration: doctor?.slotDuration || 30,
-    leaveDates: doctor?.leaveDates?.join(", ") || "",
+    leaveDates: doctor?.leaveDates?.join(', ') || '',
   });
 
   const [loading, setLoading] = useState(false);
 
   const days = [
-    { label: "Sun", value: 0 },
-    { label: "Mon", value: 1 },
-    { label: "Tue", value: 2 },
-    { label: "Wed", value: 3 },
-    { label: "Thu", value: 4 },
-    { label: "Fri", value: 5 },
-    { label: "Sat", value: 6 },
+    { label: 'Sun', value: 0 },
+    { label: 'Mon', value: 1 },
+    { label: 'Tue', value: 2 },
+    { label: 'Wed', value: 3 },
+    { label: 'Thu', value: 4 },
+    { label: 'Fri', value: 5 },
+    { label: 'Sat', value: 6 },
   ];
 
   const toggleDay = (day) => {
@@ -63,17 +63,15 @@ export default function DoctorScheduleForm({ doctor }) {
         startHour: form.startHour,
         endHour: form.endHour,
         slotDuration: form.slotDuration,
-        leaveDates: form.leaveDates
-          ? form.leaveDates.split(",").map((d) => d.trim())
-          : [],
+        leaveDates: form.leaveDates ? form.leaveDates.split(',').map((d) => d.trim()) : [],
       };
 
       await updateDoctor(doctor.id, payload);
 
-      notifySuccess("Schedule updated successfully");
+      notifySuccess('Schedule updated successfully');
     } catch (err) {
       console.error(err);
-      notifyError("Failed to update schedule");
+      notifyError('Failed to update schedule');
     }
 
     setLoading(false);
@@ -106,8 +104,8 @@ export default function DoctorScheduleForm({ doctor }) {
                 py-2 rounded-lg border text-sm
                 ${
                   active
-                    ? "bg-primary text-white border-primary"
-                    : "border-gray-200 dark:border-white/10"
+                    ? 'bg-primary text-white border-primary'
+                    : 'border-gray-200 dark:border-white/10'
                 }
                 `}
               >
@@ -191,7 +189,7 @@ export default function DoctorScheduleForm({ doctor }) {
           text-white px-6 py-3 rounded-lg
           "
         >
-          {loading ? "Saving..." : "Save Schedule"}
+          {loading ? 'Saving...' : 'Save Schedule'}
         </button>
       </div>
     </FormCard>

@@ -1,20 +1,20 @@
-import { useState } from 'react'
-import { Formik, Form, Field } from 'formik'
-import * as Yup from 'yup'
-import Button from '../../../components/common/Button'
-import Input from '../../../components/common/Input'
-import { createPatient, updatePatient } from '../../../api/patientApi'
+import { useState } from 'react';
+import { Formik, Form, Field } from 'formik';
+import * as Yup from 'yup';
+import Button from '../../../components/common/Button';
+import Input from '../../../components/common/Input';
+import { createPatient, updatePatient } from '../../../api/patientApi';
 
 const validationSchema = Yup.object({
   name: Yup.string().required('Name is required'),
   phone: Yup.string().required('Phone is required').min(10, 'Invalid phone'),
   email: Yup.string().email('Invalid email').optional(),
   age: Yup.number().min(0).max(120).optional(),
-})
+});
 
 export default function PatientForm({ patient, onSuccess, onCancel }) {
-  const [loading, setLoading] = useState(false)
-  const isEdit = !!patient
+  const [loading, setLoading] = useState(false);
+  const isEdit = !!patient;
 
   const initialValues = patient || {
     name: '',
@@ -24,23 +24,23 @@ export default function PatientForm({ patient, onSuccess, onCancel }) {
     gender: '',
     address: '',
     emergencyContact: { name: '', phone: '' },
-  }
+  };
 
   const handleSubmit = async (values) => {
-    setLoading(true)
+    setLoading(true);
     try {
       if (isEdit) {
-        await updatePatient(patient.id, values)
+        await updatePatient(patient.id, values);
       } else {
-        await createPatient(values)
+        await createPatient(values);
       }
-      onSuccess()
+      onSuccess();
     } catch (error) {
-      console.error('Patient save error:', error)
+      console.error('Patient save error:', error);
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
   return (
     <Formik
@@ -52,9 +52,9 @@ export default function PatientForm({ patient, onSuccess, onCancel }) {
         <Form className="space-y-4">
           <div>
             <label className="block text-sm font-medium mb-2">Full Name</label>
-            <Field 
-              as={Input} 
-              name="name" 
+            <Field
+              as={Input}
+              name="name"
               placeholder="John Doe"
               error={errors.name && touched.name}
             />
@@ -65,9 +65,9 @@ export default function PatientForm({ patient, onSuccess, onCancel }) {
 
           <div>
             <label className="block text-sm font-medium mb-2">Phone</label>
-            <Field 
-              as={Input} 
-              name="phone" 
+            <Field
+              as={Input}
+              name="phone"
               placeholder="1234567890"
               error={errors.phone && touched.phone}
             />
@@ -86,11 +86,7 @@ export default function PatientForm({ patient, onSuccess, onCancel }) {
 
           <div>
             <label className="block text-sm font-medium mb-2">Address</label>
-            <Field 
-              as={Input} 
-              name="address" 
-              placeholder="123 Hospital Road"
-            />
+            <Field as={Input} name="address" placeholder="123 Hospital Road" />
           </div>
 
           <div className="bg-gray-50 p-4 rounded-lg">
@@ -112,6 +108,5 @@ export default function PatientForm({ patient, onSuccess, onCancel }) {
         </Form>
       )}
     </Formik>
-  )
+  );
 }
-

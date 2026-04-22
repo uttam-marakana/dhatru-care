@@ -1,15 +1,15 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect } from 'react';
 
-import { createPackage, updatePackage } from "../../../api/packagesApi";
-import { notifyPromise } from "../../../utils/toast";
+import { createPackage, updatePackage } from '../../../api/packagesApi';
+import { notifyPromise } from '../../../utils/toast';
 
 const initialState = {
-  name: "",
-  description: "",
-  price: "",
-  duration: "",
-  includes: "",
-  imageUrl: "",
+  name: '',
+  description: '',
+  price: '',
+  duration: '',
+  includes: '',
+  imageUrl: '',
   isFeatured: false,
 };
 
@@ -20,7 +20,7 @@ export default function PackageForm({ initialData, onSaved }) {
     if (initialData) {
       setForm({
         ...initialData,
-        includes: initialData.includes?.join(", ") || "",
+        includes: initialData.includes?.join(', ') || '',
       });
     } else {
       setForm(initialState);
@@ -30,7 +30,7 @@ export default function PackageForm({ initialData, onSaved }) {
   const toArray = (v) =>
     v
       ? v
-          .split(",")
+          .split(',')
           .map((i) => i.trim())
           .filter(Boolean)
       : [];
@@ -40,7 +40,7 @@ export default function PackageForm({ initialData, onSaved }) {
 
     setForm({
       ...form,
-      [name]: type === "checkbox" ? checked : value,
+      [name]: type === 'checkbox' ? checked : value,
     });
   };
 
@@ -56,15 +56,15 @@ export default function PackageForm({ initialData, onSaved }) {
     try {
       if (initialData) {
         await notifyPromise(updatePackage(initialData.id, payload), {
-          loading: "Updating package...",
-          success: "Package updated successfully",
-          error: "Failed to update package",
+          loading: 'Updating package...',
+          success: 'Package updated successfully',
+          error: 'Failed to update package',
         });
       } else {
         await notifyPromise(createPackage(payload), {
-          loading: "Creating package...",
-          success: "Package created successfully",
-          error: "Failed to create package",
+          loading: 'Creating package...',
+          success: 'Package created successfully',
+          error: 'Failed to create package',
         });
       }
 
