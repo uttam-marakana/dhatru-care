@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { createDoctor, updateDoctor } from "../../../api/doctorsApi";
 import { notifyPromise } from "../../../utils/toast";
-import Input from "../../../../components/common/Input";
-import CustomSelect from "../../../../components/common/CustomSelect";
-import Button from "../../../../components/common/Button";
-import Textarea from "../../../../components/common/Textarea";
+import Input from "../../../components/common/Input";
+import CustomSelect from "../../../components/common/CustomSelect";
+import Button from "../../../components/common/Button";
+import Textarea from "../../../components/common/Textarea";
 
 const initialState = {
   name: "",
