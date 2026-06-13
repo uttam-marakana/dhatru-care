@@ -51,7 +51,7 @@ export default function AdminTable({ data = [], columns = [], renderRow, filters
       {/* Table */}
       <div className="glass rounded-xl overflow-hidden shadow-lg">
         <div className="overflow-x-auto">
-          <table className="min-w-full text-sm">
+          <table className="min-w-full table-fixed text-sm">
             <thead className="bg-[var(--card)] border-b border-[var(--border)]">
               <tr className="text-left text-[var(--text-secondary)]">
                 {columns.map((c) => (
@@ -63,14 +63,7 @@ export default function AdminTable({ data = [], columns = [], renderRow, filters
             </thead>
 
             <tbody className="divide-y divide-[var(--border)]">
-              {paginated.map((row, i) => (
-                <tr
-                  key={row.id || i}
-                  className="hover:bg-[var(--card)] transition-colors duration-200"
-                >
-                  {renderRow(row)}
-                </tr>
-              ))}
+              {paginated.map((row, i) => renderRow(row, i))}
             </tbody>
           </table>
         </div>
