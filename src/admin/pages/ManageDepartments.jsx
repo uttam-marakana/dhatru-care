@@ -10,6 +10,8 @@ import AdminTable from '../components/common/AdminTable';
 
 import { notifySuccess, notifyError } from '../../utils/toast';
 
+import TableActions from '../components/common/TableActions';
+
 export default function ManageDepartments() {
   const [departments, setDepartments] = useState([]);
   const [deleteItem, setDeleteItem] = useState(null);
@@ -63,20 +65,14 @@ export default function ManageDepartments() {
             <td className="p-4 font-medium">{d.name}</td>
             <td className="p-4">{d.description}</td>
 
-            <td className="p-4 flex gap-3">
-              <button
-                onClick={() => {
+            <td className="p-4">
+              <TableActions
+                onEdit={() => {
                   setSelectedDepartment(d);
                   setModal(true);
                 }}
-                className="text-[var(--color-primary)]"
-              >
-                Edit
-              </button>
-
-              <button onClick={() => setDeleteItem(d)} className="text-[var(--color-error)]">
-                Delete
-              </button>
+                onDelete={() => setDeleteItem(d)}
+              />
             </td>
           </tr>
         )}

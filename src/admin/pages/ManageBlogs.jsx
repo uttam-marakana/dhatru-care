@@ -7,6 +7,8 @@ import AdminTable from '../components/common/AdminTable';
 import BlogFormModal from '../components/modals/BlogFormModal';
 import AdminHeader from '../components/layout/AdminHeader';
 
+import TableActions from '../components/common/TableActions';
+
 export default function ManageBlogs() {
   const [blogs, setBlogs] = useState([]);
   const [modal, setModal] = useState(false);
@@ -60,20 +62,14 @@ export default function ManageBlogs() {
             <td className="p-4">{blog.author}</td>
             <td className="p-4">{blog.date}</td>
 
-            <td className="p-4 flex gap-3">
-              <button
-                onClick={() => {
+            <td className="p-4">
+              <TableActions
+                onEdit={() => {
                   setSelectedBlog(blog);
                   setModal(true);
                 }}
-                className="text-[var(--color-primary)]"
-              >
-                Edit
-              </button>
-
-              <button onClick={() => handleDelete(blog)} className="text-[var(--color-error)]">
-                Delete
-              </button>
+                onDelete={() => handleDelete(blog)}
+              />
             </td>
           </tr>
         )}

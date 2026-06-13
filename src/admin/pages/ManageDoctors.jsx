@@ -5,6 +5,8 @@ import AdminTable from '../components/common/AdminTable';
 import DoctorFormModal from '../components/modals/DoctorFormModal';
 import AdminHeader from '../components/layout/AdminHeader';
 
+import TableActions from '../components/common/TableActions';
+
 import { notifySuccess, notifyError } from '../../utils/toast';
 
 export default function ManageDoctors() {
@@ -54,26 +56,23 @@ export default function ManageDoctors() {
         data={doctors}
         columns={['Name', 'Specialty', 'Department', 'Experience', 'Actions']}
         renderRow={(doc) => (
-          <tr key={doc.id} className="border-b border-[var(--border)] hover:bg-[var(--card)]">
-            <td className="p-4 font-medium">{doc.name}</td>
-            <td className="p-4">{doc.specialty}</td>
-            <td className="p-4">{doc.departmentId}</td>
-            <td className="p-4">{doc.experience} yrs</td>
+          <tr key={doc.id} className="hover:bg-[var(--card)] transition-colors duration-200">
+            <td className="p-6 font-medium w-[25%]">{doc.name}</td>
 
-            <td className="p-4 flex gap-3">
-              <button
-                onClick={() => {
+            <td className="p-6 w-[20%]">{doc.specialty}</td>
+
+            <td className="p-6 w-[25%] truncate">{doc.departmentId}</td>
+
+            <td className="p-6 w-[20%]">{doc.experience} yrs</td>
+
+            <td className="p-6 w-[10%]">
+              <TableActions
+                onEdit={() => {
                   setSelectedDoctor(doc);
                   setModal(true);
                 }}
-                className="text-[var(--color-primary)]"
-              >
-                Edit
-              </button>
-
-              <button onClick={() => handleDelete(doc)} className="text-[var(--color-error)]">
-                Delete
-              </button>
+                onDelete={() => handleDelete(doc)}
+              />
             </td>
           </tr>
         )}
