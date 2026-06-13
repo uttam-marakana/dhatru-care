@@ -8,6 +8,7 @@ import PackageFormModal from '../components/modals/PackageFormModal';
 import AdminTable from '../components/common/AdminTable';
 
 import { notifySuccess, notifyError } from '../../utils/toast';
+import TableActions from '../components/common/TableActions';
 
 const PAGE_SIZE = 10;
 
@@ -78,20 +79,14 @@ export default function ManagePackages() {
             <td className="p-4">{p.duration}</td>
             <td className="p-4">{p.isFeatured ? 'Yes' : 'No'}</td>
 
-            <td className="p-4 flex gap-3">
-              <button
-                onClick={() => {
+            <td className="p-4">
+              <TableActions
+                onEdit={() => {
                   setSelectedPackage(p);
                   setModal(true);
                 }}
-                className="text-[var(--color-primary)]"
-              >
-                Edit
-              </button>
-
-              <button onClick={() => setDeleteItem(p)} className="text-[var(--color-error)]">
-                Delete
-              </button>
+                onDelete={() => setDeleteItem(p)}
+              />
             </td>
           </tr>
         )}

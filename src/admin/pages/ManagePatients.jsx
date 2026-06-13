@@ -15,6 +15,8 @@ import {
 } from '../../api/patientApi';
 import { useAuth } from '../../context/AuthContext';
 
+import TableActions from '../components/common/TableActions';
+
 export default function ManagePatients() {
   const { tenantId } = useAuth();
   const [patients, setPatients] = useState([]);
@@ -78,22 +80,10 @@ export default function ManagePatients() {
       key: 'actions',
       header: 'Actions',
       render: (patient) => (
-        <div className="flex gap-2">
-          <button
-            onClick={() => handleEdit(patient)}
-            className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg"
-            title="Edit"
-          >
-            <FaEdit />
-          </button>
-          <button
-            onClick={() => handleDelete(patient.id)}
-            className="p-2 text-red-600 hover:bg-red-50 rounded-lg"
-            title="Delete"
-          >
-            <FaTrash />
-          </button>
-        </div>
+        <TableActions
+          onEdit={() => handleEdit(patient)}
+          onDelete={() => handleDelete(patient.id)}
+        />
       ),
     },
   ];
