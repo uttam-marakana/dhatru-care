@@ -23,7 +23,7 @@ export default function ContactMessagesTable({ messages, onUpdate, loadingId }) 
   return (
     <>
       <div className="glass overflow-x-auto">
-        <table className="min-w-full text-sm">
+        <table className="min-w-full table-fixed text-sm">
           {/* HEADER */}
           <thead className="border-b border-[var(--border)]">
             <tr className="text-left text-[var(--text-secondary)]">

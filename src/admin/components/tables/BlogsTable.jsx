@@ -4,7 +4,7 @@ export default function BlogsTable({ blogs, onEdit, onDelete }) {
   return (
     <div className="glass rounded-xl overflow-hidden shadow-lg">
       <div className="overflow-x-auto">
-        <table className="min-w-full text-sm">
+        <table className="min-w-full table-fixed text-sm">
           <thead className="bg-[var(--card)] border-b border-[var(--border)]">
             <tr className="text-left text-[var(--text-secondary)]">
               <th className="p-6 font-medium">Title</th>

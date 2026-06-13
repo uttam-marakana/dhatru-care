@@ -13,7 +13,7 @@ export default function AppointmentsTable({ appointments, onStatusChange, loadin
   return (
     <div className="glass rounded-xl overflow-hidden shadow-lg">
       <div className="overflow-x-auto">
-        <table className="min-w-full text-sm">
+        <table className="min-w-full table-fixed text-sm">
           <thead className="bg-(--card) border-b border-(--border)">
             <tr className="text-left text-(--text-secondary)">
               <th className="p-6 font-medium">Patient</th>
