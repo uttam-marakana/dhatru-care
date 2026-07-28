@@ -33,23 +33,21 @@ export default function PublicLayout() {
       <Suspense fallback={null}>
         <ScrollToTop />
 
-        {/* --- Navigation Wrapper ----------- */}
-        <div className="relative z-40">
-          {/* --- TopBar hides on scroll down ----------- */}
+        {/* --- Navigation Wrapper: sticky + hide/show on scroll ----------- */}
+        <div className="sticky top-0 z-50">
           <div
             className={`
               transition-all duration-300
               ${
                 scrollDirection === "down"
-                  ? "-translate-y-full opacity-0"
-                  : "translate-y-0 opacity-100"
+                  ? "-translate-y-full"
+                  : "translate-y-0"
               }
             `}
           >
             <TopBar />
+            <Header />
           </div>
-
-          <Header />
         </div>
 
         {/* --- Page content ----------- */}
