@@ -21,9 +21,9 @@ export default function UniversalFilterLayout({
     <>
       {/* --- Desktop ----------- */}
 
-      <section className="hidden lg:block sticky top-0 bg-[var(--surface)] border-b border-[var(--border)] z-30">
-        <div className="max-w-7xl mx-auto px-4 py-4">
-          <div className="flex justify-between items-center">
+      <section className="hidden lg:block sticky top-0 bg-[var(--surface)] border-b border-[var(--border)] z-30 d-flex justify-start">
+        <div className="max-w-4xl mx-12 px-4 py-4">
+          <div className="flex gap-x-4 items-center">
             <h3 className="font-semibold">Filters</h3>
 
             <button
