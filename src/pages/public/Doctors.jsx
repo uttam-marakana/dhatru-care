@@ -123,7 +123,7 @@ export default function Doctors() {
         />
 
       {hasActiveFilters && (
-        <div className="max-w-6xl mx-auto px-4 mt-6">
+        <div className="max-w-7xl mx-auto px-4 mt-6">
           <button
             onClick={clearFilters}
             className="text-sm text-[var(--color-primary)] hover:underline"
@@ -133,7 +133,7 @@ export default function Doctors() {
         </div>
       )}
 
-      <section className="max-w-6xl mx-auto px-4 py-10">
+      <section className="max-w-7xl mx-auto px-4 py-10">
         <DoctorsList doctors={doctors} loading={loading} error={error} />
       </section>
 

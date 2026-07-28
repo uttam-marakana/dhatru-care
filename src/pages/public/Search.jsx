@@ -64,7 +64,7 @@ export default function Search() {
   return (
     <main className="min-h-screen bg-[var(--bg)]">
       <Container className="py-16">
-        <div className="max-w-6xl mx-auto">
+        <div className="max-w-7xl mx-auto">
           <h1 className="text-3xl font-bold mb-10 text-center">
             Search Results for "{query}"
           </h1>
