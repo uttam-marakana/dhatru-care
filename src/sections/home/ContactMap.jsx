@@ -4,7 +4,7 @@ import Container from "../../components/layout/Container";
 
 export default function ContactMap() {
   return (
-    <section className="relative py-20 md:py-24 bg-[var(--bg)] text-[var(--text)] overflow-hidden">
+    <section className="relative py-10 md:py-12 bg-[var(--bg)] text-[var(--text)] overflow-hidden">
       <div className="absolute -top-40 left-1/2 -translate-x-1/2 w-162.5 h-162.5 bg-[var(--glow-bg)] blur-[140px] rounded-full"></div>
 
       <Container>
