@@ -212,7 +212,7 @@ export default function DepartmentDetail() {
         </section>
       )}
 
-      <AppointmentCTA className="my-16 mx-auto max-w-6xl" />
+      <AppointmentCTA className="my-16 mx-auto max-w-7xl" />
     </main>
   );
 }

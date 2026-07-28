@@ -355,7 +355,7 @@ export default function DoctorDetail() {
 
       <AppointmentCTA
         variant="large"
-        className="my-12 md:my-16 lg:my-20 mx-auto max-w-6xl"
+        className="my-12 md:my-16 lg:my-20 mx-auto max-w-7xl"
       />
     </main>
   );
