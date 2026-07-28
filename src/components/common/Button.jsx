@@ -1,34 +1,33 @@
-import PropTypes from "prop-types";
+import PropTypes from 'prop-types';
 
 const variants = {
   primary:
-    "bg-[var(--color-primary)] hover:bg-[var(--color-primary-hover)] text-white shadow-[0_0_10px_var(--glow-soft)]",
+    'bg-[var(--color-primary)] hover:bg-[var(--color-primary-hover)] text-white shadow-[0_0_10px_var(--glow-soft)]',
 
   secondary:
-    "border border-[var(--color-primary)] text-[var(--color-primary)] hover:bg-[var(--color-primary)]/10",
+    'border border-[var(--color-primary)] text-[var(--color-primary)] hover:bg-[var(--color-primary)]/10',
 
-  outline:
-    "border border-[var(--border)] text-[var(--text)] hover:bg-[var(--card)]",
+  outline: 'border border-[var(--border)] text-[var(--text)] hover:bg-[var(--card)]',
 
-  ghost: "text-[var(--text)] hover:bg-[var(--card)]",
+  ghost: 'text-[var(--text)] hover:bg-[var(--card)]',
 
-  danger: "bg-[var(--color-error)] text-white",
+  danger: 'bg-[var(--color-error)] text-white',
 
-  success: "bg-[var(--color-success)] text-white",
+  success: 'bg-[var(--color-success)] text-white',
 };
 
 const sizes = {
-  sm: "px-4 py-2 text-sm rounded-lg",
-  md: "px-6 py-2.5 text-base rounded-xl",
-  lg: "px-8 py-3.5 text-lg rounded-xl",
-  icon: "p-2.5 rounded-full",
+  sm: 'px-4 py-2 text-sm rounded-lg',
+  md: 'px-6 py-2.5 text-base rounded-xl',
+  lg: 'px-8 py-3.5 text-lg rounded-xl',
+  icon: 'p-2.5 rounded-full',
 };
 
 export default function Button({
   children,
-  variant = "primary",
-  size = "md",
-  className = "",
+  variant = 'primary',
+  size = 'md',
+  className = '',
   disabled = false,
   loading = false,
   leftIcon,

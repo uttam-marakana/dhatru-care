@@ -2,7 +2,7 @@ export default function Card({
   children,
   className = "",
   hover = true,
-  padding = "p-6",
+  padding = "p-4",
 }) {
   return (
     <div
