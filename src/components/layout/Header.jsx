@@ -349,8 +349,6 @@ export default function Header() {
           dark_logo={dark_logo}
         />
       </Suspense>
-
-      {/* <div className="h-20 lg:h-24" /> */}
     </>
   );
 }
