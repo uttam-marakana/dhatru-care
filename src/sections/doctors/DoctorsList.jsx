@@ -1,18 +1,14 @@
-import { lazy, useState, useMemo } from "react";
-import { Link } from "react-router-dom";
-import { FaStar } from "react-icons/fa";
+import { lazy, useState, useMemo } from 'react';
+import { Link } from 'react-router-dom';
+import { FaStar } from 'react-icons/fa';
 
-import Container from "../../components/layout/Container";
-import Card from "../../components/common/Card";
-import Button from "../../components/common/Button";
+import Container from '../../components/layout/Container';
+import Card from '../../components/common/Card';
+import Button from '../../components/common/Button';
 
 const ITEMS_PER_PAGE = 12;
 
-export default function DoctorsList({
-  doctors = [],
-  loading = false,
-  error = null,
-}) {
+export default function DoctorsList({ doctors = [], loading = false, error = null }) {
   const [currentPage, setCurrentPage] = useState(1);
 
   const totalPages = Math.ceil(doctors.length / ITEMS_PER_PAGE);
@@ -30,7 +26,7 @@ export default function DoctorsList({
   if (loading) {
     return (
       <Container className="py-12">
-        {" "}
+        {' '}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {Array.from({ length: 8 }).map((_, i) => (
             <div
@@ -43,7 +39,7 @@ export default function DoctorsList({
                 overflow-hidden
               "
             >
-              {" "}
+              {' '}
               <div className="aspect-square bg-[var(--surface)]" />
               <div className="p-5 space-y-3">
                 <div className="h-5 bg-[var(--surface)] rounded" />
@@ -61,8 +57,8 @@ export default function DoctorsList({
   if (error) {
     return (
       <Container className="py-20 text-center">
-        {" "}
-        <p className="text-red-500 text-lg">{error}</p>{" "}
+        {' '}
+        <p className="text-red-500 text-lg">{error}</p>{' '}
       </Container>
     );
   }
@@ -71,13 +67,9 @@ export default function DoctorsList({
   if (doctors.length === 0) {
     return (
       <Container className="py-20 text-center">
-        {" "}
-        <h3 className="text-2xl font-semibold mb-3 text-[var(--text)]">
-          No Doctors Found{" "}
-        </h3>
-        <p className="text-[var(--text-secondary)]">
-          Try adjusting your filters.
-        </p>
+        {' '}
+        <h3 className="text-2xl font-semibold mb-3 text-[var(--text)]">No Doctors Found </h3>
+        <p className="text-[var(--text-secondary)]">Try adjusting your filters.</p>
       </Container>
     );
   }
@@ -97,11 +89,7 @@ export default function DoctorsList({
         "
       >
         {paginatedDoctors.map((doctor) => (
-          <Link
-            key={doctor.id}
-            to={`/doctors/${doctor.id}`}
-            className="block group h-full"
-          >
+          <Link key={doctor.id} to={`/doctors/${doctor.id}`} className="block group h-full">
             <Card
               hover
               className="
@@ -124,7 +112,7 @@ export default function DoctorsList({
               >
                 {doctor.imageUrl ? (
                   <img
-                    src={doctor.imageUrl}
+                    src={doctor.image || '/doctor-placeholder.png'}
                     alt={doctor.name}
                     className="w-full h-full object-cover"
                   />
@@ -134,7 +122,7 @@ export default function DoctorsList({
               </div>
 
               {/* --- CONTENT ----------- */}
-              <div className="p-5 flex flex-col grow">
+              <div className="p-2 flex flex-col grow">
                 <h3
                   className="
                     text-lg
@@ -183,7 +171,7 @@ export default function DoctorsList({
                     grow
                   "
                 >
-                  {doctor.bio || "Experienced specialist."}
+                  {doctor.bio || 'Experienced specialist.'}
                 </p>
 
                 <Button
@@ -191,7 +179,7 @@ export default function DoctorsList({
                   className="
                     mt-5 w-full
                     group-hover:bg-[var(--color-primary)]
-                    group-hover:text-white
+                    hover:text-blue-600
                     transition
                   "
                 >
