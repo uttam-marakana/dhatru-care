@@ -292,7 +292,7 @@ export default function DoctorDetail() {
 
       {/* --- RELATED DOCTORS ----------- */}
       {relatedDoctors.length > 0 && (
-        <section className="relative py-20 md:py-24 bg-[var(--section)] text-[var(--text)] overflow-hidden">
+        <section className="relative py-10 md:py-12 bg-[var(--bg)] text-[var(--text)] overflow-hidden">
           <div
             className="
               pointer-events-none 

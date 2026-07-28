@@ -71,7 +71,7 @@ export default function Departments() {
           "
         />
 
-        <div className="relative z-10 max-w-7xl mx-auto px-6">
+        <div className="relative z-10 max-w-6xl mx-auto px-6">
           {loading ? (
             <p className="text-center py-20 text-gray-500">
               Loading departments...

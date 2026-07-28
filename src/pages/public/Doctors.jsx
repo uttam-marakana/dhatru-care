@@ -12,6 +12,8 @@ const AppointmentCTA = lazy(
   () => import("../../sections/shared/AppointmentCTA"),
 );
 
+import DoctorBanner_Img from "../../assets/images/doctor-banner.png";
+
 export default function Doctors() {
   const [searchParams, setSearchParams] = useSearchParams();
   const location = useLocation();
@@ -111,26 +113,27 @@ export default function Doctors() {
       <PageHero
         title="Our Expert Doctors"
         subtitle="Highly qualified specialists committed to personalized care"
-      />
+        backgroundImage={DoctorBanner_Img}
+        />      
 
       <UniversalFilterLayout
         filters={filters}
         onChange={setFilters}
         FiltersComponent={DoctorFilters}
-      />
+        />
 
       {hasActiveFilters && (
-        <div className="max-w-7xl mx-auto px-4 mt-6">
+        <div className="max-w-6xl mx-auto px-4 mt-6">
           <button
             onClick={clearFilters}
             className="text-sm text-[var(--color-primary)] hover:underline"
-          >
+            >
             Clear All Filters
           </button>
         </div>
       )}
 
-      <section className="max-w-7xl mx-auto px-4 py-10">
+      <section className="max-w-6xl mx-auto px-4 py-10">
         <DoctorsList doctors={doctors} loading={loading} error={error} />
       </section>
 
