@@ -3,7 +3,7 @@ export default function DepartmentDetailSkeleton() {
     <div className="min-h-screen bg-[var(--bg)] animate-pulse">
       {/* --- Banner ----------- */}
       <div className="bg-[var(--card)] py-20 md:py-32">
-        <div className="container mx-auto px-4 max-w-6xl text-center">
+        <div className="container mx-auto px-4 max-w-7xl text-center">
           <div className="h-32 w-32 mx-auto bg-[var(--border)] rounded-full mb-6" />
 
           <div className="h-12 w-3/4 bg-[var(--border)] rounded mx-auto mb-4" />
@@ -14,7 +14,7 @@ export default function DepartmentDetailSkeleton() {
 
       {/* --- Content ----------- */}
       <div className="py-12 md:py-20">
-        <div className="container mx-auto px-4 max-w-6xl grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="container mx-auto px-4 max-w-7xl grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           <div className="md:col-span-2 space-y-8">
             <div className="h-10 w-1/2 bg-[var(--border)] rounded" />
 

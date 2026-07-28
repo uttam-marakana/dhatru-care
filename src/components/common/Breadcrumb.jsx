@@ -6,8 +6,8 @@ export default function Breadcrumb({ items = [] }) {
 
   return (
     <nav className="border-b bg-[var(--surface)] border-[var(--border)]">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        <ol className="flex flex-wrap items-center gap-2 py-3 text-sm">
+      <div className="max-w px-4 sm:px-6 lg:px-8">
+        <ol className="flex flex-wrap items-left gap-2 py-3 text-sm">
           {items.map((item, i) => {
             const last = i === items.length - 1;
 
@@ -24,7 +24,7 @@ export default function Breadcrumb({ items = [] }) {
                     <FaChevronRight className="text-xs text-[var(--muted)]" />
                   </>
                 ) : (
-                  <span className="font-medium text-[var(--text)]">
+                  <span className="font-medium text-sky-700">
                     {item.label}
                   </span>
                 )}
