@@ -1,6 +1,6 @@
 export default function FormCard({ title, children, actions }) {
   return (
-    <div className="max-w-5xl mx-auto my-8">
+    <div className="max-w-6xl mx-auto my-8">
       <div
         className="
           glass
