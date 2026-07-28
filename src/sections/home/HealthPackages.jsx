@@ -21,7 +21,7 @@ export default function HealthPackages({ packages = [], loading, error }) {
     );
 
   return (
-    <section className="relative py-20 md:py-24 bg-[var(--section)] text-[var(--text)] overflow-hidden">
+    <section className="relative py-10 md:py-12 bg-[var(--bg)] text-[var(--text)] overflow-hidden">
       <Container>
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-bold text-[var(--color-primary)]">

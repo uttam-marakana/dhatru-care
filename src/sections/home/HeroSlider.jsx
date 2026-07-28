@@ -1,41 +1,41 @@
-import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
-import Container from "../../components/layout/Container";
-import Button from "../../components/common/Button";
-import { Link } from "react-router-dom";
+import { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
+import Container from '../../components/layout/Container';
+import Button from '../../components/common/Button';
+import { Link } from 'react-router-dom';
+
+import HeroBanner_Img1 from '../../assets/images/hero-banner-img1.png';
+import HeroBanner_Img2 from '../../assets/images/hero-banner-img2.png';
+import HeroBanner_Img3 from '../../assets/images/hero-banner-img3.png';
 
 const slides = [
   {
-    title: "Advanced Multispeciality Care",
-    subtitle:
-      "Modern infrastructure combined with compassionate, patient-first treatment.",
-    image:
-      "https://images.unsplash.com/photo-1586773860418-d37222d8fce3?q=80&w=1600",
+    title: 'Advanced Multispeciality Care',
+    subtitle: 'Modern infrastructure combined with compassionate, patient-first treatment.',
+    image: HeroBanner_Img1,
+    // image: "../../assets/images/hero-banner-img1.png",
   },
   {
-    title: "Expert Doctors You Can Trust",
-    subtitle:
-      "Highly experienced specialists delivering precision diagnosis and care.",
-    image:
-      "https://images.unsplash.com/photo-1538108149393-fbbd81895907?q=80&w=1600",
+    title: 'Expert Doctors You Can Trust',
+    subtitle: 'Highly experienced specialists delivering precision diagnosis and care.',
+    image: HeroBanner_Img2,
+    // image: "../../assets/images/hero-banner-img2.png",
   },
   {
-    title: "24×7 Emergency Services",
-    subtitle: "Immediate response and critical care when every second matters.",
-    image:
-      "https://images.unsplash.com/photo-1579684385127-1ef15d508118?q=80&w=1600",
+    title: '24×7 Emergency Services',
+    subtitle: 'Immediate response and critical care when every second matters.',
+    image: HeroBanner_Img3,
+    // image: "../../assets/images/hero-banner-img3.png",
   },
 ];
 
 export default function HeroSlider() {
   const [[index, direction], setIndex] = useState([0, 0]);
 
-  const next = () =>
-    setIndex(([prev]) => [prev === slides.length - 1 ? 0 : prev + 1, 1]);
+  const next = () => setIndex(([prev]) => [prev === slides.length - 1 ? 0 : prev + 1, 1]);
 
-  const prev = () =>
-    setIndex(([prev]) => [prev === 0 ? slides.length - 1 : prev - 1, -1]);
+  const prev = () => setIndex(([prev]) => [prev === 0 ? slides.length - 1 : prev - 1, -1]);
 
   useEffect(() => {
     const interval = setInterval(() => next(), 6000);
@@ -46,7 +46,7 @@ export default function HeroSlider() {
     <section className="relative h-[80vh] md:h-[90vh] overflow-hidden">
       <AnimatePresence mode="wait" initial={false}>
         <motion.img
-          key={slides[index].image}
+          key={slides[index].title}
           src={slides[index].image}
           alt=""
           initial={{ opacity: 0, scale: 1.1 }}
@@ -58,7 +58,7 @@ export default function HeroSlider() {
       </AnimatePresence>
 
       {/* --- Overlay ----------- */}
-      <div className="absolute inset-0 bg-[var(--bg)]/80 z-10" />
+      <div className="absolute inset-0 bg-[var(--bg)]/40 z-10" />
 
       <Container className="relative z-20 h-full flex items-center">
         <motion.div
@@ -68,9 +68,7 @@ export default function HeroSlider() {
           transition={{ duration: 0.6 }}
           className="text-[var(--text)] max-w-3xl"
         >
-          <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold mb-6">
-            {slides[index].title}
-          </h1>
+          <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold mb-6">{slides[index].title}</h1>
 
           <p className="text-lg md:text-xl text-[var(--text-secondary)] mb-10">
             {slides[index].subtitle}
