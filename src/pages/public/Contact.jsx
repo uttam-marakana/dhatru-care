@@ -15,7 +15,7 @@ export default function Contact() {
         subtitle="We're here to help – reach out anytime"
       />
 
-      <section className="relative py-20 md:py-24 bg-[var(--section)] text-[var(--text)] overflow-hidden">
+      <section className="relative py-10 md:py-12 bg-[var(--bg)] text-[var(--text)] overflow-hidden">
         {/* --- Glow ----------- */}
         <div
           className="

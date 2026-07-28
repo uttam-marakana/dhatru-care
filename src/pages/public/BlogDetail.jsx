@@ -74,7 +74,7 @@ export default function BlogDetail() {
 
       <div className="bg-black h-64 md:h-96">
         <img
-          src={post.image || "https://via.placeholder.com/1200x600"}
+          src={post.image || "/blog-placeholder.png"}
           alt={post.title}
           className="w-full h-full object-cover opacity-80"
         />
