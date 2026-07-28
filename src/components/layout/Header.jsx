@@ -153,7 +153,7 @@ export default function Header() {
               <div ref={searchRef} className="relative">
                 <button
                   onClick={() => setIsSearchOpen((p) => !p)}
-                  className="text-lg"
+                  className="text-lg flex"
                 >
                   <FaSearch />
                 </button>
@@ -264,7 +264,7 @@ export default function Header() {
               ) : (
                 <PrefetchLink
                   to="/login"
-                  className="flex items-center gap-2 text-sm font-medium"
+                  className="flex items-center gap-2 text-lg font-medium"
                 >
                   <FaUser />
                 </PrefetchLink>

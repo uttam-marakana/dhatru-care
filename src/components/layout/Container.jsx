@@ -6,7 +6,7 @@ const maxWidths = {
   lg: "max-w-screen-lg",
   xl: "max-w-screen-xl",
   "2xl": "max-w-screen-2xl",
-  "7xl": "max-w-7xl",
+  "7xl": "max-w-6xl",
 };
 
 export default function Container({

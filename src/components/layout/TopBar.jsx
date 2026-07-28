@@ -15,30 +15,31 @@ export default function TopBar() {
       {/* Glow */}
       <div className="absolute -top-20 left-1/2 -translate-x-1/2 w-[500px] h-[500px] bg-[var(--glow-bg)] blur-[120px] rounded-full"></div>
 
-      <div className="relative z-10 mx-auto max-w-7xl px-6 lg:px-8 flex items-center justify-between">
+      <div className="relative z-10 mx-auto max-w-6xl px-6 lg:px-8 flex items-center justify-between">
         {/* LEFT */}
         <div className="flex items-center gap-8">
           <a
-            href="tel:+919876543210"
+            href="tel:+91 9876xxxxxx"
             aria-label="Call emergency number"
             className="
             flex items-center gap-2
-            font-medium
-            text-[var(--color-primary)]
-            hover:opacity-80
-            transition
+            font-bold
+            text-red-600
             "
           >
             <FaPhoneAlt />
 
             <span>
-              24×7 Emergency:
-              <strong className="ml-1 tracking-wide text-[var(--text)]">
+              24×7 Emergency
+              {/* <strong className="ml-1 tracking-wide text-[var(--text)]">
                 +91 9876xxxxxx
-              </strong>
+              </strong> */}
             </span>
           </a>
+        </div>
 
+        {/* RIGHT */}
+        <div className="flex items-center gap-6 font-medium">
           <a
             href="https://wa.me/+919876xxxxxx"
             target="_blank"
@@ -52,13 +53,6 @@ export default function TopBar() {
             <FaWhatsapp className="text-[var(--color-success)]" />
             <span>Chat on WhatsApp</span>
           </a>
-        </div>
-
-        {/* RIGHT */}
-        <div className="flex items-center gap-6 font-medium">
-          <Link to="#" className="hover:text-[var(--color-primary)] transition">
-            For Doctors
-          </Link>
 
           {/* <Link to="#" className="hover:text-[var(--color-primary)] transition">
             Careers
