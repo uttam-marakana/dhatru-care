@@ -20,7 +20,7 @@ export default function AppointmentCTA({
         py-16 md:py-18
         ${
           isLarge
-            ? "my-12 md:my-16 rounded-3xl border border-[var(--border)] shadow-[0_0_60px_var(--glow-soft)] mx-4 md:mx-8 lg:mx-auto max-w-6xl"
+            ? "my-12 md:my-16 rounded-3xl border border-[var(--border)] shadow-[0_0_60px_var(--glow-soft)] mx-4 md:mx-8 lg:mx-auto max-w-7xl"
             : ""
         }
         ${className}

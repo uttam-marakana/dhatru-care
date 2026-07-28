@@ -17,7 +17,7 @@ export default function PageHero({
         <img
           src={backgroundImage}
           alt={title}
-          className="absolute inset-0 w-full object-cover h-187.5"
+          className="absolute inset-0 w-full h-full object-cover"
         />
       )}
 
