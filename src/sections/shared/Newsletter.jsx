@@ -3,7 +3,7 @@ import NewsletterForm from "../../components/forms/NewsletterForm";
 
 export default function Newsletter() {
   return (
-    <section className="relative py-20 md:py-24 bg-[var(--bg)] text-[var(--text)] overflow-hidden">
+    <section className="relative py-10 md:py-12 bg-[var(--bg)] text-[var(--text)] overflow-hidden">
       <div className="absolute -top-32 left-1/2 -translate-x-1/2 w-175 h-175 bg-[var(--glow-bg)] blur-[140px] rounded-full"></div>
 
       <Container>
