@@ -65,7 +65,7 @@ export default function AboutHospital() {
               <img
                 src={Hospital_Img}
                 alt="Dhatru Care Hospital"
-                className="w-full h-105 object-cover group-hover:scale-105 transition duration-700"
+                className="w-full aspect-[4/3] md:aspect-[16/9] object-cover group-hover:scale-105 transition duration-700"
               />
             </div>
           </div>
