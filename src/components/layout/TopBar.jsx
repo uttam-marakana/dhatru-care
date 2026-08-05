@@ -19,7 +19,7 @@ export default function TopBar() {
         {/* LEFT */}
         <div className="flex items-center gap-8">
           <a
-            href="tel:+91 9876xxxxxx"
+            href="tel:+919876543210"
             aria-label="Call emergency number"
             className="
             flex items-center gap-2
@@ -32,7 +32,7 @@ export default function TopBar() {
             <span>
               24×7 Emergency
               {/* <strong className="ml-1 tracking-wide text-[var(--text)]">
-                +91 9876xxxxxx
+                +91 98765 43210
               </strong> */}
             </span>
           </a>
@@ -41,9 +41,10 @@ export default function TopBar() {
         {/* RIGHT */}
         <div className="flex items-center gap-6 font-medium">
           <a
-            href="https://wa.me/+919876xxxxxx"
+            href="https://wa.me/919876543210?text=Hi%20Dhatru%20Care%2C%20I%20would%20like%20to%20chat%20about%20an%20appointment."
             target="_blank"
             rel="noopener noreferrer"
+            aria-label="Chat with Dhatru Care on WhatsApp"
             className="
             flex items-center gap-2
             hover:text-[var(--color-primary)]

@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from "react";
+import { createPortal } from "react-dom";
 import { FaChevronDown } from "react-icons/fa";
 
 export default function CustomSelect({
@@ -8,6 +9,7 @@ export default function CustomSelect({
   placeholder = "Select",
 }) {
   const [open, setOpen] = useState(false);
+  const [pos, setPos] = useState({ top: 0, left: 0, width: 0, openUp: false });
   const ref = useRef(null);
 
   const getValue = (o) => o.value ?? o.id;
@@ -15,21 +17,72 @@ export default function CustomSelect({
 
   const selectedItem = options.find((o) => getValue(o) === value);
 
+  /* --- Close on outside click / scroll / resize ----------- */
   useEffect(() => {
-    const handleClick = (e) => {
-      if (!ref.current?.contains(e.target)) setOpen(false);
+    if (!open) return;
+
+    const handlePointer = (e) => {
+      if (
+        ref.current?.contains(e.target) ||
+        (e.target?.dataset && e.target.dataset.customSelectOption)
+      ) {
+        return;
+      }
+      setOpen(false);
     };
 
-    document.addEventListener("mousedown", handleClick);
-    return () => document.removeEventListener("mousedown", handleClick);
-  }, []);
+    const handleScroll = () => setOpen(false);
+    const handleResize = () => setOpen(false);
+
+    document.addEventListener("mousedown", handlePointer, true);
+    document.addEventListener("touchstart", handlePointer, true);
+    document.addEventListener("scroll", handleScroll, true);
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      document.removeEventListener("mousedown", handlePointer, true);
+      document.removeEventListener("touchstart", handlePointer, true);
+      document.removeEventListener("scroll", handleScroll, true);
+      window.removeEventListener("resize", handleResize);
+    };
+  }, [open]);
+
+  /* --- Compute viewport-aware position ----------- */
+  const computePosition = () => {
+    const el = ref.current;
+    if (!el) return;
+
+    const rect = el.getBoundingClientRect();
+    const dropdownHeight = Math.min(options.length * 40 + 16, 240);
+    const spaceBelow = window.innerHeight - rect.bottom;
+    const spaceAbove = rect.top;
+
+    const openUp = spaceBelow < dropdownHeight && spaceAbove > spaceBelow;
+
+    // Clamp horizontally so the dropdown never overflows the viewport on mobile
+    const left = Math.max(8, Math.min(rect.left, window.innerWidth - rect.width - 8));
+
+    setPos({
+      top: openUp ? rect.top - 8 : rect.bottom + 8,
+      left,
+      width: rect.width,
+      openUp,
+    });
+  };
+
+  const toggle = () => {
+    if (!open) computePosition();
+    setOpen((p) => !p);
+  };
 
   return (
     <div ref={ref} className="relative w-full">
       {/* --- TRIGGER ----------- */}
       <button
         type="button"
-        onClick={() => setOpen((p) => !p)}
+        onClick={toggle}
+        aria-haspopup="listbox"
+        aria-expanded={open}
         className="
           relative w-full h-11 px-3 pr-10 rounded-lg border
           border-[var(--border)]
@@ -53,45 +106,58 @@ export default function CustomSelect({
         />
       </button>
 
-      {/* --- DROPDOWN ----------- */}
-      {open && (
-        <div
-          className="
-            absolute left-0 top-full z-[9999] mt-2 w-full rounded-lg
-            border border-[var(--border)]
-            bg-[var(--surface)]
-            shadow-lg
-            max-h-60 overflow-y-auto ui-dropdown-scroll
-          "
-        >
-          {options.map((opt) => {
-            const val = getValue(opt);
-            const label = getLabel(opt);
-            const isActive = value === val;
+      {/* --- DROPDOWN (portal to body to escape clipping contexts) ----------- */}
+      {open &&
+        createPortal(
+          <div
+            role="listbox"
+            data-custom-select-dropdown
+            className="
+              fixed z-[9999] rounded-lg
+              border border-[var(--border)]
+              bg-[var(--surface)]
+              shadow-lg
+              max-h-60 overflow-y-auto ui-dropdown-scroll
+            "
+            style={{
+              top: pos.top,
+              left: pos.left,
+              width: pos.width,
+              maxWidth: `calc(100vw - 16px)`,
+            }}
+          >
+            {options.map((opt) => {
+              const val = getValue(opt);
+              const label = getLabel(opt);
+              const isActive = value === val;
 
-            return (
-              <button
-                key={val}
-                type="button"
-                onClick={() => {
-                  onChange(val);
-                  setOpen(false);
-                }}
-                className={`
-                  w-full text-left px-3 py-2 text-sm transition
-                  ${
-                    isActive
-                      ? "bg-[var(--color-primary)] text-white"
-                      : "text-[var(--text)] hover:bg-[var(--card)]"
-                  }
-                `}
-              >
-                {label}
-              </button>
-            );
-          })}
-        </div>
-      )}
+              return (
+                <button
+                  key={val}
+                  type="button"
+                  role="option"
+                  aria-selected={isActive}
+                  data-custom-select-option
+                  onClick={() => {
+                    onChange(val);
+                    setOpen(false);
+                  }}
+                  className={`
+                    w-full text-left px-3 py-2 text-sm transition
+                    ${
+                      isActive
+                        ? "bg-[var(--color-primary)] text-white"
+                        : "text-[var(--text)] hover:bg-[var(--card)]"
+                    }
+                  `}
+                >
+                  {label}
+                </button>
+              );
+            })}
+          </div>,
+          document.body,
+        )}
     </div>
   );
 }

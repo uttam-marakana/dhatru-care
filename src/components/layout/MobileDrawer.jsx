@@ -33,8 +33,9 @@ export default function MobileDrawer({
         <motion.div
           className="
           fixed inset-0 z-50
-          bg-[var(--bg)]
+          bg-[var(--bg)]/80
           text-[var(--text)]
+          backdrop-blur-xl
           "
           initial={{ x: "100%" }}
           animate={{ x: 0 }}
@@ -42,7 +43,7 @@ export default function MobileDrawer({
           transition={{ duration: 0.3 }}
           aria-hidden={!isOpen}
         >
-          <div className="flex flex-col h-full px-6 py-6 backdrop-blur-xl">
+          <div className="flex flex-col h-full px-6 py-6 bg-[var(--surface)]/90 border-l border-[var(--border)] shadow-2xl">
             {/* HEADER */}
             <div className="flex items-center justify-between mb-10">
               <PrefetchLink to="/" onClick={onClose}>
@@ -94,29 +95,29 @@ export default function MobileDrawer({
             <div className="border-t border-[var(--border)] pt-6 mb-6">
               {user ? (
                 <div className="flex flex-col gap-4">
-                  <PrefetchLink 
+                  <PrefetchLink
                     to="/profile"
                     onClick={onClose}
                     className="hover:text-[var(--color-primary)]"
                   >
                     Profile
-                  </ PrefetchLink>
+                  </PrefetchLink>
 
-                  <PrefetchLink 
+                  <PrefetchLink
                     to="/profile/appointments"
                     onClick={onClose}
                     className="hover:text-[var(--color-primary)]"
                   >
                     My Appointments
-                  </ PrefetchLink>
+                  </PrefetchLink>
 
-                  <PrefetchLink 
+                  <PrefetchLink
                     to="/settings"
                     onClick={onClose}
                     className="hover:text-[var(--color-primary)]"
                   >
                     Settings
-                  </ PrefetchLink>
+                  </PrefetchLink>
 
                   <button
                     onClick={() => {
@@ -134,13 +135,13 @@ export default function MobileDrawer({
                   </button>
                 </div>
               ) : (
-                <PrefetchLink 
+                <PrefetchLink
                   to="/login"
                   onClick={onClose}
                   className="hover:text-[var(--color-primary)]"
                 >
                   Login
-                </ PrefetchLink>
+                </PrefetchLink>
               )}
             </div>
 
