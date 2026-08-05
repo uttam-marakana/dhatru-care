@@ -1,9 +1,14 @@
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import Container from "../../components/layout/Container";
 import Button from "../../components/common/Button";
 
-export default function HealthPackages({ packages = [], loading, error }) {
+export default function HealthPackages({
+  packages = [],
+  loading,
+  error,
+  limit,
+}) {
   const navigate = useNavigate();
 
   if (loading)
@@ -20,6 +25,8 @@ export default function HealthPackages({ packages = [], loading, error }) {
       </div>
     );
 
+  const visiblePackages = limit ? packages.slice(0, limit) : packages;
+
   return (
     <section className="relative py-10 md:py-12 bg-[var(--bg)] text-[var(--text)] overflow-hidden">
       <Container>
@@ -29,8 +36,8 @@ export default function HealthPackages({ packages = [], loading, error }) {
           </h2>
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-          {packages.map((pkg) => (
+<div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {visiblePackages.map((pkg) => (
             <div
               key={pkg.id}
               onClick={() => navigate(`/packages/${pkg.id}`)}
@@ -68,8 +75,18 @@ export default function HealthPackages({ packages = [], loading, error }) {
                 Book Now
               </Button>
             </div>
-          ))}
+))}
         </div>
+
+        {limit && visiblePackages.length < packages.length && (
+          <div className="text-center mt-14">
+            <Link to="/packages">
+              <Button variant="ghost" size="lg">
+                View All Packages →
+              </Button>
+            </Link>
+          </div>
+        )}
       </Container>
     </section>
   );

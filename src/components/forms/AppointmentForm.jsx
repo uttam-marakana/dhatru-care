@@ -5,7 +5,7 @@ import { subscribeDoctorSlots } from "../../api/appointmentsApi";
 import { useBookingEngine } from "../../hooks/useBookingEngine";
 
 import { getAllDepartments } from "../../api/departmentsApi";
-import { getDoctorsByDepartment } from "../../api/doctorsApi";
+import { getDoctors, getDoctorsByDepartment } from "../../api/doctorsApi";
 import { getPackages } from "../../api/packagesApi";
 
 import { useAuth } from "../../context/AuthContext";
@@ -22,6 +22,8 @@ import DoctorAvailabilityCalendar from "../common/DoctorAvailabilityCalendar";
 import Input from "../common/Input";
 import CustomSelect from "../common/CustomSelect";
 
+import { getDepartmentsForPackage } from "../../config/packageDoctorMap";
+
 import { subscribeDoctorDatesAvailability } from "../../services/dateAvailabilityService";
 
 import { notifyError } from "../../utils/toast";
@@ -37,9 +39,16 @@ const [searchParams] = useSearchParams();
   const { book } = useBookingEngine();
   const { user, tenantId } = useAuth();
 
-  /* URL PARAMS ----------- */
+/* URL PARAMS ----------- */
   const packageParam = searchParams.get("package") || selectedPackage;
-  const packageNameParam = searchParams.get("packageName");
+  const packageNameParam =
+    searchParams.get("packageName") ||
+    (selectedPackage
+      ? packages.find((p) => p.id === selectedPackage)?.name
+      : "");
+
+  // When launched from a package "Book Now", lock the package selection.
+  const isPackageLocked = Boolean(packageParam);
 
   /* STATE ----------- */
   const [appointmentType, setAppointmentType] = useState("regular");
@@ -64,8 +73,9 @@ const [searchParams] = useSearchParams();
     packageName: packageNameParam || "",
   });
 
-  const [departments, setDepartments] = useState([]);
+const [departments, setDepartments] = useState([]);
   const [doctors, setDoctors] = useState([]);
+  const [doctorsLoading, setDoctorsLoading] = useState(false);
   const [doctor, setDoctor] = useState(null);
 
   /* SLOT SYSTEM ----------- */
@@ -88,10 +98,56 @@ const [searchParams] = useSearchParams();
     }
   }, [packageParam]);
 
-  useEffect(() => {
-    if (!form.department) return;
-    getDoctorsByDepartment(form.department).then(setDoctors);
-  }, [form.department]);
+// When a package is locked, only offer its relevant departments so the
+  // patient can pick one and always see applicable doctors on step 2.
+  const packageDepartmentIds = getDepartmentsForPackage(
+    form.packageName || packageNameParam,
+  );
+
+  const departmentOptions =
+    isPackageLocked && packageDepartmentIds.length > 0
+      ? departments.filter((d) => packageDepartmentIds.includes(d.id))
+      : departments;
+
+useEffect(() => {
+    let mounted = true;
+
+    const loadDoctors = async () => {
+      setDoctorsLoading(true);
+
+      try {
+        let data;
+
+        // Reliable server-side filter by the selected department.
+        if (form.department) {
+          data = await getDoctorsByDepartment(form.department);
+        } else {
+          data = await getDoctors();
+        }
+
+        if (!mounted) return;
+
+        let filtered = data || [];
+
+        // When a package is active, further restrict to its mapped departments.
+        if (packageDepartmentIds.length > 0) {
+          filtered = filtered.filter((d) =>
+            packageDepartmentIds.includes(d.departmentId),
+          );
+        }
+
+        setDoctors(filtered);
+      } finally {
+        if (mounted) setDoctorsLoading(false);
+      }
+    };
+
+    loadDoctors();
+
+    return () => {
+      mounted = false;
+    };
+  }, [form.department, form.packageName, packageNameParam]);
 
   useEffect(() => {
     setDoctor(doctors.find((d) => d.id === form.doctorId) || null);
@@ -303,15 +359,16 @@ const [searchParams] = useSearchParams();
             ))}
           </div>
 
-          <CustomSelect
+<CustomSelect
             options={packages.map(p => ({ value: p.id, label: p.name + ' (₹' + p.price + ')' }))}
             value={form.packageId}
             placeholder="Select Package (Optional)"
+            disabled={isPackageLocked}
             onChange={(val) => setForm((p) => ({ ...p, packageId: val, packageName: packages.find(pkg => pkg.id === val)?.name || '' }))}
           />
 
-          <CustomSelect
-            options={departments}
+<CustomSelect
+            options={departmentOptions}
             value={form.department}
             placeholder="Select Department"
             onChange={(val) => setForm((p) => ({ ...p, department: val }))}
@@ -319,27 +376,48 @@ const [searchParams] = useSearchParams();
         </>
       )}
 
-      {/* --- STEP 2 ----------- */}
+{/* --- STEP 2 ----------- */}
       {step === 2 && (
-        <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-3">
-          {doctors.map((doc) => {
-            const isSelected = form.doctorId === doc.id;
-
-            return (
+        <>
+          {doctorsLoading ? (
+            <div className="text-center py-10">
+              <p className="text-sm text-gray-500">Loading doctors...</p>
+            </div>
+          ) : doctors.length === 0 ? (
+            <div className="text-center py-10">
+              <p className="text-sm text-gray-500 mb-2">
+                No doctors available for the selected department.
+              </p>
               <button
-                key={doc.id}
                 type="button"
-                onClick={() => setForm((p) => ({ ...p, doctorId: doc.id }))}
-                className={`p-4 rounded-xl border flex flex-col items-center gap-1 text-sm ${
-                  isSelected ? "border-blue-500 bg-blue-50" : "border-gray-200 hover:border-gray-300"
-                }`}
+                onClick={prevStep}
+                className="text-xs text-blue-600 underline"
               >
-                <div className="font-medium">{doc.name}</div>
-                <div className="text-xs opacity-75">{doc.specialty}</div>
+                ← Go back and change department
               </button>
-            );
-          })}
-        </div>
+            </div>
+          ) : (
+            <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-3">
+              {doctors.map((doc) => {
+                const isSelected = form.doctorId === doc.id;
+
+                return (
+                  <button
+                    key={doc.id}
+                    type="button"
+                    onClick={() => setForm((p) => ({ ...p, doctorId: doc.id }))}
+                    className={`p-4 rounded-xl border flex flex-col items-center gap-1 text-sm ${
+                      isSelected ? "border-blue-500 bg-blue-50" : "border-gray-200 hover:border-gray-300"
+                    }`}
+                  >
+                    <div className="font-medium">{doc.name}</div>
+                    <div className="text-xs opacity-75">{doc.specialty}</div>
+                  </button>
+                );
+              })}
+            </div>
+          )}
+        </>
       )}
 
       {/* --- STEP 3 ----------- */}

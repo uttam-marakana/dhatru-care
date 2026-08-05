@@ -92,7 +92,7 @@ export default function Home() {
 
         <FeaturedDoctors doctors={data.doctors} loading={loading} />
 
-        <HealthPackages packages={data.packages} loading={loading} />
+<HealthPackages packages={data.packages} loading={loading} limit={3} />
 
         <Testimonials />
 

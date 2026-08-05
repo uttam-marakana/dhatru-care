@@ -7,6 +7,7 @@ export default function CustomSelect({
   options = [],
   onChange,
   placeholder = "Select",
+  disabled = false,
 }) {
   const [open, setOpen] = useState(false);
   const [pos, setPos] = useState({ top: 0, left: 0, width: 0, openUp: false });
@@ -19,7 +20,7 @@ export default function CustomSelect({
 
   /* --- Close on outside click / scroll / resize ----------- */
   useEffect(() => {
-    if (!open) return;
+    if (!open || disabled) return;
 
     const handlePointer = (e) => {
       if (
@@ -70,7 +71,8 @@ export default function CustomSelect({
     });
   };
 
-  const toggle = () => {
+const toggle = () => {
+    if (disabled) return;
     if (!open) computePosition();
     setOpen((p) => !p);
   };
@@ -83,7 +85,8 @@ export default function CustomSelect({
         onClick={toggle}
         aria-haspopup="listbox"
         aria-expanded={open}
-        className="
+        disabled={disabled}
+        className={`
           relative w-full h-11 px-3 pr-10 rounded-lg border
           border-[var(--border)]
           bg-[var(--surface)]
@@ -92,7 +95,12 @@ export default function CustomSelect({
           flex items-center
           focus:outline-none
           focus:ring-2 focus:ring-[var(--color-primary)]
-        "
+          ${
+            disabled
+              ? "opacity-70 cursor-not-allowed"
+              : "cursor-pointer"
+          }
+        `}
       >
         <span className="truncate">
           {selectedItem ? getLabel(selectedItem) : placeholder}
@@ -101,13 +109,13 @@ export default function CustomSelect({
         <FaChevronDown
           size={12}
           className={`absolute right-3 transition-transform ${
-            open ? "rotate-180" : ""
+            disabled ? "opacity-50" : open ? "rotate-180" : ""
           }`}
         />
       </button>
 
       {/* --- DROPDOWN (portal to body to escape clipping contexts) ----------- */}
-      {open &&
+      {open && !disabled &&
         createPortal(
           <div
             role="listbox"

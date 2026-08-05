@@ -1,10 +1,15 @@
-import { useState, useEffect, lazy } from "react";
-import { useLocation } from "react-router-dom";
+import { useState, useEffect, lazy, useMemo } from "react";
+import { useLocation, useSearchParams } from "react-router-dom";
 import { getAllDepartments } from "../../api/departmentsApi";
+
+import UniversalFilterLayout from "../../components/filters/UniversalFilterLayout";
 
 const PageHero = lazy(() => import("../../sections/shared/PageHero"));
 const DepartmentsGrid = lazy(
   () => import("../../sections/departments/DepartmentsGrid"),
+);
+const DepartmentFilters = lazy(
+  () => import("../../sections/departments/DepartmentFilters"),
 );
 const AppointmentCTA = lazy(
   () => import("../../sections/shared/AppointmentCTA"),
@@ -12,6 +17,12 @@ const AppointmentCTA = lazy(
 
 export default function Departments() {
   const location = useLocation();
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const [filters, setFilters] = useState({
+    search: searchParams.get("search") || "",
+    category: searchParams.get("category") || "",
+  });
 
   const [departments, setDepartments] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -38,12 +49,53 @@ export default function Departments() {
       }
     };
 
-    fetchData();
+fetchData();
 
     return () => {
       mounted = false;
     };
   }, [location.key]);
+
+  /* --- Sync filters → URL ----------- */
+
+  useEffect(() => {
+    const params = {};
+
+    Object.entries(filters).forEach(([k, v]) => {
+      if (v) params[k] = v;
+    });
+
+    setSearchParams(params);
+  }, [filters, setSearchParams]);
+
+  /* --- Filter departments ----------- */
+
+  const filteredDepartments = useMemo(() => {
+    let data = [...departments];
+
+    if (filters.search) {
+      const term = filters.search.toLowerCase();
+
+      data = data.filter(
+        (d) =>
+          d.name?.toLowerCase().includes(term) ||
+          d.description?.toLowerCase().includes(term) ||
+          d.slug?.toLowerCase().includes(term),
+      );
+    }
+
+    if (filters.category) {
+      data = data.filter((d) => d.slug === filters.category);
+    }
+
+    return data;
+  }, [filters, departments]);
+
+  const clearFilters = () => {
+    setFilters({ search: "", category: "" });
+  };
+
+  const hasActiveFilters = Object.values(filters).some((v) => v);
 
   return (
     <main
@@ -54,10 +106,27 @@ export default function Departments() {
         dark:from-gray-950 dark:via-gray-900 dark:to-gray-950
       "
     >
-      <PageHero
+<PageHero
         title="Our Specialities"
         subtitle="Comprehensive multispeciality care with expert teams."
       />
+
+      <UniversalFilterLayout
+        filters={filters}
+        onChange={setFilters}
+        FiltersComponent={DepartmentFilters}
+      />
+
+      {hasActiveFilters && (
+        <div className="max-w-7xl mx-auto px-4 mt-6">
+          <button
+            onClick={clearFilters}
+            className="text-sm text-[var(--color-primary)] hover:underline"
+          >
+            Clear All Filters
+          </button>
+        </div>
+      )}
 
       <section className="py-20 relative">
         <div
@@ -78,8 +147,8 @@ export default function Departments() {
             </p>
           ) : error ? (
             <p className="text-center text-red-500 py-20">{error}</p>
-          ) : (
-            <DepartmentsGrid departments={departments} />
+) : (
+            <DepartmentsGrid departments={filteredDepartments} />
           )}
         </div>
       </section>

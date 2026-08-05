@@ -27,23 +27,34 @@ export default function MobileDrawer({
     return () => document.removeEventListener("keydown", esc);
   }, [onClose]);
 
-  return (
+return (
     <AnimatePresence>
       {isOpen && (
-        <motion.div
-          className="
-          fixed inset-0 z-50
-          bg-[var(--bg)]/80
-          text-[var(--text)]
-          backdrop-blur-xl
-          "
-          initial={{ x: "100%" }}
-          animate={{ x: 0 }}
-          exit={{ x: "100%" }}
-          transition={{ duration: 0.3 }}
-          aria-hidden={!isOpen}
-        >
-          <div className="flex flex-col h-full px-6 py-6 bg-[var(--surface)]/90 border-l border-[var(--border)] shadow-2xl">
+        <div className="fixed inset-0 z-50">
+          {/* Backdrop */}
+          <div
+            className="absolute inset-0 bg-black/50"
+            onClick={onClose}
+            aria-hidden="true"
+          />
+
+          {/* Sliding panel */}
+          <motion.div
+            className="
+            absolute top-0 right-0 h-full w-[85%] max-w-[420px]
+            bg-[var(--surface)]
+            text-[var(--text)]
+            border-l border-[var(--border)]
+            shadow-2xl
+overflow-y-auto
+            "
+            initial={{ x: "100%" }}
+            animate={{ x: 0 }}
+            exit={{ x: "100%" }}
+            transition={{ duration: 0.3 }}
+            aria-hidden={!isOpen}
+          >
+            <div className="flex flex-col h-full px-6 py-6 bg-[var(--surface)]">
             {/* HEADER */}
             <div className="flex items-center justify-between mb-10">
               <PrefetchLink to="/" onClick={onClose}>
@@ -145,12 +156,13 @@ export default function MobileDrawer({
               )}
             </div>
 
-            {/* FOOTER ACTION */}
+{/* FOOTER ACTION */}
             <div className="flex items-center justify-between">
               <ThemeToggle />
             </div>
-          </div>
-        </motion.div>
+            </div>
+          </motion.div>
+        </div>
       )}
     </AnimatePresence>
   );

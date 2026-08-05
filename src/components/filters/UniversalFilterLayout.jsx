@@ -55,13 +55,30 @@ export default function UniversalFilterLayout({
         </div>
       </section>
 
-      {/* --- Mobile Button ----------- */}
+{/* --- Mobile Button ----------- */}
 
       <button
         onClick={() => setOpen(true)}
-        className="lg:hidden fixed bottom-6 right-6 bg-blue-600 text-white p-4 rounded-full"
+        aria-label="Open filters"
+        className="
+          lg:hidden
+          fixed
+          bottom-24 right-4 sm:right-6
+          z-[60]
+          bg-[var(--color-primary)]
+          text-white
+          p-4
+          rounded-full
+          shadow-[0_0_20px_var(--glow-soft)]
+        "
       >
         <FaFilter />
+
+        {activeFilters > 0 && (
+          <span className="absolute -top-1 -right-1 text-xs bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center">
+            {activeFilters}
+          </span>
+        )}
       </button>
 
       {/* --- Mobile Drawer ----------- */}

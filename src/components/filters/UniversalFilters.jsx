@@ -3,10 +3,14 @@ import { FaSearch, FaChevronDown } from "react-icons/fa";
 import { useDebounce } from "../../hooks/useDebounce";
 
 export default function UniversalFilters({
-  schema = [],
+  schema: schemaProp = [],
+  fields: fieldsProp = [],
   filters = {},
   onChange,
 }) {
+  // Accept both `schema` and `fields` for backward compatibility.
+  const schema = schemaProp.length ? schemaProp : fieldsProp;
+
   const [localFilters, setLocalFilters] = useState(filters);
 
   const debouncedSearch = useDebounce(localFilters.search || "", 400);
