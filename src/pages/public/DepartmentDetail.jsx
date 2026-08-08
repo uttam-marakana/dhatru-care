@@ -105,13 +105,15 @@ export default function DepartmentDetail() {
       <section className="relative py-20 text-center">
         <Container>
           <div className="max-w-3xl mx-auto">
-            <div className="text-7xl mb-6">{department.icon || "🏥"}</div>
+<div className="text-6xl sm:text-7xl mb-6">
+              {department.icon || "🏥"}
+            </div>
 
-            <h1 className="text-4xl md:text-5xl font-bold text-blue-400 mb-4">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-[var(--color-primary)] mb-4">
               {department.name}
             </h1>
 
-            <p className="text-gray-600 dark:text-gray-400">
+            <p className="text-[var(--text-secondary)]">
               {department.description ||
                 "Specialized care with advanced facilities."}
             </p>
@@ -126,13 +128,13 @@ export default function DepartmentDetail() {
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {/* ---  SERVICES ----------- */}
 
-            <Card className="bg-white dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-2xl p-8 hover:-translate-y-2 transition">
+<Card className="bg-[var(--card)] border border-[var(--border)] rounded-2xl p-8 hover:-translate-y-2 transition">
               <h2 className="text-xl font-bold mb-4 flex items-center gap-2">
-                <FaStethoscope className="text-blue-400" />
+                <FaStethoscope className="text-[var(--color-primary)]" />
                 Our Services
               </h2>
 
-              <ul className="space-y-2 text-gray-600 dark:text-gray-400">
+              <ul className="space-y-2 text-[var(--text-secondary)]">
                 {department.services?.map((s, i) => (
                   <li key={i}>✔ {s}</li>
                 ))}
@@ -141,13 +143,13 @@ export default function DepartmentDetail() {
 
             {/* ---  HIGHLIGHTS ----------- */}
 
-            <Card className="bg-white dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-2xl p-8 hover:-translate-y-2 transition">
+<Card className="bg-[var(--card)] border border-[var(--border)] rounded-2xl p-8 hover:-translate-y-2 transition">
               <h2 className="text-xl font-bold mb-4 flex items-center gap-2">
-                <FaChartLine className="text-blue-400" />
+                <FaChartLine className="text-[var(--color-primary)]" />
                 Highlights
               </h2>
 
-              <ul className="space-y-2 text-gray-600 dark:text-gray-400">
+              <ul className="space-y-2 text-[var(--text-secondary)]">
                 {department.highlights?.map((h, i) => (
                   <li key={i}>★ {h}</li>
                 ))}
@@ -156,12 +158,12 @@ export default function DepartmentDetail() {
 
             {/* ---  BOOK CTA ----------- */}
 
-            <Card className="bg-white dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-2xl p-8 hover:-translate-y-2 transition">
-              <h2 className="text-xl font-bold mb-4">
+<Card className="bg-[var(--card)] border border-[var(--border)] rounded-2xl p-8 hover:-translate-y-2 transition">
+              <h2 className="text-xl font-bold mb-4 text-[var(--text)]">
                 Why Choose {department.name}?
               </h2>
 
-              <p className="text-gray-600 dark:text-gray-400 mb-6">
+              <p className="text-[var(--text-secondary)] mb-6">
                 Expert doctors and advanced medical technology for better care.
               </p>
 
@@ -169,7 +171,7 @@ export default function DepartmentDetail() {
                 <Button
                   size="lg"
                   leftIcon={<FaCalendarCheck />}
-                  className="bg-blue-500 hover:bg-blue-600 text-white px-6 py-3"
+                  className="bg-[var(--color-primary)] hover:bg-[var(--color-primary-hover)] text-white px-6 py-3"
                 >
                   Book Consultation
                 </Button>
@@ -182,9 +184,9 @@ export default function DepartmentDetail() {
       {/* ---  RELATED DOCTORS ----------- */}
 
       {relatedDoctors.length > 0 && (
-        <section className="py-20 bg-gray-100 dark:bg-gray-900">
+<section className="py-20 bg-[var(--section)]">
           <Container>
-            <h2 className="text-3xl font-bold text-center mb-12">
+            <h2 className="text-3xl font-bold text-center mb-12 text-[var(--text)]">
               Specialists in {department.name}
             </h2>
 
@@ -196,11 +198,15 @@ export default function DepartmentDetail() {
                       {doc.imagePlaceholder || "👨‍⚕️"}
                     </div>
 
-                    <h3 className="font-semibold">{doc.name}</h3>
+                    <h3 className="font-semibold text-[var(--text)]">
+                      {doc.name}
+                    </h3>
 
-                    <p className="text-blue-400 text-sm">{doc.specialty}</p>
+                    <p className="text-[var(--color-primary)] text-sm">
+                      {doc.specialty}
+                    </p>
 
-                    <div className="flex justify-center gap-1 text-sm text-gray-400 mt-2">
+                    <div className="flex justify-center gap-1 text-sm text-[var(--muted)] mt-2">
                       <FaStar className="text-yellow-400" />
                       {doc.rating || 4.9}
                     </div>

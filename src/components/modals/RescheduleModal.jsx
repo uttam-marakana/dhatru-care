@@ -49,17 +49,19 @@ export default function RescheduleModal({
         px-4
       "
     >
-      <div
+<div
         className="
           w-full max-w-md
-          bg-white dark:bg-gray-900
-          border border-gray-200 dark:border-white/10
+          bg-[var(--card)]
+          border border-[var(--border)]
           rounded-xl
           p-6
           shadow-lg
         "
       >
-        <h3 className="text-lg font-semibold mb-4">Reschedule Appointment</h3>
+        <h3 className="text-lg font-semibold mb-4 text-[var(--text)]">
+          Reschedule Appointment
+        </h3>
 
         <div className="space-y-4">
           <input
@@ -68,9 +70,9 @@ export default function RescheduleModal({
             onChange={(e) => setDate(e.target.value)}
             className="
               w-full p-3 rounded-lg
-              border border-gray-300
-              dark:border-white/10
-              bg-white dark:bg-gray-800
+              border border-[var(--border)]
+              bg-[var(--surface)]
+              text-[var(--text)]
             "
           />
 
@@ -80,20 +82,21 @@ export default function RescheduleModal({
             onChange={(e) => setTime(e.target.value)}
             className="
               w-full p-3 rounded-lg
-              border border-gray-300
-              dark:border-white/10
-              bg-white dark:bg-gray-800
+              border border-[var(--border)]
+              bg-[var(--surface)]
+              text-[var(--text)]
             "
           />
         </div>
 
-        <div className="flex justify-end gap-3 mt-6">
+        <div className="flex flex-wrap justify-end gap-3 mt-6">
           <button
             onClick={onClose}
             className="
               px-4 py-2 rounded-lg
-              border border-gray-300
-              hover:bg-gray-100
+              border border-[var(--border)]
+              text-[var(--text-secondary)]
+              hover:bg-[var(--card)]
             "
           >
             Cancel
@@ -104,7 +107,7 @@ export default function RescheduleModal({
             disabled={loading}
             className="
               px-4 py-2 rounded-lg
-              bg-blue-500 hover:bg-blue-600
+              bg-[var(--color-primary)] hover:bg-[var(--color-primary-hover)]
               text-white
             "
           >

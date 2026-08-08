@@ -8,7 +8,7 @@ export default function Newsletter() {
 
       <Container>
         <div className="relative z-10 text-center max-w-3xl mx-auto">
-          <h2 className="text-4xl md:text-5xl font-bold mb-6 text-[var(--color-primary)]">
+<h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-6 text-[var(--color-primary)]">
             Stay Informed. Stay Healthy.
           </h2>
 

@@ -81,7 +81,7 @@ export default function DepartmentsGrid({ departments = [] }) {
                   size="sm"
                   className="
                     text-[var(--color-primary)]
-                    hover:text-(--color-primary-hover)
+hover:text-[var(--color-primary-hover)]
                   "
                   rightIcon={<FaArrowRight />}
                 >

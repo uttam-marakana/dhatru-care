@@ -310,7 +310,7 @@ export default function DoctorDetail() {
 
           <Container className="relative z-10">
             <div className="text-center mb-16">
-              <h2 className="text-4xl md:text-5xl font-bold text-[var(--color-primary)]">
+<h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-[var(--color-primary)]">
                 Related Specialists
               </h2>
 

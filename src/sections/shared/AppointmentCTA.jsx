@@ -30,7 +30,7 @@ export default function AppointmentCTA({
       <div className="absolute -top-40 left-1/2 -translate-x-1/2 w-175 h-175 bg-[var(--glow-bg)] blur-[140px] rounded-full"></div>
 
       <Container className="relative z-10 text-center">
-        <h2 className="text-4xl md:text-5xl font-bold mb-6 text-[var(--color-primary)]">
+<h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-6 text-[var(--color-primary)]">
           Ready to Prioritize Your Health?
         </h2>
 
@@ -44,7 +44,7 @@ export default function AppointmentCTA({
             <Button
               size="lg"
               leftIcon={<FaCalendarCheck />}
-              className="min-w-55 bg-[var(--color-primary)] hover:bg-(--color-primary-hover) text-white shadow-lg"
+className="min-w-55 bg-[var(--color-primary)] hover:bg-[var(--color-primary-hover)] text-white shadow-lg"
             >
               Book Appointment
             </Button>
