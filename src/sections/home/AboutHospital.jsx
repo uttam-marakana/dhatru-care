@@ -11,7 +11,7 @@ export default function AboutHospital() {
         <div className="grid lg:grid-cols-2 gap-14 lg:gap-20 items-center relative z-10">
           {/* --- Content ----------- */}
           <div>
-            <h2 className="text-4xl md:text-5xl font-bold mb-6 text-[var(--color-primary)]">
+<h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-6 text-[var(--color-primary)]">
               Welcome to Dhatru Care
             </h2>
 
@@ -27,7 +27,7 @@ export default function AboutHospital() {
             </p>
 
             {/* --- Metrics ----------- */}
-            <div className="grid grid-cols-3 gap-6">
+<div className="grid grid-cols-3 gap-3 sm:gap-6">
               {[
                 { value: "15+", label: "Years of Excellence" },
                 { value: "50K+", label: "Patients Treated" },
@@ -38,18 +38,18 @@ export default function AboutHospital() {
                   className="
                     group bg-[var(--card)] 
                     border border-[var(--border)]
-                    rounded-xl p-6 text-center 
+                    rounded-xl p-3 sm:p-6 text-center 
                     transition-all duration-500
                     hover:-translate-y-1 
                     hover:border-[var(--color-primary)]/40
                     hover:shadow-[0_0_30px_var(--glow-soft)]
                   "
                 >
-                  <h3 className="text-2xl font-bold text-[var(--color-primary)]">
+                  <h3 className="text-xl sm:text-2xl font-bold text-[var(--color-primary)]">
                     {item.value}
                   </h3>
 
-                  <p className="text-sm text-[var(--text-secondary)]">
+                  <p className="text-xs sm:text-sm text-[var(--text-secondary)]">
                     {item.label}
                   </p>
                 </div>

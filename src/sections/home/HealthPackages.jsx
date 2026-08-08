@@ -31,7 +31,7 @@ export default function HealthPackages({
     <section className="relative py-10 md:py-12 bg-[var(--bg)] text-[var(--text)] overflow-hidden">
       <Container>
         <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold text-[var(--color-primary)]">
+<h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-[var(--color-primary)]">
             Comprehensive Health Packages
           </h2>
         </div>

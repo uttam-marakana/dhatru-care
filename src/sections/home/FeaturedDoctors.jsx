@@ -31,7 +31,7 @@ export default function FeaturedDoctors({ doctors = [], loading }) {
       <Container className="relative z-10">
         {/* --- Header ----------- */}
         <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold text-[var(--color-primary)]">
+<h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-[var(--color-primary)]">
             Meet Our Expert Doctors
           </h2>
 

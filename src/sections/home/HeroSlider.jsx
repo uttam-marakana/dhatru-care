@@ -43,7 +43,7 @@ export default function HeroSlider() {
   }, [index]);
 
   return (
-    <section className="relative h-[80vh] md:h-[90vh] overflow-hidden">
+<section className="relative min-h-[68vh] sm:h-[80vh] md:h-[90vh] overflow-hidden">
       <AnimatePresence mode="wait" initial={false}>
         <motion.img
           key={slides[index].title}
@@ -68,9 +68,9 @@ export default function HeroSlider() {
           transition={{ duration: 0.6 }}
           className="text-[var(--text)] max-w-3xl"
         >
-          <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold mb-6">{slides[index].title}</h1>
+<h1 className="text-3xl sm:text-5xl md:text-6xl font-bold mb-6 leading-tight">{slides[index].title}</h1>
 
-          <p className="text-lg md:text-xl text-[var(--text-secondary)] mb-10">
+          <p className="text-base sm:text-lg md:text-xl text-[var(--text-secondary)] mb-10">
             {slides[index].subtitle}
           </p>
 
@@ -88,16 +88,17 @@ export default function HeroSlider() {
         </motion.div>
       </Container>
 
-      {/* --- Navigation ----------- */}
+{/* --- Navigation ----------- */}
       <button
         onClick={prev}
         className="
-          absolute left-6 top-1/2 
+          absolute left-3 sm:left-6 top-1/2 
           -translate-y-1/2 z-30 
-          w-12 h-12 flex 
+          w-10 h-10 sm:w-12 sm:h-12 flex 
           items-center justify-center 
-          rounded-full bg-[var(--card)] 
+          rounded-full bg-[var(--card)]/90
           border border-[var(--border)]
+          backdrop-blur
         "
       >
         <FaChevronLeft />
@@ -106,12 +107,13 @@ export default function HeroSlider() {
       <button
         onClick={next}
         className="
-          absolute right-6 top-1/2 
+          absolute right-3 sm:right-6 top-1/2 
           -translate-y-1/2 z-30 
-          w-12 h-12 flex 
+          w-10 h-10 sm:w-12 sm:h-12 flex 
           items-center justify-center 
-          rounded-full bg-[var(--card)] 
+          rounded-full bg-[var(--card)]/90
           border border-[var(--border)]
+          backdrop-blur
         "
       >
         <FaChevronRight />

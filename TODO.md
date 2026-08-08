@@ -9,7 +9,7 @@ Task: Commit the responsive/layout fix changes to GitHub in logical steps with p
 - [x] 3. fix: improve layout responsiveness for header, footer, drawer, user menu
 - [x] 4. fix: make common components responsive (breadcrumb, modal, skeletons, FAB)
 - [x] 5. fix: responsive forms and filters layout
-- [ ] 6. fix: responsive home sections
+- [x] 6. fix: responsive home sections
 - [ ] 7. fix: responsive shared sections & pages
 - [ ] 8. fix: responsive admin components
 

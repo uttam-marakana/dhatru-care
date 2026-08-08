@@ -26,7 +26,7 @@ export default function LatestBlog({ posts = [], loading }) {
       <Container>
         {/* --- Header ----------- */}
         <div className="text-center mb-16 relative z-10">
-          <h2 className="text-4xl md:text-5xl font-bold text-[var(--color-primary)]">
+<h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-[var(--color-primary)]">
             Latest from Our Medical Blog
           </h2>
 

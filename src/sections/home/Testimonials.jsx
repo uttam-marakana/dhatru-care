@@ -35,7 +35,7 @@ export default function Testimonials({ testimonials = [], loading = false }) {
       <Container>
         {/* --- Header ----------- */}
         <div className="text-center mb-16 relative z-10">
-          <h2 className="text-4xl md:text-5xl font-bold text-[var(--color-primary)]">
+<h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-[var(--color-primary)]">
             What Our Patients Say
           </h2>
 

@@ -9,7 +9,7 @@ export default function ContactMap() {
 
       <Container>
         <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold text-[var(--color-primary)]">
+<h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-[var(--color-primary)]">
             Visit Dhatru Care
           </h2>
 
@@ -21,7 +21,7 @@ export default function ContactMap() {
 
         <div className="grid md:grid-cols-2 gap-12">
           {/* --- MAP ----------- */}
-          <div className="relative rounded-3xl overflow-hidden border border-[var(--border)] shadow-[0_0_40px_var(--glow-soft)] h-[450px]">
+<div className="relative rounded-3xl overflow-hidden border border-[var(--border)] shadow-[0_0_40px_var(--glow-soft)] h-[300px] sm:h-[450px]">
             <iframe
               title="Hospital Location"
               src="https://www.google.com/maps/embed?..."
@@ -39,7 +39,7 @@ export default function ContactMap() {
                 absolute bottom-6 left-1/2 
                 -translate-x-1/2
                 bg-[var(--color-primary)] 
-                hover:bg-(--color-primary-hover)
+hover:bg-[var(--color-primary-hover)]
                 text-white px-6 py-3 
                 rounded-full flex 
                 items-center gap-2
