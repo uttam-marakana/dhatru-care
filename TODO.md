@@ -4,8 +4,8 @@ Task: Commit the responsive/layout fix changes to GitHub in logical steps with p
 
 ## Commit Plan (8 commits)
 
-- [ ] 1. chore: update TODO.md with responsive fix progress
-- [ ] 2. fix: update global App component Tailwind v4 arbitrary-value syntax
+- [x] 1. chore: update TODO.md with responsive fix progress
+- [x] 2. fix: update global App component Tailwind v4 arbitrary-value syntax
 - [ ] 3. fix: improve layout responsiveness for header, footer, drawer, user menu
 - [ ] 4. fix: make common components responsive (breadcrumb, modal, skeletons, FAB)
 - [ ] 5. fix: responsive forms and filters layout
