@@ -39,14 +39,14 @@ return (
           />
 
           {/* Sliding panel */}
-          <motion.div
+<motion.div
             className="
             absolute top-0 right-0 h-full w-[85%] max-w-[420px]
             bg-[var(--surface)]
             text-[var(--text)]
             border-l border-[var(--border)]
             shadow-2xl
-overflow-y-auto
+            overflow-y-auto
             "
             initial={{ x: "100%" }}
             animate={{ x: 0 }}

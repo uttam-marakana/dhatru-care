@@ -61,12 +61,12 @@ export default function Footer() {
             backdrop-blur-xl
             bg-[var(--surface)]/70
             border border-[var(--border)]
-            rounded-3xl
-            p-10
+rounded-3xl
+            p-5 sm:p-8 lg:p-10
             shadow-[0_0_60px_var(--glow-bg)]
           "
         >
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12">
             {/* --- Brand ----------- */}
             <div className="space-y-6">
               <PrefetchLink to="/" aria-label="Dhatru Care">

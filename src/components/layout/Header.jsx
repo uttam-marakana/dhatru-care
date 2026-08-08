@@ -120,25 +120,25 @@ export default function Header() {
         shadow-md
         "
       >
-        <Container className="px-6 lg:px-10">
-          <div className="flex items-center justify-between h-20 lg:h-24">
+<Container className="px-4 sm:px-6 lg:px-10">
+          <div className="flex items-center justify-between h-18 sm:h-20 lg:h-24">
             {/* LOGO */}
-            <PrefetchLink to="/" className="flex items-center">
+            <PrefetchLink to="/" className="flex items-center shrink-0">
               <img
                 src={isDarkMode ? dark_logo : light_logo}
                 alt="Dhatru Care"
-                className="h-14 lg:h-16 w-auto"
+                className="h-10 sm:h-12 lg:h-16 w-auto"
               />
             </PrefetchLink>
 
             {/* NAVIGATION */}
 
-            <nav className="hidden xl:flex items-center gap-10 text-[15px] font-medium">
+            <nav className="hidden lg:flex items-center gap-6 xl:gap-10 text-[15px] font-medium">
               {navItems.map((item) => (
                 <PrefetchLink
                   key={item.to}
                   to={item.to}
-                  className="hover:text-[var(--color-primary)] transition"
+                  className="hover:text-[var(--color-primary)] transition whitespace-nowrap"
                 >
                   {item.label}
                 </PrefetchLink>
@@ -147,7 +147,7 @@ export default function Header() {
 
             {/* DESKTOP ACTIONS */}
 
-            <div className="hidden xl:flex items-center gap-6">
+            <div className="hidden lg:flex items-center gap-4 xl:gap-6">
               {/* SEARCH */}
 
               <div ref={searchRef} className="relative">
@@ -274,17 +274,17 @@ export default function Header() {
                 <ThemeToggle />
               </Suspense>
 
-              <PrefetchLink
+<PrefetchLink
                 to="/appointments"
-                className="bg-[var(--color-primary)] flex gap-1.5 text-white px-6 py-3.5 rounded-full text-sm font-medium"
+                className="bg-[var(--color-primary)] flex gap-1.5 text-white px-4 xl:px-6 py-3 rounded-full text-sm font-medium whitespace-nowrap"
               >
                <FaCalendarCheck className="text-lg" /> Book Appointment
               </PrefetchLink>
             </div>
 
-            {/* MOBILE ACTIONS */}
+{/* MOBILE ACTIONS */}
 
-            <div className="flex items-center gap-5 xl:hidden">
+            <div className="flex items-center gap-5 lg:hidden">
               <button
                 onClick={() => setIsSearchOpen((p) => !p)}
                 className="text-lg"
@@ -302,7 +302,7 @@ export default function Header() {
         {/* MOBILE SEARCH */}
 
         {isSearchOpen && (
-          <div ref={mobileSearchRef} className="xl:hidden px-6 pb-4">
+          <div ref={mobileSearchRef} className="lg:hidden px-6 pb-4">
             <form
               onSubmit={handleSearch}
               className="w-full bg-[var(--card)] border border-[var(--border)] rounded-xl p-3 shadow-lg"
