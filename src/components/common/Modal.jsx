@@ -4,8 +4,8 @@ export default function Modal({ isOpen, onClose, title, children }) {
   if (!isOpen) return null;
 
   return createPortal(
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-[var(--bg)]/70 backdrop-blur-sm">
-      <div className="bg-[var(--surface)] border border-[var(--border)] rounded-2xl max-w-lg w-full">
+<div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[var(--bg)]/70 backdrop-blur-sm">
+      <div className="bg-[var(--surface)] border border-[var(--border)] rounded-2xl max-w-lg w-full max-h-[90vh] flex flex-col overflow-hidden">
         <div className="flex justify-between items-center px-6 py-4 border-b border-[var(--border)]">
           <h2 className="text-xl font-semibold text-[var(--text)]">{title}</h2>
 
@@ -17,7 +17,7 @@ export default function Modal({ isOpen, onClose, title, children }) {
           </button>
         </div>
 
-        <div className="p-6">{children}</div>
+<div className="p-6 overflow-y-auto">{children}</div>
       </div>
     </div>,
     document.body,

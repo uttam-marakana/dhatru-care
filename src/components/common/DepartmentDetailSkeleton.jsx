@@ -29,8 +29,8 @@ export default function DepartmentDetailSkeleton() {
             <div className="h-10 w-3/4 bg-[var(--border)] rounded" />
 
             <div className="space-y-4">
-              <div className="h-6 w-full bg-(--border) rounded" />
-              <div className="h-6 w-full bg-(--border) rounded" />
+<div className="h-6 w-full bg-[var(--border)] rounded" />
+              <div className="h-6 w-full bg-[var(--border)] rounded" />
             </div>
           </div>
         </div>

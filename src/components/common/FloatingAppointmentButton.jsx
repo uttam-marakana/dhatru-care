@@ -26,9 +26,10 @@ export default function FloatingAppointmentButton() {
         Book Appointment
       </span>
 
-      {/* --- Floating Button ----------- */}
+{/* --- Floating Button ----------- */}
       <Link
         to="/appointments"
+        aria-label="Book Appointment"
         className="
           flex items-center justify-center gap-2
           text-white
