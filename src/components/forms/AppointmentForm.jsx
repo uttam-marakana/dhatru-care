@@ -323,7 +323,7 @@ useEffect(() => {
   if (successData) {
     return (
       <div className="text-center py-20 space-y-3">
-        <h2 className="text-xl font-bold text-green-600">
+        <h2 className="text-xl font-bold text-[var(--color-success)]">
           Appointment Confirmed 🎉
         </h2>
         <p>
@@ -344,14 +344,16 @@ useEffect(() => {
       {/* --- STEP 1 ----------- */}
       {step === 1 && (
         <>
-          <div className="flex gap-3">
+<div className="grid grid-cols-2 gap-3">
             {["regular", "emergency"].map((t) => (
               <button
                 key={t}
                 type="button"
                 onClick={() => setAppointmentType(t)}
-                className={`px-4 py-2 rounded-lg border ${
-                  appointmentType === t ? "bg-blue-500 text-white" : ""
+className={`px-4 py-2 rounded-lg border capitalize ${
+                  appointmentType === t
+                    ? "bg-[var(--color-primary)] text-white border-[var(--color-primary)]"
+                    : "bg-[var(--card)] border-[var(--border)] text-[var(--text)]"
                 }`}
               >
                 {t.charAt(0).toUpperCase() + t.slice(1)}
@@ -381,23 +383,23 @@ useEffect(() => {
         <>
           {doctorsLoading ? (
             <div className="text-center py-10">
-              <p className="text-sm text-gray-500">Loading doctors...</p>
+<p className="text-sm text-[var(--muted)]">Loading doctors...</p>
             </div>
           ) : doctors.length === 0 ? (
             <div className="text-center py-10">
-              <p className="text-sm text-gray-500 mb-2">
+              <p className="text-sm text-[var(--muted)] mb-2">
                 No doctors available for the selected department.
               </p>
               <button
                 type="button"
                 onClick={prevStep}
-                className="text-xs text-blue-600 underline"
+                className="text-xs text-[var(--color-primary)] underline"
               >
                 ← Go back and change department
               </button>
             </div>
           ) : (
-            <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-3">
+<div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3">
               {doctors.map((doc) => {
                 const isSelected = form.doctorId === doc.id;
 
@@ -406,8 +408,10 @@ useEffect(() => {
                     key={doc.id}
                     type="button"
                     onClick={() => setForm((p) => ({ ...p, doctorId: doc.id }))}
-                    className={`p-4 rounded-xl border flex flex-col items-center gap-1 text-sm ${
-                      isSelected ? "border-blue-500 bg-blue-50" : "border-gray-200 hover:border-gray-300"
+className={`p-4 rounded-xl border flex flex-col items-center gap-1 text-sm ${
+                      isSelected
+                        ? "border-[var(--color-primary)] bg-[var(--color-primary)]/10"
+                        : "border-[var(--border)] hover:border-[var(--text-secondary)]"
                     }`}
                   >
                     <div className="font-medium">{doc.name}</div>
@@ -443,8 +447,8 @@ useEffect(() => {
             />
           ) : (
             <div className="text-center py-8">
-              <p className="text-sm text-gray-500 mb-2">No available slots</p>
-              <p className="text-xs text-gray-400">Try different date or doctor</p>
+<p className="text-sm text-[var(--muted)] mb-2">No available slots</p>
+              <p className="text-xs text-[var(--muted)]">Try different date or doctor</p>
             </div>
           )}
         </>
@@ -491,7 +495,7 @@ useEffect(() => {
           <button
             type="submit"
             disabled={!isStep5Valid || loading}
-            className="w-full py-3 bg-green-600 text-white rounded-lg font-medium hover:bg-green-700 transition-all shadow disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+className="w-full py-3 bg-[var(--color-success)] text-white rounded-lg font-medium hover:opacity-90 transition-all shadow disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
           >
             {loading ? (
               <>
@@ -505,8 +509,8 @@ useEffect(() => {
         </>
       )}
 
-      {/* --- NAVIGATION ----------- */}
-      <div className="flex items-center justify-between gap-3 pt-6 border-t border-[var(--border)]">
+{/* --- NAVIGATION ----------- */}
+      <div className="flex flex-wrap items-center justify-between gap-3 pt-6 border-t border-[var(--border)]">
         <div>
           {step > 1 && (
             <button
@@ -519,7 +523,7 @@ useEffect(() => {
           )}
         </div>
 
-        <div className="ml-auto text-sm text-gray-500">
+<div className="ml-auto text-sm text-[var(--muted)]">
           Step {step} of 5
         </div>
 
@@ -529,7 +533,7 @@ useEffect(() => {
               type="button"
               onClick={nextStep}
               disabled={loading}
-              className="px-5 py-2.5 text-sm font-medium rounded-lg bg-blue-600 text-white hover:bg-blue-700 transition-all shadow-sm disabled:opacity-50"
+              className="px-5 py-2.5 text-sm font-medium rounded-lg bg-[var(--color-primary)] text-white hover:bg-[var(--color-primary-hover)] transition-all shadow-sm disabled:opacity-50"
             >
               Next Step →
             </button>

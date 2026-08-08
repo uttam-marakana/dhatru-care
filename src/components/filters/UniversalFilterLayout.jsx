@@ -21,8 +21,8 @@ export default function UniversalFilterLayout({
     <>
       {/* --- Desktop ----------- */}
 
-      <section className="hidden lg:block sticky top-0 bg-[var(--surface)] border-b border-[var(--border)] z-30 d-flex justify-start">
-        <div className="max-w-4xl mx-12 px-4 py-4">
+<section className="hidden lg:block sticky top-0 bg-[var(--surface)] border-b border-[var(--border)] z-30">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex gap-x-4 items-center">
             <h3 className="font-semibold">Filters</h3>
 
@@ -91,11 +91,11 @@ export default function UniversalFilterLayout({
               onClick={() => setOpen(false)}
             />
 
-            <motion.div
+<motion.div
               initial={{ x: "100%" }}
               animate={{ x: 0 }}
               exit={{ x: "100%" }}
-              className="absolute right-0 top-0 w-[90%] max-w-[420px] h-full bg-white p-6"
+              className="absolute right-0 top-0 w-[90%] max-w-[420px] h-full bg-[var(--surface)] text-[var(--text)] p-6 overflow-y-auto"
             >
               <div className="flex justify-between mb-6">
                 <h3 className="text-lg font-semibold">Filters</h3>

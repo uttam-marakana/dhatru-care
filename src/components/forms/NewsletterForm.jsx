@@ -54,7 +54,7 @@ export default function NewsletterForm() {
         onSubmit={handleSubmit}
       >
         {({ isSubmitting }) => (
-          <Form className="flex gap-3">
+<Form className="flex flex-col sm:flex-row gap-3">
             <Field name="email" as={Input} placeholder="Your email address" />
 
             <Button
