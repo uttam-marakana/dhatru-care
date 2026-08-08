@@ -69,10 +69,10 @@ export default function AdminTable({ data = [], columns = [], renderRow, filters
         </div>
       </div>
 
-      {/* Pagination */}
+{/* Pagination */}
       {filtered.length > PAGE_SIZE && (
-        <div className="flex items-center justify-between">
-          <div className="text-sm text-[var(--muted)]">
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div className="text-sm text-[var(--muted)] text-center sm:text-left">
             Showing {(page - 1) * PAGE_SIZE + 1} to {Math.min(page * PAGE_SIZE, filtered.length)} of{' '}
             {filtered.length} results
           </div>

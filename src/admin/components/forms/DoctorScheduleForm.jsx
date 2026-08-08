@@ -77,11 +77,11 @@ export default function DoctorScheduleForm({ doctor }) {
     setLoading(false);
   };
 
-  const inputStyle = `
+const inputStyle = `
   w-full p-3 rounded-lg
-  border border-gray-200 dark:border-white/10
-  bg-white dark:bg-white/5
-  text-gray-900 dark:text-white
+  border border-[var(--border)]
+  bg-[var(--surface)]
+  text-[var(--text)]
   `;
 
   return (
@@ -91,7 +91,7 @@ export default function DoctorScheduleForm({ doctor }) {
       <div className="md:col-span-2">
         <label className="block mb-2 font-medium">Working Days</label>
 
-        <div className="grid grid-cols-7 gap-2">
+<div className="grid grid-cols-4 sm:grid-cols-7 gap-2">
           {days.map((d) => {
             const active = form.workingDays.includes(d.value);
 
@@ -103,9 +103,9 @@ export default function DoctorScheduleForm({ doctor }) {
                 className={`
                 py-2 rounded-lg border text-sm
                 ${
-                  active
-                    ? 'bg-primary text-white border-primary'
-                    : 'border-gray-200 dark:border-white/10'
+active
+                    ? 'bg-[var(--color-primary)] text-white border-[var(--color-primary)]'
+                    : 'border-[var(--border)] text-[var(--text)] hover:bg-[var(--card)]'
                 }
                 `}
               >
@@ -184,8 +184,8 @@ export default function DoctorScheduleForm({ doctor }) {
         <button
           onClick={saveSchedule}
           disabled={loading}
-          className="
-          bg-primary hover:opacity-90
+className="
+          bg-[var(--color-primary)] hover:opacity-90
           text-white px-6 py-3 rounded-lg
           "
         >

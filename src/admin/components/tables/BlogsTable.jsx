@@ -28,7 +28,7 @@ export default function BlogsTable({ blogs, onEdit, onDelete }) {
                 <td className="p-6">{blog.author}</td>
 
                 <td className="p-6">
-                  <span className="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-xs font-medium">
+<span className="px-3 py-1 bg-[var(--color-primary)]/10 text-[var(--color-primary)] rounded-full text-xs font-medium">
                     {blog.category}
                   </span>
                 </td>

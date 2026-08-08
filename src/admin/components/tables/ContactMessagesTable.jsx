@@ -15,8 +15,8 @@ export default function ContactMessagesTable({ messages, onUpdate, loadingId }) 
   };
 
   const getPriorityStyle = (priority) => {
-    if (priority === 'high') return 'text-red-500 font-medium';
-    if (priority === 'low') return 'text-gray-400';
+if (priority === 'high') return 'text-red-500 font-medium';
+    if (priority === 'low') return 'text-[var(--muted)]';
     return '';
   };
 
@@ -51,7 +51,7 @@ export default function ContactMessagesTable({ messages, onUpdate, loadingId }) 
                     hover:bg-[var(--card)]
                     transition cursor-pointer
                     ${loadingId === m.id ? 'opacity-50 pointer-events-none' : ''}
-                    ${unread ? 'bg-blue-50/40' : ''}
+${unread ? 'bg-[var(--color-primary)]/5' : ''}
                   `}
                 >
                   {/* NAME */}
@@ -59,7 +59,7 @@ export default function ContactMessagesTable({ messages, onUpdate, loadingId }) 
                     {m.name}
 
                     {/* UNREAD DOT */}
-                    {unread && <span className="w-2 h-2 bg-blue-500 rounded-full" />}
+{unread && <span className="w-2 h-2 bg-[var(--color-primary)] rounded-full" />}
                   </td>
 
                   {/* EMAIL */}
@@ -74,11 +74,11 @@ export default function ContactMessagesTable({ messages, onUpdate, loadingId }) 
                       <StatusBadge status={status} />
 
                       {/* ✔ FINAL */}
-                      {m.isLocked && <span className="text-xs text-gray-400">✔</span>}
+{m.isLocked && <span className="text-xs text-[var(--muted)]">✔</span>}
 
                       {/* NOTES COUNT */}
                       {m.notes?.length > 0 && (
-                        <span className="text-xs text-gray-400">{m.notes.length}</span>
+                        <span className="text-xs text-[var(--muted)]">{m.notes.length}</span>
                       )}
 
                       {/* SLA BADGE */}

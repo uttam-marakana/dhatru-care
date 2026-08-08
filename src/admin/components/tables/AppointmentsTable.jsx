@@ -14,8 +14,8 @@ export default function AppointmentsTable({ appointments, onStatusChange, loadin
     <div className="glass rounded-xl overflow-hidden shadow-lg">
       <div className="overflow-x-auto">
         <table className="min-w-full table-fixed text-sm">
-          <thead className="bg-(--card) border-b border-(--border)">
-            <tr className="text-left text-(--text-secondary)">
+<thead className="bg-[var(--card)] border-b border-[var(--border)]">
+            <tr className="text-left text-[var(--text-secondary)]">
               <th className="p-6 font-medium">Patient</th>
               <th className="p-6 font-medium">Doctor</th>
               <th className="p-6 font-medium">Dept</th>
@@ -25,7 +25,7 @@ export default function AppointmentsTable({ appointments, onStatusChange, loadin
             </tr>
           </thead>
 
-          <tbody className="divide-y divide-(--border)">
+<tbody className="divide-y divide-[var(--border)]">
             {appointments.map((a) => {
               let currentStatus = (a.status || 'pending').toLowerCase().trim();
 
@@ -41,7 +41,7 @@ export default function AppointmentsTable({ appointments, onStatusChange, loadin
               ].filter((_, i) => i === 0 || allowedNext.includes(_.value));
 
               return (
-                <tr key={a.id} className="hover:bg-(--card) transition-colors duration-200">
+<tr key={a.id} className="hover:bg-[var(--card)] transition-colors duration-200">
                   <td className="p-6 font-medium max-w-50 truncate">{a.patientName}</td>
                   <td className="p-6">{a.doctorName}</td>
                   <td className="p-6">{a.departmentName}</td>

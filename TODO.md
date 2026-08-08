@@ -11,7 +11,7 @@ Task: Commit the responsive/layout fix changes to GitHub in logical steps with p
 - [x] 5. fix: responsive forms and filters layout
 - [x] 6. fix: responsive home sections
 - [x] 7. fix: responsive shared sections & pages
-- [ ] 8. fix: responsive admin components
+- [x] 8. fix: responsive admin components
 
 ## Final Step
 
