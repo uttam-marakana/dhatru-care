@@ -1,6 +1,6 @@
-import { useEffect, useState, useRef, lazy, Suspense } from "react";
-import { NavLink, useNavigate, useLocation } from "react-router-dom";
-import PrefetchLink from "../common/PrefetchLink";
+import { useEffect, useState, useRef, lazy, Suspense } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
+import PrefetchLink from '../common/PrefetchLink';
 
 import {
   FaBars,
@@ -8,41 +8,47 @@ import {
   FaTimesCircle,
   FaUser,
   FaSignOutAlt,
-  FaPhoneAlt,
   FaCalendarCheck,
-} from "react-icons/fa";
+} from 'react-icons/fa';
 
-import { useAuth } from "../../context/AuthContext";
-import Container from "./Container";
+import { useAuth } from '../../context/AuthContext';
+import Container from './Container';
 
-import useUniversalSearch from "../../hooks/useUniversalSearch";
-import UniversalSearchDropdown from "../common/UniversalSearchDropdown.jsx";
+import useUniversalSearch from '../../hooks/useUniversalSearch';
+import UniversalSearchDropdown from '../common/UniversalSearchDropdown.jsx';
 
-const ThemeToggle = lazy(() => import("../common/ThemeToggle"));
-const MobileDrawer = lazy(() => import("./MobileDrawer"));
+const ThemeToggle = lazy(() => import('../common/ThemeToggle'));
+const MobileDrawer = lazy(() => import('./MobileDrawer'));
 
-import light_logo from "../../assets/images/light_logo.png";
-import dark_logo from "../../assets/images/dark_logo.png";
+import light_logo from '../../assets/images/light_logo.png';
+import dark_logo from '../../assets/images/dark_logo.png';
 
 const navItems = [
-  { to: "/departments", label: "Departments" },
-  { to: "/doctors", label: "Doctors" },
-  { to: "/packages", label: "Packages" },
-  { to: "/blog", label: "Blog" },
-  { to: "/contact", label: "Contact" },
+  { to: '/departments', label: 'Departments' },
+  { to: '/doctors', label: 'Doctors' },
+  { to: '/packages', label: 'Packages' },
+  { to: '/blog', label: 'Blog' },
+  { to: '/contact', label: 'Contact' },
 ];
 
 export default function Header() {
   const location = useLocation();
   const navigate = useNavigate();
+
   const { user, logout } = useAuth();
 
+  // Drawer
   const [isOpen, setIsOpen] = useState(false);
+
+  // Search
   const [isSearchOpen, setIsSearchOpen] = useState(false);
-  const [searchQuery, setSearchQuery] = useState("");
+  const [searchQuery, setSearchQuery] = useState('');
   const [activeIndex, setActiveIndex] = useState(-1);
+
+  // User menu
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
 
+  // Theme
   const [isDarkMode, setIsDarkMode] = useState(false);
 
   const searchRef = useRef(null);
@@ -51,27 +57,40 @@ export default function Header() {
 
   const { results, loading } = useUniversalSearch(searchQuery);
 
+  /*
+   * Detect theme changes.
+   */
   useEffect(() => {
-    const observer = new MutationObserver(() => {
-      setIsDarkMode(document.documentElement.classList.contains("dark"));
-    });
+    const updateTheme = () => {
+      setIsDarkMode(document.documentElement.classList.contains('dark'));
+    };
+
+    const observer = new MutationObserver(updateTheme);
 
     observer.observe(document.documentElement, {
       attributes: true,
-      attributeFilter: ["class"],
+      attributeFilter: ['class'],
     });
 
-    setIsDarkMode(document.documentElement.classList.contains("dark"));
+    updateTheme();
 
     return () => observer.disconnect();
   }, []);
 
+  /*
+   * Close overlays when route changes.
+   */
   useEffect(() => {
     setIsOpen(false);
     setIsSearchOpen(false);
     setIsUserMenuOpen(false);
+    setSearchQuery('');
+    setActiveIndex(-1);
   }, [location.pathname]);
 
+  /*
+   * Search submit.
+   */
   const handleSearch = (e) => {
     e.preventDefault();
 
@@ -81,88 +100,137 @@ export default function Header() {
 
     navigate(`/search?q=${encodeURIComponent(query)}`);
 
-    setSearchQuery("");
+    setSearchQuery('');
     setIsSearchOpen(false);
+    setActiveIndex(-1);
   };
 
+  /*
+   * Search keyboard navigation.
+   */
   const handleKeyDown = (e) => {
     if (!results.doctors.length) return;
 
-    if (e.key === "ArrowDown") {
+    if (e.key === 'ArrowDown') {
       e.preventDefault();
-      setActiveIndex((prev) =>
-        prev < results.doctors.length - 1 ? prev + 1 : 0,
-      );
+
+      setActiveIndex((prev) => (prev < results.doctors.length - 1 ? prev + 1 : 0));
     }
 
-    if (e.key === "ArrowUp") {
+    if (e.key === 'ArrowUp') {
       e.preventDefault();
-      setActiveIndex((prev) =>
-        prev > 0 ? prev - 1 : results.doctors.length - 1,
-      );
+
+      setActiveIndex((prev) => (prev > 0 ? prev - 1 : results.doctors.length - 1));
     }
 
-    if (e.key === "Enter" && activeIndex >= 0) {
+    if (e.key === 'Enter' && activeIndex >= 0) {
+      e.preventDefault();
+
       navigate(`/doctors/${results.doctors[activeIndex].id}`);
+
       setIsSearchOpen(false);
-      setSearchQuery("");
+      setSearchQuery('');
+      setActiveIndex(-1);
     }
+  };
+
+  /*
+   * Open mobile drawer.
+   */
+  const openMobileDrawer = () => {
+    setIsSearchOpen(false);
+    setIsUserMenuOpen(false);
+    setIsOpen(true);
+  };
+
+  /*
+   * Close mobile drawer.
+   */
+  const closeMobileDrawer = () => {
+    setIsOpen(false);
   };
 
   return (
     <>
       <header
         className="
-        relative z-30
-        backdrop-blur-xl
-        bg-[var(--surface)]/95
-        border-b border-[var(--border)]
-        shadow-md
+          relative z-30
+          border-b border-[var(--border)]
+          bg-[var(--surface)]/95
+          shadow-md
+          backdrop-blur-xl
         "
       >
-<Container className="px-4 sm:px-6 lg:px-10">
-          <div className="flex items-center justify-between h-18 sm:h-20 lg:h-24">
-            {/* LOGO */}
-            <PrefetchLink to="/" className="flex items-center shrink-0">
+        <Container className="px-4 sm:px-6 lg:px-10">
+          <div
+            className="
+              flex items-center justify-between
+              h-18 sm:h-20 lg:h-24
+            "
+          >
+            <PrefetchLink to="/" className="flex shrink-0 items-center">
               <img
                 src={isDarkMode ? dark_logo : light_logo}
                 alt="Dhatru Care"
-                className="h-10 sm:h-12 lg:h-16 w-auto"
+                className="h-10 w-auto sm:h-12 lg:h-16"
               />
             </PrefetchLink>
 
-            {/* NAVIGATION */}
-
-            <nav className="hidden lg:flex items-center gap-6 xl:gap-10 text-[15px] font-medium">
+            <nav
+              className="
+                hidden lg:flex
+                items-center
+                gap-6 xl:gap-10
+                text-[15px]
+                font-medium
+              "
+              aria-label="Primary navigation"
+            >
               {navItems.map((item) => (
                 <PrefetchLink
                   key={item.to}
                   to={item.to}
-                  className="hover:text-[var(--color-primary)] transition whitespace-nowrap"
+                  className="
+                    whitespace-nowrap
+                    transition
+                    hover:text-[var(--color-primary)]
+                  "
                 >
                   {item.label}
                 </PrefetchLink>
               ))}
             </nav>
 
-            {/* DESKTOP ACTIONS */}
-
-            <div className="hidden lg:flex items-center gap-4 xl:gap-6">
+            <div
+              className="
+                hidden lg:flex
+                items-center
+                gap-4 xl:gap-6
+              "
+            >
               {/* SEARCH */}
-
               <div ref={searchRef} className="relative">
                 <button
-                  onClick={() => setIsSearchOpen((p) => !p)}
-                  className="text-lg flex"
+                  type="button"
+                  onClick={() => setIsSearchOpen((prev) => !prev)}
+                  aria-label="Search"
+                  aria-expanded={isSearchOpen}
+                  className="flex text-lg"
                 >
                   <FaSearch />
                 </button>
 
                 {isSearchOpen && (
-                  <div className="absolute right-0 top-full mt-4 w-80">
+                  <div className="absolute right-0 top-full z-50 mt-4 w-80">
                     <form
                       onSubmit={handleSearch}
-                      className="bg-[var(--card)] border border-[var(--border)] rounded-xl p-3 shadow-xl"
+                      className="
+                        rounded-xl
+                        border border-[var(--border)]
+                        bg-[var(--card)]
+                        p-3
+                        shadow-xl
+                      "
                     >
                       <div className="flex items-center gap-2">
                         <input
@@ -174,14 +242,22 @@ export default function Header() {
                           }}
                           onKeyDown={handleKeyDown}
                           placeholder="Search doctors..."
-                          className="w-full bg-transparent outline-none"
+                          className="
+                            w-full
+                            bg-transparent
+                            outline-none
+                          "
                           autoFocus
                         />
 
                         {searchQuery && (
                           <button
                             type="button"
-                            onClick={() => setSearchQuery("")}
+                            onClick={() => {
+                              setSearchQuery('');
+                              setActiveIndex(-1);
+                            }}
+                            aria-label="Clear search"
                           >
                             <FaTimesCircle />
                           </button>
@@ -200,11 +276,13 @@ export default function Header() {
               </div>
 
               {/* USER */}
-
               {user ? (
                 <div ref={userMenuRef} className="relative">
                   <button
-                    onClick={() => setIsUserMenuOpen((p) => !p)}
+                    type="button"
+                    onClick={() => setIsUserMenuOpen((prev) => !prev)}
+                    aria-label="Account menu"
+                    aria-expanded={isUserMenuOpen}
                     className="flex items-center gap-2"
                   >
                     <FaUser />
@@ -213,31 +291,43 @@ export default function Header() {
                   {isUserMenuOpen && (
                     <div
                       className="
-                      absolute right-0 mt-3 w-64
-                      bg-[var(--card)]
-                      border border-[var(--border)]
-                      rounded-xl
-                      shadow-xl
-                      overflow-hidden
+                        absolute right-0 z-50 mt-3 w-64
+                        overflow-hidden
+                        rounded-xl
+                        border border-[var(--border)]
+                        bg-[var(--card)]
+                        shadow-xl
                       "
                     >
                       <PrefetchLink
                         to="/profile"
-                        className="block px-5 py-3 hover:bg-[var(--surface)] transition"
+                        className="
+                          block px-5 py-3
+                          transition
+                          hover:bg-[var(--surface)]
+                        "
                       >
                         Profile
                       </PrefetchLink>
 
                       <PrefetchLink
                         to="/profile/appointments"
-                        className="block px-5 py-3 hover:bg-[var(--surface)] transition"
+                        className="
+                          block px-5 py-3
+                          transition
+                          hover:bg-[var(--surface)]
+                        "
                       >
                         My Appointments
                       </PrefetchLink>
 
                       <PrefetchLink
                         to="/settings"
-                        className="block px-5 py-3 hover:bg-[var(--surface)] transition"
+                        className="
+                          block px-5 py-3
+                          transition
+                          hover:bg-[var(--surface)]
+                        "
                       >
                         Settings
                       </PrefetchLink>
@@ -245,14 +335,14 @@ export default function Header() {
                       <div className="border-t border-[var(--border)]" />
 
                       <button
+                        type="button"
                         onClick={logout}
                         className="
-                        w-full
-                        flex items-center gap-2
-                        px-5 py-3
-                        text-red-500
-                        hover:bg-[var(--surface)]
-                        transition
+                          flex w-full items-center gap-2
+                          px-5 py-3
+                          text-red-500
+                          transition
+                          hover:bg-[var(--surface)]
                         "
                       >
                         <FaSignOutAlt />
@@ -264,48 +354,81 @@ export default function Header() {
               ) : (
                 <PrefetchLink
                   to="/login"
-                  className="flex items-center gap-2 text-lg font-medium"
+                  className="
+                    flex items-center gap-2
+                    text-lg font-medium
+                  "
+                  aria-label="Login"
                 >
                   <FaUser />
                 </PrefetchLink>
               )}
 
+              {/* THEME */}
               <Suspense fallback={null}>
                 <ThemeToggle />
               </Suspense>
 
-<PrefetchLink
+              {/* APPOINTMENT */}
+              <PrefetchLink
                 to="/appointments"
-                className="bg-[var(--color-primary)] flex gap-1.5 text-white px-4 xl:px-6 py-3 rounded-full text-sm font-medium whitespace-nowrap"
+                className="
+                  flex items-center gap-1.5
+                  whitespace-nowrap
+                  rounded-full
+                  bg-[var(--color-primary)]
+                  px-4 xl:px-6
+                  py-3
+                  text-sm font-medium
+                  text-white
+                "
               >
-               <FaCalendarCheck className="text-lg" /> Book Appointment
+                <FaCalendarCheck className="text-lg" />
+                Book Appointment
               </PrefetchLink>
             </div>
 
-{/* MOBILE ACTIONS */}
-
-            <div className="flex items-center gap-5 lg:hidden">
+            <div
+              className="
+                flex items-center gap-5
+                lg:hidden
+              "
+            >
               <button
-                onClick={() => setIsSearchOpen((p) => !p)}
+                type="button"
+                onClick={() => setIsSearchOpen((prev) => !prev)}
+                aria-label="Search"
+                aria-expanded={isSearchOpen}
                 className="text-lg"
               >
                 <FaSearch />
               </button>
 
-              <button onClick={() => setIsOpen(true)} className="text-lg">
+              <button
+                type="button"
+                onClick={openMobileDrawer}
+                aria-label="Open navigation menu"
+                aria-expanded={isOpen}
+                className="text-lg"
+              >
                 <FaBars />
               </button>
             </div>
           </div>
         </Container>
 
-        {/* MOBILE SEARCH */}
-
         {isSearchOpen && (
-          <div ref={mobileSearchRef} className="lg:hidden px-6 pb-4">
+          <div ref={mobileSearchRef} className="px-6 pb-4 lg:hidden">
             <form
               onSubmit={handleSearch}
-              className="w-full bg-[var(--card)] border border-[var(--border)] rounded-xl p-3 shadow-lg"
+              className="
+                w-full
+                rounded-xl
+                border border-[var(--border)]
+                bg-[var(--card)]
+                p-3
+                shadow-lg
+              "
             >
               <div className="flex items-center gap-2">
                 <input
@@ -315,13 +438,25 @@ export default function Header() {
                     setSearchQuery(e.target.value);
                     setActiveIndex(-1);
                   }}
+                  onKeyDown={handleKeyDown}
                   placeholder="Search doctors..."
-                  className="w-full bg-transparent outline-none"
+                  className="
+                    w-full
+                    bg-transparent
+                    outline-none
+                  "
                   autoFocus
                 />
 
                 {searchQuery && (
-                  <button type="button" onClick={() => setSearchQuery("")}>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setSearchQuery('');
+                      setActiveIndex(-1);
+                    }}
+                    aria-label="Clear search"
+                  >
                     <FaTimesCircle />
                   </button>
                 )}
@@ -341,8 +476,7 @@ export default function Header() {
       <Suspense fallback={null}>
         <MobileDrawer
           isOpen={isOpen}
-          onClose={() => setIsOpen(false)}
-          navItems={navItems}
+          onClose={closeMobileDrawer}
           user={user}
           isDarkMode={isDarkMode}
           light_logo={light_logo}
